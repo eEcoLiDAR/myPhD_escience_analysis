@@ -17,11 +17,11 @@ from laserchicken import write_ply
 pc = read_las.read("D:/NAEM/Data/ALS_AHN2/SelStudyArea2_v2.las")
 pc_sub = points_in_polygon_wkt(pc, "POLYGON((196550 446510,196550 446540,196580 446540,196580 446510,196550 446510))")
 
-#write_ply.write(pc_sub, "D:/NAEM/Data/ALS_AHN2/SelStudyArea2_v2.ply")
+#write_ply.write(pc_sub, "D:/NAEM/Data/ALS_AHN2/SelStudyArea2_v3.ply")
 
 ## Compute neighborhood
 
-indices_cyl=compute_cylinder_neighborhood_indices(pc_sub, pc_sub,1)
+#indices_cyl=compute_cylinder_neighborhood_indices(pc_sub, pc_sub,1)
 indices_sph=compute_sphere_neighborhood_indices(pc_sub, pc_sub,1)
 
 output_text = ""
