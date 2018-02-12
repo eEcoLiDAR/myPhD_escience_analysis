@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fdfba41b-226e-4bc5-a938-94bc6e63d4a4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="fdfba41b-226e-4bc5-a938-94bc6e63d4a4" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,9 +14,21 @@
       <file leaf-file-name="mydummytest_laserchicken.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test_laserchicken/mydummytest_laserchicken.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
-              <caret line="3" column="33" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="33" />
+            <state relative-caret-position="638">
+              <caret line="29" column="15" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="29" selection-end-column="15" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NAEM.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/test_laserchicken/NAEM.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="779">
+              <caret line="40" column="0" lean-forward="true" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#33#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -33,7 +43,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="laserchickentest_readwrite.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="laserchickentest_readwrite.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test_laserchicken/laserchickentest_readwrite.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="176">
@@ -63,6 +73,7 @@
         <option value="$PROJECT_DIR$/test_laserchicken/mydummytest_laserchicken.py" />
         <option value="$PROJECT_DIR$/test_laserchicken/Demo_20180207.py" />
         <option value="$PROJECT_DIR$/test_laserchicken/laserchickentest_readwrite.py" />
+        <option value="$PROJECT_DIR$/test_laserchicken/NAEM.py" />
       </list>
     </option>
   </component>
@@ -365,11 +376,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test_laserchicken/mydummytest_laserchicken.py">
+    <entry file="file://$PROJECT_DIR$/test_laserchicken/laserchickentest_readwrite.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="3" column="33" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="33" />
-          <folding />
+        <state relative-caret-position="176">
+          <caret line="8" column="101" lean-forward="false" selection-start-line="8" selection-start-column="101" selection-end-line="8" selection-end-column="101" />
+          <folding>
+            <element signature="e#0#33#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -381,10 +394,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test_laserchicken/laserchickentest_readwrite.py">
+    <entry file="file://$PROJECT_DIR$/test_laserchicken/mydummytest_laserchicken.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="8" column="101" lean-forward="false" selection-start-line="8" selection-start-column="101" selection-end-line="8" selection-end-column="101" />
+        <state relative-caret-position="638">
+          <caret line="29" column="15" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="29" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_laserchicken/NAEM.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="779">
+          <caret line="40" column="0" lean-forward="true" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
           <folding>
             <element signature="e#0#33#0" expanded="true" />
           </folding>
