@@ -7,7 +7,7 @@ from laserchicken.feature_extractor.height_statistics_feature_extractor import H
 import numpy as np
 
 # Import
-pc = read_las.read("D:/NAEM/Data/ALS_AHN2/SelStudyArea2_sel1_ground_height.las")
+pc = read_las.read("D:/NAEM/Data/ALS_AHN2/SelStudyArea2_sel1_ground_height_sub3.las")
 pc_out = points_in_polygon_wkt(pc, "POLYGON((196550 446510,196550 446540,196580 446540,196580 446510,196550 446510))")
 
 #"""
@@ -24,7 +24,7 @@ for i in range(len(indices_sph)):
 
     output_text += "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s \n" % (pc_out[point]['x']['data'][i],pc_out[point]['y']['data'][i],pc_out[point]['z']['data'][i],max_z, min_z, mean_z, median_z, std_z, var_z, range_z, coeff_var_z, skew_z, kurto_z)
 
-fileout = open('D:/NAEM/Data/ALS_AHN2/SelStudyArea2_statsph.txt', "w")
+fileout = open('D:/NAEM/Data/ALS_AHN2/SelStudyArea2_statsph_sub3.txt', "w")
 fileout.write(output_text)
 fileout.close()
 
@@ -36,7 +36,7 @@ for i in range(len(indices_cyl)):
 
     output_text2 += "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s \n" % (pc_out[point]['x']['data'][i],pc_out[point]['y']['data'][i],pc_out[point]['z']['data'][i],max_z, min_z, mean_z, median_z, std_z, var_z, range_z, coeff_var_z, skew_z, kurto_z)
 
-fileout = open('D:/NAEM/Data/ALS_AHN2/SelStudyArea2_statcyl.txt', "w")
+fileout = open('D:/NAEM/Data/ALS_AHN2/SelStudyArea2_statcyl_sub3.txt', "w")
 fileout.write(output_text2)
 fileout.close()
 #"""
@@ -59,7 +59,7 @@ def nofp_per_perc(z,step):
 nof_perc_to_total=nofp_per_perc(z,step)
 #print(nof_perc_to_total)
 
-fileout = open('D:/NAEM/Data/ALS_AHN2/nof_perc_to_total.txt', "w")
+fileout = open('D:/NAEM/Data/ALS_AHN2/nof_perc_to_total_sub3.txt', "w")
 fileout.write(nof_perc_to_total)
 fileout.close()
 
