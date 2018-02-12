@@ -5,7 +5,6 @@ from laserchicken import compute_neighbors
 from laserchicken.feature_extractor.height_statistics_feature_extractor import HeightStatisticsFeatureExtractor
 
 import numpy as np
-import matplotlib.pyplot as plt
 
 # Import
 pc = read_las.read("D:/NAEM/Data/ALS_AHN2/SelStudyArea2_sel1_ground_height.las")
@@ -53,11 +52,14 @@ def nofp_per_perc(z,step):
         nof_perc_to_total_calc=(z[(np.where((z>i)&(z<i+step)))].shape[0]/z.shape[0])*100
         #print(z[(np.where((z>i)&(z<i+step)))].shape[0])
         #print(nof_perc_to_total_calc)
-        nof_perc_to_total += "%s," % (nof_perc_to_total_calc)
+        nof_perc_to_total += "%s,%s \n" % (nof_perc_to_total_calc,i+step/2)
 
     return nof_perc_to_total
 
 nof_perc_to_total=nofp_per_perc(z,step)
+#print(nof_perc_to_total)
 
-
+fileout = open('D:/NAEM/Data/ALS_AHN2/nof_perc_to_total.txt', "w")
+fileout.write(nof_perc_to_total)
+fileout.close()
 
