@@ -10,7 +10,7 @@ import numpy as np
 pc = read_las.read("D:/NAEM/Data/ALS_AHN2/SelStudyArea2_sel1_ground_height.las")
 pc_out = points_in_polygon_wkt(pc, "POLYGON((196550 446510,196550 446540,196580 446540,196580 446510,196550 446510))")
 
-"""
+#"""
 # Neighborhood calculation
 indices_cyl=compute_neighbors.compute_cylinder_neighborhood_indices(pc_out, pc_out, 0.5)
 indices_sph=compute_neighbors.compute_sphere_neighborhood_indices(pc_out, pc_out, 1)
@@ -39,11 +39,11 @@ for i in range(len(indices_cyl)):
 fileout = open('D:/NAEM/Data/ALS_AHN2/SelStudyArea2_statcyl.txt', "w")
 fileout.write(output_text2)
 fileout.close()
-"""
+#"""
 
 # Pulse penetration ratio
 z=pc_out[point]['z']['data']
-step=2
+step=1
 
 def nofp_per_perc(z,step):
     nof_perc_to_total=""

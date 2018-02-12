@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fdfba41b-226e-4bc5-a938-94bc6e63d4a4" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/analysis/NAEM_visualization.py" afterPath="$PROJECT_DIR$/analysis/NAEM_visualization.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test_laserchicken/NAEM.py" afterPath="$PROJECT_DIR$/test_laserchicken/NAEM.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,8 +17,8 @@
       <file leaf-file-name="NAEM.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test_laserchicken/NAEM.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="6" column="18" lean-forward="false" selection-start-line="6" selection-start-column="18" selection-end-line="6" selection-end-column="18" />
+            <state relative-caret-position="880">
+              <caret line="40" column="15" lean-forward="true" selection-start-line="40" selection-start-column="15" selection-end-line="40" selection-end-column="15" />
               <folding>
                 <element signature="e#0#33#0" expanded="true" />
               </folding>
@@ -28,8 +29,8 @@
       <file leaf-file-name="NAEM_visualization.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/analysis/NAEM_visualization.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="88">
-              <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+            <state relative-caret-position="374">
+              <caret line="17" column="10" lean-forward="true" selection-start-line="17" selection-start-column="10" selection-end-line="17" selection-end-column="10" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -65,8 +66,8 @@
         <option value="$PROJECT_DIR$/test_laserchicken/mydummytest_laserchicken.py" />
         <option value="$PROJECT_DIR$/test_laserchicken/Demo_20180207.py" />
         <option value="$PROJECT_DIR$/test_laserchicken/laserchickentest_readwrite.py" />
-        <option value="$PROJECT_DIR$/test_laserchicken/NAEM.py" />
         <option value="$PROJECT_DIR$/analysis/NAEM_visualization.py" />
+        <option value="$PROJECT_DIR$/test_laserchicken/NAEM.py" />
       </list>
     </option>
   </component>
@@ -170,6 +171,23 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
+    <configuration name="NAEM_visualization" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/analysis" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="myPhD_escience_analysis" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/analysis/NAEM_visualization.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+    </configuration>
     <configuration name="laserchickentest_readwrite" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -204,18 +222,20 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
-    <list size="4">
+    <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.mydummytest_laserchicken" />
       <item index="1" class="java.lang.String" itemvalue="Python.Demo_20180207" />
       <item index="2" class="java.lang.String" itemvalue="Python.laserchickentest_readwrite" />
       <item index="3" class="java.lang.String" itemvalue="Python.NAEM" />
+      <item index="4" class="java.lang.String" itemvalue="Python.NAEM_visualization" />
     </list>
     <recent_temporary>
-      <list size="4">
+      <list size="5">
         <item index="0" class="java.lang.String" itemvalue="Python.NAEM" />
-        <item index="1" class="java.lang.String" itemvalue="Python.laserchickentest_readwrite" />
-        <item index="2" class="java.lang.String" itemvalue="Python.Demo_20180207" />
-        <item index="3" class="java.lang.String" itemvalue="Python.mydummytest_laserchicken" />
+        <item index="1" class="java.lang.String" itemvalue="Python.NAEM_visualization" />
+        <item index="2" class="java.lang.String" itemvalue="Python.laserchickentest_readwrite" />
+        <item index="3" class="java.lang.String" itemvalue="Python.Demo_20180207" />
+        <item index="4" class="java.lang.String" itemvalue="Python.mydummytest_laserchicken" />
       </list>
     </recent_temporary>
   </component>
@@ -416,8 +436,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/analysis/NAEM_visualization.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+        <state relative-caret-position="374">
+          <caret line="17" column="10" lean-forward="true" selection-start-line="17" selection-start-column="10" selection-end-line="17" selection-end-column="10" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
@@ -426,8 +446,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test_laserchicken/NAEM.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="6" column="18" lean-forward="false" selection-start-line="6" selection-start-column="18" selection-end-line="6" selection-end-column="18" />
+        <state relative-caret-position="880">
+          <caret line="40" column="15" lean-forward="true" selection-start-line="40" selection-start-column="15" selection-end-line="40" selection-end-column="15" />
           <folding>
             <element signature="e#0#33#0" expanded="true" />
           </folding>
