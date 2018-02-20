@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fdfba41b-226e-4bc5-a938-94bc6e63d4a4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="fdfba41b-226e-4bc5-a938-94bc6e63d4a4" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,7 +11,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="NAEM.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="NAEM.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test_laserchicken/NAEM.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="873">
@@ -30,6 +28,16 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="648">
               <caret line="24" column="47" lean-forward="false" selection-start-line="24" selection-start-column="12" selection-end-line="24" selection-end-column="47" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test_GEOBIA_vxxxx.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/test_laserchicken/test_GEOBIA_vxxxx.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -55,6 +63,7 @@
         <option value="$PROJECT_DIR$/test_laserchicken/laserchickentest_readwrite.py" />
         <option value="$PROJECT_DIR$/test_laserchicken/NAEM.py" />
         <option value="$PROJECT_DIR$/analysis/NAEM_visualization.py" />
+        <option value="$PROJECT_DIR$/test_laserchicken/test_GEOBIA_vxxxx.py" />
       </list>
     </option>
   </component>
@@ -496,6 +505,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/test_laserchicken/NAEM.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="873">
+          <caret line="34" column="87" lean-forward="false" selection-start-line="34" selection-start-column="4" selection-end-line="34" selection-end-column="87" />
+          <folding>
+            <element signature="e#0#33#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/test_laserchicken/Demo_20180207.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="648">
@@ -504,13 +523,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test_laserchicken/NAEM.py">
+    <entry file="file://$PROJECT_DIR$/test_laserchicken/test_GEOBIA_vxxxx.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="873">
-          <caret line="34" column="87" lean-forward="false" selection-start-line="34" selection-start-column="4" selection-end-line="34" selection-end-column="87" />
-          <folding>
-            <element signature="e#0#33#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
