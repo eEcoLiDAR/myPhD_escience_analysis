@@ -11,7 +11,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="NAEM.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="NAEM.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test_laserchicken/NAEM.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="873">
@@ -33,7 +33,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test_GEOBIA_vxxxx.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="test_GEOBIA_vxxxx.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test_laserchicken/test_GEOBIA_vxxxx.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
@@ -505,16 +505,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test_laserchicken/NAEM.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="873">
-          <caret line="34" column="87" lean-forward="false" selection-start-line="34" selection-start-column="4" selection-end-line="34" selection-end-column="87" />
-          <folding>
-            <element signature="e#0#33#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test_laserchicken/Demo_20180207.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="648">
@@ -528,6 +518,16 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_laserchicken/NAEM.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="873">
+          <caret line="34" column="87" lean-forward="false" selection-start-line="34" selection-start-column="4" selection-end-line="34" selection-end-column="87" />
+          <folding>
+            <element signature="e#0#33#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
