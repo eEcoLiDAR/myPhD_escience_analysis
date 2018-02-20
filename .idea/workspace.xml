@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fdfba41b-226e-4bc5-a938-94bc6e63d4a4" name="Default" comment="" />
+    <list default="true" id="fdfba41b-226e-4bc5-a938-94bc6e63d4a4" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test_laserchicken/test_GEOBIA_vxxxx.py" afterPath="$PROJECT_DIR$/test_laserchicken/test_GEOBIA_vxxxx.py" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -11,11 +13,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="NAEM.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="NAEM.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test_laserchicken/NAEM.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="873">
-              <caret line="34" column="87" lean-forward="false" selection-start-line="34" selection-start-column="4" selection-end-line="34" selection-end-column="87" />
+            <state relative-caret-position="378">
+              <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="11" />
               <folding>
                 <element signature="e#0#33#0" expanded="true" />
               </folding>
@@ -33,12 +35,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test_GEOBIA_vxxxx.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="test_GEOBIA_vxxxx.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test_laserchicken/test_GEOBIA_vxxxx.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="432">
+              <caret line="16" column="0" lean-forward="true" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#33#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -68,10 +72,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="2228" />
-    <option name="y" value="-14" />
-    <option name="width" value="1937" />
-    <option name="height" value="1067" />
+    <option name="x" value="3829" />
+    <option name="y" value="-11" />
+    <option name="width" value="3862" />
+    <option name="height" value="2136" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -132,7 +136,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.NAEM_visualization">
+  <component name="RunManager" selected="Python.test_GEOBIA_vxxxx">
     <configuration name="Demo_20180207" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -201,7 +205,7 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
-    <configuration name="mydummytest_laserchicken" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="test_GEOBIA_vxxxx" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -213,25 +217,25 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="myPhD_escience_analysis" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_laserchicken/mydummytest_laserchicken.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_laserchicken/test_GEOBIA_vxxxx.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.mydummytest_laserchicken" />
-      <item index="1" class="java.lang.String" itemvalue="Python.Demo_20180207" />
-      <item index="2" class="java.lang.String" itemvalue="Python.laserchickentest_readwrite" />
-      <item index="3" class="java.lang.String" itemvalue="Python.NAEM" />
-      <item index="4" class="java.lang.String" itemvalue="Python.NAEM_visualization" />
+      <item index="0" class="java.lang.String" itemvalue="Python.Demo_20180207" />
+      <item index="1" class="java.lang.String" itemvalue="Python.laserchickentest_readwrite" />
+      <item index="2" class="java.lang.String" itemvalue="Python.NAEM" />
+      <item index="3" class="java.lang.String" itemvalue="Python.NAEM_visualization" />
+      <item index="4" class="java.lang.String" itemvalue="Python.test_GEOBIA_vxxxx" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.NAEM_visualization" />
-        <item index="1" class="java.lang.String" itemvalue="Python.NAEM" />
-        <item index="2" class="java.lang.String" itemvalue="Python.laserchickentest_readwrite" />
-        <item index="3" class="java.lang.String" itemvalue="Python.Demo_20180207" />
-        <item index="4" class="java.lang.String" itemvalue="Python.mydummytest_laserchicken" />
+        <item index="0" class="java.lang.String" itemvalue="Python.test_GEOBIA_vxxxx" />
+        <item index="1" class="java.lang.String" itemvalue="Python.NAEM_visualization" />
+        <item index="2" class="java.lang.String" itemvalue="Python.NAEM" />
+        <item index="3" class="java.lang.String" itemvalue="Python.laserchickentest_readwrite" />
+        <item index="4" class="java.lang.String" itemvalue="Python.Demo_20180207" />
       </list>
     </recent_temporary>
   </component>
@@ -260,7 +264,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967034" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25604397" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2555613" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973147" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -513,18 +517,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test_laserchicken/test_GEOBIA_vxxxx.py">
+    <entry file="file://$PROJECT_DIR$/test_laserchicken/NAEM.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="378">
+          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="11" />
+          <folding>
+            <element signature="e#0#33#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test_laserchicken/NAEM.py">
+    <entry file="file://$PROJECT_DIR$/test_laserchicken/test_GEOBIA_vxxxx.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="873">
-          <caret line="34" column="87" lean-forward="false" selection-start-line="34" selection-start-column="4" selection-end-line="34" selection-end-column="87" />
+        <state relative-caret-position="432">
+          <caret line="16" column="0" lean-forward="true" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
           <folding>
             <element signature="e#0#33#0" expanded="true" />
           </folding>
