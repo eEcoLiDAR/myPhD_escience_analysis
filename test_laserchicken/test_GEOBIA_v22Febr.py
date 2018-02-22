@@ -24,10 +24,10 @@ print(("build kd-tree: %f sec") % (difftime))
 output_text1 = ""
 start1 = time.time()
 for i in range(len(indices_cyl)):
-    features=compute_features(pc_sub, indices_cyl, pc_sub, ['max_z'], InfiniteCylinder(5))
+    compute_features(pc_sub, indices_cyl, pc_sub, ['max_z','sigma_z'], InfiniteCylinder(5))
 
-    output_text1 += "%s,%s,%s,%s\n" % (
-    pc_sub[point]['x']['data'][i], pc_sub[point]['y']['data'][i], pc_sub[point]['z']['data'][i],features)
+    output_text1 += "%s,%s,%s,%s,%s \n" % (
+    pc_sub[point]['x']['data'][i], pc_sub[point]['y']['data'][i], pc_sub[point]['z']['data'][i],pc_sub[point]['max_z']['data'],pc_sub[point]['sigma_z']['data'])
 
 end1 = time.time()
 difftime1=end1 - start1
