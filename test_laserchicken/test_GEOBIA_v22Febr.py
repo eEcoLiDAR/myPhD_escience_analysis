@@ -1,4 +1,12 @@
 ## Fix the path (temporary)
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('path_of_laserchicken', help='The path of laserchicken')
+parser.add_argument('input', help='absolute path of input point cloud')
+parser.add_argument('output', help='absolute path of output point cloud')
+args = parser.parse_args()
+
 import sys
 sys.path.insert(0, 'D:/Koma/GitHub/eEcoLiDAR/')
 
