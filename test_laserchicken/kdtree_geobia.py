@@ -26,6 +26,6 @@ end = time.time()
 difftime=end - start
 print(("build kd-tree: %f sec") % (difftime))
 
-output = open('kdtree.pkl', 'wb')
+output = open(args.output, 'wb')
 pickle.dump(indices_cyl, output)
 output.close()
