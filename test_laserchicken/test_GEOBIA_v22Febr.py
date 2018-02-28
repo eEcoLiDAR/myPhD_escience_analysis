@@ -1,3 +1,7 @@
+## Fix the path (temporary)
+import sys
+sys.path.insert(0, 'D:/Koma/GitHub/eEcoLiDAR/')
+
 from laserchicken import read_las
 from laserchicken import write_ply
 from laserchicken.keys import point
@@ -11,8 +15,7 @@ import pandas as pd
 import time
 
 # Import
-pc = read_las.read("D:/GEOBIA/Data/AHN2/02gz2_merged_kiv1.las")
-#pc_sub = points_in_polygon_wkt(pc, "POLYGON((196550 446510,196550 446540,196580 446540,196580 446510,196550 446510))")
+pc = read_las.read("D:/Koma/geobia/Data/Lauwersmeer/AHN2/02gz2_merged_kiv1.las")
 
 # Neighborhood calculation
 
@@ -35,7 +38,7 @@ feadataframe=pd.DataFrame({'_x':pc[point]['x']['data'],'_y':pc[point]['y']['data
                            'z_entropy':pc[point]['z_entropy']['data'],'sigma_z':pc[point]['sigma_z']['data'], 'perc_20':pc[point]['perc_20']['data'],
                            'perc_40':pc[point]['perc_40']['data'],'perc_60':pc[point]['perc_60']['data'], 'perc_80':pc[point]['perc_80']['data']})
 
-feadataframe.to_csv('D:/GEOBIA/Data/AHN2/02gz2_merged_kiv1_withfea.csv',sep=";",index=False)
+feadataframe.to_csv('D:/Koma/geobia/Results/02gz2_merged_kiv1_withfea.csv',sep=";",index=False)
 
 end1 = time.time()
 difftime1=end1 - start1
