@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fdfba41b-226e-4bc5-a938-94bc6e63d4a4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test_laserchicken/test_GEOBIA_v22Febr.py" afterPath="$PROJECT_DIR$/test_laserchicken/test_GEOBIA_v22Febr.py" />
-    </list>
+    <list default="true" id="fdfba41b-226e-4bc5-a938-94bc6e63d4a4" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -35,11 +33,33 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test_GEOBIA_v22Febr.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="test_GEOBIA_v22Febr.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test_laserchicken/test_GEOBIA_v22Febr.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="572">
-              <caret line="50" column="45" lean-forward="true" selection-start-line="50" selection-start-column="45" selection-end-line="50" selection-end-column="45" />
+            <state relative-caret-position="198">
+              <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="70" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="kdtree_geobia.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/test_laserchicken/kdtree_geobia.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="660">
+              <caret line="30" column="14" lean-forward="true" selection-start-line="30" selection-start-column="14" selection-end-line="30" selection-end-column="14" />
+              <folding>
+                <element signature="e#0#15#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="computefea_geobia.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test_laserchicken/computefea_geobia.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -75,6 +95,8 @@
         <option value="$PROJECT_DIR$/analysis/NAEM_visualization.py" />
         <option value="$PROJECT_DIR$/test_laserchicken/test_GEOBIA_vxxxx.py" />
         <option value="$PROJECT_DIR$/test_laserchicken/test_GEOBIA_v22Febr.py" />
+        <option value="$PROJECT_DIR$/test_laserchicken/computefea_geobia.py" />
+        <option value="$PROJECT_DIR$/test_laserchicken/kdtree_geobia.py" />
       </list>
     </option>
   </component>
@@ -294,22 +316,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/test_laserchicken/Demo_20180207.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="864">
-          <caret line="32" column="240" lean-forward="false" selection-start-line="32" selection-start-column="4" selection-end-line="32" selection-end-column="240" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test_laserchicken/test_GEOBIA_v22Febr.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="837">
-          <caret line="41" column="45" lean-forward="true" selection-start-line="41" selection-start-column="45" selection-end-line="41" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test_laserchicken/NAEM.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="378">
@@ -674,11 +680,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/test_laserchicken/computefea_geobia.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/test_laserchicken/test_GEOBIA_v22Febr.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="572">
-          <caret line="50" column="45" lean-forward="true" selection-start-line="50" selection-start-column="45" selection-end-line="50" selection-end-column="45" />
+        <state relative-caret-position="198">
+          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="70" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_laserchicken/kdtree_geobia.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="30" column="14" lean-forward="true" selection-start-line="30" selection-start-column="14" selection-end-line="30" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
