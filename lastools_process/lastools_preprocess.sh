@@ -1,15 +1,15 @@
 # download the data from WebDAV and normalized the height with lastools
 
-passw="$(<C:/zsofia/Amsterdam/GitHub/passw.txt)"
-LAStoolspath="C:/additional_softwares/LAStools/LAStools/bin"
+passw="$(<D:/Koma/GitHub/passw.txt)"
+LAStoolspath="C:/LAStools/bin"
 
-localinput="C:/zsofia/Amsterdam/GitHub/komazsofi/myPhD_escience_analysis/test_data/"
+localinput="D:/Koma/geobia/Results/"
 filename1=$1
 filename="${filename1%%[[:cntrl:]]}"
 
 echo "--------Download is started $filename--------"
 
-curl --insecure --fail --location --user $passw https://webdav.grid.sara.nl/pnfs/grid.sara.nl/data/projects.nl/eecolidar/01_Work/zsofia/geobia/Data/Lauwersmeer/$filename.las --output $localinput$filename.las 
+curl --insecure --fail --location --user $passw https://webdav.grid.sara.nl/pnfs/grid.sara.nl/data/projects.nl/eecolidar/01_Work/zsofia/geobia/Data/Lauwersmeer/AHN2/$filename.las --output $localinput$filename.las 
 
 echo "--------LAStools process is started--------"
 
