@@ -15,7 +15,7 @@ sys.path.insert(0, args.path_of_laserchicken)
 
 from laserchicken import read_las
 from laserchicken.keys import point
-from laserchicken.volume_specification import Sphere, InfiniteCylinder
+from laserchicken.volume_specification import InfiniteCylinder
 from laserchicken.compute_neighbors import compute_neighborhoods
 
 print("------ Building kd-tree is started ------")
@@ -28,7 +28,7 @@ print(("Number of points: %s ") % (pc[point]['x']['data'].shape[0]))
 # Neighborhood calculation
 
 start = time.time()
-indices_cyl=compute_neighborhoods(pc, pc, Sphere(np.float(args.radius)))
+indices_cyl=compute_neighborhoods(pc, pc, InfiniteCylinder(np.float(args.radius)))
 end = time.time()
 difftime=end - start
 print(("build kd-tree: %f sec") % (difftime))
