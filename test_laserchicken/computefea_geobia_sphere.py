@@ -18,7 +18,7 @@ sys.path.insert(0, args.path_of_laserchicken)
 
 from laserchicken import read_las
 from laserchicken.keys import point
-from laserchicken.volume_specification import InfiniteCylinder
+from laserchicken.volume_specification import Sphere
 from laserchicken.feature_extractor import compute_features
 from laserchicken import write_ply
 
@@ -34,10 +34,10 @@ f.close()
 start1 = time.time()
 
 compute_features(pc, kdtree, pc, ['max_z','min_z','mean_z','median_z','std_z','var_z','range','coeff_var_z','skew_z','kurto_z',
-                                               'z_entropy','sigma_z','perc_20','perc_40','perc_60','perc_80'], InfiniteCylinder(np.float(args.radius)))
+                                               'z_entropy','sigma_z','perc_20','perc_40','perc_60','perc_80'], Sphere(np.float(args.radius)))
 
 
-#write_ply.write(pc, args.output)											   
+write_ply.write(pc, args.output)											   
 											   
 """
 feadataframe=pd.DataFrame({'_x':pc[point]['x']['data'],'_y':pc[point]['y']['data'],'_z':pc[point]['z']['data'],

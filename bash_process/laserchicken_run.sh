@@ -13,6 +13,8 @@ passw="$(<D:/GitHub/passw.txt)"
 
 # feature calculation
 
+python D:/GitHub/komazsofi/myPhD_escience_analysis/test_laserchicken/computefea_geobia_cylinder.py D:/GitHub/eEcoLiDAR/develop-branch/eEcoLiDAR/ D:/GitHub/komazsofi/myPhD_escience_analysis/test_data/m02gz2_merged_kiv1_kivtest.las D:/GitHub/komazsofi/myPhD_escience_analysis/test_data/m02gz2_merged_kiv1_kivtest_cylinder4.pkl D:/GitHub/komazsofi/myPhD_escience_analysis/test_data/m02gz2_merged_kiv1_kivtest_cylinder4.ply 4
+
 # upload the data to WebDAV and delete on the local machines
 
 echo "--------Upload is started--------"
@@ -24,5 +26,6 @@ echo "--------Remove unnecessary files--------"
 
 #rm D:/GitHub/komazsofi/myPhD_escience_analysis/test_data/*.pkl
 #rm D:/GitHub/komazsofi/myPhD_escience_analysis/test_data/*.las
+#rm D:/GitHub/komazsofi/myPhD_escience_analysis/test_data/*.csv
 
 echo "--------Script is finished--------"
