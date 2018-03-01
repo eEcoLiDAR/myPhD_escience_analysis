@@ -18,7 +18,7 @@ sys.path.insert(0, args.path_of_laserchicken)
 
 from laserchicken import read_las
 from laserchicken.keys import point
-from laserchicken.volume_specification import InfiniteCylinder
+from laserchicken.volume_specification import Sphere, InfiniteCylinder
 from laserchicken.feature_extractor import compute_features
 from laserchicken import write_ply
 
