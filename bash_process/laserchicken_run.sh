@@ -1,10 +1,10 @@
 # download the data from WebDAV derive neighborhood based features
 
-passw="$(<D:/GitHub/passw.txt)"
-path_of_laserchicken="D:/GitHub/eEcoLiDAR/develop-branch/eEcoLiDAR/"
-path_of_pythonscripts="D:/GitHub/komazsofi/myPhD_escience_analysis/test_laserchicken"
+passw="$(<C:/zsofia/Amsterdam/GitHub/passw.txt)"
+path_of_laserchicken="C:/zsofia/Amsterdam/GitHub/eEcoLiDAR/eEcoLiDAR/"
+path_of_pythonscripts="C:/zsofia/Amsterdam/GitHub/komazsofi/myPhD_escience_analysis/test_laserchicken"
 
-localinput="D:/GitHub/komazsofi/myPhD_escience_analysis/test_data/"
+localinput="C:/zsofia/Amsterdam/GitHub/komazsofi/myPhD_escience_analysis/test_data/"
 
 filename=$1
 #filename="${filename1%%[[:cntrl:]]}"
@@ -28,8 +28,8 @@ curl --insecure --fail --location --user $passw --upload-file $localinput$filena
 
 echo "--------Remove unnecessary files--------"
 
-rm D:/GitHub/komazsofi/myPhD_escience_analysis/test_data/*.pkl
-rm D:/GitHub/komazsofi/myPhD_escience_analysis/test_data/*.las
-rm D:/GitHub/komazsofi/myPhD_escience_analysis/test_data/*.csv
+rm $localinput*.pkl
+rm $localinput*.las
+rm $localinput*.csv
 
 echo "--------Script is finished--------"
