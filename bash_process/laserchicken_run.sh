@@ -15,11 +15,11 @@ curl --insecure --fail --location --user $passw https://webdav.grid.sara.nl/pnfs
 
 # kd-tree
 
-python $path_of_pythonscripts/kdtree_geobia_$volume.py $path_of_laserchicken $localinput$filename.las $localinput$filename._cylinder$radius.pkl $radius
+python $path_of_pythonscripts/kdtree_geobia_$volume.py $path_of_laserchicken $localinput$filename.las $localinput$filename._$volume$radius.pkl $radius
 
 # feature calculation
 
-python $path_of_pythonscripts/computefea_geobia_$volume.py $path_of_laserchicken $localinput$filename.las $localinput$filename._cylinder$radius.pkl $localinput$filename._cylinder$radius.csv $radius
+python $path_of_pythonscripts/computefea_geobia_$volume.py $path_of_laserchicken $localinput$filename.las $localinput$filename._$volume$radius.pkl $localinput$filename._$volume$radius.csv $radius
 
 echo "--------Upload is started--------"
 
