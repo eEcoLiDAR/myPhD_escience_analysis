@@ -20,7 +20,7 @@ from laserchicken import read_las
 from laserchicken.keys import point
 from laserchicken.volume_specification import InfiniteCylinder
 from laserchicken.feature_extractor import compute_features
-from laserchicken import write_ply
+from laserchicken.write_ply import write
 
 print("------ Feature calculation is started ------")
 
@@ -36,7 +36,7 @@ start1 = time.time()
 compute_features(pc, kdtree, pc, ['max_z','min_z','mean_z','median_z','std_z','var_z','range','coeff_var_z','skew_z','kurto_z',
 'sigma_z','perc_20','perc_40','perc_60','perc_80','echo_ratio','pulse_penetration_ratio','density_absolute_mean'], InfiniteCylinder(np.float(args.radius)))
 
-											   
+"""											   
 feadataframe=pd.DataFrame({'_x':pc[point]['x']['data'],'_y':pc[point]['y']['data'],'_z':pc[point]['z']['data'],
                            'max_z':pc[point]['max_z']['data'],'min_z':pc[point]['min_z']['data'], 'mean_z':pc[point]['mean_z']['data'],
                            'median_z':pc[point]['median_z']['data'],'std_z':pc[point]['std_z']['data'], 'var_z':pc[point]['var_z']['data'],
@@ -47,9 +47,14 @@ feadataframe=pd.DataFrame({'_x':pc[point]['x']['data'],'_y':pc[point]['y']['data
                            'perc_40':pc[point]['perc_40']['data'],'perc_60':pc[point]['perc_60']['data'], 'perc_80':pc[point]['perc_80']['data']})
 
 feadataframe.to_csv(args.output,sep=";",index=False)
+"""	
 
 end1 = time.time()
 difftime1=end1 - start1
 print(("feature calc: %f sec") % (difftime1))
+
+write(pc,args.output)
+
+
 
 
