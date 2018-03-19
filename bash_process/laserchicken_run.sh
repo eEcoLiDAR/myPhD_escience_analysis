@@ -1,10 +1,10 @@
 # download the data from WebDAV derive neighborhood based features
 
-passw="$(<D:/GitHub/passw.txt)"
-path_of_laserchicken="D:/GitHub/eEcoLiDAR/develop-branch/eEcoLiDAR/"
-path_of_pythonscripts="D:/GitHub/komazsofi/myPhD_escience_analysis/test_laserchicken"
+passw="$(</data/GitHub/ecolidar/passw.txt)"
+path_of_laserchicken="/data/GitHub/ecolidar/eEcoLiDAR/"
+path_of_pythonscripts="/data/GitHub/ecolidar/myPhD_escience_analysis/test_laserchicken/"
 
-localinput="D:/GitHub/komazsofi/myPhD_escience_analysis/test_data/"
+localinput="/data/GitHub/ecolidar/myPhD_escience_analysis/test_data/"
 
 filename=$1
 #filename="${filename1%%[[:cntrl:]]}"
