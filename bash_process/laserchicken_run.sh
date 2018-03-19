@@ -7,7 +7,6 @@ path_of_pythonscripts="/data/GitHub/ecolidar/myPhD_escience_analysis/test_laserc
 localinput="/data/GitHub/ecolidar/myPhD_escience_analysis/test_data/"
 
 filename=$1
-#filename="${filename1%%[[:cntrl:]]}"
 radius=$2
 volume=$3
 
@@ -30,6 +29,6 @@ echo "--------Remove unnecessary files--------"
 
 rm $localinput*.pkl
 rm $localinput*.las
-#rm $localinput*.ply
+rm $localinput*.ply
 
 echo "--------Script is finished--------"
