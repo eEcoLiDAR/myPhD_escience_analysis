@@ -39,6 +39,12 @@ pointInPolys.boxplot(column='echo_ratio',by='class')
 plt.show()
 pointInPolys.boxplot(column='sigma_z',by='class')
 plt.show()
+pointInPolys.boxplot(column='pulse_penetration_ratio',by='class')
+plt.show()
+pointInPolys.boxplot(column='std_z',by='class')
+plt.show()
+pointInPolys.boxplot(column='kurto_z',by='class')
+plt.show()
 
 #pointInPolys.to_csv('C:/zsofia/Amsterdam/Geobia/Result/output.csv')
 
