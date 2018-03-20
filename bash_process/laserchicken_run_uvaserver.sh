@@ -27,8 +27,8 @@ curl --insecure --fail --location --user $passw --upload-file $localinput$filena
 
 echo "--------Remove unnecessary files--------"
 
-rm $localinput*.pkl
-rm $localinput*.las
-rm $localinput*.ply
+#rm $localinput*.pkl
+#rm $localinput*.las
+#rm $localinput*.ply
 
 echo "--------Script is finished--------"
