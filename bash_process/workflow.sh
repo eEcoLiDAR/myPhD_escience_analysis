@@ -1,1 +1,1 @@
-bash laserchicken_run.sh 06en2_merged_kiv3._ground_height_kiv 2.5 cylinder
+bash laserchicken_run.sh 02gz2_merged_kiv1_kivtest._ground_height 2.5 cylinder
