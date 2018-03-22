@@ -43,7 +43,7 @@ target_x, target_y = np.meshgrid(bound_x, bound_y, indexing='ij')
 
 x=np.ravel(target_x)
 y=np.ravel(target_y)
-z=np.zeros(len(x))
+z=np.ones(len(x))
 
 false_intensity=np.zeros(len(x))
 false_gpstime=np.zeros(len(x))

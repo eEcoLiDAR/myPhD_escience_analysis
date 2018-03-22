@@ -1,6 +1,5 @@
 import argparse
 import time
-import pickle
 import numpy as np
 
 parser = argparse.ArgumentParser()
@@ -18,6 +17,8 @@ from laserchicken import read_las
 from laserchicken.keys import point
 from laserchicken.volume_specification import InfiniteCylinder
 from laserchicken.compute_neighbors import compute_neighborhoods
+from laserchicken.feature_extractor import compute_features
+from laserchicken.write_ply import write
 
 print("------ Building kd-tree is started ------")
 
@@ -36,6 +37,14 @@ end = time.time()
 difftime=end - start
 print(("build kd-tree: %f sec") % (difftime))
 
-output = open(args.output, 'wb')
-pickle.dump(indices_cyl, output)
-output.close()
+# Calculate features
+
+start1 = time.time()
+
+compute_features(pc, indices_cyl, target, ['max_z','mean_z'], InfiniteCylinder(np.float(args.radius)))
+
+end1 = time.time()
+difftime1=end1 - start1
+print(("feature calc: %f sec") % (difftime1))
+
+write(target,args.output)
