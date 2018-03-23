@@ -41,7 +41,7 @@ print(("build kd-tree: %f sec") % (difftime))
 
 start1 = time.time()
 
-compute_features(pc, indices_cyl, target, ['max_z','mean_z'], InfiniteCylinder(np.float(args.radius)))
+compute_features(pc, indices_cyl, target, ['max_z'], InfiniteCylinder(np.float(args.radius)))
 
 end1 = time.time()
 difftime1=end1 - start1
