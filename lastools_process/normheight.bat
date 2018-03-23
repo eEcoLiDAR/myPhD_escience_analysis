@@ -1,4 +1,7 @@
-set filename=D:\NAEM\Data\ALS_AHN2\12en1_sel2
+set filename=D:\Koma\Data\06en2_merged_v1
 
-C:\LAStools\bin\lasground_new -i %filename%.las -o %filename%_ground.las -step 1
-C:\LAStools\bin\lasheight -i %filename%_ground.las -o %filename%_ground_height.las -replace_z
+::C:\LAStools\bin\lasclip -i %filename%.las -poly D:\Koma\Data\studyarea.shp -v
+::C:\LAStools\bin\lastile -i %filename%.las -o D:\Koma\Data\tile.las -tile_size 500
+
+::C:\LAStools\bin\lasground_new -i D:\Koma\Data\tiles\*.las -step 1 -olas -cores 16
+C:\LAStools\bin\lasheight -i D:\Koma\Data\tiles\*_1.las -olas -replace_z
