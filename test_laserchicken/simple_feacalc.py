@@ -1,7 +1,5 @@
 """
 Example usage: python simple_feacalc.py D:/Results/Geobia/ 06en2_merged_kiv3._ground_height_kiv_kiv
-
-not good == scaling las file import ...
 """
 import argparse
 
@@ -22,14 +20,14 @@ args = parser.parse_args()
 
 inFile = File(args.path+args.input+'.las', mode='r')
 
-points = np.vstack([inFile.X, inFile.Y, inFile.Z]).transpose()
+points = np.vstack([inFile.x, inFile.y, inFile.z]).transpose()
 
-print(np.min(inFile.X),np.max(inFile.X))
-print(np.min(inFile.Z),np.max(inFile.Z))
+print(np.min(inFile.x),np.max(inFile.x))
+print(np.min(inFile.z),np.max(inFile.z))
 
 # Cylinder
 
-radius = 5
+radius = 0.5
 kdtree = cKDTree(points[:,0:2])
 point_neighbours_rad = kdtree.query_ball_point(points[:,0:2], radius)
 
