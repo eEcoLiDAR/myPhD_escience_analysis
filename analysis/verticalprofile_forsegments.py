@@ -39,6 +39,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('path', help='where the files are located')
 parser.add_argument('segments', help='polygon shape file with class')
 parser.add_argument('features', help='point cloud with features')
+parser.add_argument('segmentid', help='id of the segment')
 args = parser.parse_args()
 
 crs = {'init': 'epsg:28992'}
@@ -52,7 +53,7 @@ pc_wfea = gpd.GeoDataFrame(pc_wfea,crs=crs)
 
 pointInPolys = sjoin(pc_wfea , segments, how='left',op='within')
 
-segment_id=4
+segment_id=np.float(args.segmentid)
 
 pointInPolys_sel=pointInPolys[(pointInPolys["fid"]==segment_id)]
 
