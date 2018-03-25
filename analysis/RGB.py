@@ -93,4 +93,4 @@ pc_wfea['Red']=Red_value
 pc_wfea['Green']=Green_value
 pc_wfea['Blue']=Blue_value
 
-pc_wfea[['X','Y','Z','Red','Green','Blue']].to_csv(args.path+args.output+str(attribute_R)+str(attribute_G)+str(attribute_B)+'.csv',sep=';')
+pc_wfea[['X','Y','Z','Red','Green','Blue']].to_csv(args.path+args.output+str(attribute_R)+str(attribute_G)+str(attribute_B)+'.csv',sep=',',index=False)
