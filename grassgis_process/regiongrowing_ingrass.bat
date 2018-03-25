@@ -8,4 +8,4 @@ i.segment --overwrite group=group1 output=group1_region_growsegm threshold=0.4
 r.out.gdal --overwrite input=group1_region_growsegm output=C:\zsofia\Amsterdam\Geobia\Features\tile_207500_598000_1_1_group1_region_growsegm.tif
 
 r.to.vect --overwrite -s input=group1_region_growsegm output=group1_region_growsegm_poly type=area
-v.out.ogr --overwrite -c input=group1_region_growsegm_poly type=area output=C:\zsofia\Amsterdam\Geobia\Features\group1_region_growsegm_poly.shp
+v.out.ogr --overwrite input=group1_region_growsegm_poly type=area output=C:\zsofia\Amsterdam\Geobia\Features\group1_region_growsegm_poly.shp
