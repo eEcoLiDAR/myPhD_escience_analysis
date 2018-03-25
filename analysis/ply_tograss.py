@@ -28,11 +28,11 @@ args = parser.parse_args()
 pc_wfea = pd.read_csv(args.path+args.features,sep=' ',names=['X','Y','Z','coeff_var_z','density_absolute_mean','echo_ratio','eigenv_1','eigenv_2','eigenv_3','gps_time','intensity','kurto_z','max_z','mean_z',
 'median_z','min_z','normal_vector_1','normal_vector_2','normal_vector_3','pulse_penetration_ratio','range','raw_classification','sigma_z','skew_z','slope','std_z','var_z'],skiprows=39)
 #print(pc_wfea.dtypes)
-print(pc_wfea.head())
+#print(pc_wfea.head())
 
 # Delete coloumns where all value is 0  
 pc_wfea = pc_wfea.loc[:, (pc_wfea != 0).any(axis=0)]
 
 # Export pandas dataframe 
-pc_wfea.to_csv(args.path+args.output,sep=';',index=False)
+pc_wfea.to_csv(args.path+args.output,sep=',',index=False)
 
