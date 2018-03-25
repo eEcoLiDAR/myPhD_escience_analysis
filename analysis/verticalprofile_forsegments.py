@@ -6,7 +6,7 @@ Input: laserchicken ply file with the calculated features (currently I am only u
 Output: vertical profile for the defined id
 
 Example usage (from command line): python verticalprofile_forsegments.py C:/zsofia/Amsterdam/Geobia/Features/ group1_region_growsegm_poly_exp2.shp tile_
-207500_598000_1_1.las.ply
+207500_598000_1_1.las.ply 1
 
 ToDo: 
 1. shp from grass directly not readable with geopandas just after a qgis transformation
