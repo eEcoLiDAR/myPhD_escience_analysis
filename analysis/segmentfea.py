@@ -44,9 +44,9 @@ pc_wfea = gpd.GeoDataFrame(pc_wfea,crs=crs)
 pointInPolys = sjoin(pc_wfea , segments, how='left',op='within')
 #print(pointInPolys.dtypes)
 
-feamean_insegments=pointInPolys.groupby(['fid']).mean()
-print(feamean_insegments.dtypes)
+feamean_insegments=pointInPolys.groupby(['cat']).mean()
+#print(feamean_insegments.dtypes)
 
-feawith_segments = segments.merge(feamean_insegments, on='cat')
+feawith_segments = segments.merge(feamean_insegments, on='value')
 #print(feawith_segments.head())
-feawith_segments.to_file(args.path+"try.shp", driver='ESRI Shapefile')
+feawith_segments.to_file(args.path+args.features+"wfea.shp", driver='ESRI Shapefile')
