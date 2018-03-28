@@ -33,8 +33,8 @@ print("------ Computing neighborhood is started ------")
 start = time.time()
 num_iterations=0
 
-#compute_neighboorhoods is now a generator. To get the result of a generator the user
-#needs to call next(compute_neighboorhoods). The following shows how to get the results.
+#compute_neighborhoods is now a generator. To get the result of a generator the user
+#needs to call next(compute_neighborhoods). The following shows how to get the results.
 #
 #indices_cyl=compute_neighborhoods(pc, target, InfiniteCylinder(np.float(args.radius)))
 #
