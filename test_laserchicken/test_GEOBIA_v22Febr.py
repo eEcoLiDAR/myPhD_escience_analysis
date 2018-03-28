@@ -29,11 +29,11 @@ start = time.time()
 #compute_neighborhoods is now a generator. To get the result of a generator the user
 #needs to call next(compute_neighborhoods). The following shows how to get the results.
 #
-#indices_cyl=compute_neighborhoods(pc, target, InfiniteCylinder(np.float(args.radius)))
+#indices_cyl=compute_neighborhoods(pc, target, Sphere(2.5))
 #
-compute_neighborhoods=compute_neighborhoods(pc, pc, Sphere(2.5))
+neighbors=compute_neighborhoods(pc, pc, Sphere(2.5))
 indices_cyl=[]
-for x in compute_neighborhoods:
+for x in neighbors:
   print ("Iteration %d" % num_iterations)
   indices_cyl += x
   num_iterations+=1

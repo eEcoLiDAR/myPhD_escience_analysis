@@ -38,9 +38,9 @@ num_iterations=0
 #
 #indices_cyl=compute_neighborhoods(pc, target, InfiniteCylinder(np.float(args.radius)))
 #
-compute_neighborhoods=compute_neighborhoods(pc, target, InfiniteCylinder(np.float(args.radius)))
+neighbors=compute_neighborhoods(pc, target, InfiniteCylinder(np.float(args.radius)))
 indices_cyl=[]
-for x in compute_neighborhoods:
+for x in neighbors:
   print ("Iteration %d" % num_iterations)
   indices_cyl += x
   num_iterations+=1
