@@ -17,15 +17,13 @@ lastoolspath=$1
 localinput=$2
 filename=$3
 poly_AOI=$4 #area of interest 
-poly_water=$5
 
-#mkdir $localinput/tiles2 #here save the tiles
+mkdir $localinput/tiles2 #here save the tiles
 
 # process the data
-#$lastoolspath/lasclip -i $localinput$filename.las -o $localinput$filename._aoi.las -poly $localinput$poly_AOI.shp -v 
-#$lastoolspath/lasclip -i $localinput$filename._aoi.las -o $localinput$filename._aoi_w.las -poly $localinput$poly_water.shp -classify 9 -interior
+$lastoolspath/lasclip -i $localinput$filename.las -o $localinput$filename._aoi.las -poly $localinput$poly_AOI.shp -v 
 
-#$lastoolspath/lastile -i $localinput$filename._aoi_w.las -o $localinput/tiles2/tile.las -tile_size 500
+$lastoolspath/lastile -i $localinput$filename._aoi.las -o $localinput/tiles2/tile.las -tile_size 500
 
 $lastoolspath/lasground_new -i $localinput/tiles2/*.las -step 1 -olas -cores 16 -ignore_class 9
 $lastoolspath/lasheight -i $localinput/tiles2/*_1.las -olas -replace_z
