@@ -19,15 +19,12 @@ python $path_of_pythonscripts/computefea_wtargets_$volume.py $path_of_laserchick
 
 # feature calculation
 
-# python $path_of_pythonscripts/computefea_geobia_$volume.py $path_of_laserchicken $localinput$filename.las $localinput$filename._$volume$radius.pkl
-# $localinput$filename._$volume$radius.ply $radius
+# python $path_of_pythonscripts/computefea_geobia_$volume.py $path_of_laserchicken $localinput$filename.las $localinput$filename._$volume$radius.pkl $localinput$filename._$volume$radius.ply $radius
 
 #echo "--------Upload is started--------"
 
-# curl --insecure --fail --location --user $passw --upload-file $localinput$filename._$volume$radius.pkl
-# https://webdav.grid.sara.nl/pnfs/grid.sara.nl/data/projects.nl/eecolidar/01_Work/zsofia/geobia/Results/KdTree/
-# curl --insecure --fail --location --user $passw --upload-file $localinput$filename._$volume$radius.ply
-# https://webdav.grid.sara.nl/pnfs/grid.sara.nl/data/projects.nl/eecolidar/01_Work/zsofia/geobia/Results/Features/
+# curl --insecure --fail --location --user $passw --upload-file $localinput$filename._$volume$radius.pkl https://webdav.grid.sara.nl/pnfs/grid.sara.nl/data/projects.nl/eecolidar/01_Work/zsofia/geobia/Results/KdTree/
+# curl --insecure --fail --location --user $passw --upload-file $localinput$filename._$volume$radius.ply https://webdav.grid.sara.nl/pnfs/grid.sara.nl/data/projects.nl/eecolidar/01_Work/zsofia/geobia/Results/Features/
 
 #echo "--------Remove unnecessary files--------"
 
