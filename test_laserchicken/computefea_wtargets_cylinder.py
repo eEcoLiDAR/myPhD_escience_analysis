@@ -31,10 +31,23 @@ print(("Number of points in target: %s ") % (target[point]['x']['data'].shape[0]
 print("------ Computing neighborhood is started ------")
 
 start = time.time()
-indices_cyl=compute_neighborhoods(pc, target, InfiniteCylinder(np.float(args.radius)))
+num_iterations=0
+
+#compute_neighboorhoods is now a generator. To get the result of a generator the user
+#needs to call next(compute_neighboorhoods). The following shows how to get the results.
+#
+#indices_cyl=compute_neighborhoods(pc, target, InfiniteCylinder(np.float(args.radius)))
+#
+compute_neighborhoods=compute_neighborhoods(pc, target, InfiniteCylinder(np.float(args.radius)))
+indices_cyl=[]
+for x in compute_neighborhoods:
+  print ("Iteration %d" % num_iterations)
+  indices_cyl += x
+  num_iterations+=1
 end = time.time()
 difftime=end - start
 print(("build kd-tree: %f sec") % (difftime))
+print("Computed neighborhoods list length is: %d" % len(indices_cyl))
 
 print("------ Feature calculation is started ------")
 
