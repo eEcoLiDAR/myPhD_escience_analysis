@@ -19,14 +19,14 @@ import numpy as np
 import pandas as pd
 import geopandas as gpd
 
-from shapely.geometry import Point
+from shapely.geometry import Point, Polygon
 from geopandas.tools import sjoin
 
 
 parser = argparse.ArgumentParser()
 parser.add_argument('path', help='where the files are located')
 parser.add_argument('training', help='name of polygon')
-parser.add_argument('segments', help='name of the shp file with segmentID')
+parser.add_argument('segments', help='name of the shp file with segmentID (points)')
 args = parser.parse_args()
 
 # read the training polygon and assign the value related to a points shape file (created from the raster results of the segmentation)
@@ -36,6 +36,8 @@ crs = {'init': 'epsg:28992'}
 training = gpd.GeoDataFrame.from_file(args.path+args.training+'.shp',crs=crs)
 
 segments = gpd.GeoDataFrame.from_file(args.path+args.segments+'.shp',crs=crs)
+
+segments_as_poly = gpd.GeoDataFrame.from_file(args.path+args.segments_as_poly+'.shp',crs=crs)
 
 pointInPolys = sjoin(segments , training, how='left',op='within')
 #print(pointInPolys.head())
@@ -52,7 +54,6 @@ pointInPolys['Waterriet'] = pointInPolys.groupby('value')['structyp_e'].transfor
 #print(pointInPolys.head())
 
 pointInPolys.drop_duplicates('value').to_csv(args.path+args.segments+'wclass_possib.csv',sep=',',index=False)
-
 #pointInPolys.to_file(args.path+args.segments+'wsegment.shp', driver='ESRI Shapefile')
 
 
