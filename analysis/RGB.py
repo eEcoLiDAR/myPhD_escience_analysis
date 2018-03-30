@@ -35,6 +35,10 @@ pc_wfea =pd.read_csv(args.path+args.features,sep=' ',names=['X','Y','Z','coeff_v
 'median_z','min_z','normal_vector_1','normal_vector_2','normal_vector_3','pulse_penetration_ratio','range','raw_classification','sigma_z','skew_z','slope','std_z','var_z'],skiprows=39)
 #print(pc_wfea.dtypes)
 
+# extract correlation map between features
+sns.heatmap(pc_wfea[['density_absolute_mean','echo_ratio','eigenv_1','eigenv_2','eigenv_3','kurto_z','max_z','mean_z','median_z','min_z','normal_vector_1','normal_vector_2','normal_vector_3','pulse_penetration_ratio','range','sigma_z','skew_z','slope','std_z','var_z']].corr(), annot=True, fmt=".2f")
+plt.show()
+
 # rescale on attribute into 0-1
 
 # RED
@@ -93,4 +97,4 @@ pc_wfea['Red']=Red_value
 pc_wfea['Green']=Green_value
 pc_wfea['Blue']=Blue_value
 
-pc_wfea[['X','Y','Z','Red','Green','Blue']].to_csv(args.path+args.output+str(attribute_R)+str(attribute_G)+str(attribute_B)+'.csv',sep=',',index=False)
+pc_wfea[['X','Y','Z','Red','Green','Blue']].to_csv(args.path+args.output+'_'+str(attribute_R)+'_'+str(attribute_G)+'_'+str(attribute_B)+'.csv',sep=',',index=False)
