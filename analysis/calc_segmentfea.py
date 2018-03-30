@@ -5,11 +5,10 @@ Aim:
 Input: laserchicken ply file with the calculated features (currently I am only using z) 
 Output: aggregated features per segments --> shp
 
-Example usage (from command line): python segmentfea.py C:/zsofia/Amsterdam/Geobia/Features/ group1_region_growsegm_poly_exp2.shp tile_207500_598000_1_1
-.las.ply
+Example usage (from command line): python calc_segmentfea.py C:/zsofia/Amsterdam/Geobia/Workflow_30ofMarch/Features/ tile_208000_598000_1_1_region_grows
+egmRGB_poly tile_208000_598000_1_1.las tile_208000_598000_1_1_region_growsegmRGB_pointwlabeledsegment
 
 ToDo: 
-1. shp from grass directly not readable with geopandas just after a qgis transformation
 
 """
 
@@ -30,23 +29,42 @@ parser = argparse.ArgumentParser()
 parser.add_argument('path', help='where the files are located')
 parser.add_argument('segments', help='polygon shape file with class')
 parser.add_argument('features', help='point cloud with features')
+parser.add_argument('classes', help='point cloud with features (as point shp)')
 args = parser.parse_args()
 
 crs = {'init': 'epsg:28992'}
 
-segments = gpd.GeoDataFrame.from_file(args.path+args.segments,crs=crs)
+# Import
+segments = gpd.GeoDataFrame.from_file(args.path+args.segments+'.shp',crs=crs)
 
-pc_wfea = pd.read_csv(args.path+args.features,sep=' ',names=['X','Y','Z','coeff_var_z','density_absolute_mean','echo_ratio','eigenv_1','eigenv_2','eigenv_3','gps_time','intensity','kurto_z','max_z','mean_z',
+pc_wfea = pd.read_csv(args.path+args.features+'.ply',sep=' ',names=['X','Y','Z','coeff_var_z','density_absolute_mean','echo_ratio','eigenv_1','eigenv_2','eigenv_3','gps_time','intensity','kurto_z','max_z','mean_z',
 'median_z','min_z','normal_vector_1','normal_vector_2','normal_vector_3','pulse_penetration_ratio','range','raw_classification','sigma_z','skew_z','slope','std_z','var_z'],skiprows=39)
 pc_wfea['geometry'] = pc_wfea.apply(lambda z: Point(z.X, z.Y), axis=1)
 pc_wfea = gpd.GeoDataFrame(pc_wfea,crs=crs)
 
+segments_wlabel = gpd.GeoDataFrame.from_file(args.path+args.classes+'.shp',crs=crs)
+segments_wlabel['Prob'] = segments_wlabel['Highestfre']/ segments_wlabel['Sumfreq']
+segments_wlabel.drop_duplicates('value')
+
+# Assign classes to segment polygon
+labeled_segments = segments.merge(segments_wlabel[['value','Open water','Struweel','Bos','Grasland','Landriet,','Landriet_1','Waterriet','Highestfre','Sumfreq','Highestid','Prob']], on='value')
+print(labeled_segments.dtypes)
+
+labeled_segments.drop_duplicates('value').to_file(args.path+args.segments+"wlabel.shp", driver='ESRI Shapefile')
+
+# Assign aggregated features to polygon
+
 pointInPolys = sjoin(pc_wfea , segments, how='left',op='within')
-#print(pointInPolys.dtypes)
 
-feamean_insegments=pointInPolys.groupby(['cat']).mean()
-#print(feamean_insegments.dtypes)
+# Calculate aggreagted statistical features
+fea_insegments=pointInPolys.groupby('value')['density_absolute_mean','echo_ratio','eigenv_1','eigenv_2','eigenv_3','kurto_z','max_z','mean_z','median_z','min_z','normal_vector_1','normal_vector_2','normal_vector_3','pulse_penetration_ratio','range','sigma_z','skew_z','slope','std_z','var_z'].mean().add_prefix('mean_').reset_index()
+#fea_insegments=pointInPolys.groupby(['value'])[['value','density_absolute_mean','echo_ratio','eigenv_1','eigenv_2','eigenv_3','kurto_z','max_z','mean_z','median_z','min_z','normal_vector_1','normal_vector_2','normal_vector_3','pulse_penetration_ratio','range','sigma_z','skew_z','slope','std_z','var_z']].std().add_prefix('std_')
+print(fea_insegments.dtypes)
+print(fea_insegments.head())
 
-feawith_segments = segments.merge(feamean_insegments, on='value')
-#print(feawith_segments.head())
-feawith_segments.to_file(args.path+args.features+"wfea.shp", driver='ESRI Shapefile')
+
+# Calculate shape geometry features
+labeled_segments['poly_area']=labeled_segments['geometry'].area
+
+feawith_segments = labeled_segments.merge(fea_insegments, on='value')
+feawith_segments.drop_duplicates('value').to_file(args.path+args.features+"wfea_wlabel.shp", driver='ESRI Shapefile')
