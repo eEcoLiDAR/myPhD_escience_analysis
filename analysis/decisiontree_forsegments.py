@@ -40,7 +40,9 @@ args = parser.parse_args()
 segments = gpd.GeoDataFrame.from_file(args.path+args.segments)
 print(segments.dtypes)
 
-feature=segments[['mean_echo_','mean_eigen','mean_max_z','mean_pulse','poly_area']].values
+feature_list=np.array(['mean_echo_','mean_eigen','mean_max_z','mean_pulse','poly_area','mean_sigma','mean_skew_','mean_std_z'])
+
+feature=segments[feature_list].values
 label=segments['Highestid'].values
 
 mytrain, mytest, mytrainlabel, mytestlabel = train_test_split(feature,label,train_size = 0.6)
@@ -60,7 +62,7 @@ mypred=DT_classifier.predict(feature)
 print(mypred)
 
 segments['pred_class']=mypred
-print(segments.head())
+#print(segments.head())
 
 segments.to_file(args.path+args.segments+"_DTclass.shp", driver='ESRI Shapefile')
 
@@ -68,13 +70,13 @@ importances=DT_classifier.feature_importances_
 indices = np.argsort(importances)[::-1]
 
 for f in range(mytrain.shape[1]):
-    print("%d. feature %d (%f)" % (f + 1, indices[f], importances[indices[f]]))
+    print("%d. feature %s (%f)" % (f + 1, feature_list[indices[f]], importances[indices[f]]))
 
 # Plot the feature importances of the forest
 plt.figure()
 plt.title("Feature importances")
 plt.bar(range(mytrain.shape[1]), importances[indices],
        color="r", align="center")
-plt.xticks(range(mytrain.shape[1]), indices)
+plt.xticks(range(mytrain.shape[1]), feature_list[indices])
 plt.xlim([-1, mytrain.shape[1]])
 plt.show()
