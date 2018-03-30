@@ -42,7 +42,7 @@ args = parser.parse_args()
 segments = gpd.GeoDataFrame.from_file(args.path+args.segments)
 print(segments.dtypes)
 
-feature_list=np.array(['mean_echo_','mean_eigen','mean_max_z','mean_pulse','poly_area','mean_sigma','mean_skew_','mean_std_z'])
+feature_list=np.array(['mean_echo_','mean_eigen','mean_max_z','mean_pulse','poly_area','mean_sigma','mean_std_z','max_std_z'])
 
 feature=segments[feature_list].values
 label=segments['Highestid'].values
