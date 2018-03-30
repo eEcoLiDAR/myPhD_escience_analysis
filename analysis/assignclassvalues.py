@@ -34,15 +34,10 @@ args = parser.parse_args()
 crs = {'init': 'epsg:28992'}
 
 training = gpd.GeoDataFrame.from_file(args.path+args.training+'.shp',crs=crs)
-
 segments = gpd.GeoDataFrame.from_file(args.path+args.segments+'.shp',crs=crs)
-
-segments_as_poly = gpd.GeoDataFrame.from_file(args.path+args.segments_as_poly+'.shp',crs=crs)
 
 pointInPolys = sjoin(segments , training, how='left',op='within')
 #print(pointInPolys.head())
-
-#segment_groups=pointInPolys.groupby('value')['structyp_e'].apply(lambda x: x[x.str.contains('Open water')].count())
 
 pointInPolys['Open water'] = pointInPolys.groupby('value')['structyp_e'].transform(lambda x: x[x.str.contains('Open water')].count())
 pointInPolys['Struweel'] = pointInPolys.groupby('value')['structyp_e'].transform(lambda x: x[x.str.contains('Struweel')].count())
@@ -51,9 +46,13 @@ pointInPolys['Grasland'] = pointInPolys.groupby('value')['structyp_e'].transform
 pointInPolys['Landriet, structuurrijk'] = pointInPolys.groupby('value')['structyp_e'].transform(lambda x: x[x.str.contains('Landriet, structuurrijk')].count())
 pointInPolys['Landriet, structuurarm'] = pointInPolys.groupby('value')['structyp_e'].transform(lambda x: x[x.str.contains('Landriet, structuurarm')].count())
 pointInPolys['Waterriet'] = pointInPolys.groupby('value')['structyp_e'].transform(lambda x: x[x.str.contains('Waterriet')].count())
+
+pointInPolys['Highestfreq'] = pointInPolys[['Open water','Struweel','Bos','Grasland','Landriet, structuurrijk','Landriet, structuurarm','Waterriet']].max(axis=1)
+pointInPolys['Sumfreq'] = pointInPolys[['Open water','Struweel','Bos','Grasland','Landriet, structuurrijk','Landriet, structuurarm','Waterriet']].sum(axis=1)
+pointInPolys['Highestid'] = pointInPolys[['Open water','Struweel','Bos','Grasland','Landriet, structuurrijk','Landriet, structuurarm','Waterriet']].idxmax(axis=1)
 #print(pointInPolys.head())
 
-pointInPolys.drop_duplicates('value').to_csv(args.path+args.segments+'wclass_possib.csv',sep=',',index=False)
-#pointInPolys.to_file(args.path+args.segments+'wsegment.shp', driver='ESRI Shapefile')
+#pointInPolys.drop_duplicates('value').to_csv(args.path+args.segments+'wclass_possib.csv',sep=',',index=False)
+pointInPolys.to_file(args.path+args.segments+'wlabeledsegment.shp', driver='ESRI Shapefile')
 
 
