@@ -34,24 +34,17 @@ import graphviz
 
 parser = argparse.ArgumentParser()
 parser.add_argument('path', help='where the files are located')
-parser.add_argument('segments', help='polygon shape file with class')
-parser.add_argument('training', help='polygon')
+parser.add_argument('segments', help='polygon shape file with features and classes')
 args = parser.parse_args()
 
 segments = gpd.GeoDataFrame.from_file(args.path+args.segments)
-#print(segments.head())
+print(segments.dtypes)
 
-training = gpd.GeoDataFrame.from_file(args.path+args.training)
-#print(training.head())
-
-segment_wlabel = gpd.sjoin(segments, training, how="inner", op='within')
-segment_wlabel.to_file(args.path+args.segments+"wfealabel.shp", driver='ESRI Shapefile')
-
-feature=segment_wlabel[['echo_ratio','max_z','kurto_z','pulse_pene']].values
-label=segment_wlabel['structyp_e'].values
+feature=segments[['mean_echo_','mean_eigen','mean_max_z','mean_pulse','poly_area']].values
+label=segments['Highestid'].values
 
 mytrain, mytest, mytrainlabel, mytestlabel = train_test_split(feature,label,train_size = 0.6)
-target=['Grasland','Landriet, structuurrijk','Open water','Struweel']
+target=['Grasland','Landriet, structuurrijk','Landriet, structuurarm','Open water','Struweel']
 
 DT = tree.DecisionTreeClassifier(max_depth=5,class_weight="balanced")
 DT_classifier = DT.fit(mytrain, mytrainlabel)
@@ -63,4 +56,25 @@ print(confusion_matrix(mytestlabel, mypredtest))
 
 dot_data = tree.export_graphviz(DT_classifier, out_file=args.path+args.segments+".dotfile") 
 
+mypred=DT_classifier.predict(feature)
+print(mypred)
 
+segments['pred_class']=mypred
+print(segments.head())
+
+segments.to_file(args.path+args.segments+"_DTclass.shp", driver='ESRI Shapefile')
+
+importances=DT_classifier.feature_importances_
+indices = np.argsort(importances)[::-1]
+
+for f in range(mytrain.shape[1]):
+    print("%d. feature %d (%f)" % (f + 1, indices[f], importances[indices[f]]))
+
+# Plot the feature importances of the forest
+plt.figure()
+plt.title("Feature importances")
+plt.bar(range(mytrain.shape[1]), importances[indices],
+       color="r", align="center")
+plt.xticks(range(mytrain.shape[1]), indices)
+plt.xlim([-1, mytrain.shape[1]])
+plt.show()
