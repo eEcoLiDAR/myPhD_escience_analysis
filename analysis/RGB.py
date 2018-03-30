@@ -35,7 +35,7 @@ pc_wfea =pd.read_csv(args.path+args.features,sep=' ',names=['X','Y','Z','coeff_v
 'median_z','min_z','normal_vector_1','normal_vector_2','normal_vector_3','pulse_penetration_ratio','range','raw_classification','sigma_z','skew_z','slope','std_z','var_z'],skiprows=39)
 #print(pc_wfea.dtypes)
 
-# rescale on attribute into 0-255
+# rescale on attribute into 0-1
 
 # RED
 
@@ -45,7 +45,7 @@ min_orig_R=np.min(pc_wfea[attribute_R].values)
 max_orig_R=np.max(pc_wfea[attribute_R].values)
 
 min_wish_R=0
-max_wish_R=255
+max_wish_R=1
 
 k_R=(max_wish_R-min_wish_R)/(max_orig_R-min_orig_R)
 
@@ -67,7 +67,7 @@ min_orig_G=np.min(pc_wfea[attribute_G].values)
 max_orig_G=np.max(pc_wfea[attribute_G].values)
 
 min_wish_G=0
-max_wish_G=255
+max_wish_G=1
 
 k_G=(max_wish_G-min_wish_G)/(max_orig_G-min_orig_G)
 
@@ -81,7 +81,7 @@ min_orig_B=np.min(pc_wfea[attribute_B].values)
 max_orig_B=np.max(pc_wfea[attribute_B].values)
 
 min_wish_B=0
-max_wish_B=255
+max_wish_B=1
 
 k_B=(max_wish_B-min_wish_B)/(max_orig_B-min_orig_B)
 
