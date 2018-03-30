@@ -58,11 +58,11 @@ pointInPolys = sjoin(pc_wfea , segments, how='left',op='within')
 
 # Calculate aggreagted statistical features
 fea_insegments_mean=pointInPolys.groupby('value')['density_absolute_mean','echo_ratio','eigenv_1','eigenv_2','eigenv_3','kurto_z','max_z','mean_z','median_z','min_z','normal_vector_1','normal_vector_2','normal_vector_3','pulse_penetration_ratio','range','sigma_z','skew_z','slope','std_z','var_z'].mean().add_prefix('mean_').reset_index()
-fea_insegments_std=pointInPolys.groupby('value')['density_absolute_mean','echo_ratio','eigenv_1','eigenv_2','eigenv_3','kurto_z','max_z','mean_z','median_z','min_z','normal_vector_1','normal_vector_2','normal_vector_3','pulse_penetration_ratio','range','sigma_z','skew_z','slope','std_z','var_z'].std().add_prefix('std_').reset_index()
-fea_insegments_max=pointInPolys.groupby('value')['density_absolute_mean','echo_ratio','eigenv_1','eigenv_2','eigenv_3','kurto_z','max_z','mean_z','median_z','min_z','normal_vector_1','normal_vector_2','normal_vector_3','pulse_penetration_ratio','range','sigma_z','skew_z','slope','std_z','var_z'].max().add_prefix('max_').reset_index()
+fea_insegments_std=pointInPolys.groupby('value')['density_absolute_mean','echo_ratio','eigenv_1','eigenv_2','eigenv_3','kurto_z','max_z','mean_z','median_z','min_z','normal_vector_1','normal_vector_2','normal_vector_3','pulse_penetration_ratio','range','sigma_z','skew_z','slope','std_z','var_z'].std(ddof=0).add_prefix('std_').reset_index()
+fea_insegments_median=pointInPolys.groupby('value')['density_absolute_mean','echo_ratio','eigenv_1','eigenv_2','eigenv_3','kurto_z','max_z','mean_z','median_z','min_z','normal_vector_1','normal_vector_2','normal_vector_3','pulse_penetration_ratio','range','sigma_z','skew_z','slope','std_z','var_z'].median().add_prefix('median_').reset_index()
 
 fea_insegments1 = fea_insegments_mean.merge(fea_insegments_std, on='value')
-fea_insegments = fea_insegments1.merge(fea_insegments_max, on='value')
+fea_insegments = fea_insegments1.merge(fea_insegments_median, on='value')
 
 # Calculate shape geometry features
 labeled_segments['poly_area']=labeled_segments['geometry'].area
