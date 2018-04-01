@@ -31,13 +31,15 @@ parser.add_argument('Green', help='Green')
 parser.add_argument('Blue', help='Blue')
 args = parser.parse_args()
 
+"""
 pc_wfea =pd.read_csv(args.path+args.features,sep=' ',names=['X','Y','Z','coeff_var_z','density_absolute_mean','echo_ratio','eigenv_1','eigenv_2','eigenv_3','gps_time','intensity','kurto_z','max_z','mean_z',
 'median_z','min_z','normal_vector_1','normal_vector_2','normal_vector_3','pulse_penetration_ratio','range','raw_classification','sigma_z','skew_z','slope','std_z','var_z'],skiprows=39)
 #print(pc_wfea.dtypes)
+"""
+# Import and exclude points where eigenvalues were not calculated
 
-# extract correlation map between features
-sns.heatmap(pc_wfea[['density_absolute_mean','echo_ratio','eigenv_1','eigenv_2','eigenv_3','kurto_z','max_z','mean_z','median_z','min_z','normal_vector_1','normal_vector_2','normal_vector_3','pulse_penetration_ratio','range','sigma_z','skew_z','slope','std_z','var_z']].corr(), annot=True, fmt=".2f")
-plt.show()
+pc_wfea =pd.read_csv(args.path+args.features,sep=',')
+pc_wfea = pc_wfea[np.isfinite(pc_wfea['Planarity'])]
 
 # rescale on attribute into 0-1
 
