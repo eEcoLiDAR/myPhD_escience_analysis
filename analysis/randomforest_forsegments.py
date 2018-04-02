@@ -35,6 +35,8 @@ import graphviz
 parser = argparse.ArgumentParser()
 parser.add_argument('path', help='where the files are located')
 parser.add_argument('segments', help='polygon shape file with features and classes')
+parser.add_argument('coloumn_start', help='from coloumn')
+parser.add_argument('coloumn_end', help='until coloumn')
 args = parser.parse_args()
 
 # Import and define feature and label + test, train dataset
@@ -42,9 +44,11 @@ args = parser.parse_args()
 segments = gpd.GeoDataFrame.from_file(args.path+args.segments)
 print(segments.dtypes)
 
-feature_list=np.array(['mean_echo_','mean_eigen','mean_max_z','mean_pulse','poly_area','mean_sigma','mean_std_z','max_std_z'])
+start=np.int(args.coloumn_start)
+end=np.int(args.coloumn_end)
+feature_list=segments.columns[start:end]
 
-feature=segments[feature_list].values
+feature=segments[segments.columns[start:end]].values
 label=segments['Highestid'].values
 
 mytrain, mytest, mytrainlabel, mytestlabel = train_test_split(feature,label,train_size = 0.7)
@@ -52,9 +56,9 @@ target=['Grasland','Landriet, structuurrijk','Landriet, structuurarm','Open wate
 
 # RF
 
-n_estimators=20
+n_estimators=25
 criterion='gini'
-max_depth=10
+max_depth=15
 min_samples_split=5
 min_samples_leaf=5
 max_features='auto'
@@ -79,7 +83,7 @@ print(classification_report(mytestlabel, mypredtest,target_names=target))
 print(confusion_matrix(mytestlabel, mypredtest))
 
 mypred=RF_classifier.predict(feature)
-print(mypred)
+#print(mypred)
 
 segments['pred_class']=mypred
 #print(segments.head())
