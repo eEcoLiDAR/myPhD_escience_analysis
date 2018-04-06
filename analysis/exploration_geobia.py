@@ -44,11 +44,10 @@ plt.show()
 z_scaler = StandardScaler()
 
 fea_scaled = z_scaler.fit_transform(features)
-pca_anal = PCA(n_components=2, svd_solver='full').fit(fea_scaled)
+pca_anal = PCA().fit(fea_scaled)
 features_transf=pca_anal.transform(features) 
 
 variance = pca_anal.explained_variance_ratio_.cumsum()
-print(features_transf)
 
 plt.plot(variance)
 plt.ylabel('% Variance Explained')
@@ -57,62 +56,42 @@ plt.title('PCA Analysis')
 plt.style.context('seaborn-whitegrid')
 plt.show()
 
+def pca_results(data, pca):
+    
+    # Dimension indexing
+    dimensions = ['Dimension {}'.format(i) for i in range(1,len(pca.components_)+1)]
+    
+    # PCA components
+    components = pd.DataFrame(np.round(pca.components_, 4), columns = ['pulse_penetration_ratio','echo_ratio','Planarity','Sphericity','Curviture','kurto_z','skew_z','std_z','var_z','sigma_z','max_z','mean_z','median_z','range']) 
+    components.index = dimensions
 
-def get_important_features(transformed_features, components_, columns):
-    """
-    This function will return the most "important" 
-    features so we can determine which have the most
-    effect on multi-dimensional scaling
-    """
-    num_columns = len(columns)
+    # PCA explained variance
+    ratios = pca.explained_variance_ratio_.reshape(len(pca.components_), 1) 
+    variance_ratios = pd.DataFrame(np.round(ratios, 4), columns = ['Explained Variance']) 
+    variance_ratios.index = dimensions
 
-    # Scale the principal components by the max value in
-    # the transformed set belonging to that component
-    xvector = components_[0] * max(transformed_features[:,0])
-    yvector = components_[1] * max(transformed_features[:,1])
+    # Create a bar plot visualization
+    fig, ax = plt.subplots(figsize = (14,8))
 
-    # Sort each column by it's length. These are your *original*
-    # columns, not the principal components.
-    important_features = { columns[i] : math.sqrt(xvector[i]**2 + yvector[i]**2) for i in range(num_columns) }
-    important_features = sorted(zip(important_features.values(), important_features.keys()), reverse=True)
-    print("Features by importance:\n", important_features)
+    # Plot the feature weights as a function of the components
+    components.plot(ax = ax, kind = 'bar')
+    ax.set_ylabel("Feature Weights") 
+    ax.set_xticklabels(dimensions, rotation=0)
 
-get_important_features(features_transf, pca_anal.components_, features.columns.values)
+    # Display the explained variance ratios# 
+    for i, ev in enumerate(pca.explained_variance_ratio_): 
+        ax.text(i-0.40, ax.get_ylim()[1] + 0.05, "Explained Variance\n %.4f"%(ev))
+    plt.show()
 
-def draw_vectors(transformed_features, components_, columns):
-    """
-    This funtion will project your *original* features
-    onto your principal component feature-space, so that you can
-    visualize how "important" each one was in the
-    multi-dimensional scaling
-    """
+    # Return a concatenated DataFrame
+    return pd.concat([variance_ratios, components], axis = 1)
 
-    num_columns = len(columns)
+pca_results = pca_results(fea_scaled, pca_anal)
 
-    # Scale the principal components by the max value in
-    # the transformed set belonging to that component
-    xvector = components_[0] * max(transformed_features[:,0])
-    yvector = components_[1] * max(transformed_features[:,1])
+print(pca_results.cumsum())
 
-    ax = plt.axes()
-
-    for i in range(num_columns):
-    # Use an arrow to project each original feature as a
-    # labeled vector on your principal component axes
-        plt.arrow(0, 0, xvector[i], yvector[i], color='b', width=0.0005, head_width=0.02, alpha=0.75)
-        plt.text(xvector[i]*1.2, yvector[i]*1.2, list(columns)[i], color='b', alpha=0.75)
-
-    return ax
-	
-ax = draw_vectors(features_transf, pca_anal.components_, features.columns.values)
-T_df = pd.DataFrame(features_transf)
-T_df.columns = ['component1', 'component2']
-
-T_df['color'] = 'y'
-T_df.loc[T_df['component1'] > 125, 'color'] = 'g'
-T_df.loc[T_df['component2'] > 125, 'color'] = 'r'
-
-plt.xlabel('Principle Component 1')
-plt.ylabel('Principle Component 2')
-plt.scatter(T_df['component1'], T_df['component2'], color=T_df['color'], alpha=0.5)
+#Explained variance
+plt.plot(pca_anal.explained_variance_ratio_)
+plt.xlabel('number of components')
+plt.ylabel('cumulative explained variance')
 plt.show()
