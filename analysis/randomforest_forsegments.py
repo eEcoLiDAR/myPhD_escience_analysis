@@ -104,3 +104,8 @@ plt.bar(range(mytrain.shape[1]), importances[indices],
 plt.xticks(range(mytrain.shape[1]), feature_list[indices])
 plt.xlim([-1, mytrain.shape[1]])
 plt.show()
+plt.savefig(args.path+args.segments+"_RFclass_feaimp.png")
+
+with open(args.path+args.segments+"_RFclass_acc.txt", 'w') as f:
+	f.write(np.array2string(confusion_matrix(mytestlabel, mypredtest), separator=', '))
+	f.write(classification_report(mytestlabel, mypredtest,target_names=target))

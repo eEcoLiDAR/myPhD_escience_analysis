@@ -49,14 +49,12 @@ features_transf=pca_anal.transform(features)
 
 variance = pca_anal.explained_variance_ratio_.cumsum()
 
-font = {'family': 'normal',
-        'weight': 'bold',
-        'size': 14}
-
-plt.plot(variance)
-plt.ylabel('Cumulative explained variance')
-plt.xlabel('Number of components')
-plt.title('PCA Analysis')
+plt.plot([1,2,3,4,5,6,7,8,9,10,11,12,13,14],variance)
+plt.scatter([1,2,3,4,5,6,7,8,9,10,11,12,13,14],variance)
+plt.axvline(x=3, color='r', linestyle='-')
+plt.ylabel('Cumulative explained variance',fontsize=18)
+plt.xlabel('Number of components',fontsize=18)
+plt.title('PCA Analysis of the geometrical feature-set',fontsize=18)
 plt.style.context('seaborn-whitegrid')
 plt.show()
 

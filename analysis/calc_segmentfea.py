@@ -72,4 +72,4 @@ fea_insegments = fea_insegments.drop_duplicates('value')
 labeled_segments['poly_area']=labeled_segments['geometry'].area
 
 feawith_segments = labeled_segments.merge(fea_insegments, on='value')
-feawith_segments.drop_duplicates('value').to_file(args.path+args.features+"wfea_wlabel.shp", driver='ESRI Shapefile')
+feawith_segments.drop_duplicates('value').to_file(args.path+args.segments+"wfea_wlabel.shp", driver='ESRI Shapefile')
