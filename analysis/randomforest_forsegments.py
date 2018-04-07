@@ -79,7 +79,7 @@ RF_classifier = forest.fit(mytrain, mytrainlabel)
 
 mypredtest=RF_classifier.predict(mytest)
 
-print(classification_report(mytestlabel, mypredtest,target_names=target))
+print(classification_report(mytestlabel, mypredtest))
 print(confusion_matrix(mytestlabel, mypredtest))
 
 mypred=RF_classifier.predict(feature)
@@ -103,7 +103,7 @@ plt.bar(range(mytrain.shape[1]), importances[indices],
        color="r", align="center")
 plt.xticks(range(mytrain.shape[1]), feature_list[indices])
 plt.xlim([-1, mytrain.shape[1]])
-plt.show()
+#plt.show()
 plt.savefig(args.path+args.segments+"_RFclass_feaimp.png")
 
 with open(args.path+args.segments+"_RFclass_acc.txt", 'w') as f:
