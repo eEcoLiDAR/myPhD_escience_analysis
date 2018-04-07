@@ -49,9 +49,13 @@ features_transf=pca_anal.transform(features)
 
 variance = pca_anal.explained_variance_ratio_.cumsum()
 
+font = {'family': 'normal',
+        'weight': 'bold',
+        'size': 14}
+
 plt.plot(variance)
-plt.ylabel('% Variance Explained')
-plt.xlabel('# of Features')
+plt.ylabel('Cumulative explained variance')
+plt.xlabel('Number of components')
 plt.title('PCA Analysis')
 plt.style.context('seaborn-whitegrid')
 plt.show()
@@ -95,3 +99,11 @@ plt.plot(pca_anal.explained_variance_ratio_)
 plt.xlabel('number of components')
 plt.ylabel('cumulative explained variance')
 plt.show()
+
+print(features_transf.shape)
+
+pc_wfea['PC1']=features_transf[:,0]
+pc_wfea['PC2']=features_transf[:,1]
+pc_wfea['PC3']=features_transf[:,2]
+
+pc_wfea[['X','Y','Z','PC1','PC2','PC3']].to_csv(args.path+args.pcwfea+'_PC1_'+'_PC2_'+'_PC3'+'.csv',sep=',',index=False)

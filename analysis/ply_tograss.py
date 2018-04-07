@@ -46,20 +46,7 @@ pc_wfea = pc_wfea[np.isfinite(pc_wfea['Sphericity'])]
 pc_wfea = pc_wfea[np.isfinite(pc_wfea['Curviture'])]
 
 # Clean up
-
 pc_wfea_clean=pc_wfea[['X','Y','Z','echo_ratio','Planarity','Sphericity','Curviture','kurto_z','max_z','mean_z','median_z','pulse_penetration_ratio','range','sigma_z','skew_z','std_z','var_z']]
-
-# Extract correlation map between features
-
-font = {'family': 'normal',
-        'weight': 'bold',
-        'size': 15}
-
-plt.rc('font', **font)
-fig=sns.heatmap(pc_wfea_clean[['pulse_penetration_ratio','echo_ratio','Planarity','Sphericity','Curviture','kurto_z','skew_z','std_z','var_z','sigma_z','max_z','mean_z','median_z','range']].corr(), annot=True, fmt=".2f")
-plt.setp(fig.xaxis.get_majorticklabels(), rotation=45, horizontalalignment='right')
-plt.setp(fig.yaxis.get_majorticklabels(), rotation=45, horizontalalignment='right')
-plt.show()
 
 # Export pandas dataframe 
 pc_wfea_clean.to_csv(args.path+args.features+'_clean.txt',sep=',',index=False)
