@@ -79,7 +79,7 @@ segments=segments[segments['Highestid']!='Open water']
 
 print(segments.dtypes)
 
-feature_list=segments.columns[14:24]
+feature_list=segments.columns[14:20]
 
 segments_whighprob=segments[segments['Prob']>0.90]
 print(segments_whighprob.dtypes)
