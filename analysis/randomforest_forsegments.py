@@ -108,4 +108,4 @@ plt.savefig(args.path+args.segments+"_RFclass_feaimp.png")
 
 with open(args.path+args.segments+"_RFclass_acc.txt", 'w') as f:
 	f.write(np.array2string(confusion_matrix(mytestlabel, mypredtest), separator=', '))
-	f.write(classification_report(mytestlabel, mypredtest,target_names=target))
+	f.write(classification_report(mytestlabel, mypredtest))

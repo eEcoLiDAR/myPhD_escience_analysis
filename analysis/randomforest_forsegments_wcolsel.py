@@ -30,7 +30,42 @@ from sklearn.metrics import classification_report
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-import graphviz 
+def cohenkappa_calc(cm):
+    """
+    Cohen Kappa calculator.
+
+    Input: confusion_matrix function from sklearn results
+    Output: cohen kappa
+    """
+
+    import numpy as np
+    sum_diag=sum(cm.diagonal())
+
+    sum_rows=np.ones((1,len(cm)))
+    sum_cols=np.ones((len(cm)+1,1))
+    bychance=np.ones((1,len(cm)))
+
+    for k in range(0,len(cm)):
+        sum_rows[0,k]=sum(cm[:,k])
+
+    for h in range(0,len(cm)):
+        sum_cols[h,0]=sum(cm[h,:])
+
+    sum_cols[len(cm),0]=sum(sum_cols)-1
+
+    for j in range(0,len(cm)):
+        bychance[0,j]=(sum_rows[0,j]/sum_cols[len(cm),0])*sum_cols[j,0]
+
+    sum_bychance=sum(bychance[0,:])
+
+    cohenkappa=(sum_diag-sum_bychance)/((sum_cols[len(cm),0])-sum_bychance)
+
+    sumsum=np.concatenate((cm, sum_rows), axis=0)
+    sumsum2=np.concatenate((sumsum, sum_cols), axis=1)
+
+    return cohenkappa
+
+#################################################################################################
 
 parser = argparse.ArgumentParser()
 parser.add_argument('path', help='where the files are located')
@@ -40,11 +75,13 @@ args = parser.parse_args()
 # Import and define feature and label + test, train dataset
 
 segments = gpd.GeoDataFrame.from_file(args.path+args.segments)
+segments=segments[segments['Highestid']!='Open water']
+
 print(segments.dtypes)
 
-feature_list=segments.columns[14:42]
+feature_list=segments.columns[14:24]
 
-segments_whighprob=segments[segments['Prob']>0.7]
+segments_whighprob=segments[segments['Prob']>0.90]
 print(segments_whighprob.dtypes)
 
 feature=segments_whighprob[feature_list].values
@@ -54,7 +91,6 @@ label=segments_whighprob['Highestid'].values
 print(label)
 
 mytrain, mytest, mytrainlabel, mytestlabel = train_test_split(feature,label,train_size = 0.6)
-#target=['Grasland','Landriet, structuurrijk','Landriet, structuurarm','Open water','Struweel']
 
 # RF
 
@@ -95,16 +131,10 @@ segments.to_file(args.path+args.segments+"_RFclass.shp", driver='ESRI Shapefile'
 importances=RF_classifier.feature_importances_
 indices = np.argsort(importances)[::-1]
 
-for f in range(mytrain.shape[1]):
-    print("%d. feature %s (%f)" % (f + 1, feature_list[indices[f]], importances[indices[f]]))
+#for f in range(mytrain.shape[1]):
+    #print("%d. feature %s (%f)" % (f + 1, feature_list[indices[f]], importances[indices[f]]))
 
 # Plot the feature importances of the forest
-
-font = {'family': 'normal',
-        'weight': 'bold',
-        'size': 20}
-
-plt.rc('font', **font)
 
 plt.figure()
 plt.title("Feature importances")
@@ -112,4 +142,10 @@ plt.bar(range(mytrain.shape[1]), importances[indices],
        color="r", align="center")
 plt.xticks(range(mytrain.shape[1]), feature_list[indices],rotation=25,horizontalalignment='right')
 plt.xlim([-1, mytrain.shape[1]])
-plt.show()
+#plt.show()
+plt.savefig(args.path+args.segments+"_RFclass_feaimp.png")
+
+with open(args.path+args.segments+"_RFclass_acc.txt", 'w') as f:
+	f.write(np.array2string(confusion_matrix(mytestlabel, mypredtest), separator=', '))
+	f.write(classification_report(mytestlabel, mypredtest))
+	f.write(np.array2string(cohenkappa_calc(confusion_matrix(mytestlabel, mypredtest))))
