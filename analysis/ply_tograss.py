@@ -5,10 +5,10 @@ Aim: transform ply into xyz ascii file for further analysis and process
 Input: ply with extracted features from laserchicken (pay attention how many lines should be skipped!)
 Output: txt with header and xyz + extra attributes
 
-Example usage (from command line): python ply_tograss.py C:/zsofia/Amsterdam/Geobia/Features/ tile_208000_598000_1_1.las.ply
+Example usage (from command line): python ply_tograss.py <path>tile_208000_598000_1_1.las.ply
 
 ToDo: 
-1. how to get coloumn names automatically?
+1. how to get column names automatically?
 """
 
 import sys
@@ -47,5 +47,5 @@ pc_wfea = pc_wfea[np.isfinite(pc_wfea['Curvature'])]
 pc_wfea_clean=pc_wfea[['X','Y','Z','echo_ratio','Planarity','Sphericity','Curvature','kurto_z','max_z','mean_z','median_z','pulse_penetration_ratio','range','sigma_z','skew_z','std_z','var_z']]
 
 # Export pandas data frame 
-pc_wfea_clean.to_csv(args.features+'_clean.txt',sep=',',index=False)
+pc_wfea_clean.to_csv(args.features+'_clean.txt',sep=',',index=False,header=False)
 
