@@ -38,25 +38,21 @@ start = time.time()
 #indices_cyl=compute_neighborhoods(pc, target, InfiniteCylinder(np.float(args.radius)))
 #
 neighbors=compute_neighborhoods(pc, target, InfiniteCylinder(np.float(args.radius)))
-indices_cyl=[]
+iteration=0
+target_idx_base
 for x in neighbors:
-  print ("Iteration %d" % num_iterations)
-  indices_cyl += x
-  num_iterations+=1
-end = time.time()
-difftime=end - start
-print(("build kd-tree: %f sec") % (difftime))
-print("Computed neighborhoods list length is: %d" % len(indices_cyl))
+  end = time.time()
+  difftime=end - start
+  print(("build kd-tree: %f sec") % (difftime))
+  print("Computed neighborhoods list length at iteration %d is: %d" % (iteration, len(indices_cyl)))
 
-
-# Calculate features
-
-start1 = time.time()
-
-compute_features(pc, indices_cyl, target, ['max_z'], InfiniteCylinder(np.float(args.radius)))
-
-end1 = time.time()
-difftime1=end1 - start1
-print(("feature calc: %f sec") % (difftime1))
+  # Calculate features
+  start1 = time.time()
+  compute_features(pc, indices_cyl, target_idx_base, target, ['max_z'], InfiniteCylinder(np.float(args.radius)))
+  end1 = time.time()
+  difftime1=end1 - start1
+  print(("feature calc: %f sec") % (difftime1))
+  target_idx_base+=len(x)
+  iteration+=1
 
 write(target,args.output)

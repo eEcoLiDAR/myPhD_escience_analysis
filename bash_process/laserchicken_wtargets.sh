@@ -15,7 +15,7 @@ curl --insecure --fail --location --user $passw https://webdav.grid.sara.nl/pnfs
 # kd-tree
 
 #python $path_of_pythonscripts/kdtree_geobia_$volume\_tmp.py $path_of_laserchicken $localinput$filename.las $localinput$filename._$volume$radius.pkl $radius
-python $path_of_pythonscripts/computefea_wtargets_$volume.py $path_of_laserchicken $localinput$filename.las $localinput$filename.las $radius $localinput$filename\_fea_c.ply
+python $path_of_pythonscripts/computefea_wtargets_$volume.py $path_of_laserchicken $localinput$filename.las $localinput$filename.las $radius $localinput$filename.ply
 
 # feature calculation
 

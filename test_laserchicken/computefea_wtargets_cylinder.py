@@ -31,7 +31,6 @@ print(("Number of points in target: %s ") % (target[point]['x']['data'].shape[0]
 print("------ Computing neighborhood is started ------")
 
 start = time.time()
-num_iterations=0
 
 #compute_neighborhoods is now a generator. To get the result of a generator the user
 #needs to call next(compute_neighborhoods). The following shows how to get the results.
@@ -39,23 +38,23 @@ num_iterations=0
 #indices_cyl=compute_neighborhoods(pc, target, InfiniteCylinder(np.float(args.radius)))
 #
 neighbors=compute_neighborhoods(pc, target, InfiniteCylinder(np.float(args.radius)))
-indices_cyl=[]
+iteration=0
+target_idx_base=0
+targets_idx = []
 for x in neighbors:
-  print ("Iteration %d" % num_iterations)
-  indices_cyl += x
-  num_iterations+=1
-end = time.time()
-difftime=end - start
-print(("build kd-tree: %f sec") % (difftime))
-print("Computed neighborhoods list length is: %d" % len(indices_cyl))
-
-print("------ Feature calculation is started ------")
+  end = time.time()
+  difftime=end - start
+  print(("build kd-tree: %f sec") % (difftime))
+  print("Computed neighborhoods list length at iteration %d is: %d" % (iteration,len(x)))
+  targets_idx += x
+  iteration+=1
 
 start1 = time.time()
-
-compute_features(pc, indices_cyl, target, ['max_z','echo_ratio','eigenv_1', 'eigenv_2', 'eigenv_3',
-'normal_vector_1','normal_vector_2','normal_vector_3','slope','pulse_penetration_ratio','sigma_z'], InfiniteCylinder(np.float(args.radius)))
-
+print("------ Feature calculation is started ------")
+#compute_features(pc, indices_cyl, target, ['max_z','echo_ratio','eigenv_1', 'eigenv_2', 'eigenv_3',
+#'normal_vector_1','normal_vector_2','normal_vector_3','slope','pulse_penetration_ratio','sigma_z'], InfiniteCylinder(np.float(args.radius)))
+compute_features(pc, targets_idx, 0, target, ['pulse_penetration_ratio'], InfiniteCylinder(np.float(args.radius)))
+target_idx_base+=len(x)
 end1 = time.time()
 difftime1=end1 - start1
 print(("feature calc: %f sec") % (difftime1))
