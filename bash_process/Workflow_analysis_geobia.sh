@@ -6,6 +6,7 @@ Example usage (from command line):  bash D:/GitHub/eEcoLiDAR/myPhD_escience_anal
 
 ToDo: 
 1. Fix GRASS GIS path to able to provide only one pipeline for processing the data
+2. For cycle processing the files on by one ?
 '
 
 work_folder="D:/Geobia_2018/Results_12ofApril/"
@@ -23,4 +24,4 @@ echo "--------PCA analysis is started--------"
 
 python pca_geobia.py $work_folder/all_tiles_clean.txt 
 
-# switch to grass gis pipeline
+# switch to grass gis pipeline output file: csv with the PCA components
