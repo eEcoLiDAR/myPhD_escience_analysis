@@ -1,6 +1,6 @@
 :: Aim: execute segmentation using GRASS GIS
 :: Previously necessary to set up the mapset with XY Descartes not specified coordinate system (the last parameter during the execution is the place where the PERMANENT directory is located)
-:: Usage example: C:/OSGeo4W64/bin/grass74.bat --exec D:/Geobia_2018/Results_6ofApril/grass_frombatchtest.bat D:/Geobia_2018/Results_12ofApril/GrassGIS/LauMeer
+:: Usage example:  C:/OSGeo4W64/bin/grass74.bat --exec D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/grassgis_process/grass_segmentation.bat D:/Geobia_2018/Results_12ofApril/GrassGIS/LauMeer
 
 set filepath=D:\Geobia_2018\Results_12ofApril\
 set filename=tile_207500_598000_1_1.las_clean.txt_PC1__PC2__PC3
