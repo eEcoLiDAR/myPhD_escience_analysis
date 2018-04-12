@@ -40,23 +40,21 @@ start = time.time()
 neighbors=compute_neighborhoods(pc, target, InfiniteCylinder(np.float(args.radius)))
 iteration=0
 target_idx_base=0
-targets_idx = []
 for x in neighbors:
   end = time.time()
   difftime=end - start
   print(("build kd-tree: %f sec") % (difftime))
   print("Computed neighborhoods list length at iteration %d is: %d" % (iteration,len(x)))
-  targets_idx += x
+
+  start1 = time.time()
+  print("------ Feature calculation is started ------")
+  compute_features(pc, x, target_idx_base, target, ['max_z','echo_ratio','eigenv_1', 'eigenv_2', 'eigenv_3',
+  'normal_vector_1','normal_vector_2','normal_vector_3','slope','pulse_penetration_ratio','sigma_z'], InfiniteCylinder(np.float(args.radius)))
+  target_idx_base+=len(x)
+  end1 = time.time()
+  difftime1=end1 - start1
+  print(("feature calc: %f sec") % (difftime1))
   iteration+=1
 
-start1 = time.time()
-print("------ Feature calculation is started ------")
-#compute_features(pc, indices_cyl, target, ['max_z','echo_ratio','eigenv_1', 'eigenv_2', 'eigenv_3',
-#'normal_vector_1','normal_vector_2','normal_vector_3','slope','pulse_penetration_ratio','sigma_z'], InfiniteCylinder(np.float(args.radius)))
-compute_features(pc, targets_idx, 0, target, ['pulse_penetration_ratio'], InfiniteCylinder(np.float(args.radius)))
-target_idx_base+=len(x)
-end1 = time.time()
-difftime1=end1 - start1
-print(("feature calc: %f sec") % (difftime1))
 
 write(target,args.output)
