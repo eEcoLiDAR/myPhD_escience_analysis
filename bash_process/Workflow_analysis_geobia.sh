@@ -30,8 +30,12 @@ e=220000
 w=206000
 
 # parametrization of the segmentation 
-threshold=0.4
+threshold=0.2
 minsize=5
+
+# determine feature-set for classification
+fromcol=15
+untilcol=28
 
 # Convert ply files into cleaned text file and merge it together
 
@@ -48,6 +52,9 @@ echo "--------PCA analysis is started--------"
 
 echo "--------Segmentation started--------"
 
+# GRASS GIS segmentation parameter optimization
+$grass_path/grass74.bat --exec $script_path/grassgis_process/grass_workflow_uspo.bat $grass_mapset $work_folder all_tiles_clean $n $s $e $w
+
 # GRASS GIS segmentation
 #$grass_path/grass74.bat --exec $script_path/grassgis_process/grass_segmentation_whinwflow.bat $grass_mapset $work_folder all_tiles_clean $n $s $e $w $threshold $minsize
 
@@ -59,9 +66,9 @@ echo "--------Assign validation data process is started--------"
 echo "--------Calculate segment-based features--------"
 
 # calculate segment-based features
-python $script_path/analysis/calc_segmentfea.py $work_folder all_tiles_clean_groupPCs_poly_$threshold$minsize all_tiles_clean.txt all_tiles_clean_groupPCs_point_$threshold$minsize.wlabeledsegment
+#python $script_path/analysis/calc_segmentfea.py $work_folder all_tiles_clean_groupPCs_poly_$threshold$minsize all_tiles_clean.txt all_tiles_clean_groupPCs_point_$threshold$minsize.wlabeledsegment
 
 echo "--------Classification --------"
 
-python randomforest_forsegments_wcolsel.py $work_folder all_tiles_clean_groupPCs_poly_$threshold$minsize.wfea_wlabel.shp 14 42
+#python randomforest_forsegments_wcolsel.py $work_folder all_tiles_clean_groupPCs_poly_$threshold$minsize.wfea_wlabel.shp $fromcol $untilcol
 
