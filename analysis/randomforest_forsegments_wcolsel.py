@@ -145,6 +145,7 @@ plt.bar(range(mytrain.shape[1]), importances[indices],
        color="r", align="center")
 plt.xticks(range(mytrain.shape[1]), feature_list[indices],rotation=45,horizontalalignment='right')
 plt.xlim([-1, mytrain.shape[1]])
+plt.tight_layout()
 #plt.show()
 plt.savefig(args.path+args.segments+"_RFclass_feaimp.png")
 
