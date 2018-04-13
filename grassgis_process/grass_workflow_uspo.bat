@@ -12,18 +12,18 @@ set e=%6
 set w=%7
 
 set thres_start=0.1
-set thres_stop=0.6
+set thres_stop=0.7
 set thres_step=0.1
 
-set minsizes=5,10,25,50
+set minsizes=1,5,10,25,50
 
 :: set region
 g.region n=%n% s=%s% e=%e% w=%w%
 
 :: import data
-r.in.xyz --overwrite input=%filepath%%filename%.txt output=%filename%_PC1 separator=, skip=0 value_column=4
-r.in.xyz --overwrite input=%filepath%%filename%.txt output=%filename%_PC2 separator=, skip=0 value_column=5
-r.in.xyz --overwrite input=%filepath%%filename%.txt output=%filename%_PC3 separator=, skip=0 value_column=6
+r.in.xyz --overwrite input=%filepath%%filename%.csv output=%filename%_PC1 separator=, skip=1 value_column=4
+r.in.xyz --overwrite input=%filepath%%filename%.csv output=%filename%_PC2 separator=, skip=1 value_column=5
+r.in.xyz --overwrite input=%filepath%%filename%.csv output=%filename%_PC3 separator=, skip=1 value_column=6
 
 :: segmentation
 i.group group=%filename%_groupPCs input=%filename%_PC1,%filename%_PC2,%filename%_PC3

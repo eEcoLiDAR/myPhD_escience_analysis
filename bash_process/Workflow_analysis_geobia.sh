@@ -15,7 +15,7 @@ ToDo:
 '
 
 # set paths
-work_folder="C:/zsofia/Amsterdam/Geobia/Work_13April/TestProcess/"
+work_folder="C:/zsofia/Amsterdam/Geobia/Work_13April/"
 script_path="C:/zsofia/Amsterdam/GitHub/eEcoLiDAR/myPhD_escience_analysis/"
 
 grass_path="C:/OSGeo4W64/bin/"
@@ -53,10 +53,10 @@ echo "--------PCA analysis is started--------"
 echo "--------Segmentation started--------"
 
 # GRASS GIS segmentation parameter optimization
-#$grass_path/grass74.bat --exec $script_path/grassgis_process/grass_workflow_uspo.bat $grass_mapset $work_folder all_tiles_clean $n $s $e $w
+$grass_path/grass72.bat --exec $script_path/grassgis_process/grass_workflow_uspo.bat $grass_mapset $work_folder all_tiles_clean.txt_PC1__PC2__PC3 $n $s $e $w
 
 # GRASS GIS segmentation
-#$grass_path/grass74.bat --exec $script_path/grassgis_process/grass_segmentation_whinwflow.bat $grass_mapset $work_folder all_tiles_clean $n $s $e $w $threshold $minsize
+#$grass_path/grass74.bat --exec $script_path/grassgis_process/grass_segmentation_whinwflow.bat $grass_mapset $work_folder all_tiles_clean.txt_PC1__PC2__PC3 $n $s $e $w $threshold $minsize
 
 echo "--------Assign validation data and calculate segment based features --------"
 

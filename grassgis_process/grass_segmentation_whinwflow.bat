@@ -17,9 +17,9 @@ set minsize=%9
 g.region n=%n% s=%s% e=%e% w=%w%
 
 :: import data
-r.in.xyz --overwrite input=%filepath%%filename%.txt output=%filename%_PC1 separator=, skip=0 value_column=4
-r.in.xyz --overwrite input=%filepath%%filename%.txt output=%filename%_PC2 separator=, skip=0 value_column=5
-r.in.xyz --overwrite input=%filepath%%filename%.txt output=%filename%_PC3 separator=, skip=0 value_column=6
+r.in.xyz --overwrite input=%filepath%%filename%.csv output=%filename%_PC1 separator=, skip=1 value_column=4
+r.in.xyz --overwrite input=%filepath%%filename%.csv output=%filename%_PC2 separator=, skip=1 value_column=5
+r.in.xyz --overwrite input=%filepath%%filename%.csv output=%filename%_PC3 separator=, skip=1 value_column=6
 
 :: segmentation
 i.group group=%filename%_groupPCs input=%filename%_PC1,%filename%_PC2,%filename%_PC3
