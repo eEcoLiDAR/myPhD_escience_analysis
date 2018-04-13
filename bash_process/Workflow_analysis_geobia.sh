@@ -5,23 +5,29 @@ Aim: pipeline for pre-processing the output results from feature derivation (usi
 Example usage (from command line):  bash D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/bash_process/Workflow_analysis_geobia.sh
 
 ToDo: 
-1. Fix GRASS GIS path to able to provide only one pipeline for processing the data
-2. For cycle processing the files on by one ?
+1. Get the boundary automatically
 '
 
 work_folder="D:/Geobia_2018/Results_12ofApril/"
+script_path="D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/"
+
+grass_path="C:/OSGeo4W64/bin/"
+grass_mapset="D:/Geobia_2018/Results_12ofApril/GrassGIS/LauMeer" #should set up beforehand
 
 # Convert ply files into cleaned text file and merge it together
 
 echo "--------Conversion is started--------"
 
-for f in $work_folder*.ply;do python ply_tograss.py ${f%.ply};done
-cat $work_folder*_clean.txt > $work_folder/all_tiles_clean.txt
+#for f in $work_folder*.ply;do python $script_path/analysis/ply_tograss.py ${f%.ply};done
+#cat $work_folder*_clean.txt > $work_folder/all_tiles_clean.txt
 
 # PCA analysis and determine most important PCs
 
 echo "--------PCA analysis is started--------"
 
-python pca_geobia.py $work_folder/all_tiles_clean.txt 
+#python $script_path/analysis/pca_geobia.py $work_folder/all_tiles_clean.txt 
 
-# switch to grass gis pipeline output file: csv with the PCA components
+echo "--------Segmentation started--------"
+
+# GRASS GIS segmentation
+$grass_path/grass74.bat --exec $script_path/grassgis_process/grass_segmentation_whinwflow.bat $grass_mapset $work_folder all_tiles_clean 598499.94 598000 207999.98 207649.25 
