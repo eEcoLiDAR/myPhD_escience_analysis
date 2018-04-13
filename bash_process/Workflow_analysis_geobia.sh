@@ -61,3 +61,7 @@ echo "--------Calculate segment-based features--------"
 # calculate segment-based features
 python $script_path/analysis/calc_segmentfea.py $work_folder all_tiles_clean_groupPCs_poly_$threshold$minsize all_tiles_clean.txt all_tiles_clean_groupPCs_point_$threshold$minsize.wlabeledsegment
 
+echo "--------Classification --------"
+
+python randomforest_forsegments_wcolsel.py $work_folder all_tiles_clean_groupPCs_poly_$threshold$minsize.wfea_wlabel.shp 14 42
+

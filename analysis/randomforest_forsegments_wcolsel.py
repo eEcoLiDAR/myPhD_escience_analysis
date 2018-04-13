@@ -1,16 +1,14 @@
 """
 @author: Zsofia Koma, UvA
-Aim: apply DT to classify segments
+Aim: apply Random Forest for classifying segments into given vegetation classes
 
-Input: 
-Output: 
+Input: path of polygon with segment related features + label
+Output: accuracy report, feature importance, classified shapefile 
 
-Example usage (from command line): python decisiontree_forsegments.py D:/Geobia_2018/Lauw_island_tiles/ tile_208000_598000_1_1.las.plywfea.shp vlakken_union_structuur.shp
+Example usage (from command line): 
 
 ToDo: 
 
-Comment:
-segment_wlabel = gpd.GeoDataFrame( pd.concat( [segment_reed,segment_grass,segment_bushes,segment_openwater], ignore_index=True) )
 """
 
 import sys
@@ -70,29 +68,33 @@ def cohenkappa_calc(cm):
 parser = argparse.ArgumentParser()
 parser.add_argument('path', help='where the files are located')
 parser.add_argument('segments', help='polygon shape file with features and classes')
+parser.add_argument('fea_fromcol', help='polygon shape file with features and classes')
+parser.add_argument('fea_untilcol', help='polygon shape file with features and classes')
 args = parser.parse_args()
 
-# Import and define feature and label + test, train dataset
+# Import and define feature and label
+
+print("------ Import data and re-organize------ ")
 
 segments = gpd.GeoDataFrame.from_file(args.path+args.segments)
 segments=segments[segments['Highestid']!='Open water']
 
-print(segments.dtypes)
+# pre-organize the data
 
-feature_list=segments.columns[14:20]
+feature_list=segments.columns[np.int(args.fea_fromcol):np.int(args.fea_untilcol)]
 
-segments_whighprob=segments[segments['Prob']>0.90]
-print(segments_whighprob.dtypes)
+segments_whighprob=segments[segments['Prob']>0.9]
 
 feature=segments_whighprob[feature_list].values
 feature_all=segments[feature_list].values
 
 label=segments_whighprob['Highestid'].values
-print(label)
 
 mytrain, mytest, mytrainlabel, mytestlabel = train_test_split(feature,label,train_size = 0.6)
 
-# RF
+# Random Forest
+
+print("------ Apply Random Forest ------ ")
 
 n_estimators=10
 criterion='gini'
@@ -115,37 +117,41 @@ forest = RandomForestClassifier(n_estimators=n_estimators, criterion=criterion, 
 
 RF_classifier = forest.fit(mytrain, mytrainlabel)
 
+# Validation
+
+print("------ Validation ------ ")
+
 mypredtest=RF_classifier.predict(mytest)
 
-print(classification_report(mytestlabel, mypredtest)) #target_names=target
+print(classification_report(mytestlabel, mypredtest)) 
 print(confusion_matrix(mytestlabel, mypredtest))
 
 mypred=RF_classifier.predict(feature_all)
-#print(mypred)
 
 segments['pred_class']=mypred
-#print(segments.head())
 
 segments.to_file(args.path+args.segments+"_RFclass.shp", driver='ESRI Shapefile')
 
 importances=RF_classifier.feature_importances_
 indices = np.argsort(importances)[::-1]
 
-#for f in range(mytrain.shape[1]):
-    #print("%d. feature %s (%f)" % (f + 1, feature_list[indices[f]], importances[indices[f]]))
-
 # Plot the feature importances of the forest
+
+print("------ Export ------ ")
 
 plt.figure()
 plt.title("Feature importances")
 plt.bar(range(mytrain.shape[1]), importances[indices],
        color="r", align="center")
-plt.xticks(range(mytrain.shape[1]), feature_list[indices],rotation=25,horizontalalignment='right')
+plt.xticks(range(mytrain.shape[1]), feature_list[indices],rotation=45,horizontalalignment='right')
 plt.xlim([-1, mytrain.shape[1]])
 #plt.show()
 plt.savefig(args.path+args.segments+"_RFclass_feaimp.png")
+
+# Export classification report
 
 with open(args.path+args.segments+"_RFclass_acc.txt", 'w') as f:
 	f.write(np.array2string(confusion_matrix(mytestlabel, mypredtest), separator=', '))
 	f.write(classification_report(mytestlabel, mypredtest))
 	f.write(np.array2string(cohenkappa_calc(confusion_matrix(mytestlabel, mypredtest))))
+	f.write(np.array2string(importances[indices]))
