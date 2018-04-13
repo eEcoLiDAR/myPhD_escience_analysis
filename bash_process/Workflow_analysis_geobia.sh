@@ -15,11 +15,11 @@ ToDo:
 '
 
 # set paths
-work_folder="D:/Geobia_2018/Results_12ofApril/"
-script_path="D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/"
+work_folder="C:/zsofia/Amsterdam/Geobia/Work_13April/TestProcess/"
+script_path="C:/zsofia/Amsterdam/GitHub/eEcoLiDAR/myPhD_escience_analysis/"
 
 grass_path="C:/OSGeo4W64/bin/"
-grass_mapset="D:/Geobia_2018/Results_12ofApril/GrassGIS/LauMeer" #should set up beforehand
+grass_mapset="C:/zsofia/Amsterdam/Geobia/Work_13April/Grass_Process" #should set up beforehand
 
 valid_polygon="vlakken_union_structuur"
 
@@ -53,22 +53,17 @@ echo "--------PCA analysis is started--------"
 echo "--------Segmentation started--------"
 
 # GRASS GIS segmentation parameter optimization
-$grass_path/grass74.bat --exec $script_path/grassgis_process/grass_workflow_uspo.bat $grass_mapset $work_folder all_tiles_clean $n $s $e $w
+#$grass_path/grass74.bat --exec $script_path/grassgis_process/grass_workflow_uspo.bat $grass_mapset $work_folder all_tiles_clean $n $s $e $w
 
 # GRASS GIS segmentation
 #$grass_path/grass74.bat --exec $script_path/grassgis_process/grass_segmentation_whinwflow.bat $grass_mapset $work_folder all_tiles_clean $n $s $e $w $threshold $minsize
 
-echo "--------Assign validation data process is started--------"
+echo "--------Assign validation data and calculate segment based features --------"
 
-# assign validation data
-#python $script_path/analysis/assignclassvalues.py $work_folder $valid_polygon all_tiles_clean_groupPCs_point_$threshold$minsize
-
-echo "--------Calculate segment-based features--------"
-
-# calculate segment-based features
-#python $script_path/analysis/calc_segmentfea.py $work_folder all_tiles_clean_groupPCs_poly_$threshold$minsize all_tiles_clean.txt all_tiles_clean_groupPCs_point_$threshold$minsize.wlabeledsegment
+#Assign validation data and calculate segment based features
+#python $script_path/analysis/assignclass_calcfea.py $work_folder $valid_polygon all_tiles_clean_groupPCs_point_$threshold$minsize all_tiles_clean_groupPCs_poly_$threshold$minsize all_tiles_clean.txt
 
 echo "--------Classification --------"
 
-#python randomforest_forsegments_wcolsel.py $work_folder all_tiles_clean_groupPCs_poly_$threshold$minsize.wfea_wlabel.shp $fromcol $untilcol
+#python $script_path/analysis/randomforest_forsegments_wcolsel.py $work_folder all_tiles_clean_groupPCs_poly_$threshold$minsize.wfea_wlabel.shp $fromcol $untilcol
 
