@@ -1,6 +1,10 @@
 : '
 @author: Zsofia Koma, UvA
-Aim: pipeline for pre-processing the output results from feature derivation (using laserchicken) for the segmentation process  
+Aim: pipeline for processing the output results from feature derivation (using laserchicken) 
+1. Convert data into the right format
+2. PCA analysis
+3. Segmentation in GRASS GIS
+4.  
 
 Example usage (from command line):  bash D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/bash_process/Workflow_analysis_geobia.sh
 
@@ -13,6 +17,11 @@ script_path="D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/"
 
 grass_path="C:/OSGeo4W64/bin/"
 grass_mapset="D:/Geobia_2018/Results_12ofApril/GrassGIS/LauMeer" #should set up beforehand
+
+n=600000
+s=597000
+e=220000
+w=206000
 
 # Convert ply files into cleaned text file and merge it together
 
@@ -30,4 +39,4 @@ echo "--------PCA analysis is started--------"
 echo "--------Segmentation started--------"
 
 # GRASS GIS segmentation
-$grass_path/grass74.bat --exec $script_path/grassgis_process/grass_segmentation_whinwflow.bat $grass_mapset $work_folder all_tiles_clean 598499.94 598000 207999.98 207649.25 
+$grass_path/grass74.bat --exec $script_path/grassgis_process/grass_segmentation_whinwflow.bat $grass_mapset $work_folder all_tiles_clean $n $s $e $w
