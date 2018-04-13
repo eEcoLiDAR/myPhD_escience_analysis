@@ -1,14 +1,14 @@
 """
 @author: Zsofia Koma, UvA
-Aim: 
+Aim: assign the validation data to the segmentation results
 
-Input: 
-Output: 
+Input: validation data (digitized shapefile) and segmentation results saved as point shape file
+Output: point shape file with class label
 
 Example usage (from command line):   python assignclassvalues.py D:/Geobia_2018/Lauw_island_tiles/ vlakken_union_structuur test2points
 
 ToDo: 
-1. 
+1. highest score in the case of big segment not always representative 
 
 """
 
@@ -25,19 +25,28 @@ from geopandas.tools import sjoin
 
 parser = argparse.ArgumentParser()
 parser.add_argument('path', help='where the files are located')
-parser.add_argument('training', help='name of polygon')
+parser.add_argument('validation', help='name of polygon')
 parser.add_argument('segments', help='name of the shp file with segmentID (points)')
 args = parser.parse_args()
 
-# read the training polygon and assign the value related to a points shape file (created from the raster results of the segmentation)
+# read the validation polygon and segmentation results (point shape file)
+
+print("------ Import data------ ")
 
 crs = {'init': 'epsg:28992'}
 
-training = gpd.GeoDataFrame.from_file(args.path+args.training+'.shp',crs=crs)
+validation = gpd.GeoDataFrame.from_file(args.path+args.validation+'.shp',crs=crs)
 segments = gpd.GeoDataFrame.from_file(args.path+args.segments+'.shp',crs=crs)
 
-pointInPolys = sjoin(segments , training, how='left',op='within')
+# spatial join between segmentation results and validation data
+
+print("------ Spatial join ------ ")
+pointInPolys = sjoin(segments , validation, how='left',op='within')
 #print(pointInPolys.head())
+
+# vote for the most frequently presented class
+
+print("------ Voting ------ ")
 
 pointInPolys['Open water'] = pointInPolys.groupby('value')['structyp_e'].transform(lambda x: x[x.str.contains('Open water')].count())
 pointInPolys['Struweel'] = pointInPolys.groupby('value')['structyp_e'].transform(lambda x: x[x.str.contains('Struweel')].count())
@@ -52,7 +61,9 @@ pointInPolys['Sumfreq'] = pointInPolys[['Open water','Struweel','Bos','Grasland'
 pointInPolys['Highestid'] = pointInPolys[['Open water','Struweel','Bos','Grasland','Landriet, structuurrijk','Landriet, structuurarm','Waterriet']].idxmax(axis=1)
 #print(pointInPolys.head())
 
-#pointInPolys.drop_duplicates('value').to_csv(args.path+args.segments+'wclass_possib.csv',sep=',',index=False)
-pointInPolys.to_file(args.path+args.segments+'wlabeledsegment.shp', driver='ESRI Shapefile')
+# export results
+
+print("------ Export ------ ")
+pointInPolys.to_file(args.path+args.segments+'.wlabeledsegment.shp', driver='ESRI Shapefile')
 
 

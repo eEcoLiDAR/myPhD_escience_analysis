@@ -10,8 +10,8 @@ set s=%5
 set e=%6 
 set w=%7
 
-set thres=0.4
-set minsize=5
+set thres=%8
+set minsize=%9
 
 :: set region
 g.region n=%n% s=%s% e=%e% w=%w%
@@ -31,6 +31,6 @@ r.out.gdal --overwrite input=%filename%_groupPCs_%thres%_%minsize%_goodness outp
 
 :: export vectors
 r.to.vect --overwrite -s input=%filename%_groupPCs_%thres%_%minsize% output=groupPCs_poly type=area
-v.out.ogr --overwrite input=groupPCs_poly type=area output=%filepath%%filename%_groupPCs_%thres%_%minsize%_poly.shp format=ESRI_Shapefile
+v.out.ogr --overwrite input=groupPCs_poly type=area output=%filepath%%filename%_groupPCs_poly_%thres%%minsize%.shp format=ESRI_Shapefile
 r.to.vect --overwrite -s input=%filename%_groupPCs_%thres%_%minsize% output=groupPCs_point type=point
-v.out.ogr --overwrite input=groupPCs_point type=point output=%filepath%%filename%_groupPCs_%thres%_%minsize%_point.shp format=ESRI_Shapefile
+v.out.ogr --overwrite input=groupPCs_point type=point output=%filepath%%filename%_groupPCs_point_%thres%%minsize%.shp format=ESRI_Shapefile
