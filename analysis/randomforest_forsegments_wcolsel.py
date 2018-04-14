@@ -78,12 +78,13 @@ print("------ Import data and re-organize------ ")
 
 segments = gpd.GeoDataFrame.from_file(args.path+args.segments)
 segments=segments[segments['Highestid']!='Open water']
+segments=segments[segments['Highestid']!='Bos']
 
 # pre-organize the data
 
 feature_list=segments.columns[np.int(args.fea_fromcol):np.int(args.fea_untilcol)]
 
-segments_whighprob=segments[segments['Prob']>0.9]
+segments_whighprob=segments[segments['Prob']>0.95]
 
 feature=segments_whighprob[feature_list].values
 feature_all=segments[feature_list].values
@@ -96,11 +97,11 @@ mytrain, mytest, mytrainlabel, mytestlabel = train_test_split(feature,label,trai
 
 print("------ Apply Random Forest ------ ")
 
-n_estimators=10
+n_estimators=50
 criterion='gini'
-max_depth=10
-min_samples_split=5
-min_samples_leaf=5
+max_depth=25
+min_samples_split=20
+min_samples_leaf=20
 max_features='auto'
 max_leaf_nodes=None
 bootstrap=True
