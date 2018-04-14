@@ -82,6 +82,7 @@ print("------ Import data and re-organize------ ")
 segments = gpd.GeoDataFrame.from_file(args.path+args.segments)
 segments=segments[segments['Highestid']!='Open water']
 segments=segments[segments['Highestid']!='Bos']
+segments['Highestid']=segments['Highestid'].replace(['Landriet, structuurarm', 'Landriet, structuurrijk'], 'Landriet')
 
 # pre-organize the data
 
@@ -100,7 +101,7 @@ rus = RandomUnderSampler(random_state=5)
 feature_resampled, label_resampled = rus.fit_sample(feature, label)
 #print(sorted(Counter(label_resampled).items()))
 
-mytrain, mytest, mytrainlabel, mytestlabel = train_test_split(feature_resampled, label_resampled,train_size = 0.7)
+mytrain, mytest, mytrainlabel, mytestlabel = train_test_split(feature_resampled, label_resampled,train_size = 0.4)
 
 
 # Random Forest
