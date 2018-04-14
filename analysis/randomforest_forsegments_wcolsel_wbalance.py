@@ -26,7 +26,7 @@ from sklearn.metrics import accuracy_score,precision_score,recall_score
 from sklearn.metrics import classification_report
 
 from collections import Counter
-from imblearn.under_sampling import ClusterCentroids
+from imblearn.under_sampling import RandomUnderSampler
 
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -96,22 +96,22 @@ label=segments_whighprob['Highestid'].values
 
 # Under-sampling -- get equal number of samples per class + split training and testing
 
-cc = ClusterCentroids(random_state=0)
-feature_resampled, label_resampled = cc.fit_sample(feature, label)
+rus = RandomUnderSampler(random_state=5)
+feature_resampled, label_resampled = rus.fit_sample(feature, label)
 #print(sorted(Counter(label_resampled).items()))
 
-mytrain, mytest, mytrainlabel, mytestlabel = train_test_split(feature_resampled, label_resampled,train_size = 0.6)
+mytrain, mytest, mytrainlabel, mytestlabel = train_test_split(feature_resampled, label_resampled,train_size = 0.7)
 
 
 # Random Forest
 
 print("------ Apply Random Forest ------ ")
 
-n_estimators=50
+n_estimators=20
 criterion='gini'
 max_depth=25
-min_samples_split=20
-min_samples_leaf=20
+min_samples_split=5
+min_samples_leaf=5
 max_features='auto'
 max_leaf_nodes=None
 bootstrap=True
