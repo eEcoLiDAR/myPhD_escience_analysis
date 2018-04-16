@@ -33,7 +33,7 @@ f.close()
 
 start1 = time.time()
 
-compute_features(pc, kdtree, pc, ['max_z','min_z','mean_z','median_z','std_z','var_z','range','coeff_var_z','skew_z','kurto_z',
+compute_features(pc, kdtree, 0, pc, ['max_z','min_z','mean_z','median_z','std_z','var_z','range','coeff_var_z','skew_z','kurto_z',
 'sigma_z','perc_20','perc_40','perc_60','perc_80','echo_ratio','pulse_penetration_ratio','density_absolute_mean'], InfiniteCylinder(np.float(args.radius)))
 
 """											   

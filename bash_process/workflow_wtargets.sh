@@ -1,1 +1,1 @@
-bash laserchicken_wtargets.sh tile_209000_599000_1_1 1 cylinder
+bash laserchicken_wtargets.sh tile_208500_598500_1_1 1 cylinder
