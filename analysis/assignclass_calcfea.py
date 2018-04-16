@@ -49,19 +49,19 @@ pc_wfea = gpd.GeoDataFrame(pc_wfea,crs=crs)
 
 print("------ Spatial join ------ ")
 pointInPolys = sjoin(segments_point , validation, how='left',op='within')
-pointInPolys.drop_duplicates('cat')
+#pointInPolys.drop_duplicates('value')
 
 # vote for the most frequently presented class
 
 print("------ Voting and labeling the data------ ")
 
-pointInPolys['Open water'] = pointInPolys.groupby('cat')['structyp_e'].transform(lambda x: x[x.str.contains('Open water')].count())
-pointInPolys['Struweel'] = pointInPolys.groupby('cat')['structyp_e'].transform(lambda x: x[x.str.contains('Struweel')].count())
-pointInPolys['Bos'] = pointInPolys.groupby('cat')['structyp_e'].transform(lambda x: x[x.str.contains('Bos')].count())
-pointInPolys['Grasland'] = pointInPolys.groupby('cat')['structyp_e'].transform(lambda x: x[x.str.contains('Grasland')].count())
-pointInPolys['Landriet, structuurrijk'] = pointInPolys.groupby('cat')['structyp_e'].transform(lambda x: x[x.str.contains('Landriet, structuurrijk')].count())
-pointInPolys['Landriet, structuurarm'] = pointInPolys.groupby('cat')['structyp_e'].transform(lambda x: x[x.str.contains('Landriet, structuurarm')].count())
-pointInPolys['Waterriet'] = pointInPolys.groupby('cat')['structyp_e'].transform(lambda x: x[x.str.contains('Waterriet')].count())
+pointInPolys['Open water'] = pointInPolys.groupby('value')['structyp_e'].transform(lambda x: x[x.str.contains('Open water')].count())
+pointInPolys['Struweel'] = pointInPolys.groupby('value')['structyp_e'].transform(lambda x: x[x.str.contains('Struweel')].count())
+pointInPolys['Bos'] = pointInPolys.groupby('value')['structyp_e'].transform(lambda x: x[x.str.contains('Bos')].count())
+pointInPolys['Grasland'] = pointInPolys.groupby('value')['structyp_e'].transform(lambda x: x[x.str.contains('Grasland')].count())
+pointInPolys['Landriet, structuurrijk'] = pointInPolys.groupby('value')['structyp_e'].transform(lambda x: x[x.str.contains('Landriet, structuurrijk')].count())
+pointInPolys['Landriet, structuurarm'] = pointInPolys.groupby('value')['structyp_e'].transform(lambda x: x[x.str.contains('Landriet, structuurarm')].count())
+pointInPolys['Waterriet'] = pointInPolys.groupby('value')['structyp_e'].transform(lambda x: x[x.str.contains('Waterriet')].count())
 
 pointInPolys['Highestfreq'] = pointInPolys[['Open water','Struweel','Bos','Grasland','Landriet, structuurrijk','Landriet, structuurarm','Waterriet']].max(axis=1)
 pointInPolys['Sumfreq'] = pointInPolys[['Open water','Struweel','Bos','Grasland','Landriet, structuurrijk','Landriet, structuurarm','Waterriet']].sum(axis=1)
@@ -73,8 +73,8 @@ pointInPolys['Prob'] = pointInPolys['Highestfreq']/ pointInPolys['Sumfreq']
 
 print("------ Assign classes to segment polygon ------ ")
 
-labeled_segments = segments_poly.merge(pointInPolys[['cat','Highestfreq','Sumfreq','Highestid','Prob']], on='cat')
-labeled_segments=labeled_segments.drop_duplicates('cat')
+labeled_segments = segments_poly.merge(pointInPolys[['value','Highestfreq','Sumfreq','Highestid','Prob']], on='value')
+#labeled_segments=labeled_segments.drop_duplicates('value')
 
 # Assign aggregated features to polygon
 
@@ -83,11 +83,11 @@ print("------ Calculate segment-based features (mean, std) ------ ")
 segment_polywfea = sjoin(pc_wfea , segments_poly, how='left',op='within')
 
 # Calculate aggregated statistical features
-fea_insegments_mean=segment_polywfea.groupby('cat')['echo_ratio','Planarity','Sphericity','Curvature','kurto_z','max_z','mean_z','median_z','pulse_penetration_ratio','range','sigma_z','skew_z','std_z','var_z'].mean().add_prefix('mean_').reset_index()
-fea_insegments_std=segment_polywfea.groupby('cat')['echo_ratio','Planarity','Sphericity','Curvature','kurto_z','max_z','mean_z','median_z','pulse_penetration_ratio','range','sigma_z','skew_z','std_z','var_z'].std(ddof=0).add_prefix('std_').reset_index()
+fea_insegments_mean=segment_polywfea.groupby('value')['echo_ratio','Planarity','Sphericity','Curvature','kurto_z','max_z','mean_z','median_z','pulse_penetration_ratio','range','sigma_z','skew_z','std_z','var_z'].mean().add_prefix('mean_').reset_index()
+fea_insegments_std=segment_polywfea.groupby('value')['echo_ratio','Planarity','Sphericity','Curvature','kurto_z','max_z','mean_z','median_z','pulse_penetration_ratio','range','sigma_z','skew_z','std_z','var_z'].std(ddof=0).add_prefix('std_').reset_index()
 
-fea_insegments1 = fea_insegments_mean.merge(fea_insegments_std, on='cat')
-fea_insegments = fea_insegments1.drop_duplicates('cat')
+fea_insegments1 = fea_insegments_mean.merge(fea_insegments_std, on='value')
+fea_insegments = fea_insegments1.drop_duplicates('value')
 
 # Calculate shape geometry features
 labeled_segments['poly_area']=labeled_segments['geometry'].area
@@ -96,8 +96,8 @@ labeled_segments['poly_area']=labeled_segments['geometry'].area
 
 print("------ Export ------ ")
 
-feawith_segments = labeled_segments.merge(fea_insegments, on='cat')
-feawith_segments.drop_duplicates('cat').to_file(args.path+args.segments_poly+".wfea_wlabel.shp", driver='ESRI Shapefile')
+feawith_segments = labeled_segments.merge(fea_insegments, on='value')
+feawith_segments.drop_duplicates('value').to_file(args.path+args.segments_poly+".wfea_wlabel.shp", driver='ESRI Shapefile')
 
 
 
