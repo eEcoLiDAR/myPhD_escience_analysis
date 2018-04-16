@@ -71,8 +71,6 @@ def cohenkappa_calc(cm):
 parser = argparse.ArgumentParser()
 parser.add_argument('path', help='where the files are located')
 parser.add_argument('segments', help='polygon shape file with features and classes')
-parser.add_argument('fea_fromcol', help='polygon shape file with features and classes')
-parser.add_argument('fea_untilcol', help='polygon shape file with features and classes')
 args = parser.parse_args()
 
 # Import and define feature and label
@@ -86,29 +84,31 @@ segments['Highestid']=segments['Highestid'].replace(['Landriet, structuurarm', '
 
 # pre-organize the data
 
-feature_list=segments.columns[np.int(args.fea_fromcol):np.int(args.fea_untilcol)]
+feature_list=['mean_echo_','mean_Plana','mean_Curva','mean_kurto','mean_sigma']
 
-segments_whighprob=segments[segments['Prob']>0.95]
+segments_whighprob=segments[(segments['Prob']>0)&(segments['poly_area']>10)]
 
 feature=segments_whighprob[feature_list].values
 feature_all=segments[feature_list].values
+
+fea_list_forvis=np.array(['mean_echo_','mean_Plana','mean_Curva','mean_kurto','mean_sigma','mean_mean_'])
 
 label=segments_whighprob['Highestid'].values
 
 # Under-sampling -- get equal number of samples per class + split training and testing
 
-rus = RandomUnderSampler(random_state=5)
+rus = RandomUnderSampler(random_state=0)
 feature_resampled, label_resampled = rus.fit_sample(feature, label)
 #print(sorted(Counter(label_resampled).items()))
 
-mytrain, mytest, mytrainlabel, mytestlabel = train_test_split(feature_resampled, label_resampled,train_size = 0.4)
+mytrain, mytest, mytrainlabel, mytestlabel = train_test_split(feature_resampled, label_resampled,train_size = 0.7)
 
 
 # Random Forest
 
 print("------ Apply Random Forest ------ ")
 
-n_estimators=20
+n_estimators=10
 criterion='gini'
 max_depth=25
 min_samples_split=5
@@ -155,7 +155,7 @@ plt.figure()
 plt.title("Feature importances")
 plt.bar(range(mytrain.shape[1]), importances[indices],
        color="r", align="center")
-plt.xticks(range(mytrain.shape[1]), feature_list[indices],rotation=45,horizontalalignment='right')
+plt.xticks(range(mytrain.shape[1]), fea_list_forvis[indices],rotation=45,horizontalalignment='right')
 plt.xlim([-1, mytrain.shape[1]])
 plt.tight_layout()
 #plt.show()
