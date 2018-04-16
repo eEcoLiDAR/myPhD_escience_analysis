@@ -15,7 +15,7 @@ ToDo:
 '
 
 # set paths
-work_folder="C:/zsofia/Amsterdam/Geobia/Work_13April/"
+work_folder="C:/zsofia/Amsterdam/Geobia/Work_13April/TestProcess/"
 script_path="C:/zsofia/Amsterdam/GitHub/eEcoLiDAR/myPhD_escience_analysis/"
 
 grass_path="C:/OSGeo4W64/bin/"

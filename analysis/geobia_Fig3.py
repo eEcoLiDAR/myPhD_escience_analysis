@@ -9,8 +9,8 @@ font = {'family': 'normal',
 
 plt.rc('font', **font)
 
-workdir='C:/zsofia/Amsterdam/Geobia/Work_13April/'
-filename='1_all_tiles_clean.txt_PC1__PC2__PC3segm_parameters'
+workdir='C:/zsofia/Amsterdam/Geobia/Work_16ofApril/'
+filename='merged_all_tiles_clean'
 
 segm_optimal=pd.read_csv(workdir+filename+'.csv',sep=',')
 #print(segm_optimal.dtypes)
