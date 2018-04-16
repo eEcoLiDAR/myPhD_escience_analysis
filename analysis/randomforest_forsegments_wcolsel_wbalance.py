@@ -80,13 +80,13 @@ print("------ Import data and re-organize------ ")
 segments = gpd.GeoDataFrame.from_file(args.path+args.segments)
 segments=segments[segments['Highestid']!='Open water']
 segments=segments[segments['Highestid']!='Bos']
-segments['Highestid']=segments['Highestid'].replace(['Landriet, structuurarm', 'Landriet, structuurrijk'], 'Landriet')
+segments['Highestid']=segments['Highestid'].replace(['Landriet, structuurarm', 'Landriet, structuurrijk','Waterriet'], 'Riet')
 
 # pre-organize the data
 
 feature_list=['mean_echo_','mean_Plana','mean_Curva','mean_kurto','mean_sigma']
 
-segments_whighprob=segments[(segments['Prob']>0)&(segments['poly_area']>10)]
+segments_whighprob=segments[(segments['Prob']>0)&(segments['poly_area']>0)]
 
 feature=segments_whighprob[feature_list].values
 feature_all=segments[feature_list].values
