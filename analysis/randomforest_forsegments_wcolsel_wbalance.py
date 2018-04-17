@@ -8,7 +8,7 @@ Output: accuracy report, feature importance, classified shapefile
 Example usage (from command line): 
 
 ToDo: 
-
+1. automatize feature_list definition
 """
 
 import sys
@@ -84,8 +84,10 @@ segments['Highestid']=segments['Highestid'].replace(['Landriet, structuurarm', '
 
 # pre-organize the data
 
-feature_list=['mean_echo_','mean_Plana','mean_Curva','mean_kurto','mean_sigma','mean_mean_']
-#['mean_echo_','mean_Plana','mean_Curva','mean_kurto','mean_sigma','mean_mean_','mean_media','std_echo_r','std_Planar','std_Curvat','std_kurto_','std_sigma_']
+#feature_list=['mean_echo_','mean_Plana','mean_Curva','mean_kurto','mean_sigma','mean_mean_']
+#feature_list=['mean_echo_','mean_Plana','mean_Curva','mean_kurto','mean_sigma','mean_mean_','mean_media','std_echo_r','std_Planar','std_Curvat','std_kurto_','std_sigma_']
+feature_list=segments.columns[8:35]
+
 
 segments_whighprob=segments[(segments['Prob']>0.7)&(segments['poly_area']>0)]
 
