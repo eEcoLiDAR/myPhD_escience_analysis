@@ -74,13 +74,14 @@ pointInPolys['Prob'] = pointInPolys['Highestfreq']/ pointInPolys['Sumfreq']
 print("------ Assign classes to segment polygon ------ ")
 
 labeled_segments = segments_poly.merge(pointInPolys[['value','Highestfreq','Sumfreq','Highestid','Prob']], on='value')
-#labeled_segments=labeled_segments.drop_duplicates('value')
+labeled_segments=labeled_segments.drop_duplicates('value')
 
 # Assign aggregated features to polygon
 
 print("------ Calculate segment-based features (mean, std) ------ ")
 
 segment_polywfea = sjoin(pc_wfea , segments_poly, how='left',op='within')
+segment_polywfea.to_file(args.path+args.segments_poly+".point_wfea_wlabel.shp", driver='ESRI Shapefile')
 
 # Calculate aggregated statistical features
 fea_insegments_mean=segment_polywfea.groupby('value')['echo_ratio','Planarity','Sphericity','Curvature','kurto_z','max_z','mean_z','median_z','pulse_penetration_ratio','range','sigma_z','skew_z','std_z','var_z'].mean().add_prefix('mean_').reset_index()
