@@ -23,7 +23,7 @@ r.in.xyz --overwrite input=%filepath%%filename%.csv output=%filename%_PC3 separa
 
 :: segmentation
 i.group --overwrite group=%filename%_groupPCs input=%filename%_PC1,%filename%_PC2,%filename%_PC3
-i.segment --overwrite group=%filename%_groupPCs output=%filename%_groupPCs_%thres%_%minsize% -d threshold=%thres% minsize=%minsize% goodness=%filename%_groupPCs_%thres%_%minsize%_goodness
+i.segment --overwrite group=%filename%_groupPCs output=%filename%_groupPCs_%thres%_%minsize% threshold=%thres% minsize=%minsize% goodness=%filename%_groupPCs_%thres%_%minsize%_goodness
 
 :: export rasters
 r.out.gdal --overwrite input=%filename%_groupPCs_%thres%_%minsize% output=%filepath%%filename%_groupPCs_%thres%_%minsize%.tif
