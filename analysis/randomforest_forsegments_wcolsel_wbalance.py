@@ -79,19 +79,20 @@ print("------ Import data and re-organize------ ")
 
 segments = gpd.GeoDataFrame.from_file(args.path+args.segments)
 segments=segments[segments['Highestid']!='Open water']
-segments=segments[segments['Highestid']!='Bos']
+segments=segments[segments['Highestid']!='Waterriet']
 segments['Highestid']=segments['Highestid'].replace(['Landriet, structuurarm', 'Landriet, structuurrijk','Waterriet'], 'Riet')
 
 # pre-organize the data
 
-feature_list=['mean_echo_','mean_Plana','mean_Curva','mean_kurto','mean_sigma']
+feature_list=['mean_echo_','mean_Plana','mean_Curva','mean_kurto','mean_sigma','mean_mean_']
+#['mean_echo_','mean_Plana','mean_Curva','mean_kurto','mean_sigma','mean_mean_','mean_media','std_echo_r','std_Planar','std_Curvat','std_kurto_','std_sigma_']
 
-segments_whighprob=segments[(segments['Prob']>0)&(segments['poly_area']>0)]
+segments_whighprob=segments[(segments['Prob']>0.7)&(segments['poly_area']>0)]
 
 feature=segments_whighprob[feature_list].values
 feature_all=segments[feature_list].values
 
-fea_list_forvis=np.array(['mean_echo_','mean_Plana','mean_Curva','mean_kurto','mean_sigma','mean_mean_'])
+fea_list_forvis=np.array(feature_list)
 
 label=segments_whighprob['Highestid'].values
 
@@ -101,7 +102,7 @@ rus = RandomUnderSampler(random_state=0)
 feature_resampled, label_resampled = rus.fit_sample(feature, label)
 #print(sorted(Counter(label_resampled).items()))
 
-mytrain, mytest, mytrainlabel, mytestlabel = train_test_split(feature_resampled, label_resampled,train_size = 0.7)
+mytrain, mytest, mytrainlabel, mytestlabel = train_test_split(feature_resampled, label_resampled,train_size = 0.6)
 
 
 # Random Forest
