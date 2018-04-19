@@ -15,7 +15,7 @@ ToDo:
 '
 
 # set paths
-work_folder="C:/zsofia/Amsterdam/Geobia/Work_13April/TestProcess/"
+work_folder="C:/zsofia/Amsterdam/Geobia/19April/"
 script_path="C:/zsofia/Amsterdam/GitHub/eEcoLiDAR/myPhD_escience_analysis/"
 
 grass_path="C:/OSGeo4W64/bin/"
@@ -30,8 +30,8 @@ e=220000
 w=206000
 
 # parametrization of the segmentation 
-threshold=0.2
-minsize=5
+threshold=0.05
+minsize=1
 
 # determine feature-set for classification
 fromcol=15
@@ -61,9 +61,9 @@ echo "--------Segmentation started--------"
 echo "--------Assign validation data and calculate segment based features --------"
 
 #Assign validation data and calculate segment based features
-python $script_path/analysis/assignclass_calcfea.py $work_folder $valid_polygon all_tiles_clean_groupPCs_point_$threshold$minsize all_tiles_clean_groupPCs_poly_$threshold$minsize all_tiles_clean.txt
+#python $script_path/analysis/assignclass_calcfea.py $work_folder $valid_polygon all_tiles_clean_groupPCs_point_$threshold$minsize all_tiles_clean_groupPCs_poly_$threshold$minsize all_tiles_clean.txt
 
 echo "--------Classification --------"
 
-#python $script_path/analysis/randomforest_forsegments_wcolsel.py $work_folder all_tiles_clean_groupPCs_poly_$threshold$minsize.wfea_wlabel.shp $fromcol $untilcol
+python $script_path/analysis/randomforest_forsegments_wcolsel_wbalance.py $work_folder all_tiles_clean.txt_PC1__PC2__PC3_groupPCs_poly_$threshold$minsize.wfea_wlabel.shp
 

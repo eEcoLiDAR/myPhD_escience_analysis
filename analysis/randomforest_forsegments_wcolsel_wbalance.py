@@ -84,12 +84,13 @@ segments['Highestid']=segments['Highestid'].replace(['Landriet, structuurarm', '
 
 # pre-organize the data
 
-feature_list=['mean_echo_','mean_Plana','mean_Curva','mean_kurto','mean_sigma','mean_media','mean_Spher']
+#feature_list=['mean_echo_','mean_Plana','mean_Curva','mean_kurto','mean_sigma','mean_media','mean_Spher']
 #feature_list=['mean_echo_','mean_Plana','mean_Curva','mean_kurto','mean_sigma','mean_mean_','mean_media','std_echo_r','std_Planar','std_Curvat','std_kurto_','std_sigma_']
-#feature_list=segments.columns[8:35]
+#feature_list=['mean_Plana','mean_Curva','mean_kurto','mean_Spher']
+feature_list=segments.columns[7:35]
 
 
-segments_whighprob=segments[(segments['Prob']>0.3)&(segments['poly_area']>0)]
+segments_whighprob=segments[(segments['Prob']>0.7)&(segments['poly_area']>10)]
 
 feature=segments_whighprob[feature_list].values
 feature_all=segments[feature_list].values
@@ -111,9 +112,9 @@ mytrain, mytest, mytrainlabel, mytestlabel = train_test_split(feature_resampled,
 
 print("------ Apply Random Forest ------ ")
 
-n_estimators=10
+n_estimators=30
 criterion='gini'
-max_depth=25
+max_depth=30
 min_samples_split=5
 min_samples_leaf=5
 max_features='auto'
