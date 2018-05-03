@@ -1,7 +1,6 @@
 This repository aims to collect the codes and analysis which was done on a preliminary basis for my PhD within the [e-EcoLiDAR project](https://www.esciencecenter.nl/project/eecolidar).  
 
-The components of the analysis scripts are the following:
-***
+# The components (directories) of the analysis scripts are the following:
 
 - **test_laserchicken**: 
 
