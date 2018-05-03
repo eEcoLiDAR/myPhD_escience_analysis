@@ -21,3 +21,7 @@ Batch files which was used within [GRASS GIS](https://grass.osgeo.org/) for prce
 - **lastools_process**:
 
 Bash files (with wine) for using [LAStools](https://rapidlasso.com/lastools/) for some preprocessing step (tiling, classifying the data). 
+
+- **analysis**:
+
+Further scripts for classifying, analysing, visualizing and understanding the data. 
