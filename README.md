@@ -1,10 +1,12 @@
 This repository aims to collect the codes and analysis which was done on a preliminary basis for my PhD within the [e-EcoLiDAR project](https://www.esciencecenter.nl/project/eecolidar).  
 
- **The components (directories) are the following:**
+ ## **The components (directories) are the following:**
 
 - **test_laserchicken**: 
 
 Continuous testing of the development branch of the [laserchicken](https://github.com/eEcoLiDAR/laserchicken) point cloud analysis software. Further this directory will contain an documentation how to use laserchicken (under progress). 
+
+[Wikipedia](https://github.com/eEcoLiDAR/myPhD_escience_analysis/wiki) contains more deeper explanation and step-by-step mnual how to use laserchicken (under progress). 
 
 - **annotation**:
 
