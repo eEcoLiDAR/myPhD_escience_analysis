@@ -1,3 +1,18 @@
+"""
+@author: Zsofia Koma, UvA
+Aim: generate artificial target points 
+
+Input: las file (environmental point cloud)
+Output: artificial target point cloud 
+
+Example usage: python generate_targets.py D:/GitHub/eEcoLiDAR/develop-branch/eEcoLiDAR/ D:/Results/Geobia/ 06en2_merged_kiv3._ground_height_kiv_kiv.las 06en2_merged_kiv3._ground_height_kiv_kiv_targ
+et.txt
+then txt->las txt2las -i D:\Results\Geobia\06en2_merged_kiv3._ground_height_kiv_kiv_target.txt -o D:\Results\Geobia\06en2_merged_kiv3._ground_height_kiv_kiv_target.las -parse xyzitc
+
+ToDo: 
+1. make direct las file export
+"""
+
 import sys
 import argparse
 
@@ -56,9 +71,3 @@ xyz=np.vstack((x,y,z,false_intensity,false_gpstime,false_classification)).T
 
 np.savetxt(args.path+args.output, xyz, fmt='%1.5f %1.5f %1.5f %1.5f %1.5f %1.5f')
 
-"""
-Example usage: python generate_targets.py D:/GitHub/eEcoLiDAR/develop-branch/eEcoLiDAR/ D:/Results/Geobia/ 06en2_merged_kiv3._ground_height_kiv_kiv.las 06en2_merged_kiv3._ground_height_kiv_kiv_targ
-et.txt
-
-then txt->las txt2las -i D:\Results\Geobia\06en2_merged_kiv3._ground_height_kiv_kiv_target.txt -o D:\Results\Geobia\06en2_merged_kiv3._ground_height_kiv_kiv_target.las -parse xyzitc
-"""
