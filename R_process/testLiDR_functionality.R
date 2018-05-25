@@ -5,6 +5,7 @@ las = readLAS("D:/Sync/_Amsterdam/Writing/MScThesis/tristan/Tristan_paper/g32hz1
 
 hmean = grid_metrics(las, max(Z),res=1)
 plot(hmean)
+grid(10, 10, lwd = 2,col = "black",lty = "solid")
 
 # ground classification
 lasground(las, "pmf", 1, 0.5)
@@ -23,7 +24,7 @@ crowns = lastrees(las, "watershed", chm, th = 0.2, extra = TRUE)
 contour = rasterToPolygons(crowns, dissolve = TRUE)
 
 plot(hmean)
-plot(contour, add = T,lwd=4)
+plot(contour, add = T,lwd=2)
 
 ttops = tree_detection(hmean, 1, 2)
 lastrees_dalponte(las, hmean, ttops)
