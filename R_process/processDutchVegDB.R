@@ -20,12 +20,15 @@ ToDo:
 # call the required libraries
 library("stringr")
 
-library("rworldmap")
+library("sp")
+library("rgdal")
+library("ggmap")
 
 # set global variables
 setwd("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/test_data") # working directory
 
 min_year=2010
+radius=5
 
 # import data
 VegDB_header=read.csv(file="Swamp_communities_header.csv",header=TRUE,sep="\t")
@@ -35,10 +38,33 @@ VegDB_header$year=as.numeric(str_sub(VegDB_header$Datum.van.opname,-4,-1)) # def
 
 VegDB_header_filtered=VegDB_header[ which(VegDB_header$year>min_year),]
 
-# Visualize
+# Visualize the point data
 
-# the point data
+map=get_map(location = c(lon = 4.89, lat = 52.37), zoom = 7)
+mapPoints <- ggmap(map) + geom_point(aes(x = Longitude, y = Latitude), data = VegDB_header_filtered, alpha = .5)
+mapPoints
 
-newmap <- getMap(resolution = "low")
-plot(newmap, xlim = c(-20, 59), ylim = c(35, 71), asp = 1)
-points(VegDB_header_filtered$Longitude, VegDB_header_filtered$Latitude, col = "red", cex = .6)
+# Create polygon
+
+yPlus=VegDB_header_filtered$Latitude+radius
+xPlus=VegDB_header_filtered$Longitude+radius
+yMinus=VegDB_header_filtered$Latitude-radius
+xMinus=VegDB_header_filtered$Longitude-radius
+
+square=cbind(xMinus,yPlus,  # NW corner
+             xPlus, yPlus,  # NE corner
+             xPlus,yMinus,  # SE corner
+             xMinus,yMinus, # SW corner
+             xMinus,yPlus)  # NW corner again - close ploygon
+
+ID=VegDB_header_filtered$PlotID
+
+polys <- SpatialPolygons(mapply(function(poly, id) 
+{
+  xy <- matrix(poly, ncol=2, byrow=TRUE)
+  Polygons(list(Polygon(xy)), ID=id)
+}, 
+split(square, row(square)), ID),
+proj4string=CRS(as.character("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")))
+
+# Visualize polygon
