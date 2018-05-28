@@ -68,3 +68,8 @@ split(square, row(square)), ID),
 proj4string=CRS(as.character("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")))
 
 # Visualize polygon
+
+# Export
+polys.df=SpatialPolygonsDataFrame(polys, data.frame(id=ID, row.names=ID))
+writeOGR(polys.df, '.', 'DutchVegDB', 'ESRI Shapefile')
+
