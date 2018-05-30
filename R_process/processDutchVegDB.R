@@ -21,7 +21,7 @@ ToDo:
 5. overwriting shapefiles automatically
 
 Question:
-1. coordinate uncertainity?? -- plot middle in the water
+1. coordinate uncertainity?? -- plot middle in the water -- dutch coordinate system is uncertain
 "
 
 # call the required libraries
