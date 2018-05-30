@@ -8,7 +8,8 @@ Output:
 Function:
 1. Import bird database
 2. Filter out by year
-3. Export 
+3. Create atlas data??? 
+4. Export 
   
 Example usage (from command line):   
   
@@ -26,16 +27,16 @@ library("sp")
 library("rgdal")
 library("raster")
 
-# set global variables
+# Set global variables
 setwd("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/test_data/birddata") # working directory
 
 year_min=2008
 year_max=2010
 
-# import data
+# Import data
 bird_data=read.csv(file="avimap_observations_reedland_birds.csv",header=TRUE,sep=";")
 
-# introduce filters
+# Introduce filters
 
 bird_data_filtered=bird_data[ which(bird_data$year>year_min & bird_data$year<year_max),]
 
@@ -44,3 +45,7 @@ bird_data_filtered=bird_data[ which(bird_data$year>year_min & bird_data$year<yea
 coordinates(bird_data_filtered)=~x+y
 proj4string(bird_data_filtered)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 raster::shapefile(bird_data_filtered, "bird_points.shp",overwrite=TRUE)
+
+# Create atlas-like data
+
+
