@@ -17,6 +17,7 @@ ToDo:
 
 Question:
 1. coordinate uncertainity problem
+2. ONe bird was observed more time -- can we distanguish or indicate that that bird is the same?
 "
 
 # call the required libraries
