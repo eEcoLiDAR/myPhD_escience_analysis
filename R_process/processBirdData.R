@@ -51,6 +51,7 @@ raster::shapefile(bird_data_filtered, "bird_points.shp",overwrite=TRUE)
 # Create atlas-like data
 
 bird_data_onebird=bird_data_filtered[ which(bird_data_filtered$species==bird_species),]
+raster::shapefile(bird_data_onebird, "onebird_points.shp",overwrite=TRUE)
 
 onebird_atlas_rst = raster(ncols = 100, nrows = 100, 
                        crs = projection(bird_data_onebird), 
