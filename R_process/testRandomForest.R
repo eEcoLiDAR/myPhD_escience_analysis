@@ -24,6 +24,7 @@ Question:
 library(lidR)
 library(rgdal)
 library(sp)
+library(spatialEco)
 
 # Set global variables
 setwd("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/test_data") # working directory
@@ -31,12 +32,25 @@ setwd("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/test_data") # working directo
 # Import data
 las = readLAS("lauwermeer_example.las")
 
+classes = rgdal::readOGR("poly_forclasstest.shp")
+
 # Calculate features
 metrics=las %>% grid_metrics(.stdmetrics)
 #nanvalues=sapply(metrics, function(x) all(is.nan(x)))
 #metrics_filt=metrics[,!nanvalues]
 
-metrics_clean = metrics[,c(1:39)] 
+# Feature export
+max_z=as.raster(metrics[,c(1:2,6)])
+std_z=as.raster(metrics[,c(1:2,8)])
+skew_z=as.raster(metrics[,c(1:2,9)])
+entr_z=as.raster(metrics[,c(1:2,10)])
 
-# Intersection for getting training areas
+lidar_metrics = addLayer(max_z, std_z, skew_z, entr_z)
+plot(lidar_metrics)
+
+#writeRaster(max_z, filename="max_z.tif", format="GTiff")
+
+# Select training areas
+
+
 
