@@ -30,16 +30,16 @@ library(spatialEco)
 library(randomForest)
 
 # Set global variables
-setwd("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/test_data") # working directory
+setwd("C:/zsofia/Amsterdam/GitHub/eEcoLiDAR/myPhD_escience_analysis/test_data") # working directory
 
 # Import data
 las = readLAS("lauwermeer_example.las")
 
-classes = rgdal::readOGR("poly_forclasstest.shp")
+classes = rgdal::readOGR("training_classes.shp")
 #classes@data
 
 # Calculate features
-metrics=las %>% grid_metrics(.stdmetrics,res=1)
+metrics=grid_metrics(las,.stdmetrics,res=1)
 #nanvalues=sapply(metrics, function(x) all(is.nan(x)))
 #metrics_filt=metrics[,!nanvalues]
 
@@ -92,3 +92,8 @@ print(predLC)
 #class_poly=rasterToPolygons(predLC,fun=function(x){x==1})
 #writeOGR(class_poly, '.', 'class_test2', 'ESRI Shapefile')
 writeRaster(predLC, filename="predLC.tif", format="GTiff")
+
+#Extract layers for reedbeds
+predLC[predLC>1] <- NA
+reed <- mask(lidar_metrics, predLC)
+plot(reed)
