@@ -82,5 +82,6 @@ predLC <- predict(lidar_metrics, model=modelRF, na.rm=TRUE)
 names(featuretable)
 names(lidar_metrics)
 
-plot(predLC)
+cols <- c("orange", "dark green")
+plot(predLC,col=cols)
 print(predLC)
