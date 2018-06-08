@@ -15,6 +15,7 @@ Example usage (from command line):
   
 ToDo: 
 1. How to drop the NaN values
+2. Export specific class as polygon
 
 Question:
 1. 
@@ -23,6 +24,7 @@ Question:
 
 library(lidR)
 library(rgdal)
+library(raster)
 library(sp)
 library(spatialEco)
 library(randomForest)
@@ -85,3 +87,8 @@ names(lidar_metrics)
 cols <- c("orange", "dark green")
 plot(predLC,col=cols)
 print(predLC)
+
+# export 
+#class_poly=rasterToPolygons(predLC,fun=function(x){x==1})
+#writeOGR(class_poly, '.', 'class_test2', 'ESRI Shapefile')
+writeRaster(predLC, filename="predLC.tif", format="GTiff")
