@@ -39,7 +39,7 @@ classes = rgdal::readOGR("training_classes.shp")
 #classes@data
 
 # Calculate features
-metrics=grid_metrics(las,.stdmetrics,res=1)
+metrics=grid_metrics(las,.stdmetrics,res=5)
 #nanvalues=sapply(metrics, function(x) all(is.nan(x)))
 #metrics_filt=metrics[,!nanvalues]
 
@@ -93,7 +93,13 @@ print(predLC)
 #writeOGR(class_poly, '.', 'class_test2', 'ESRI Shapefile')
 writeRaster(predLC, filename="predLC.tif", format="GTiff")
 
+#Extract only reed values within the classified raster
+predLC_reed_mask <- setValues(raster(predLC), NA)
+predLC_reed_mask[predLC<1.5] <- 1
+
 #Extract layers for reedbeds
-predLC[predLC>1] <- NA
-reed <- mask(lidar_metrics, predLC)
+reed <- mask(lidar_metrics, predLC_reed_mask)
 plot(reed)
+
+#Export
+writeRaster(reed, filename="reed.tif", format="GTiff")
