@@ -1,3 +1,25 @@
+"
+@author: Zsofia Koma, UvA
+Aim: test LiDR funcionality for our project
+  
+Input: las and shp file
+Output: feature plot
+
+Function:
+1. Import LiDAR and shape file
+2. Extract area of interest
+3. Derive features
+  
+Example usage (from command line):   
+  
+ToDo: 
+1.
+
+Question:
+1. what about large files -- seems to be okay
+
+"
+
 library(lidR)
 library(rgdal)
 library(sp)
