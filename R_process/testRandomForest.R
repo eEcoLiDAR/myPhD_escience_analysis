@@ -61,7 +61,7 @@ plot(classes, add = TRUE)
 
 # select training areas
 
-classes_rast <- rasterize(classes, max_z,field="classes")
+classes_rast <- rasterize(classes, max_z,field="id")
 plot(classes_rast)
 
 masked <- mask(lidar_metrics, classes_rast)
@@ -114,7 +114,7 @@ writeRaster(predLC, filename="predLC.tif", format="GTiff")
 
 #Extract only reed values within the classified raster
 predLC_reed_mask <- setValues(raster(predLC), NA)
-predLC_reed_mask[predLC<1.5] <- 1
+predLC_reed_mask[predLC<2] <- 1
 
 #Extract layers for reedbeds
 reed <- mask(lidar_metrics, predLC_reed_mask)
