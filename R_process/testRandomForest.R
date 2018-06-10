@@ -36,7 +36,7 @@ setwd("C:/zsofia/Amsterdam/GitHub/eEcoLiDAR/myPhD_escience_analysis/test_data") 
 # Import data
 las = readLAS("lauwermeer_example.las")
 
-classes = rgdal::readOGR("training_classes.shp")
+classes = rgdal::readOGR("training_classes2.shp")
 #classes@data
 
 # Calculate features
@@ -110,7 +110,7 @@ print(predLC)
 # export 
 #class_poly=rasterToPolygons(predLC,fun=function(x){x==1})
 #writeOGR(class_poly, '.', 'class_test2', 'ESRI Shapefile')
-writeRaster(predLC, filename="predLC.tif", format="GTiff")
+writeRaster(predLC, filename="predLC.tif", format="GTiff",overwrite=TRUE)
 
 #Extract only reed values within the classified raster
 predLC_reed_mask <- setValues(raster(predLC), NA)
