@@ -48,9 +48,12 @@ metrics=grid_metrics(las,.stdmetrics,res=5)
 max_z=as.raster(metrics[,c(1:2,6)])
 std_z=as.raster(metrics[,c(1:2,8)])
 skew_z=as.raster(metrics[,c(1:2,9)])
-entr_z=as.raster(metrics[,c(1:2,10)])
+mean_z=as.raster(metrics[,c(1:2,7)])
+zq50_z=as.raster(metrics[,c(1:2,21)])
+zpcum_z=as.raster(metrics[,c(1:2,31)])
+ground_z=as.raster(metrics[,c(1:2,57)])
 
-lidar_metrics = addLayer(max_z, std_z, skew_z, entr_z)
+lidar_metrics = addLayer(max_z, mean_z, std_z, skew_z, zq50_z, zpcum_z, ground_z)
 
 plot(lidar_metrics)
 
@@ -74,7 +77,7 @@ featuretable <- na.omit(featuretable)
 featuretable <- as.data.frame(featuretable)
 
 # apply RF
-modelRF <- randomForest(x=featuretable[ ,c(1:4)], y=factor(featuretable$layer),importance = TRUE)
+modelRF <- randomForest(x=featuretable[ ,c(1:7)], y=factor(featuretable$layer),importance = TRUE)
 class(modelRF)
 varImpPlot(modelRF)
 
@@ -88,7 +91,7 @@ for (i in 1:3){
   trainingSet<- featuretable[trainIndex,]
   testingSet<- featuretable[-trainIndex,]
   modelFit <- randomForest(factor(layer)~.,data=trainingSet)
-  prediction <- predict(modelFit,testingSet[ ,c(1:4)])
+  prediction <- predict(modelFit,testingSet[ ,c(1:7)])
   testingSet$rightPred <- prediction == testingSet$layer
   t<-table(prediction, testingSet$layer)
   print(t)
@@ -103,9 +106,8 @@ predLC <- predict(lidar_metrics, model=modelRF, na.rm=TRUE)
 names(featuretable)
 names(lidar_metrics)
 
-cols <- c("orange", "dark green")
+cols=c("khaki1","green","dark green","blue")
 plot(predLC,col=cols)
-print(predLC)
 
 # export 
 #class_poly=rasterToPolygons(predLC,fun=function(x){x==1})
@@ -121,4 +123,4 @@ reed <- mask(lidar_metrics, predLC_reed_mask)
 plot(reed)
 
 #Export
-writeRaster(reed, filename="reed.tif", format="GTiff")
+writeRaster(reed, filename="reed.tif", format="GTiff",overwrite=TRUE)
