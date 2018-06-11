@@ -31,12 +31,12 @@ library(randomForest)
 library(caret)
 
 # Set global variables
-setwd("C:/zsofia/Amsterdam/GitHub/eEcoLiDAR/myPhD_escience_analysis/test_data") # working directory
+setwd("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/test_data") # working directory
 
 # Import data
-las = readLAS("lauwermeer_example.las")
+las = readLAS("lauwermeer_merged.las")
 
-classes = rgdal::readOGR("training_classes2.shp")
+classes = rgdal::readOGR("poly_forclasstest.shp")
 #classes@data
 
 # Calculate features
@@ -56,8 +56,6 @@ ground_z=as.raster(metrics[,c(1:2,57)])
 lidar_metrics = addLayer(max_z, mean_z, std_z, skew_z, zq50_z, zpcum_z, ground_z)
 
 plot(lidar_metrics)
-
-plot(entr_z)
 plot(classes, add = TRUE)
 
 #writeRaster(max_z, filename="max_z.tif", format="GTiff")
