@@ -21,6 +21,7 @@ library("rgdal")
 library("raster")
 library("spatialEco")
 library("rgeos")
+library("dplyr")
 
 library("maptools")
 
@@ -49,5 +50,7 @@ spplot(bird_data_onebird,"present",col.regions =c("red", "blue"),legendEntries =
 #pts_in_poly = point.in.poly(bird_data_onebird, kmsquares)
 #rgdal::writeOGR(pts_in_poly, '.', 'example_atlas', 'ESRI Shapefile')
 
+plot(bird_data_onebird)
+plot(kmsquares, add=TRUE)
 
 
