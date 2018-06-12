@@ -53,4 +53,20 @@ spplot(bird_data_onebird,"present",col.regions =c("red", "blue"),legendEntries =
 plot(bird_data_onebird)
 plot(kmsquares, add=TRUE)
 
+bird_data_onebird@data <- mutate(bird_data_onebird@data, id_point = as.numeric(rownames(bird_data_onebird@data)))
+kmsquares@data <- mutate(kmsquares@data, id_grid = as.numeric(rownames(kmsquares@data)))
 
+# Overlap
+birds_insquare <- over(bird_data_onebird, kmsquares)
+birds_insquare <- mutate(birds_insquare, id = as.numeric(rownames(birds_insquare)))
+
+birds_insquare <- left_join(bird_data_onebird@data, birds_insquare, by = c("id_point" = "id"))
+
+birds_insquare_f <- birds_insquare %>% group_by(id_grid) %>%
+summarise(npoint = n()) %>%
+arrange(id_grid)
+
+kmsquares@data <- left_join(kmsquares@data, birds_insquare_f, by = c("id_grid" = "id_grid"))
+plot(kmsquares,col=kmsquares$present)
+
+rgdal::writeOGR(kmsquares, "." ,'onebird_atlas', 'ESRI Shapefile')
