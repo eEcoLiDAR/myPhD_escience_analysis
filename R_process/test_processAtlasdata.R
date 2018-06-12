@@ -67,6 +67,6 @@ summarise(npoint = n()) %>%
 arrange(id_grid)
 
 kmsquares@data <- left_join(kmsquares@data, birds_insquare_f, by = c("id_grid" = "id_grid"))
-plot(kmsquares,col=kmsquares$present)
+plot(kmsquares,col=kmsquares$npoint)
 
 rgdal::writeOGR(kmsquares, "." ,'onebird_atlas', 'ESRI Shapefile')
