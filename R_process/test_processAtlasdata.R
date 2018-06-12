@@ -10,6 +10,7 @@ Function:
 Example usage (from command line):   
 
 ToDo: 
+1. How to export the info related to polygon get from the point data
 
 Question:
 
