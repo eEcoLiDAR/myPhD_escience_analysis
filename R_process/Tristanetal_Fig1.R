@@ -35,9 +35,11 @@ setwd("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/test_data/birddata") # workin
 bird_species="Kleine Karekiet"
 year_min=2000
 
-# B.) 
+##################################################################################################################
+# B.) schematic overview of the integration of LiDAR into SDM workflow (based on Guisan et al.,2017 book page 43)#
+##################################################################################################################
 
-# Plot observation data
+####### Plot observation data #######
 
 # Import and pre-process data
 nl= rgdal::readOGR("Boundary_NL_RDNew.shp")
@@ -63,5 +65,18 @@ bird_data_onebird[!duplicated(bird_data_onebird$kmsquare),] #remove duplicates b
 bound_nl=list("sp.polygons",nl)
 spplot(bird_data_onebird,"present",col.regions =c("red", "blue"),legendEntries = c("absence","presence"),cuts = 2,pch=c(4,16),sp.layout = list(bound_nl),key.space=list(x=0.05,y=0.95,corner=c(0,1)))
 
+####### Plot climate data #######
+
+# Import
+bio7 = raster("bio7.grd")
+
+# Clipping for NL
+nl_wgs84=spTransform(nl,CRS("+init=epsg:4326"))
+
+bio7_nl = raster::crop(bio7, nl_wgs84)
+#bio7_nl = mask(bio7_nl,nl_wgs84)
+
+plot(bio7_nl)
+plot(nl_wgs84,add=TRUE)
 
 
