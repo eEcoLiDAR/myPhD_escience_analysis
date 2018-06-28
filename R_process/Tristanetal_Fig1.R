@@ -33,6 +33,7 @@ library("ggmap")
 setwd("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/test_data/birddata") # working directory
 
 bird_species="Kleine Karekiet"
+year_min=2000
 
 # B.) 
 
@@ -43,7 +44,9 @@ nl= rgdal::readOGR("Boundary_NL_RDNew.shp")
 bird_data=read.csv(file="Breeding_bird_atlas_aggregated_data_kmsquares.csv",header=TRUE,sep=";")
 
 # Filter
-bird_data_onebird=bird_data[ which(bird_data$species==bird_species),]
+bird_data_filtered=bird_data[ which(bird_data$year>year_min),]
+bird_data_onebird=bird_data_filtered[ which(bird_data_filtered$species==bird_species),]
+bird_data_onebird=bird_data_onebird[!duplicated(bird_data_onebird[c(4,5)]),] #remove duplicates based on x,y (for nicer visualization)
 
 # Coordinates
 
@@ -53,8 +56,11 @@ coordinates(bird_data_onebird)=~x+y
 proj4string(bird_data_onebird)=RDNew
 
 # Visualization
+
+bird_data_onebird[!duplicated(bird_data_onebird$kmsquare),] #remove duplicates based on kmsquare (for nicer visualization)
+
 bound_nl=list("sp.polygons",nl)
-spplot(bird_data_onebird,"present",col.regions =c("red", "blue"),legendEntries = c("absence","presence"),cuts = 2,sp.layout = list(bound_nl))
+spplot(bird_data_onebird,"present",col.regions =c("red", "blue"),legendEntries = c("absence","presence"),cuts = 2,pch=c(4,1),sp.layout = list(bound_nl))
 
 
 
