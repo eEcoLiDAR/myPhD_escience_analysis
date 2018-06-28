@@ -23,8 +23,11 @@ library("raster")
 library("spatialEco")
 library("rgeos")
 library("dplyr")
+library("XML")
 
 library("maptools")
+library("dismo")
+library("ggmap")
 
 # Set global variables
 setwd("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/test_data/birddata") # working directory
@@ -35,16 +38,23 @@ bird_species="Kleine Karekiet"
 
 # Plot observation data
 
-# Import data
+# Import and pre-process data
+nl= rgdal::readOGR("Boundary_NL_RDNew.shp")
 bird_data=read.csv(file="Breeding_bird_atlas_aggregated_data_kmsquares.csv",header=TRUE,sep=";")
 
-#Filter
+# Filter
 bird_data_onebird=bird_data[ which(bird_data$species==bird_species),]
 
-# Visualization
+# Coordinates
+
+RDNew=CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
 coordinates(bird_data_onebird)=~x+y
-proj4string(bird_data_onebird)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
-spplot(bird_data_onebird,"present",col.regions =c("red", "blue"),legendEntries = c("0","1"),cuts = 2)
+proj4string(bird_data_onebird)=RDNew
+
+# Visualization
+bound_nl=list("sp.polygons",nl)
+spplot(bird_data_onebird,"present",col.regions =c("red", "blue"),legendEntries = c("absence","presence"),cuts = 2,sp.layout = list(bound_nl))
+
 
 
