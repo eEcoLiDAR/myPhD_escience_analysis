@@ -61,7 +61,7 @@ proj4string(bird_data_onebird)=RDNew
 bird_data_onebird[!duplicated(bird_data_onebird$kmsquare),] #remove duplicates based on kmsquare (for nicer visualization)
 
 bound_nl=list("sp.polygons",nl)
-spplot(bird_data_onebird,"present",col.regions =c("red", "blue"),legendEntries = c("absence","presence"),cuts = 2,pch=c(4,16),sp.layout = list(bound_nl))
+spplot(bird_data_onebird,"present",col.regions =c("red", "blue"),legendEntries = c("absence","presence"),cuts = 2,pch=c(4,16),sp.layout = list(bound_nl),key.space=list(x=0.05,y=0.95,corner=c(0,1)))
 
 
 
