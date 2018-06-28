@@ -46,6 +46,7 @@ bird_data=read.csv(file="Breeding_bird_atlas_aggregated_data_kmsquares.csv",head
 # Filter
 bird_data_filtered=bird_data[ which(bird_data$year>year_min),]
 bird_data_onebird=bird_data_filtered[ which(bird_data_filtered$species==bird_species),]
+bird_data_onebird = bird_data_onebird[order(bird_data_onebird$kmsquare, -bird_data_onebird$present ), ] # order it that presence entry most likely remain in the dataset
 bird_data_onebird=bird_data_onebird[!duplicated(bird_data_onebird[c(4,5)]),] #remove duplicates based on x,y (for nicer visualization)
 
 # Coordinates
