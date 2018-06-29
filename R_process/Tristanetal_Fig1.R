@@ -14,6 +14,7 @@ Example usage (from command line):
 ToDo: 
 
 Question:
+1. cropping
 
 "
 # Import required libraries
@@ -65,14 +66,14 @@ bird_data_onebird[!duplicated(bird_data_onebird$kmsquare),] #remove duplicates b
 bound_nl=list("sp.polygons",nl)
 spplot(bird_data_onebird,"present",col.regions =c("red", "blue"),legendEntries = c("absence","presence"),cuts = 2,pch=c(4,16),sp.layout = list(bound_nl),key.space=list(x=0.05,y=0.95,corner=c(0,1)))
 
-####### Plot ndvi, lst, srtm #######
+####### Plot ndvi (vegetation index), lst (surface temperature during the day), srtm (topo) #######
 
 # Import
 ndvi = raster("NDVI.tif")
 lst = raster('LST.tif')
 srtm = raster('srtm.tif')
 
-# Clipping for NL
+# Clipping for NL - it's not working
 nl_wgs84=spTransform(nl,CRS("+init=epsg:4326"))
 
 ndvi_nl = raster::crop(ndvi, nl_wgs84)
@@ -88,10 +89,34 @@ plot(nl_wgs84,add=TRUE)
 plot(srtm_nl)
 plot(nl_wgs84,add=TRUE)
 
-####### Plot DSM LiDAR #######
+####### Plot Digital Surface Model (DSM) LiDAR #######
 
 dsm = raster('dsm.tif')
+dsm_wgs84 = projectRaster(dsm, crs="+init=epsg:4326")
 
-plot(dsm)
+plot(dsm_wgs84)
 plot(nl_wgs84,add=TRUE)
 
+####### Simulate Species Distribution Modelling #######
+
+# resampling and give the same extent -- still not cropped in a right way...
+
+ndvi_resamp = resample(ndvi,dsm_wgs84,method="ngb")
+lst_resamp = resample(lst,dsm_wgs84,method="ngb")
+srtm_resamp = resample(srtm,dsm_wgs84,method="ngb")
+
+min_ext = ndvi_resamp+dsm_wgs84
+
+dsm_forstack = crop(dsm_wgs84,min_ext)
+ndvi_forstack = crop(ndvi_resamp,min_ext)
+lst_forstack = crop(lst_resamp,min_ext)
+srtm_forstack = crop(srtm_resamp,min_ext)
+
+# stacking
+
+rasters_stacked <- stack(dsm_forstack,ndvi_forstack,lst_forstack,srtm_forstack)
+plot(rasters_stacked)
+
+# extract value from rasters
+
+pts = extract(rasters_stacked, bird_data_onebird, method="bilinear")
