@@ -120,3 +120,6 @@ plot(rasters_stacked)
 # extract value from rasters
 
 pts = extract(rasters_stacked, bird_data_onebird, method="bilinear")
+pts_dataframe<- data.frame(cbind(coordinates(bird_data_onebird),pts,bird_data_onebird@data))
+
+# GLM modelling
