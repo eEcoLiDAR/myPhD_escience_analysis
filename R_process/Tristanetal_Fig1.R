@@ -65,18 +65,33 @@ bird_data_onebird[!duplicated(bird_data_onebird$kmsquare),] #remove duplicates b
 bound_nl=list("sp.polygons",nl)
 spplot(bird_data_onebird,"present",col.regions =c("red", "blue"),legendEntries = c("absence","presence"),cuts = 2,pch=c(4,16),sp.layout = list(bound_nl),key.space=list(x=0.05,y=0.95,corner=c(0,1)))
 
-####### Plot climate data #######
+####### Plot ndvi, lst, srtm #######
 
 # Import
-bio7 = raster("bio7.grd")
+ndvi = raster("NDVI.tif")
+lst = raster('LST.tif')
+srtm = raster('srtm.tif')
 
 # Clipping for NL
 nl_wgs84=spTransform(nl,CRS("+init=epsg:4326"))
 
-bio7_nl = raster::crop(bio7, nl_wgs84)
-#bio7_nl = mask(bio7_nl,nl_wgs84)
+ndvi_nl = raster::crop(ndvi, nl_wgs84)
+lst_nl = raster::crop(lst, nl_wgs84)
+srtm_nl = raster::crop(srtm, nl_wgs84)
 
-plot(bio7_nl)
+plot(ndvi_nl)
 plot(nl_wgs84,add=TRUE)
 
+plot(lst_nl)
+plot(nl_wgs84,add=TRUE)
+
+plot(srtm_nl)
+plot(nl_wgs84,add=TRUE)
+
+####### Plot DSM LiDAR #######
+
+dsm = raster('dsm.tif')
+
+plot(dsm)
+plot(nl_wgs84,add=TRUE)
 
