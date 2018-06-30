@@ -17,6 +17,9 @@ Question:
 1. cropping
 
 "
+# Run install packages
+install.packages(c("sp","rgdal","raster","spatialEco","rgeos","dplyr","XML","maptools","dismo","ggmap"))
+
 # Import required libraries
 library("sp")
 library("rgdal")
@@ -31,7 +34,8 @@ library("dismo")
 library("ggmap")
 
 # Set global variables
-setwd("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/test_data/birddata") # working directory
+Rpath=getwd() # set relative path based on github repository
+setwd(paste(Rpath,"/birddata/",sep="")) # set working directory
 
 bird_species="Kleine Karekiet"
 year_min=2000
