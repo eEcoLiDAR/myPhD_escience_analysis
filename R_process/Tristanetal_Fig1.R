@@ -127,3 +127,7 @@ pts = extract(rasters_stacked, bird_data_onebird, method="bilinear")
 pts_dataframe<- data.frame(cbind(coordinates(bird_data_onebird),pts,bird_data_onebird@data))
 
 # GLM modelling
+
+glm_model=glm(present~dsm+NDVI+LST+srtm,family="binomial",data=pts_dataframe)
+map=predict(rasters_stacked,glm_model,type="response")
+plot(map)
