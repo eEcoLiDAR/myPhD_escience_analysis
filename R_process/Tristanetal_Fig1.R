@@ -18,7 +18,7 @@ Question:
 
 "
 # Run install packages
-install.packages(c("sp","rgdal","raster","spatialEco","rgeos","dplyr","XML","maptools","dismo","ggmap"))
+install.packages(c("sp","rgdal","raster","spatialEco","rgeos","dplyr","XML","maptools","dismo","ggmap","ggplot2","biomod2"))
 
 # Import required libraries
 library("sp")
@@ -32,6 +32,8 @@ library("XML")
 library("maptools")
 library("dismo")
 library("ggmap")
+library("ggplot2")
+library("biomod2")
 
 # Set global variables
 Rpath=getwd() # set relative path based on github repository
@@ -124,10 +126,15 @@ plot(rasters_stacked)
 # extract value from rasters
 
 pts = extract(rasters_stacked, bird_data_onebird, method="bilinear")
-pts_dataframe<- data.frame(cbind(coordinates(bird_data_onebird),pts,bird_data_onebird@data))
+pts_dataframe= data.frame(cbind(coordinates(bird_data_onebird),pts,bird_data_onebird@data))
+pts_dataframe[is.na(pts_dataframe)] <- 0
 
 # GLM modelling
 
 glm_model=glm(present~dsm+NDVI+LST+srtm,family="binomial",data=pts_dataframe)
 map=predict(rasters_stacked,glm_model,type="response")
 plot(map)
+
+# visualize response curves
+
+rp=response.plot2(model=c('glm_model'),Data=pts_dataframe[,c('dsm','NDVI','LST','srtm')],show.variables=c('dsm','NDVI','LST','srtm'),fixed.var.metric="mean",plot=TRUE,use.formal.names=TRUE)
