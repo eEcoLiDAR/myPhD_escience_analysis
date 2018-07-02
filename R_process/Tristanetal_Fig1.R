@@ -19,7 +19,7 @@ Question:
 
 "
 # Run install packages
-install.packages(c("sp","rgdal","raster","spatialEco","rgeos","dplyr","XML","maptools","dismo","ggmap","ggplot2","biomod2","rgl"))
+install.packages(c("sp","rgdal","raster","spatialEco","rgeos","dplyr","XML","maptools","dismo","ggmap","ggplot2","biomod2","rgl","rasterVis","plot3D"))
 
 # Import required libraries
 library("sp")
@@ -39,6 +39,7 @@ library("biomod2")
 library("lidR")
 library("rgl")
 library("rasterVis")
+library("plot3D")
 
 # Set global variables
 Rpath=getwd() # set relative path based on github repository
@@ -101,7 +102,7 @@ plot(las, color = "treeID",colorPalette = col)
 lastrees_li(las)
 
 col = pastel.colors(200)
-plot(las, color = "treeID", colorPalette = col)
+plot(las, color = "treeID", colorPalette = col,bg="white",size=3)
 
 ##################################################################################################################
 # B.) schematic overview of the integration of LiDAR into SDM workflow (based on Guisan et al.,2017 book page 43)#
