@@ -63,16 +63,29 @@ plot(las)
 ####### Raster #######
 
 hmax = grid_metrics(las, max(Z),res=1)
-plot3d(hmax)
-write.table(hmax, "raster.txt", sep=";") 
+plot(hmax)
+
 
 ####### Voxel #######
 
+hmax_v = grid_metrics3d(las, max(Z),res=1)
+plot(hmax_v)
 
 ####### Object #######
 
+chm = grid_canopy(las, res = 1, subcircle = 2, na.fill = "knnidw", k = 1)
+chm = as.raster(chm)
+plot(chm)
 
+crowns = lastrees(las, "watershed", chm, th = 0.2, extra = TRUE)
+contour = rasterToPolygons(crowns, dissolve = TRUE)
 
+plot(hmax)
+plot(contour, add = T,lwd=2)
+
+ttops = tree_detection(hmax, 5, 5)
+lastrees_dalponte(las, hmax, ttops)
+plot(las, color = "treeID")
 
 ##################################################################################################################
 # B.) schematic overview of the integration of LiDAR into SDM workflow (based on Guisan et al.,2017 book page 43)#
