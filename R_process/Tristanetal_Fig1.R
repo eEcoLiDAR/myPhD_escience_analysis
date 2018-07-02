@@ -18,7 +18,7 @@ Question:
 
 "
 # Run install packages
-install.packages(c("sp","rgdal","raster","spatialEco","rgeos","dplyr","XML","maptools","dismo","ggmap","ggplot2","biomod2"))
+install.packages(c("sp","rgdal","raster","spatialEco","rgeos","dplyr","XML","maptools","dismo","ggmap","ggplot2","biomod2","rgl"))
 
 # Import required libraries
 library("sp")
@@ -36,6 +36,7 @@ library("ggplot2")
 library("biomod2")
 
 library("lidR")
+library("rgl")
 
 # Set global variables
 Rpath=getwd() # set relative path based on github repository
@@ -62,7 +63,8 @@ plot(las)
 ####### Raster #######
 
 hmax = grid_metrics(las, max(Z),res=1)
-plot(hmax)
+plot3d(hmax)
+write.table(hmax, "raster.txt", sep=";") 
 
 ####### Voxel #######
 
