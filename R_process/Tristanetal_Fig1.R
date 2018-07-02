@@ -35,16 +35,50 @@ library("ggmap")
 library("ggplot2")
 library("biomod2")
 
+library("lidR")
+
 # Set global variables
 Rpath=getwd() # set relative path based on github repository
 setwd(paste(Rpath,"/birddata/",sep="")) # set working directory
 
-bird_species="Kleine Karekiet"
-year_min=2000
+##################################################################################################################
+# A.) Data structure representation of features (area, voxel, object)                                            #
+##################################################################################################################
+
+# Import data
+las = readLAS("g32hz1rect2.las")
+
+####### Pre-process #######
+
+# ground classification
+lasground(las, "pmf", 5, 1)
+dtm = grid_terrain(las, method = "knnidw", k = 10L)
+plot3d(dtm)
+
+# normalization
+lasnormalize(las, method = "knnidw", k = 10L)
+plot(las)
+
+####### Raster #######
+
+hmax = grid_metrics(las, max(Z),res=1)
+plot(hmax)
+
+####### Voxel #######
+
+
+####### Object #######
+
+
+
 
 ##################################################################################################################
 # B.) schematic overview of the integration of LiDAR into SDM workflow (based on Guisan et al.,2017 book page 43)#
 ##################################################################################################################
+
+# global variables
+bird_species="Kleine Karekiet"
+year_min=2000
 
 ####### Plot observation data #######
 
