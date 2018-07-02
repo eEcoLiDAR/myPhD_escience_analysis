@@ -15,6 +15,7 @@ ToDo:
 
 Question:
 1. cropping
+2. 3D plotting rasters and voxels
 
 "
 # Run install packages
@@ -37,6 +38,7 @@ library("biomod2")
 
 library("lidR")
 library("rgl")
+library("rasterVis")
 
 # Set global variables
 Rpath=getwd() # set relative path based on github repository
@@ -54,7 +56,9 @@ las = readLAS("g32hz1rect2.las")
 # ground classification
 lasground(las, "pmf", 5, 1)
 dtm = grid_terrain(las, method = "knnidw", k = 10L)
-plot3d(dtm)
+
+dtm_r <- rasterFromXYZ(dtm)
+plot3D(dtm_r)
 
 # normalization
 lasnormalize(las, method = "knnidw", k = 10L)
@@ -65,11 +69,13 @@ plot(las)
 hmax = grid_metrics(las, max(Z),res=1)
 plot(hmax)
 
+hmax_r <- rasterFromXYZ(hmax)
+plot3D(hmax_r)
 
 ####### Voxel #######
 
 hmax_v = grid_metrics3d(las, max(Z),res=1)
-plot(hmax_v)
+plot3d(hmax_v)
 
 ####### Object #######
 
