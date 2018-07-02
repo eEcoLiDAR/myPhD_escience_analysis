@@ -73,6 +73,8 @@ plot(hmax_v)
 
 ####### Object #######
 
+# Watershed
+
 chm = grid_canopy(las, res = 1, subcircle = 2, na.fill = "knnidw", k = 1)
 chm = as.raster(chm)
 plot(chm)
@@ -83,9 +85,17 @@ contour = rasterToPolygons(crowns, dissolve = TRUE)
 plot(hmax)
 plot(contour, add = T,lwd=2)
 
-ttops = tree_detection(hmax, 5, 5)
+ttops = tree_detection(hmax, 8, 1)
 lastrees_dalponte(las, hmax, ttops)
-plot(las, color = "treeID")
+col = pastel.colors(200)
+plot(las, color = "treeID",colorPalette = col)
+
+# Point cloud based
+
+lastrees_li(las)
+
+col = pastel.colors(200)
+plot(las, color = "treeID", colorPalette = col)
 
 ##################################################################################################################
 # B.) schematic overview of the integration of LiDAR into SDM workflow (based on Guisan et al.,2017 book page 43)#
