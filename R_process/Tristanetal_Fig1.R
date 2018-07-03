@@ -12,10 +12,11 @@ Function:
 Example usage (from command line):   
 
 ToDo: 
-
-Question:
 1. cropping
 2. 3D plotting rasters and voxels
+
+Question:
+
 
 "
 # Run install packages
@@ -191,7 +192,7 @@ plot(rasters_stacked)
 
 # extract value from rasters
 
-pts = extract(rasters_stacked, bird_data_onebird, method="bilinear")
+pts = extract(rasters_stacked, bird_data_onebird)
 pts_dataframe= data.frame(cbind(coordinates(bird_data_onebird),pts,bird_data_onebird@data))
 pts_dataframe[is.na(pts_dataframe)] <- 0
 
