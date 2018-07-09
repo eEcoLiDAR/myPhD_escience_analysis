@@ -159,12 +159,7 @@ rp=response.plot2(model=c('glm_model'),Data=pts_dataframe[,c('V1.1','V1.2','V1.3
 
 # Simulate response curves
 
-x <- seq(0,30,1)
-y <- 1/(1+exp(-.5*(x-15)))
-
-plot(x, y, type = "l", frame = FALSE, pch = 19, col = "red", xlab = "x", ylab = "y")
-
 response_df <- data.frame(data=seq(0,30,1),probability=1/(1+exp(-.5*(x-15))))
 
-ggplot(data=response_df , aes(x=data, y=probability)) + geom_line(color="blue", size=1.2) + scale_color_brewer(palette="Paired") + theme_minimal() + theme(axis.text=element_text(size=15,face="bold"),
+ggplot(data=response_df , aes(x=data, y=probability)) + geom_line(color="blue", size=1.2) + scale_color_brewer(palette="Paired") + theme(axis.text=element_text(size=15,face="bold"),
                                                                                                                                               axis.title=element_text(size=15,face="bold"))
