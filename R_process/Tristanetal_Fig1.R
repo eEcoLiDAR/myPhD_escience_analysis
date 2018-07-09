@@ -64,7 +64,11 @@ plot3D(dtm_r)
 
 # normalization
 lasnormalize(las, method = "knnidw", k = 10L)
-plot(las)
+plot(las,bg="white",size=2.5)
+grid3d("x",at = list(x=pretty(seq(min(las@data$X), max(las@data$X), length = 100), n = 10)),col = "black",lwd = 2)
+grid3d("y",at = list(y=pretty(seq(min(las@data$Y), max(las@data$Y), length = 100), n = 10)),col = "black",lwd = 2)
+grid3d("z",at = list(z=pretty(seq(min(las@data$Z), max(las@data$Z), length = 100), n = 10)),col = "black",lwd = 2)
+bbox3d()
 
 ####### Raster #######
 
