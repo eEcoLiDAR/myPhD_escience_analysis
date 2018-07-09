@@ -12,8 +12,7 @@ Function:
 Example usage (from command line):   
 
 ToDo: 
-1. cropping
-2. 3D plotting rasters and voxels
+1. 3D plotting rasters and voxels -- the solution is still ugly...
 
 Question:
 
@@ -116,7 +115,11 @@ plot(las, color = "treeID", colorPalette = col,bg="white",size=3)
 # B.) schematic overview of the integration of LiDAR into SDM workflow (based on Guisan et al.,2017 book page 43)#
 ##################################################################################################################
 
-# Create presence only data
+# Create presence only data (coming from digitalization based on exported maximum height layer)
+
+presence=readShapeSpatial("Sim_Birds.shp")
+plot(dtm,colorPalette = gray.colors(100))
+plot(presence,type = 'p', col = 'red', pch=18, cex=3, add=TRUE)
 
 # Create layers
 
