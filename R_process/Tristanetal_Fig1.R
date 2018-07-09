@@ -126,12 +126,29 @@ plot(presence,type = 'p', col = 'red', pch=18, cex=3, add=TRUE)
 hmax = grid_metrics(las, max(Z),res=1)
 plot(hmax)
 
+hmax_r <- rasterFromXYZ(hmax)
+
 hsd = grid_metrics(las, sd(Z),res=1)
 plot(hsd)
+
+hsd_r <- rasterFromXYZ(hsd)
 
 hmean = grid_metrics(las, mean(Z),res=1)
 plot(hmean)
 
-# Create response curves
+hmean_r <- rasterFromXYZ(hmean)
+
+# stack layers
+
+rasters_stacked <- stack(hmax_r,hsd_r,hmean_r)
+plot(rasters_stacked)
+
+pts = extract(rasters_stacked, presence)
+pts_dataframe= data.frame(cbind(coordinates(presence),pts,presence@data))
+pts_dataframe[is.na(pts_dataframe)] <- 0
 
 # Create prediction
+
+
+
+# Create response curves
