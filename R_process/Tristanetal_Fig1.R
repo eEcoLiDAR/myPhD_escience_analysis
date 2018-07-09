@@ -149,6 +149,10 @@ pts_dataframe[is.na(pts_dataframe)] <- 0
 
 # Create prediction
 
-
+glm_model=glm(id~V1.1+V1.2+V1.3,family="binomial",data=pts_dataframe)
+map=predict(rasters_stacked,glm_model,type="response")
+plot(map,col = heat.colors(10))
 
 # Create response curves
+
+rp=response.plot2(model=c('glm_model'),Data=pts_dataframe[,c('V1.1','V1.2','V1.3')],show.variables=c('V1.1','V1.2','V1.3'),fixed.var.metric="mean",plot=TRUE,use.formal.names=TRUE)
