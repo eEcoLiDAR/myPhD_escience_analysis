@@ -163,3 +163,13 @@ response_df <- data.frame(data=seq(0,30,1),probability=1/(1+exp(-.5*(x-15))))
 
 ggplot(data=response_df , aes(x=data, y=probability)) + geom_line(color="blue", size=1.2) + scale_color_brewer(palette="Paired") + theme(axis.text=element_text(size=15,face="bold"),
                                                                                                                                               axis.title=element_text(size=15,face="bold"))
+
+response2_df <- data.frame(data=seq(-4,4,length=200),probability=1/sqrt(2*pi)*exp(-seq(-4,4,length=200)^2/2))
+
+ggplot(data=response2_df , aes(x=data, y=probability)) + geom_line(color="blue", size=1.2) + scale_color_brewer(palette="Paired") + theme(axis.text=element_text(size=15,face="bold"),
+                                                                                                                                         axis.title=element_text(size=15,face="bold"))
+
+response3_df <- data.frame(data=seq(0,30,1),probability=1/(1+exp(.5*(x-15))))
+
+ggplot(data=response3_df , aes(x=data, y=probability)) + geom_line(color="blue", size=1.2) + scale_color_brewer(palette="Paired") + theme(axis.text=element_text(size=15,face="bold"),
+                                                                                                                                         axis.title=element_text(size=15,face="bold"))
