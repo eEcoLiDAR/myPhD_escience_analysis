@@ -41,6 +41,7 @@ library("rgl")
 library("rasterVis")
 library("plot3D")
 library("ggspatial")
+library("ggsn")
 
 # Set global variables
 Rpath=getwd() # set relative path based on github repository
@@ -56,10 +57,13 @@ las = readLAS("g32hz1rect2.las")
 ####### Pre-process #######
 
 # ground classification
-lasground(las, "pmf", 5, 1)
+lasground(las, "pmf", 1, 1)
 dtm = grid_terrain(las, method = "knnidw", k = 10L)
 
+plot(dtm,colorPalette = terrain.colors(100),xaxt='n',yaxt='n', ann=FALSE,legend=FALSE)
+
 dtm_r <- rasterFromXYZ(dtm)
+writeRaster(dtm_r, filename="dtm_test.tif", format="GTiff", overwrite=TRUE)
 plot3D(dtm_r)
 
 # normalization
@@ -74,6 +78,7 @@ grid3d("z",at = list(z=pretty(seq(min(las@data$Z)-1, max(las@data$Z)+1, length =
 
 hmax = grid_metrics(las, max(Z),res=1)
 plot(hmax,xaxt='n',yaxt='n', ann=FALSE,legend=FALSE)
+grid (15,15,lty = 1, col = "black",lwd=3)
 
 hmax_r <- rasterFromXYZ(hmax)
 plot3D(hmax_r)
@@ -119,23 +124,24 @@ plot(las, color = "treeID", colorPalette = col,bg="white",size=3)
 # Create presence only data (coming from digitalization based on exported maximum height layer)
 
 presence=readShapeSpatial("Sim_Birds.shp")
-plot(dtm,colorPalette = gray.colors(100))
 plot(presence,type = 'p', col = 'red', pch=18, cex=3, add=TRUE)
 
 proj4string(presence) <- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +towgs84=565.417,50.3319,465.552,-0.398957,0.343988,-1.8774,4.0725 +units=m +no_defs")
 presense_wgs84 <- spTransform(presence, CRS("+proj=longlat +datum=WGS84"))
 
 ggplot() + geom_osm(type = "osm") + ggspatial::geom_spatial(data=presense_wgs84,col="blue",pch=18, cex=6) + coord_map()
+ggplot() + ggspatial::geom_spatial(data=presense_wgs84,col="blue",pch=18, cex=6) + coord_map() + theme(panel.background = element_rect(fill = "grey80", colour = "grey80", size=1),axis.title.y = element_blank(),
+                                                                                                       axis.title.x=element_blank(),axis.text.x=element_blank(),axis.text.y=element_blank())+ theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) 
 
 # Create layers
 
 hmax = grid_metrics(las, max(Z),res=1)
-plot(hmax)
+plot(hmax,xaxt='n',yaxt='n', ann=FALSE,legend=FALSE)
 
 hmax_r <- rasterFromXYZ(hmax)
 
 hsd = grid_metrics(las, sd(Z),res=1)
-plot(hsd)
+plot(hsd,xaxt='n',yaxt='n', ann=FALSE,legend=FALSE)
 
 hsd_r <- rasterFromXYZ(hsd)
 
