@@ -73,7 +73,7 @@ grid3d("z",at = list(z=pretty(seq(min(las@data$Z)-1, max(las@data$Z)+1, length =
 ####### Raster #######
 
 hmax = grid_metrics(las, max(Z),res=1)
-plot(hmax)
+plot(hmax,xaxt='n',yaxt='n', ann=FALSE,legend=FALSE)
 
 hmax_r <- rasterFromXYZ(hmax)
 plot3D(hmax_r)
@@ -167,15 +167,15 @@ rp=response.plot2(model=c('glm_model'),Data=pts_dataframe[,c('V1.1','V1.2','V1.3
 
 response_df <- data.frame(data=seq(0,30,1),probability=1/(1+exp(-.5*(seq(0,30,1)-15))))
 
-ggplot(data=response_df , aes(x=data, y=probability)) + geom_line(color="blue", size=1.2) + scale_color_brewer(palette="Paired") + theme(axis.text=element_text(size=15,face="bold"),
-                                                                                                                                              axis.title=element_text(size=15,face="bold"))
+ggplot(data=response_df , aes(x=data, y=probability)) + geom_line(color="blue", size=3) + scale_color_brewer(palette="Paired") + theme_minimal() + theme(panel.background = element_rect(fill = "white", colour = "white", size=1), axis.title.y = element_blank(),
+                                                                                                                                                            axis.title.x=element_blank(),axis.text.x=element_blank(),axis.text.y=element_blank()) + theme(axis.line = element_line(arrow=arrow(),size = 1.5, colour = "black"))
 
 response2_df <- data.frame(data=seq(-4,4,length=200),probability=1/sqrt(2*pi)*exp(-seq(-4,4,length=200)^2/2))
 
-ggplot(data=response2_df , aes(x=data, y=probability)) + geom_line(color="blue", size=1.2) + scale_color_brewer(palette="Paired") + theme(axis.text=element_text(size=15,face="bold"),
-                                                                                                                                         axis.title=element_text(size=15,face="bold"))
+ggplot(data=response2_df , aes(x=data, y=probability)) + geom_line(color="blue", size=3) + scale_color_brewer(palette="Paired") + theme_minimal() + theme(panel.background = element_rect(fill = "white", colour = "white", size=1), axis.title.y = element_blank(),
+                                                                                                                                                            axis.title.x=element_blank(),axis.text.x=element_blank(),axis.text.y=element_blank()) + theme(axis.line = element_line(arrow=arrow(),size = 1.5, colour = "black"))
 
 response3_df <- data.frame(data=seq(0,30,1),probability=4*seq(0,30,1)+1)
 
-ggplot(data=response3_df , aes(x=data, y=probability)) + geom_line(color="blue", size=1.2) + scale_color_brewer(palette="Paired") + theme(axis.text=element_text(size=15,face="bold"),
-                                                                                                                                         axis.title=element_text(size=15,face="bold"))
+ggplot(data=response3_df , aes(x=data, y=probability)) + geom_line(color="blue", size=3) + scale_color_brewer(palette="Paired") + theme_minimal() + theme(panel.background = element_rect(fill = "white", colour = "white", size=1), axis.title.y = element_blank(),
+                                                                                                                                                           axis.title.x=element_blank(),axis.text.x=element_blank(),axis.text.y=element_blank()) + theme(axis.line = element_line(arrow=arrow(),size = 1.5, colour = "black"))
