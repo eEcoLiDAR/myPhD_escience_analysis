@@ -44,7 +44,7 @@ library("ggspatial")
 
 # Set global variables
 Rpath=getwd() # set relative path based on github repository
-setwd(paste(Rpath,"/birddata/",sep="")) # set working directory
+setwd(paste(Rpath,"/birddata2/",sep="")) # set working directory
 
 ##################################################################################################################
 # A.) Data structure representation of features (area, voxel, object)                                            #
@@ -165,7 +165,7 @@ rp=response.plot2(model=c('glm_model'),Data=pts_dataframe[,c('V1.1','V1.2','V1.3
 
 # Simulate response curves
 
-response_df <- data.frame(data=seq(0,30,1),probability=1/(1+exp(-.5*(x-15))))
+response_df <- data.frame(data=seq(0,30,1),probability=1/(1+exp(-.5*(seq(0,30,1)-15))))
 
 ggplot(data=response_df , aes(x=data, y=probability)) + geom_line(color="blue", size=1.2) + scale_color_brewer(palette="Paired") + theme(axis.text=element_text(size=15,face="bold"),
                                                                                                                                               axis.title=element_text(size=15,face="bold"))
