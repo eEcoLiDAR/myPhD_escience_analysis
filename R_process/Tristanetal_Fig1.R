@@ -130,7 +130,7 @@ proj4string(presence) <- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.387
 presense_wgs84 <- spTransform(presence, CRS("+proj=longlat +datum=WGS84"))
 
 ggplot() + geom_osm(type = "osm") + ggspatial::geom_spatial(data=presense_wgs84,col="blue",pch=18, cex=6) + coord_map()
-ggplot() + ggspatial::geom_spatial(data=presense_wgs84,col="blue",pch=18, cex=6) + coord_map() + theme(panel.background = element_rect(fill = "grey80", colour = "grey80", size=1),axis.title.y = element_blank(),
+ggplot() + ggspatial::geom_spatial(data=presense_wgs84,col="blue",pch=18, cex=6) + coord_map() + theme(panel.background = element_rect(fill = "grey80", colour = "black", size=2),axis.title.y = element_blank(),
                                                                                                        axis.title.x=element_blank(),axis.text.x=element_blank(),axis.text.y=element_blank())+ theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) 
 
 # Create layers
@@ -163,7 +163,7 @@ pts_dataframe[is.na(pts_dataframe)] <- 0
 
 glm_model=glm(id~V1.1+V1.2+V1.3,family="binomial",data=pts_dataframe)
 map=predict(rasters_stacked,glm_model,type="response")
-plot(map,col = heat.colors(10))
+plot(map,col=topo.colors(50),xaxt='n',yaxt='n', ann=FALSE,legend=TRUE)
 
 # Create response curves
 
