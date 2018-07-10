@@ -40,6 +40,7 @@ library("lidR")
 library("rgl")
 library("rasterVis")
 library("plot3D")
+library("ggspatial")
 
 # Set global variables
 Rpath=getwd() # set relative path based on github repository
@@ -63,11 +64,11 @@ plot3D(dtm_r)
 
 # normalization
 lasnormalize(las, method = "knnidw", k = 10L)
-plot(las,bg="white",size=2.5)
-grid3d("x",at = list(x=pretty(seq(min(las@data$X), max(las@data$X), length = 100), n = 10)),col = "black",lwd = 2)
-grid3d("y",at = list(y=pretty(seq(min(las@data$Y), max(las@data$Y), length = 100), n = 10)),col = "black",lwd = 2)
-grid3d("z",at = list(z=pretty(seq(min(las@data$Z), max(las@data$Z), length = 100), n = 10)),col = "black",lwd = 2)
-bbox3d()
+plot(las,bg="white",size=1.8)
+grid3d("x",at = list(x=pretty(seq(min(las@data$X)-1, max(las@data$X)+1, length = 100), n = 10)),col = "black",lwd = 2)
+grid3d("y",at = list(y=pretty(seq(min(las@data$Y)-1, max(las@data$Y)+1, length = 100), n = 10)),col = "black",lwd = 2)
+grid3d("z",at = list(z=pretty(seq(min(las@data$Z)-1, max(las@data$Z)+1, length = 100), n = 10)),col = "black",lwd = 2)
+
 
 ####### Raster #######
 
@@ -121,6 +122,11 @@ presence=readShapeSpatial("Sim_Birds.shp")
 plot(dtm,colorPalette = gray.colors(100))
 plot(presence,type = 'p', col = 'red', pch=18, cex=3, add=TRUE)
 
+proj4string(presence) <- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +towgs84=565.417,50.3319,465.552,-0.398957,0.343988,-1.8774,4.0725 +units=m +no_defs")
+presense_wgs84 <- spTransform(presence, CRS("+proj=longlat +datum=WGS84"))
+
+ggplot() + geom_osm(type = "osm") + ggspatial::geom_spatial(data=presense_wgs84,col="blue",pch=18, cex=6) + coord_map()
+
 # Create layers
 
 hmax = grid_metrics(las, max(Z),res=1)
@@ -169,7 +175,7 @@ response2_df <- data.frame(data=seq(-4,4,length=200),probability=1/sqrt(2*pi)*ex
 ggplot(data=response2_df , aes(x=data, y=probability)) + geom_line(color="blue", size=1.2) + scale_color_brewer(palette="Paired") + theme(axis.text=element_text(size=15,face="bold"),
                                                                                                                                          axis.title=element_text(size=15,face="bold"))
 
-response3_df <- data.frame(data=seq(0,30,1),probability=1/(1+exp(.5*(x-15))))
+response3_df <- data.frame(data=seq(0,30,1),probability=4*seq(0,30,1)+1)
 
 ggplot(data=response3_df , aes(x=data, y=probability)) + geom_line(color="blue", size=1.2) + scale_color_brewer(palette="Paired") + theme(axis.text=element_text(size=15,face="bold"),
                                                                                                                                          axis.title=element_text(size=15,face="bold"))
