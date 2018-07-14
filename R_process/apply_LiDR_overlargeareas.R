@@ -7,7 +7,7 @@ Output:
 
 Function:
 
-Example usage (from command line):   
+Example usage:   
 
 ToDo: 
 
@@ -16,18 +16,41 @@ Question:
 "
 # Import required libraries
 library("lidR")
+library("raster")
 
 # Set global variables
-setwd("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/test_data/") # set working directory
 
-##################################################################################################################
-# Apply LidR over large areas                                                                                    #
-##################################################################################################################
+##########################
+# Create catalog         #
+##########################
 
-ctg = catalog("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/test_data/lidar/")
+ctg = catalog("D:/Koma/Paper1_ReedStructure/Data/ALS/06en2_tiles/")
 
-cores(ctg) <- 4L
-tiling_size(ctg) <- 500
+cores(ctg) <- 15L
+tiling_size(ctg) <- 1000
 buffer(ctg) <- 50
 
-new_ctg = catalog_retile(ctg, "D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/test_data/lidar/tiled/", "tile_")
+#new_ctg = catalog_retile(ctg, "D:/Koma/Paper1_ReedStructure/Data/ALS/06en2_tiles/", "06en2_tile_") # if the tiling is not done yet this function should run
+
+##########################
+# Preprocess - Normalize #
+##########################
+
+##########################
+# Feature calculation    #
+##########################
+
+myAnalyze <- function(las) 
+{
+  metrics = grid_metrics(las, list(hmean = mean(Z), hmax = max(Z)), res=5)
+  return(metrics)
+}
+
+output <- catalog_apply(ctg, myAnalyze, select = "xyz")
+output <- data.table::rbindlist(output)
+
+# convert data table into raster
+
+try_r <- rasterFromXYZ(output)
+plot(try_r)
+
