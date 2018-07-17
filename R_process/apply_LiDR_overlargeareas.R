@@ -24,17 +24,31 @@ library("raster")
 # Create catalog         #
 ##########################
 
-ctg = catalog("D:/Koma/Paper1_ReedStructure/Data/ALS/06en2_tiles/")
+ctg = catalog("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/test_data/lidar/")
 
-cores(ctg) <- 15L
+cores(ctg) <- 4L
 tiling_size(ctg) <- 1000
-buffer(ctg) <- 50
+buffer(ctg) <- 5
 
-#new_ctg = catalog_retile(ctg, "D:/Koma/Paper1_ReedStructure/Data/ALS/06en2_tiles/", "06en2_tile_") # if the tiling is not done yet this function should run
+#ctg = catalog_retile(ctg, "D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/test_data/lidar/tiled/", "tile_") # if the tiling is not done yet this function should run
 
 ##########################
 # Preprocess - Normalize #
 ##########################
+
+createDTM <- function(las) 
+{
+  las_ground = lasfilter(las, Classification == 1)
+  dtm = grid_terrain(las_ground, method = "knnidw", k = 10L)
+  return(dtm)
+}
+
+dtm_tiles <- catalog_apply(ctg, createDTM)
+dtm <- data.table::rbindlist(dtm_tiles)
+
+dtm_r <- rasterFromXYZ(dtm)
+
+plot(dtm_r,colorPalette = terrain.colors(100))
 
 ##########################
 # Feature calculation    #
