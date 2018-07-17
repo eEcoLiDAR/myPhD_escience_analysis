@@ -28,3 +28,7 @@ las = readLAS("lauwermeer_merged.las")
 # Preprocess - Normalize #
 ##########################
 
+las_ground = lasfilter(las, Classification == 2)
+plot(las_ground)
+
+dtm = grid_terrain(las_ground, method = "knnidw", res=5)
