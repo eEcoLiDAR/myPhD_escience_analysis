@@ -36,9 +36,6 @@ las_ground=lasfilter(las, Classification == 2)
 plot(las_ground)
 writeLAS(las_ground,'las_ground.las')
 
-las_other=lasfilter(las, Classification == 1)
-writeLAS(las_other,'las_other.las')
-
 dtm = grid_metrics(las_ground, mean(Z),res=1)
 plot(dtm, zlim=c(-1,1))
 
