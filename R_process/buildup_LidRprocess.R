@@ -19,14 +19,14 @@ library("lidR")
 library("raster")
 
 # Set global variables
-setwd("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/test_data") # working directory
+setwd("D:/Paper1_ReedbedStructure/Data/ALS/ForProcess") # working directory
 
 # Import data
-las = readLAS("lauwermeer_merged.las")
+las_gorund = readLAS("g02gz2.laz")
+plot(las_ground)
 
-hist(las@data$Z)
-print(min(las@data$Z))
-print(max(las@data$Z))
+las_objects = readLAS("u02gz2.laz")
+plot(las_objects)
 
 ##########################
 # Preprocess - Normalize #
