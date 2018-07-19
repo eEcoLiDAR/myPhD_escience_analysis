@@ -24,11 +24,23 @@ setwd("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/test_data") # working directo
 # Import data
 las = readLAS("lauwermeer_merged.las")
 
+hist(las@data$Z)
+print(min(las@data$Z))
+print(max(las@data$Z))
+
 ##########################
 # Preprocess - Normalize #
 ##########################
 
-las_ground = lasfilter(las, Classification == 2)
+las_ground=lasfilter(las, Classification == 2)
 plot(las_ground)
+writeLAS(las_ground,'las_ground.las')
 
-dtm = grid_terrain(las_ground, method = "knnidw", res=5)
+las_other=lasfilter(las, Classification == 1)
+writeLAS(las_other,'las_other.las')
+
+dtm = grid_metrics(las_ground, mean(Z),res=1)
+plot(dtm, zlim=c(-1,1))
+
+lasnormalize(las, dtm)
+hist(las@data$Z)
