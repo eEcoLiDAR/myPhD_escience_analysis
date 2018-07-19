@@ -24,13 +24,8 @@ library("raster")
 # Create catalog         #
 ##########################
 
-ctg = catalog("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/test_data/lidar/")
-
-cores(ctg) <- 4L
-tiling_size(ctg) <- 1000
-buffer(ctg) <- 5
-
-#ctg = catalog_retile(ctg, "D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/test_data/lidar/tiled/", "tile_") # if the tiling is not done yet this function should run
+ctg = catalog("D:/Paper1_ReedbedStructure/Data/ALS/ForProcess/tiled/")
+plot(ctg)
 
 ##########################
 # Preprocess - Normalize #
