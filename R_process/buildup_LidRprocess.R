@@ -36,6 +36,8 @@ las_ground=lasfilter(las, Classification == 2)
 plot(las_ground)
 writeLAS(las_ground,'las_ground.las')
 
+dtm = grid_terrain(las, 5, method = "kriging", k = 10L)
+
 dtm = grid_metrics(las_ground, mean(Z),res=1)
 plot(dtm, zlim=c(-1,1))
 
