@@ -19,27 +19,41 @@ library("lidR")
 library("raster")
 
 # Set global variables
-setwd("D:/Paper1_ReedbedStructure/Data/ALS/ForProcess") # working directory
+setwd("D:/Paper1_ReedbedStructure/Data/ALS/ForProcess/tiled/") # working directory
 
-# Import data
-las_gorund = readLAS("g02gz2.laz")
-plot(las_ground)
+##########################
+# Import                 #
+##########################
 
-las_objects = readLAS("u02gz2.laz")
-plot(las_objects)
+las = readLAS("tile_00005.las")
+plot(las)
+
+hist(las@data$Z)
+
+dtm = raster("i02gz2.tif")
+dtm[is.na(dtm)] <- 0 # I fill up with 0 where DTM do not give velues back
+plot(dtm)
 
 ##########################
 # Preprocess - Normalize #
 ##########################
 
-las_ground=lasfilter(las, Classification == 2)
-plot(las_ground)
-writeLAS(las_ground,'las_ground.las')
-
-dtm = grid_terrain(las, 5, method = "kriging", k = 10L)
-
-dtm = grid_metrics(las_ground, mean(Z),res=1)
-plot(dtm, zlim=c(-1,1))
-
 lasnormalize(las, dtm)
 hist(las@data$Z)
+
+#############################
+# LiDAR metrics calculation #
+#############################
+
+myMetrics = function(z)
+{
+  metrics = list(
+    zmean = mean(z),
+    zmax = max(z)
+  )
+  
+  return(metrics)
+}
+
+metrics = grid_metrics(las, myMetrics(Z), 1)
+plot(metrics)
