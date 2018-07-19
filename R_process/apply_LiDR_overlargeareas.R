@@ -38,7 +38,7 @@ buffer(ctg) <- 5
 
 createDTM <- function(las) 
 {
-  las_ground = lasfilter(las, Classification == 1)
+  las_ground = lasfilter(las, Classification == 2)
   dtm = grid_terrain(las_ground, method = "knnidw", k = 10L)
   return(dtm)
 }
