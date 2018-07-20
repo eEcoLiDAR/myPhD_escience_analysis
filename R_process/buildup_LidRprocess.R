@@ -30,8 +30,8 @@ plot(las)
 
 hist(las@data$Z)
 
-dtm = raster("i02gz2.tif")
-dtm[is.na(dtm)] <- 0 # I fill up with 0 where DTM do not give velues back
+dtm = raster("dtm.tif")
+#dtm[is.na(dtm)] <- 0 # I fill up with 0 where DTM do not give velues back
 plot(dtm)
 
 ##########################
