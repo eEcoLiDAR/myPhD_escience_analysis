@@ -31,7 +31,7 @@ plot(las)
 hist(las@data$Z)
 
 dtm = raster("dtm.tif")
-#dtm[is.na(dtm)] <- 0 # I fill up with 0 where DTM do not give velues back
+dtm[is.na(dtm)] <- 0 # I fill up with 0 where DTM do not give velues back
 plot(dtm)
 
 ##########################
@@ -55,5 +55,5 @@ myMetrics = function(z)
   return(metrics)
 }
 
-metrics = grid_metrics(las, myMetrics(Z), 1)
+metrics = grid_metrics(las, myMetrics(Z), 2.5)
 plot(metrics)
