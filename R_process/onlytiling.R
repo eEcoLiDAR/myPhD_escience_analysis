@@ -46,5 +46,5 @@ dtm_tiles <- catalog_apply(ctg, createDTM)
 dtm <- data.table::rbindlist(dtm_tiles)
 
 dtm_r <- rasterFromXYZ(dtm)
-
 plot(dtm_r,colorPalette = terrain.colors(100))
+writeRaster(dtm_r, "dtm.tif")
