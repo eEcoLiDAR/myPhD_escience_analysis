@@ -1,9 +1,5 @@
-: Preprocessing of ahn2 point clouds 
-: set the command line into the directory which contains the only-ground and object point cloud (laz files downloaded from ahn2 viewer)
+: Preprocessing of ahn2 point clouds; create DTM, DSM, and normalized point cloud
+: the dataset was tiled with lidR beforehand and the ground points are indicated with classification 2
 
-C:\LAStools\bin\las2las -i g02gz2.laz -set_classification 2 -olaz
-C:\LAStools\bin\lasmerge -i g02gz2_1.laz u02gz2.laz -o 02gz2.laz
-
-:: tiling with lidr
-
-C:\LAStools\bin\lasheight -i *.las -olaz -replace_z
+::C:\LAStools\bin\lasheight -i *.laz -olaz -replace_z
+C:\LAStools\bin\blast2dem -i *_1.laz -o *_shd.tif -step 1 -hillshade
