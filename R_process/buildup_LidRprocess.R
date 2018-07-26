@@ -5,11 +5,14 @@ Aim: test preprocessing steps
 input:
 output:
 
-fuction:
+fuctions:
 Preprocessing
 1. create DTM
 2. normalize
 3. create and export DTM, DSM
+
+question:
+1. How to handle no data during interpolation of the DTM
 
 
 "
@@ -38,16 +41,13 @@ hist(las@data$Z)
 start_time <- Sys.time()
 
 las_ground = lasfilter(las, Classification == 2)
-dtm = grid_terrain(las_ground, 5, method = "knnidw", k = 10L)
+dtm = grid_terrain(las_ground, 2.5, method = "knnidw", k = 10L)
 
 end_time <- Sys.time()
 print(end_time - start_time)
 
 plot(dtm)
 plot3d(dtm)
-
-dtm_2 = grid_canopy(las_ground, 2.5, subcircle = 0.2)
-plot(dtm_2)
 
 ##########################
 # Normalize              #
