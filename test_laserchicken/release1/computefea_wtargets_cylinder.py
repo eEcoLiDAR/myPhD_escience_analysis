@@ -48,7 +48,8 @@ for x in neighbors:
 
   start1 = time.time()
   print("------ Feature calculation is started ------")
-  compute_features(pc, x, target_idx_base, target, ['max_z'], InfiniteCylinder(np.float(args.radius)))
+  compute_features(pc, x, target_idx_base, target, ['max_z','min_z','mean_z','median_z','std_z','var_z','coeff_var_z','skew_z','kurto_z',
+'sigma_z','perc_20','perc_40','perc_60','perc_80','perc_90','echo_ratio','pulse_penetration_ratio','point_density','eigenv_1','eigenv_2','eigenv_3'], InfiniteCylinder(np.float(args.radius)))
   target_idx_base+=len(x)
   end1 = time.time()
   difftime1=end1 - start1
@@ -57,3 +58,7 @@ for x in neighbors:
 
 
 write(target,args.output)
+
+#
+# example usage: computefea_wtargets_cylinder.py D:/GitHub/eEcoLiDAR/develop-branch/eEcoLiDAR/ D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/test_data/testdata.las D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/test_data/testdata.las 2.5 D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/test_data/testdata.ply
+#

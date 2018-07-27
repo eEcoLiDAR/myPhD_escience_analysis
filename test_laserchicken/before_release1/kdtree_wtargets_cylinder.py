@@ -48,7 +48,8 @@ for x in neighbors:
 
   # Calculate features
   start1 = time.time()
-  compute_features(pc, indices_cyl, target_idx_base, target, ['max_z'], InfiniteCylinder(np.float(args.radius)))
+  compute_features(pc, indices_cyl, target_idx_base, target, ['max_z','min_z','mean_z','median_z','std_z','var_z','range','coeff_var_z','skew_z','kurto_z',
+'sigma_z','perc_20','perc_40','perc_60','perc_80','echo_ratio','pulse_penetration_ratio','density_absolute_mean'], InfiniteCylinder(np.float(args.radius)))
   end1 = time.time()
   difftime1=end1 - start1
   print(("feature calc: %f sec") % (difftime1))
