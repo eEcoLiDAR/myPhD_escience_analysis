@@ -46,6 +46,17 @@ for(i in 1:length(file.names)){
 # DTM                    #
 ##########################
 
+file.names <- dir(full_path, pattern =".laz")
+for(i in 1:length(file.names)){
+  las = readLAS(file.names[i])
+  las_ground = lasfilter(las, Classification == 2)
+  dtm2 = grid_metrics(las_ground, mean(Z), res=2.5)
+  dtm_r <- rasterFromXYZ(dtm2)
+  writeRaster(dtm_r, paste(i,".tif",sep=""))
+}
+
+##########################
+
 create_meanDTM <- function(las) 
 {
   las_ground = lasfilter(las, Classification == 2)
