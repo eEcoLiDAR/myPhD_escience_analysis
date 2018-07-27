@@ -9,6 +9,7 @@ fuctions:
 Preprocessing
 1. create DTM
 2. normalize
+3. create nDSM
 3. create and export DTM, DSM
 
 Question:
