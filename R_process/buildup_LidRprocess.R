@@ -49,6 +49,22 @@ print(end_time - start_time)
 plot(dtm)
 plot3d(dtm)
 
+start_time <- Sys.time()
+
+dtm2 = grid_metrics(las_ground, mean(Z), res=2.5)
+
+end_time <- Sys.time()
+print(end_time - start_time)
+
+plot(dtm2)
+plot3d(dtm2)
+
+dtm_r <- rasterFromXYZ(dtm)
+writeRaster(dtm_r, "dtm.tif")
+
+dtm2_r <- rasterFromXYZ(dtm2)
+writeRaster(dtm2_r, "dtm2.tif")
+
 ##########################
 # Normalize              #
 ##########################
@@ -61,10 +77,16 @@ hist(las@data$Z)
 end_time <- Sys.time()
 print(end_time - start_time)
 
+writeLAS(las, "tile_00011_norm.laz")
+
 ##########################
 # DSM                    #
 ##########################
 
 chm = grid_canopy(las, 2.5, subcircle = 0.2)
+
 plot(chm)
 plot3d(chm)
+
+chm_r <- rasterFromXYZ(chm)
+writeRaster(chm_r, "chm.tif")
