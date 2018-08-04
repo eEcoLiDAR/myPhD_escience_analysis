@@ -17,9 +17,10 @@ Preprocessing
 library("lidR")
 library("rlas")
 library("raster")
+library("maptools")
 
 # Global variable
-full_path="D:/Koma/Paper1_ReedStructure/Data/ALS/02gz2/02gz2_lidr/tiled_test/"
+full_path="D:/Koma/Paper1_ReedStructure/Data/ALS/02gz2/tiled/"
 setwd(full_path) # working directory
 
 # Workflow
@@ -38,16 +39,22 @@ for(i in 1:length(file.names)){
   dtm_mean_r <- rasterFromXYZ(dtm_mean)
   writeRaster(dtm_mean_r, paste(substr(file.names[i], 1, nchar(file.names[i])-4) ,"_meandtm.tif",sep=""),overwrite=TRUE)
   
+  ground_mask <- setValues(raster(dtm_mean_r), NA)
+  ground_mask[dtm_mean_r>-1] <- 1
+  
+  dtm_boundary = rasterToPolygons(ground_mask,dissolve=TRUE)
+  writeSpatialShape(dtm_boundary, paste(substr(file.names[i], 1, nchar(file.names[i])-4) ,"_bounddtm.shp",sep=""))
+  
   #dtm = grid_terrain(las_ground, 2.5, method = "knnidw", k = 10L)
   #dtm_r <- rasterFromXYZ(dtm)
   #writeRaster(dtm_r, paste(substr(file.names[i], 1, nchar(file.names[i])-4) ,"_dtm.tif",sep=""),overwrite=TRUE)
   
-  lasnormalize(las, dtm= NULL, method = "knnidw", k = 10L)
-  writeLAS(las, paste(substr(file.names[i], 1, nchar(file.names[i])-4) ,"_norm.laz",sep=""))
+  #lasnormalize(las, dtm= NULL, method = "knnidw", k = 10L)
+  #writeLAS(las, paste(substr(file.names[i], 1, nchar(file.names[i])-4) ,"_norm.laz",sep=""))
 
-  chm = grid_canopy(las, 2.5, subcircle = 0.2)
-  chm_r <- rasterFromXYZ(chm)
-  writeRaster(chm_r, paste(substr(file.names[i], 1, nchar(file.names[i])-4) ,"_chm.tif",sep=""),overwrite=TRUE)
+  #chm = grid_canopy(las, 2.5, subcircle = 0.2)
+  #chm_r <- rasterFromXYZ(chm)
+  #writeRaster(chm_r, paste(substr(file.names[i], 1, nchar(file.names[i])-4) ,"_chm.tif",sep=""),overwrite=TRUE)
   
 }
 
