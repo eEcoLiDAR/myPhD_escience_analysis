@@ -36,7 +36,7 @@ for(i in 1:length(file.names)){
   
   dtm_mean = grid_metrics(las_ground, mean(Z), res=2.5)
   dtm_mean_r <- rasterFromXYZ(dtm_mean)
-  writeRaster(dtm_mean_r, paste(file.names[i],"_meandtm.tif",sep=""))
+  writeRaster(dtm_mean_r, paste(substr(file.names[i], 1, nchar(file.names[i])-4) ,"_meandtm.tif",sep=""))
   
 }
 
