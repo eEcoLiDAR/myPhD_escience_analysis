@@ -36,7 +36,18 @@ for(i in 1:length(file.names)){
   
   dtm_mean = grid_metrics(las_ground, mean(Z), res=2.5)
   dtm_mean_r <- rasterFromXYZ(dtm_mean)
-  writeRaster(dtm_mean_r, paste(substr(file.names[i], 1, nchar(file.names[i])-4) ,"_meandtm.tif",sep=""))
+  writeRaster(dtm_mean_r, paste(substr(file.names[i], 1, nchar(file.names[i])-4) ,"_meandtm.tif",sep=""),overwrite=TRUE)
+  
+  #dtm = grid_terrain(las_ground, 2.5, method = "knnidw", k = 10L)
+  #dtm_r <- rasterFromXYZ(dtm)
+  #writeRaster(dtm_r, paste(substr(file.names[i], 1, nchar(file.names[i])-4) ,"_dtm.tif",sep=""),overwrite=TRUE)
+  
+  lasnormalize(las, dtm_mean)
+  writeLAS(las, paste(substr(file.names[i], 1, nchar(file.names[i])-4) ,"_norm.laz",sep=""))
+
+  chm = grid_canopy(las, 2.5, subcircle = 0.2)
+  chm_r <- rasterFromXYZ(chm)
+  writeRaster(chm_r, paste(substr(file.names[i], 1, nchar(file.names[i])-4) ,"_chm.tif",sep=""),overwrite=TRUE)
   
 }
 
