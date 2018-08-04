@@ -42,7 +42,7 @@ for(i in 1:length(file.names)){
   #dtm_r <- rasterFromXYZ(dtm)
   #writeRaster(dtm_r, paste(substr(file.names[i], 1, nchar(file.names[i])-4) ,"_dtm.tif",sep=""),overwrite=TRUE)
   
-  lasnormalize(las, dtm_mean)
+  lasnormalize(las, dtm= NULL, method = "knnidw", k = 10L)
   writeLAS(las, paste(substr(file.names[i], 1, nchar(file.names[i])-4) ,"_norm.laz",sep=""))
 
   chm = grid_canopy(las, 2.5, subcircle = 0.2)
