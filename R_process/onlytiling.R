@@ -12,10 +12,14 @@ writeLAS(las_ground, "D:/Koma/Paper1_ReedStructure/Data/ALS/02gz2/02gz2_lidr/g02
 # Create catalog         #
 ##########################
 
-ctg = catalog("D:/Koma/Paper1_ReedStructure/Data/ALS/02gz2/02gz2_lidr/")
+ctg = catalog("D:/Koma/Paper1_ReedStructure/Data/ALS/02gz2/")
 
 cores(ctg) <- 15L
 tiling_size(ctg) <- 1000
 buffer(ctg) <- 5
 
-ctg = catalog_retile(ctg, "D:/Koma/Paper1_ReedStructure/Data/ALS/02gz2/02gz2_lidr/tiled/", "tile_",ext="laz") 
+ctg = catalog_retile(ctg, "D:/Koma/Paper1_ReedStructure/Data/ALS/02gz2/tiled/", "tile_",ext="laz") 
+
+####################################################
+# Run LAStools with Paper1preprocess.bat           #
+####################################################
