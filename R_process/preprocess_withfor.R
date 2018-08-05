@@ -24,10 +24,11 @@ full_path="D:/Koma/Paper1_ReedStructure/Data/ALS/02gz2/tiled/"
 setwd(full_path) # working directory
 
 # Workflow
-start_time <- Sys.time()
 
 file.names <- dir(full_path, pattern =".laz")
 for(i in 1:length(file.names)){
+  
+  start_time <- Sys.time()
   
   print(paste(full_path,file.names[i],sep=""))
   writelax(paste(full_path,file.names[i],sep=""))
@@ -45,10 +46,6 @@ for(i in 1:length(file.names)){
   dtm_boundary = rasterToPolygons(ground_mask,dissolve=TRUE)
   writeSpatialShape(dtm_boundary, paste(substr(file.names[i], 1, nchar(file.names[i])-4) ,"_bounddtm.shp",sep=""))
   
-  #dtm = grid_terrain(las_ground, 2.5, method = "knnidw", k = 10L)
-  #dtm_r <- rasterFromXYZ(dtm)
-  #writeRaster(dtm_r, paste(substr(file.names[i], 1, nchar(file.names[i])-4) ,"_dtm.tif",sep=""),overwrite=TRUE)
-  
   lasclassify(las, dtm_boundary, field="layer")
   land = lasfilter(las, layer == 1)
   
@@ -59,7 +56,7 @@ for(i in 1:length(file.names)){
   chm_r <- rasterFromXYZ(chm)
   writeRaster(chm_r, paste(substr(file.names[i], 1, nchar(file.names[i])-4) ,"_chm.tif",sep=""),overwrite=TRUE)
   
+  end_time <- Sys.time()
+  print(end_time - start_time)
+  
 }
-
-end_time <- Sys.time()
-print(end_time - start_time)
