@@ -18,12 +18,23 @@ library("lidR")
 library("rlas")
 library("raster")
 
-# Set global variables
-setwd("D:/Koma/Paper1_ReedStructure/Data/ALS/02gz2/02gz2_lidr/tiled/") # working directory
+# Global variable
+full_path="D:/Koma/Paper1_ReedStructure/Data/ALS/02gz2/testmetrics/"
+setwd(full_path) # working directory
 
-##########################
-# Import                 #
-##########################
+# calculate LiDAR metrics
 
-writelax("tile_00011.laz")
-las = readLAS("tile_00011.laz")
+file.names <- dir(full_path, pattern =".laz")
+for(i in 1:length(file.names)){
+  
+  start_time <- Sys.time()
+  
+  print(paste(full_path,file.names[i],sep=""))
+  writelax(paste(full_path,file.names[i],sep=""))
+  
+  las = readLAS(file.names[i])
+  
+  end_time <- Sys.time()
+  print(end_time - start_time)
+  
+}
