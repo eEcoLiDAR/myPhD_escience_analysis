@@ -12,9 +12,9 @@ writeLAS(las_ground, "D:/Koma/Paper1_ReedStructure/Data/ALS/02gz2/g02gz2_ground.
 # Create catalog         #
 ##########################
 
-ctg = catalog("D:/Koma/Paper1_ReedStructure/Data/ALS/02gz2/")
+ctg = catalog("D:/Koma/Paper1_ReedStructure/Data/ALS/02gz2/classified/")
 
-cores(ctg) <- 15L
+cores(ctg) <- 4L
 tiling_size(ctg) <- 1000
 buffer(ctg) <- 5
 

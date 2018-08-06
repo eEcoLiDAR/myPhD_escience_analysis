@@ -20,7 +20,7 @@ library("raster")
 library("maptools")
 
 # Global variable
-full_path="D:/Koma/Paper1_ReedStructure/Data/ALS/02gz2/tiled/"
+full_path="D:/Koma/Paper1_ReedStructure/Data/ALS/02gz2/testtiled/"
 setwd(full_path) # working directory
 
 # Workflow
