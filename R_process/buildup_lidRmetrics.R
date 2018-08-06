@@ -16,6 +16,8 @@ library("lidR")
 library("rlas")
 library("raster")
 
+library("e1071")
+
 # Global variable
 full_path="D:/Koma/Paper1_ReedStructure/Data/ALS/02gz2/testmetrics/"
 setwd(full_path) # working directory
@@ -46,7 +48,9 @@ VegStr_VertDistr_Metrics = function(z)
 {
   vertdistr_metrics = list(
     zstd = sd(z),
-    zvar = var(z)
+    zvar = var(z),
+    zskew = skewness(z),
+    zkurto = kurtosis(z)
   )
   return(vertdistr_metrics)
 }
