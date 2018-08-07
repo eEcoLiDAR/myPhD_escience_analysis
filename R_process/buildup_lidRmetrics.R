@@ -55,6 +55,13 @@ VegStr_VertDistr_Metrics = function(z)
   return(vertdistr_metrics)
 }
 
+Shape_VertDistr_Metrics = function(xyz)
+{
+  eigenvalue = eigen(cov(xyz))
+  eigen_list = as.list(eigenvalue$values)
+  return(eigen_list)
+}
+
 #executation
 
 file.names <- dir(full_path, pattern =".laz")
@@ -73,8 +80,11 @@ for(i in 1:length(file.names)){
   #coveragemetrics = grid_metrics(las, CoverageMetrics(Z,Classification),res=1)
   #plot(coveragemetrics)
   
-  vertdistr_metrics = grid_metrics(las, VegStr_VertDistr_Metrics(Z),res=1)
-  plot(vertdistr_metrics)  
+  #vertdistr_metrics = grid_metrics(las, VegStr_VertDistr_Metrics(Z),res=1)
+  #plot(vertdistr_metrics) 
+  
+  shapemetrics = grid_metrics3d(las, Shape_VertDistr_Metrics(las@data[,1:3]),res=10)
+  plot(shapemetrics)  
   
   end_time <- Sys.time()
   print(end_time - start_time)
