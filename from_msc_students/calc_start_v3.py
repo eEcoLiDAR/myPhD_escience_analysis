@@ -281,6 +281,8 @@ if __name__ == "__main__":
     print(point_cloud.columns)
     print("removing duplicate columns")
     point_cloud = point_cloud.loc[:,~point_cloud.columns.duplicated()]
+	
+    point_cloud.to_csv(input_file_path[:-4]+'_ascii.txt',sep=',',index=False,header=True)
 
 	########### Output ###########
 	
