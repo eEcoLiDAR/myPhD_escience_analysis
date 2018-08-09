@@ -20,7 +20,7 @@ library("raster")
 library("maptools")
 
 # Global variable
-full_path="D:/Koma/Paper1_ReedStructure/Data/ALS/02gz2/testtiled/"
+full_path="D:/Koma/Paper1_ReedStructure/Data/ALS/WholeLau/test/"
 setwd(full_path) # working directory
 
 # Workflow
@@ -50,7 +50,7 @@ for(i in 1:length(file.names)){
   land = lasfilter(las, layer == 1)
   
   lasnormalize(land, dtm= NULL, method = "knnidw", k = 10L)
-  writeLAS(land, paste(substr(file.names[i], 1, nchar(file.names[i])-4) ,"_norm.laz",sep=""))
+  writeLAS(land, paste(substr(file.names[i], 1, nchar(file.names[i])-4) ,"_norm.las",sep=""))
 
   chm = grid_canopy(land, 2.5, subcircle = 0.2)
   chm_r <- rasterFromXYZ(chm)
