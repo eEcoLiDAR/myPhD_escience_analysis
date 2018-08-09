@@ -103,6 +103,8 @@ if __name__ == "__main__":
     est_p_density = num_points/surf_area
         
     print("Estimated point density of this file is {} points/m2".format(est_p_density))
+	
+    fullstarttime = time.time()
 
 	########### Define features ###########
     
@@ -252,6 +254,11 @@ if __name__ == "__main__":
         
     print(time.time()-mod_start)
     print("Done!")
+	
+    fullendtime = time.time()
+    fulldifftime=fullendtime - fullstarttime
+
+    print(fulldifftime)
         
     del output
     
@@ -282,7 +289,7 @@ if __name__ == "__main__":
     print("removing duplicate columns")
     point_cloud = point_cloud.loc[:,~point_cloud.columns.duplicated()]
 	
-    point_cloud.to_csv(input_file_path[:-4]+'_ascii.txt',sep=',',index=False,header=True)
+    #point_cloud.to_csv(input_file_path[:-4]+'_ascii.txt',sep=',',index=False,header=True)
 
 	########### Output ###########
 	
