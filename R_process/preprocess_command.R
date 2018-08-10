@@ -13,6 +13,7 @@ Preprocessing
 4. create and export DTM, DSM
 
 Example: for f in *.laz; do Rscript.exe D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/R_process/preprocess_command.R D:/Koma/Paper1_ReedStructure/Data/ALS/02gz2/testtiled/ $f;done (Terminal on the directory where the files are located)
+for f in *.laz; do Rscript.exe D:/Koma/GitHub/myPhD_escience_analysis/R_process/preprocess_command.R D:/Koma/Paper1_ReedStructure/Data/ALS/WholeLau/tiled/ $f;done
 "
 
 # Import required libraries
