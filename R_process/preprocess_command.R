@@ -34,6 +34,7 @@ setwd(full_path)
 print(paste(full_path,filename,sep=""))
 writelax(paste(full_path,filename,sep=""))
 
+print(filename)
 las = readLAS(filename)
 #las@data$Z = las@data$Z+100
 
