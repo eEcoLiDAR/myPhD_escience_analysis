@@ -32,6 +32,8 @@ print(paste(full_path,filename,sep=""))
 writelax(paste(full_path,filename,sep=""))
 
 las = readLAS(filename)
+#las@data$Z = las@data$Z+100
+
 las_ground = lasfilter(las, Classification == 2)
 
 dtm_mean = grid_metrics(las_ground, mean(Z), res=2.5)
@@ -46,9 +48,10 @@ writeSpatialShape(dtm_boundary, paste(substr(filename, 1, nchar(filename)-4) ,"_
 
 lasclassify(las, dtm_boundary, field="layer")
 land = lasfilter(las, layer == 1)
+writeLAS(land, paste(substr(filename, 1, nchar(filename)-4) ,"_land.las",sep=""))
 
-lasnormalize(land, dtm= NULL, method = "knnidw", k = 10L)
-writeLAS(land, paste(substr(filename, 1, nchar(filename)-4) ,"_norm.las",sep=""))
+#lasnormalize(land, dtm= NULL, method = "knnidw", k = 10L)
+#writeLAS(land, paste(substr(filename, 1, nchar(filename)-4) ,"_norm.las",sep=""))
 
 chm = grid_canopy(land, 2.5, subcircle = 0.2)
 chm_r <- rasterFromXYZ(chm)

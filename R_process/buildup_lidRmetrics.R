@@ -19,7 +19,7 @@ library("raster")
 library("e1071")
 
 # Global variable
-full_path="D:/Koma/Paper1_ReedStructure/Data/ALS/02gz2/testmetrics/"
+full_path="D:/Koma/Paper1_ReedStructure/Data/ALS/02gz2/testtiled/"
 setwd(full_path) # working directory
 
 # calculate LiDAR metrics
