@@ -2,7 +2,7 @@
 :: Previously necessary to set up the mapset with XY Descartes not specified coordinate system (the last parameter during the execution is the place where the PERMANENT directory is located)
 :: Usage example:  C:/OSGeo4W64/bin/grass74.bat --exec D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1/featureextraction/grass_rasterize.bat D:/Geobia_2018/Results_12ofApril/GrassGIS/LauMeer D:/Koma/Paper1_ReedStructure/Data/ALS/02gz2/testmetrics/ tile_00003_norm2_ascii
 :: C:/OSGeo4W64/bin/grass74.bat --exec D:/Koma/GitHub/myPhD_escience_analysis/Paper1/featureextraction/grass_rasterize.bat D:/Koma/GRASS_GIS/Lauwersmeer/Lauwersmeer2 D:/Koma/Paper1_ReedStructure/Data/ALS/WholeLau/test/ tile_00001_norm_ascii
-:: for f in *.csv; do C:/OSGeo4W64/bin/grass74.bat --exec D:/Koma/GitHub/myPhD_escience_analysis/Paper1/featureextraction/grass_rasterize.bat D:/Koma/GRASS_GIS/Lauwersmeer/Lauwersmeer2 D:/Koma/Paper1_ReedStructure/Data/ALS/WholeLau/test/ ${f%.*};done
+:: for f in *.csv; do C:/OSGeo4W64/bin/grass74.bat --exec D:/Koma/GitHub/myPhD_escience_analysis/Paper1/featureextraction/grass_rasterize.bat D:/Koma/GRASS_GIS/Lauwersmeer/Lauwersmeer2 D:/Koma/Paper1_ReedStructure/Data/ALS/WholeLau/tiled/ ${f%.*};done
 
 set filepath=%2
 set filename=%3
