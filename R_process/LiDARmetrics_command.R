@@ -68,7 +68,7 @@ writelax(filename)
 las = readLAS(filename)
 
 heightmetrics = grid_metrics(las, HeightMetrics(Z),res=1)
-plot(heightmetrics)
+#plot(heightmetrics)
 
 height_max_r <- rasterFromXYZ(heightmetrics[,c(1,2,3)])
 writeRaster(height_max_r, paste(substr(filename, 1, nchar(filename)-4) ,"_heightmax.tif",sep=""),overwrite=TRUE)
@@ -89,13 +89,13 @@ height_q090_r <- rasterFromXYZ(heightmetrics[,c(1,2,8)])
 writeRaster(height_q090_r, paste(substr(filename, 1, nchar(filename)-4) ,"_heightq090.tif",sep=""),overwrite=TRUE)
 
 coveragemetrics = grid_metrics(las, CoverageMetrics(Z,Classification),res=1)
-plot(coveragemetrics)
+#plot(coveragemetrics)
 
 cover_pulsepenrat_r <- rasterFromXYZ(coveragemetrics[,c(1,2,3)])
 writeRaster(cover_pulsepenrat_r, paste(substr(filename, 1, nchar(filename)-4) ,"_cover_pulsepenrat.tif",sep=""),overwrite=TRUE)
 
 vertdistr_metrics = grid_metrics(las, VegStr_VertDistr_Metrics(Z),res=1)
-plot(vertdistr_metrics)
+#plot(vertdistr_metrics)
 
 vertdistr_heightstd_r <- rasterFromXYZ(vertdistr_metrics[,c(1,2,3)])
 writeRaster(vertdistr_heightstd_r, paste(substr(filename, 1, nchar(filename)-4) ,"_vertdistr_heightstd.tif",sep=""),overwrite=TRUE)
