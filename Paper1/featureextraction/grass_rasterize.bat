@@ -4,25 +4,27 @@
 :: C:/OSGeo4W64/bin/grass74.bat --exec D:/Koma/GitHub/myPhD_escience_analysis/Paper1/featureextraction/grass_rasterize.bat D:/Koma/GRASS_GIS/Lauwersmeer/Lauwersmeer2 D:/Koma/Paper1_ReedStructure/Data/ALS/WholeLau/test/ tile_00001_norm_ascii
 :: for f in *.csv; do C:/OSGeo4W64/bin/grass74.bat --exec D:/Koma/GitHub/myPhD_escience_analysis/Paper1/featureextraction/grass_rasterize.bat D:/Koma/GRASS_GIS/Lauwersmeer/Lauwersmeer2 D:/Koma/Paper1_ReedStructure/Data/ALS/WholeLau/tiled/ ${f%.*};done
 :: C:/OSGeo4W64/bin/grass74.bat --exec D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1/featureextraction/grass_rasterize.bat D:/Koma/GRASS_GIS/Lauwersmeer/Lauwersmeer2 D:/Koma/Paper1_ReedStructure/Data/TestFeatureResults/ tile_00001_land_ascii
+:: for f in *.csv; do C:/OSGeo4W64/bin/grass74.bat --exec D:/Koma/GitHub/myPhD_escience_analysis/Paper1/featureextraction/grass_rasterize.bat D:/Koma/GRASS_GIS/Lauwersmeer/Lauwersmeer2 D:/Koma/Paper1_ReedStructure/Data/ALS/WholeLau/tiled/ ${f%.*} ${f:0:15};done
 
 set filepath=%2
 set filename=%3
+set lasfile=%4
 
 :: read a raster to set the region
-v.in.lidar -otb input=%filename%.las output=%filename% --overwrite
+v.in.lidar -otb input=%lasfile%.las output=%lasfile% --overwrite
 
 :: set region
 ::g.region n=%n% s=%s% e=%e% w=%w%
-g.region vector=%filename%
+g.region vector=%lasfile%
 g.region -p
 
 :: import data
-r.in.xyz --overwrite input=%filepath%%filename%_ascii.csv output=%filename%_lin separator=, skip=1 value_column=7
-r.in.xyz --overwrite input=%filepath%%filename%_ascii.csv output=%filename%_plan separator=, skip=1 value_column=8
-r.in.xyz --overwrite input=%filepath%%filename%_ascii.csv output=%filename%_sph separator=, skip=1 value_column=9
-r.in.xyz --overwrite input=%filepath%%filename%_ascii.csv output=%filename%_omn separator=, skip=1 value_column=10
-r.in.xyz --overwrite input=%filepath%%filename%_ascii.csv output=%filename%_ani separator=, skip=1 value_column=11
-r.in.xyz --overwrite input=%filepath%%filename%_ascii.csv output=%filename%_curv separator=, skip=1 value_column=13
+r.in.xyz --overwrite input=%filepath%%filename%.csv output=%filename%_lin separator=, skip=1 value_column=7
+r.in.xyz --overwrite input=%filepath%%filename%.csv output=%filename%_plan separator=, skip=1 value_column=8
+r.in.xyz --overwrite input=%filepath%%filename%.csv output=%filename%_sph separator=, skip=1 value_column=9
+r.in.xyz --overwrite input=%filepath%%filename%.csv output=%filename%_omn separator=, skip=1 value_column=10
+r.in.xyz --overwrite input=%filepath%%filename%.csv output=%filename%_ani separator=, skip=1 value_column=11
+r.in.xyz --overwrite input=%filepath%%filename%.csv output=%filename%_curv separator=, skip=1 value_column=13
 
 :: export rasters
 r.out.gdal --overwrite input=%filename%_lin output=%filepath%%filename%_linearity.tif
