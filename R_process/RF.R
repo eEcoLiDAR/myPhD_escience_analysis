@@ -43,7 +43,7 @@ varImpPlot(modelRF)
 # accuracy assessment
 first_seed <- 5
 accuracies <-c()
-for (i in 1:2){
+for (i in 1:1){
   set.seed(first_seed)
   first_seed <- first_seed+1
   trainIndex <- createDataPartition(y=featuretable$layer, p=0.75, list=FALSE)
