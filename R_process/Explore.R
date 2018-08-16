@@ -1,3 +1,16 @@
+"
+@author: Zsofia Koma, UvA
+Aim: Explore LiDAR metrics based on validation data
+
+input:
+output:
+
+Fuctions:
+
+Example: 
+
+"
+
 library(raster)
 library(sp)
 library(spatialEco)
