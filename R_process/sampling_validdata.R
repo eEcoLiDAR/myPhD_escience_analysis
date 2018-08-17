@@ -17,6 +17,7 @@ library(spatialEco)
 library(ggplot2)
 library(maptools)
 library(plyr)
+library(rgeos)
 
 # Set global variables
 setwd("D:/Koma/Paper1_ReedStructure") # working directory
@@ -35,3 +36,8 @@ veg_map_sample=spsample(veg_map,500,type="stratified")
 
 plot(veg_map)
 plot(veg_map_sample,add=TRUE)
+
+# Inner buffer
+veg_map_b=gBuffer(veg_map, width = 100)
+plot(veg_map_b)
+plot(veg_map)
