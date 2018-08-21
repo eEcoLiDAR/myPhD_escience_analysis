@@ -27,7 +27,7 @@ library(ggplot2)
 setwd("D:/Koma/Paper1_ReedStructure/WholeLau_TotalVegetation") # working directory
 
 # Import
-training = rgdal::readOGR("D:/Koma/Paper1_ReedStructure/training_buffer.shp")
+training = rgdal::readOGR("D:/Koma/Paper1_ReedStructure/training_buffer3.shp")
 plot(training)
 
 #ani=raster("mosaic_anisotropy.tif")
@@ -41,7 +41,7 @@ height_dtm=raster("mosaic_meandtm.tif")
 
 
 # Preprocess import data (rasterizing, masking)
-classes_rast <- rasterize(training,height_max,field="Vegetation")
+classes_rast <- rasterize(training,height_max,field="Structure")
 plot(classes_rast)
 
 lidar_metrics = addLayer(heightkurto,height_max,height_med,height_std)
