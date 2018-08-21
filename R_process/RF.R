@@ -8,7 +8,7 @@ library(caret)
 setwd("D:/Koma/Paper1_ReedStructure/Data/ALS/WholeLau/tiled") # working directory
 
 # Import
-classes = rgdal::readOGR("D:/Koma/Paper1_ReedStructure/Data/ALS/WholeLau/selectedclasses_polygon.shp")
+classes = rgdal::readOGR("D:/Koma/Paper1_ReedStructure/Data/ALS/WholeLau/training_buffer3.shp")
 plot(classes)
 
 #ani=raster("mosaic_anisotropy.tif")
@@ -67,4 +67,4 @@ names(lidar_metrics)
 
 plot(predLC)
 
-writeRaster(predLC, filename="classified2.tif", format="GTiff",overwrite=TRUE)
+writeRaster(predLC, filename="classified3.tif", format="GTiff",overwrite=TRUE)
