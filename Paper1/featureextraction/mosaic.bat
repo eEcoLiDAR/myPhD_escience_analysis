@@ -41,18 +41,28 @@
 ::gdalbuildvrt mosaic.vrt *_heightq075.tif
 ::gdal_translate -of GTiff mosaic.vrt mosaic_heightq075.tif
 
-gdalbuildvrt mosaic.vrt *_heightkurto.tif
-gdal_translate -of GTiff mosaic.vrt mosaic_heightkurto.tif
+::gdalbuildvrt mosaic.vrt *_heightkurto.tif
+::gdal_translate -of GTiff mosaic.vrt mosaic_heightkurto.tif
 
-gdalbuildvrt mosaic.vrt *_heightskew.tif
-gdal_translate -of GTiff mosaic.vrt mosaic_heightskew.tif
+::gdalbuildvrt mosaic.vrt *_heightskew.tif
+::gdal_translate -of GTiff mosaic.vrt mosaic_heightskew.tif
 
-gdalbuildvrt mosaic.vrt *_heightstd.tif
-gdal_translate -of GTiff mosaic.vrt mosaic_heightstd.tif
+::gdalbuildvrt mosaic.vrt *_heightstd.tif
+::gdal_translate -of GTiff mosaic.vrt mosaic_heightstd.tif
 
-gdalbuildvrt mosaic.vrt *_heightvar.tif
-gdal_translate -of GTiff mosaic.vrt mosaic_heightvar.tif
+::gdalbuildvrt mosaic.vrt *_heightvar.tif
+::gdal_translate -of GTiff mosaic.vrt mosaic_heightvar.tif
 
-gdalbuildvrt mosaic.vrt *_meandtm.tif
-gdal_translate -of GTiff mosaic.vrt mosaic_meandtm.tif
+::gdalbuildvrt mosaic.vrt *_meandtm.tif
+::gdal_translate -of GTiff mosaic.vrt mosaic_meandtm.tif
+
+gdalbuildvrt mosaic.vrt *_terrainmean.tif
+gdal_translate -of GTiff mosaic.vrt mosaic_terrainmean.tif
+
+gdalbuildvrt mosaic.vrt *_terrainmin.tif
+gdal_translate -of GTiff mosaic.vrt mosaic_terrainmin.tif
+
+gdalbuildvrt mosaic.vrt *_terrainvar.tif
+gdal_translate -of GTiff mosaic.vrt mosaic_terrainvar.tif
+
 

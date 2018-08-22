@@ -14,18 +14,25 @@ plot(classes)
 #ani=raster("mosaic_anisotropy.tif")
 #curva=raster("mosaic_curvature.tif")
 #omni=raster("mosaic_omnivariance.tif")
-heightkurto=raster("mosaic_heightkurto.tif")
-height_max=raster("mosaic_heightmax.tif")
-height_med=raster("mosaic_heightmedian.tif")
-height_std=raster("mosaic_heightstd.tif")
-height_dtm=raster("mosaic_meandtm.tif")
 
+height_max=raster("mosaic_heightq090.tif")
+height_025=raster("mosaic_heightq025.tif")
+height_075=raster("mosaic_heightq075.tif")
+height_med=raster("mosaic_heightmedian.tif")
+
+heightcover=raster("mosaic_pulsepenrat.tif")
+
+heightskew=raster("mosaic_heightskew.tif")
+height_std=raster("mosaic_heightstd.tif")
+
+height_dtm=raster("mosaic_terrainmean.tif")
+height_dtmvar=raster("mosaic_terrainvar.tif")
 
 # Preprocess import data (rasterizing, masking)
-classes_rast <- rasterize(classes, height_max,field="classes")
-plot(classes_rast)
+classes_rast <- rasterize(classes, height_std,field="Structure")
+#plot(classes_rast)
 
-lidar_metrics = addLayer(heightkurto,height_max,height_med,height_std)
+lidar_metrics = addLayer(height_max,height_025,height_075,height_med,heightcover,heightskew,height_std,height_dtm,height_dtmvar)
 
 masked <- mask(lidar_metrics, classes_rast)
 
@@ -36,7 +43,7 @@ featuretable <- na.omit(featuretable)
 featuretable <- as.data.frame(featuretable)
 
 # apply RF
-modelRF <- randomForest(x=featuretable[ ,c(1:4)], y=factor(featuretable$layer),importance = TRUE)
+modelRF <- randomForest(x=featuretable[ ,c(1:9)], y=factor(featuretable$layer),importance = TRUE)
 class(modelRF)
 varImpPlot(modelRF)
 
@@ -50,7 +57,7 @@ for (i in 1:1){
   trainingSet<- featuretable[trainIndex,]
   testingSet<- featuretable[-trainIndex,]
   modelFit <- randomForest(factor(layer)~.,data=trainingSet)
-  prediction <- predict(modelFit,testingSet[ ,c(1:4)])
+  prediction <- predict(modelFit,testingSet[ ,c(1:9)])
   testingSet$rightPred <- prediction == testingSet$layer
   t<-table(prediction, testingSet$layer)
   print(t)
