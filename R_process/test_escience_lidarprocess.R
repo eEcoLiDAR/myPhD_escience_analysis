@@ -13,6 +13,7 @@ Example:
 "
 library(raster)
 library(ggplot2)
+library("dplyr")
 
 # Set global variables
 setwd("D:/Koma/escience/NL_features")
@@ -36,12 +37,10 @@ colnames(all_data_df) <- c("x", "y", "coeff_var_z","density_absolute_mean","eigv
 
 print(summary(all_data_df))
 
-qplot(all_data_df$terrainData1km_v2.1, geom="histogram") + xlim(0,50)
+ggplot(all_data_df, aes(coeff_var_z)) + 
+  geom_histogram(binwidth = 25, col = "black", fill = "cornflowerblue")
 
-#par(mfrow=c(1,2))
-#hist(all_data[[9]],breaks=10,col = "grey")
-#plot(all_data[[9]])
-
-#summary(all_data[[9]])
+ggplot(all_data_df, aes(y=coeff_var_z)) + geom_boxplot()
+ggplot(all_data_df, aes(y=coeff_var_z)) + geom_boxplot(outlier.shape = NA) + scale_y_continuous(limits=c(0,10))
 
 # Explore for Lauwersmeer
