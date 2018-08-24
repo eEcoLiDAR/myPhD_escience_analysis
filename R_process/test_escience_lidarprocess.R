@@ -13,7 +13,7 @@ Example:
 "
 library(raster)
 library(ggplot2)
-library("dplyr")
+library(gridExtra)
 
 # Set global variables
 setwd("D:/Koma/escience/NL_features")
@@ -40,7 +40,8 @@ print(summary(all_data_df))
 ggplot(all_data_df, aes(coeff_var_z)) + 
   geom_histogram(binwidth = 25, col = "black", fill = "cornflowerblue")
 
-ggplot(all_data_df, aes(y=coeff_var_z)) + geom_boxplot()
-ggplot(all_data_df, aes(y=coeff_var_z)) + geom_boxplot(outlier.shape = NA) + scale_y_continuous(limits=c(0,10))
+p1=ggplot(all_data_df, aes(y=coeff_var_z)) + geom_boxplot()
+p2=ggplot(all_data_df, aes(y=coeff_var_z)) + geom_boxplot(outlier.shape = NA) + scale_y_continuous(limits=c(0,10))
+grid.arrange(p1,p2)
 
 # Explore for Lauwersmeer
