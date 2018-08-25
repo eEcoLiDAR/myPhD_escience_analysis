@@ -34,5 +34,6 @@ colnames(all_data_df) <- c("x", "y", "coeff_var_z","density_absolute_mean","eigv
 print(summary(all_data_df))
 
 par(mfrow=c(1,2))
-boxplot(all_data_df$coeff_var_z)
-boxplot(all_data_df$coeff_var_z, outline = FALSE)
+boxplot(all_data_df$var_z)
+boxplot(all_data_df$var_z, outline = FALSE)
+
