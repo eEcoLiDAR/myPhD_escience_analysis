@@ -16,17 +16,13 @@ library(ggplot2)
 library(gridExtra)
 
 # Set global variables
-setwd("D:/Koma/escience/NL_features")
+setwd("C:/zsofia/Amsterdam/Paper1")
 
 # Import
 
 # escience gtiff
-all_data=stack("terrainData1km_v2.tif")
+all_data=stack("terrainData1km.tif")
 all_data=flip(all_data,direction = 'y')
-
-# Lauwersmeer
-
-
 
 # Explore escience
 
@@ -37,11 +33,6 @@ colnames(all_data_df) <- c("x", "y", "coeff_var_z","density_absolute_mean","eigv
 
 print(summary(all_data_df))
 
-ggplot(all_data_df, aes(coeff_var_z)) + 
-  geom_histogram(binwidth = 25, col = "black", fill = "cornflowerblue")
-
-p1=ggplot(all_data_df, aes(y=coeff_var_z)) + geom_boxplot()
-p2=ggplot(all_data_df, aes(y=coeff_var_z)) + geom_boxplot(outlier.shape = NA) + scale_y_continuous(limits=c(0,10))
-grid.arrange(p1,p2)
-
-# Explore for Lauwersmeer
+par(mfrow=c(1,2))
+boxplot(all_data_df$coeff_var_z)
+boxplot(all_data_df$coeff_var_z, outline = FALSE)
