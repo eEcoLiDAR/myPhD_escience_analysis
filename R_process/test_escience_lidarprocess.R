@@ -16,12 +16,12 @@ library(ggplot2)
 library(gridExtra)
 
 # Set global variables
-setwd("C:/zsofia/Amsterdam/Paper1")
+setwd("D:/Koma/escience/NL_features")
 
 # Import
 
 # escience gtiff
-all_data=stack("terrainData1km.tif")
+all_data=stack("terrainData1km_v2.tif")
 all_data=flip(all_data,direction = 'y')
 
 # Explore escience
@@ -33,7 +33,19 @@ colnames(all_data_df) <- c("x", "y", "coeff_var_z","density_absolute_mean","eigv
 
 print(summary(all_data_df))
 
+for (i in 3:28){
+  print(colnames(all_data_df[i]))
+  
+  jpeg(paste(colnames(all_data_df[i]),'.jpg',sep=''))
+  
+  #title(colnames(all_data_df[i]))
+  par(mfrow=c(1,2))
+  boxplot(all_data_df[,i])
+  boxplot(all_data_df[,i], outline = FALSE)
+  dev.off()
+}
+
 par(mfrow=c(1,2))
-boxplot(all_data_df$var_z)
-boxplot(all_data_df$var_z, outline = FALSE)
+boxplot(all_data_df[,3])
+boxplot(all_data_df[,3], outline = FALSE)
 
