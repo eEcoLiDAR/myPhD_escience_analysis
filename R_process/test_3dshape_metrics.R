@@ -16,7 +16,7 @@ getEigenValues(xyz)
 
 set.seed(42)
 X <- matrix(rnorm(4*4), 4, 4)
-Z <- xyz %*% t(xyz)
+Z <- xyz %*% t(matrix(xyz))
 
 getEigenValues(Z)
 
