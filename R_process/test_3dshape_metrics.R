@@ -3,16 +3,22 @@ library("lidR")
 library("RcppEigen")
 library("Rcpp")
 
-full_path="D:/Paper1_ReedbedStructure/Data/ALS/Test/"
+full_path="C:/zsofia/Amsterdam/Paper1/"
 setwd(full_path) # working directory
 
-las = readLAS("tile_00003.las")
+las = readLAS("g32hz1rect2.las")
 
 xyz = las@data[,1:3]
 
-sourceCpp("eigenExample.cpp")
+sourceCpp("C:/zsofia/Amsterdam/GitHub/eEcoLiDAR/myPhD_escience_analysis/R_process/eigen.cpp")
 
 getEigenValues(xyz)
+
+set.seed(42)
+X <- matrix(rnorm(4*4), 4, 4)
+Z <- xyz %*% t(xyz)
+
+getEigenValues(Z)
 
 Shape_VertDistr_Metrics = function(xyz)
 {
