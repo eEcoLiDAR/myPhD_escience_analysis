@@ -1,6 +1,7 @@
 # Import required libraries
 library("lidR")
-library("factoextra")
+library("RcppEigen")
+library("Rcpp")
 
 full_path="D:/Paper1_ReedbedStructure/Data/ALS/Test/"
 setwd(full_path) # working directory
@@ -9,11 +10,9 @@ las = readLAS("tile_00003.las")
 
 xyz = las@data[,1:3]
 
-res.pca <- prcomp(xyz,  scale = FALSE)
-get_eig(res.pca)
+sourceCpp("eigenExample.cpp")
 
-eigenvalues = eigen(cov(xyz))$values
-print(eigenvalues)
+getEigenValues(xyz)
 
 Shape_VertDistr_Metrics = function(xyz)
 {
