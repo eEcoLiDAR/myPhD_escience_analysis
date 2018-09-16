@@ -36,11 +36,15 @@ ShapeMetrics = function(X,Y,Z)
     eigen_largest = eigen_m$values[1],
     eigen_medium = eigen_m$values[2],
     eigen_smallest = eigen_m$values[3],
-    curvature = eigen_m$values[1]/(eigen_m$values[1]+eigen_m$values[2]+eigen_m$values[3])
+    curvature = eigen_m$values[1]/(eigen_m$values[1]+eigen_m$values[2]+eigen_m$values[3]),
+    linearity = (eigen_m$values[1]-eigen_m$values[2])/eigen_m$values[1],
+    planarity = (eigen_m$values[2]-eigen_m$values[3])/eigen_m$values[1],
+    sphericity = eigen_m$values[3]/eigen_m$values[1],
+    anisotrophy = (eigen_m$values[1]-eigen_m$values[3])/eigen_m$values[1]
   )
   return(shapemetrics)
 }
 
-shapemetrics = grid_metrics(las, ShapeMetrics(X,Y,Z),res=2.5)
+shapemetrics = grid_metrics(las, ShapeMetrics(X,Y,Z),res=1)
 plot(shapemetrics)
 
