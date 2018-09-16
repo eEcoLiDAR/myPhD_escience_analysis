@@ -17,12 +17,30 @@ sourceCpp("C:/zsofia/Amsterdam/GitHub/eEcoLiDAR/myPhD_escience_analysis/R_proces
 #Z <- X %*% t(X)
 
 las = readLAS("g32hz1rect2.las")
-len = length(las@data$X)
 
-xyz=as.matrix(las@data[2:4,1:3])
-xyz_t <- xyz %*% t(xyz)
+xyz=as.matrix(las@data[,1:3])
+cov_m=cov(xyz)
+eigen_m=eigen(cov_m)
 
-getEigenValues(xyz_t)
+eigen_m$values[1]
 
-eigen(xyz_t)
+getEigenValues(cov_m)
+
+ShapeMetrics = function(X,Y,Z)
+{
+  xyz=rbind(X,Y,Z) 
+  cov_m=cov(xyz)
+  eigen_m=eigen(cov_m)
+  
+  shapemetrics = list(
+    eigen_largest = eigen_m$values[1],
+    eigen_medium = eigen_m$values[2],
+    eigen_smallest = eigen_m$values[3],
+    curvature = eigen_m$values[1]/(eigen_m$values[1]+eigen_m$values[2]+eigen_m$values[3])
+  )
+  return(shapemetrics)
+}
+
+shapemetrics = grid_metrics(las, ShapeMetrics(X,Y,Z),res=2.5)
+plot(shapemetrics)
 
