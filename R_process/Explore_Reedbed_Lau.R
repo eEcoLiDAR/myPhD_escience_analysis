@@ -29,6 +29,7 @@ library(plyr)
 library(rgeos)
 
 library(ggplot2)
+library(rgdal)
 
 # Set global variables
 setwd("D:/Koma/Paper1_ReedStructure/WholeLau_TotalVegetation") # working directory
