@@ -31,12 +31,15 @@ CoverageMetrics = function(z,classification)
   return(coveragemetrics)
 }
 
+
 ######################################################################
 
 full_path="D:/Koma/Paper1_ReedStructure/Data/ALS/02gz2/testiled2/"
 setwd(full_path) # working directory
 
 las = readLAS("tile_00005.laz")
+
+# try 1
 
 coveragemetrics = grid_metrics(las, CoverageMetrics(Z,Classification),res=1)
 
@@ -49,4 +52,16 @@ las_land=lasfilter(las,PulsePen > 0)
 
 lasnormalize(las_land, dtm= NULL, method = "knnidw", k = 10L)
 writeLAS(las_land, "las_norm.laz")
+
+# try 2
+
+hmax = grid_metrics(las, range(Z),res=2.5)
+plot(hmax)
+
+hmean1 = grid_metrics(las, mean(Z),res=2.5)
+plot(hmean1)
+
+hmean = grid_metrics(las, mean(Z)-min(Z),res=2.5)
+plot(hmean)
+
 
