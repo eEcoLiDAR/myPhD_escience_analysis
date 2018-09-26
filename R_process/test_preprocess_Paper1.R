@@ -37,7 +37,7 @@ CoverageMetrics = function(z,classification)
 full_path="D:/Koma/Paper1_ReedStructure/Data/ALS/02gz2/testiled2/"
 setwd(full_path) # working directory
 
-las = readLAS("tile_00005.laz")
+las = readLAS("tile_00001.laz")
 
 # try 1
 
