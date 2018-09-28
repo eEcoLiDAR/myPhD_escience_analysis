@@ -24,6 +24,8 @@ setwd("D:/Koma/escience/NL_features")
 all_data=stack("terrainData1km_v2.tif")
 all_data=flip(all_data,direction = 'y')
 
+plot(all_data)
+
 # Explore escience
 
 all_data_df=as.data.frame(all_data,xy=TRUE)
@@ -32,6 +34,7 @@ colnames(all_data_df) <- c("x", "y", "coeff_var_z","density_absolute_mean","eigv
                       "pulse_pen_ratio","range","skew_z","std_z","var_z")
 
 print(summary(all_data_df))
+
 
 for (i in 3:28){
   print(colnames(all_data_df[i]))
