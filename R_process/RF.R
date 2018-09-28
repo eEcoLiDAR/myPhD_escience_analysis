@@ -11,9 +11,9 @@ setwd("D:/Koma/Paper1_ReedStructure/Data/ALS/WholeLau/tiled") # working director
 classes = rgdal::readOGR("D:/Koma/Paper1_ReedStructure/Data/ALS/WholeLau/training_buffer3.shp")
 plot(classes)
 
-#ani=raster("mosaic_anisotropy.tif")
-#curva=raster("mosaic_curvature.tif")
-#omni=raster("mosaic_omnivariance.tif")
+ani=raster("mosaic_anisotropy.tif")
+curva=raster("mosaic_curvature.tif")
+omni=raster("mosaic_omnivariance.tif")
 
 height_max=raster("mosaic_heightq090.tif")
 height_025=raster("mosaic_heightq025.tif")

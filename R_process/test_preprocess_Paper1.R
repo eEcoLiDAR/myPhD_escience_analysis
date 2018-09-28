@@ -34,10 +34,10 @@ CoverageMetrics = function(z,classification)
 
 ######################################################################
 
-full_path="D:/Koma/Paper1_ReedStructure/Data/ALS/02gz2/testiled2/"
+full_path="D:/Koma/Paper1_ReedStructure/Data/Lauwersmeer_island/"
 setwd(full_path) # working directory
 
-las = readLAS("tile_00001.laz")
+las = readLAS("lauwermeer_merged.las")
 
 # try 1
 
@@ -48,10 +48,10 @@ cover_pulsepenrat_r <- rasterFromXYZ(coveragemetrics[,c(1,2,3)])
 lasclassify(las, cover_pulsepenrat_r, "PulsePen")
 
 las_land=lasfilter(las,PulsePen > 0)
-#writeLAS(water, "las_other.laz")
+writeLAS(las_land, "lauwermeer_merged_wwater.laz")
 
-lasnormalize(las_land, dtm= NULL, method = "knnidw", k = 10L)
-writeLAS(las_land, "las_norm.laz")
+#lasnormalize(las_land, dtm= NULL, method = "knnidw", k = 10L)
+#writeLAS(las_land, "las_norm.laz")
 
 # try 2
 
