@@ -82,10 +82,8 @@ TerrainMetrics = function(z)
 
 #####################################################
 
-args = commandArgs(trailingOnly=TRUE)
-
-full_path=args[1]
-filename=args[2]
+full_path="D:/Koma/Paper1_ReedStructure/Lau_Island/Data/"
+filename="Lau_island.las"
 
 start_time <- Sys.time()
 
@@ -96,7 +94,9 @@ writelax(filename)
 
 las = readLAS(filename)
 las_ground = lasfilter(las, Classification == 2)
-las_norm = readLAS(paste(substr(filename, 1, nchar(filename)-4) ,"_norm.laz",sep=""))
+las_norm = readLAS(paste(substr(filename, 1, nchar(filename)-4) ,"_norm.las",sep=""))
+
+#####################################################
 
 heightmetrics = grid_metrics(las_norm, HeightMetrics(Z),res=2.5)
 plot(heightmetrics)
@@ -119,11 +119,15 @@ writeRaster(height_q075_r, paste(substr(filename, 1, nchar(filename)-4) ,"_heigh
 height_q090_r <- rasterFromXYZ(heightmetrics[,c(1,2,8)])
 writeRaster(height_q090_r, paste(substr(filename, 1, nchar(filename)-4) ,"_heightq090.tif",sep=""),overwrite=TRUE)
 
+#####################################################
+
 coveragemetrics = grid_metrics(las, CoverageMetrics(Z,Classification),res=2.5)
 plot(coveragemetrics)
 
 cover_pulsepenrat_r <- rasterFromXYZ(coveragemetrics[,c(1,2,3)])
 writeRaster(cover_pulsepenrat_r, paste(substr(filename, 1, nchar(filename)-4) ,"_cover_pulsepenrat.tif",sep=""),overwrite=TRUE)
+
+#####################################################
 
 vertdistr_metrics = grid_metrics(las, VegStr_VertDistr_Metrics(Z),res=2.5)
 plot(vertdistr_metrics)
@@ -140,8 +144,19 @@ writeRaster(vertdistr_heightskew_r, paste(substr(filename, 1, nchar(filename)-4)
 vertdistr_heightkurto_r <- rasterFromXYZ(vertdistr_metrics[,c(1,2,6)])
 writeRaster(vertdistr_heightkurto_r, paste(substr(filename, 1, nchar(filename)-4) ,"_vertdistr_heightkurto.tif",sep=""),overwrite=TRUE)
 
+#####################################################
+
 shapemetrics = grid_metrics(las, ShapeMetrics(X,Y,Z),res=2.5)
 plot(shapemetrics)
+
+eigenlargest_r <- rasterFromXYZ(shapemetrics[,c(1,2,3)])
+writeRaster(eigenlargest_r, paste(substr(filename, 1, nchar(filename)-4) ,"_eigenlargest.tif",sep=""),overwrite=TRUE)
+
+eigenmedium_r <- rasterFromXYZ(shapemetrics[,c(1,2,4)])
+writeRaster(eigenmedium_r, paste(substr(filename, 1, nchar(filename)-4) ,"_eigenmedium.tif",sep=""),overwrite=TRUE)
+
+eigensmallest_r <- rasterFromXYZ(shapemetrics[,c(1,2,5)])
+writeRaster(eigensmallest_r, paste(substr(filename, 1, nchar(filename)-4) ,"_eigensmallest.tif",sep=""),overwrite=TRUE)
 
 curvature_r <- rasterFromXYZ(shapemetrics[,c(1,2,6)])
 writeRaster(curvature_r, paste(substr(filename, 1, nchar(filename)-4) ,"_curvature.tif",sep=""),overwrite=TRUE)
@@ -157,6 +172,8 @@ writeRaster(sphericity_r, paste(substr(filename, 1, nchar(filename)-4) ,"_spheri
 
 anisotrophy_r <- rasterFromXYZ(shapemetrics[,c(1,2,10)])
 writeRaster(anisotrophy_r, paste(substr(filename, 1, nchar(filename)-4) ,"_anisotrophy.tif",sep=""),overwrite=TRUE)
+
+#####################################################
 
 terrainmetrics = grid_metrics(las_ground, TerrainMetrics(Z),res=2.5)
 plot(terrainmetrics)
