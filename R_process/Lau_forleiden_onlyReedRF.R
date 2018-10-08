@@ -5,44 +5,44 @@ library(randomForest)
 library(caret)
 
 # Set global variables
-setwd("D:/Koma/Paper1_ReedStructure/Lau_Island/Data") # working directory
+setwd("D:/Koma/Paper1_ReedStructure/Data/ALS/WholeLau/tiled") # working directory
 
 # Import
 classes = rgdal::readOGR("training_buffer3.shp")
 #plot(classes)
 
 # Classified
-RF_class=raster("classified3.tif")
+RF_class=raster("classified.tif")
 
 formask <- setValues(raster(RF_class), NA)
 formask[RF_class==4] <- 1
 plot(formask, col="dark green", legend = FALSE)
 
 # LiDAR metrics
-eiglargest=raster("Lau_island_eigenlargest.tif")
-eigmedium=raster("Lau_island_eigenmedium.tif")
-eigsmallest=raster("Lau_island_eigensmallest.tif")
-ani=raster("Lau_island_anisotrophy.tif")
-curva=raster("Lau_island_curvature.tif")
-lin=raster("Lau_island_linearity.tif")
-plan=raster("Lau_island_planarity.tif")
-sph=raster("Lau_island_sphericity.tif")
+eiglargest=raster("mosaic_eigenlargest.tif")
+eigmedium=raster("mosaic_eigenmedium.tif")
+eigsmallest=raster("mosaic_eigensmallest.tif")
+ani=raster("mosaic_anisotropy.tif")
+curva=raster("mosaic_curvature.tif")
+lin=raster("mosaic_linearity.tif")
+plan=raster("mosaic_planarity.tif")
+sph=raster("mosaic_sphericity.tif")
 
-height_max=raster("Lau_island_heightq090.tif")
-height_025=raster("Lau_island_heightq025.tif")
-height_075=raster("Lau_island_heightq075.tif")
-height_med=raster("Lau_island_heightmedian.tif")
-height_mean=raster("Lau_island_heightmean.tif")
+height_max=raster("mosaic_heightq090.tif")
+height_025=raster("mosaic_heightq025.tif")
+height_075=raster("mosaic_heightq075.tif")
+height_med=raster("mosaic_heightmedian.tif")
+height_mean=raster("mosaic_heightmean.tif")
 
-heightcover=raster("Lau_island_cover_pulsepenrat.tif")
+heightcover=raster("mosaic_pulsepenrat.tif")
 
-heightskew=raster("Lau_island_vertdistr_heightskew.tif")
-height_std=raster("Lau_island_vertdistr_heightstd.tif")
-height_kurto=raster("Lau_island_vertdistr_heightkurto.tif")
-height_var=raster("Lau_island_vertdistr_heightvar.tif")
+heightskew=raster("mosaic_heightskew.tif")
+height_std=raster("mosaic_heightstd.tif")
+height_kurto=raster("mosaic_heightkurto.tif")
+height_var=raster("mosaic_heightvar.tif")
 
-height_dtm=raster("Lau_island_terrainmean.tif")
-height_dtmvar=raster("Lau_island_terrainvar.tif")
+height_dtm=raster("mosaic_terrainmean.tif")
+height_dtmvar=raster("mosaic_terrainvar.tif")
 
 # Preprocess import data (rasterizing, masking)
 classes_rast <- rasterize(classes, formask,field="Structure")
@@ -68,7 +68,7 @@ varImpPlot(modelRF)
 # accuracy assessment
 first_seed <- 5
 accuracies <-c()
-for (i in 1:1){
+for (i in 1:5){
   set.seed(first_seed)
   first_seed <- first_seed+1
   trainIndex <- createDataPartition(y=featuretable$layer, p=0.75, list=FALSE)
