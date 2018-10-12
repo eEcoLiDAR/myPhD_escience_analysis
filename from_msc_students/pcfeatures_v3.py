@@ -41,9 +41,9 @@ from laspy.file import File
 
 import os
 
-import tqdm
+#import tqdm
 
-from tqdm import tqdm
+#from tqdm import tqdm
 
 
 def par_calc(start,stop,points,points_remain_prop,tree,chunk,k,features,tensor_filter=False,classification=True):
@@ -68,7 +68,7 @@ def par_calc(start,stop,points,points_remain_prop,tree,chunk,k,features,tensor_f
     
     #%% Looping over the to-be-evaluated points in a semi-vectorized approach
     
-    for x in tqdm(range(start,stop,chunk)):
+    for x in range(start,stop,chunk):
         
         #Since there are more indexes entries than stop gives, chunk will surpass the stop mark (in 9/10 threads). 
         #Re-evaluation of chunksize.
@@ -316,8 +316,8 @@ def par_calc(start,stop,points,points_remain_prop,tree,chunk,k,features,tensor_f
                 output.loc[x:x+chunk-1,"intensity"] = points_remain_prop.loc[x:x+chunk-1,"intensity"]
             
             if classification == True:
-                 #print("Classifying!")
-                 tqdm.write("Classifying!")
+                 print("Classifying!")
+                 #tqdm.write("Classifying!")
                  #output.loc[x:x+chunk-1,"class"] = clf.predict(output.loc[x:x+chunk-1,features])
           
 
