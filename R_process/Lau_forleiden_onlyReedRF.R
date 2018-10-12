@@ -59,6 +59,7 @@ trainingbrick <- addLayer(masked, classes_rast)
 featuretable <- getValues(trainingbrick)
 featuretable <- na.omit(featuretable)
 featuretable <- as.data.frame(featuretable)
+featuretable = featuretable[ which(featuretable$layer>3),]
 
 # apply RF
 modelRF <- randomForest(x=featuretable[ ,c(1:20)], y=factor(featuretable$layer),importance = TRUE)

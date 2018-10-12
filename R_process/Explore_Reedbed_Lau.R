@@ -32,44 +32,53 @@ library(ggplot2)
 library(rgdal)
 
 # Set global variables
-setwd("D:/Koma/Paper1_ReedStructure/WholeLau_TotalVegetation") # working directory
+setwd("D:/Koma/Paper1_ReedStructure/Data/ALS/WholeLau/tiled") # working directory
 
 # Import
-training = rgdal::readOGR("D:/Koma/Paper1_ReedStructure/training_buffer3.shp")
+training = rgdal::readOGR("training_buffer3.shp")
 plot(training)
 
-# Height
-height_max=raster("mosaic_heightmax.tif")
-height_med=raster("mosaic_heightmedian.tif")
-
-height_metrics = addLayer(height_max,height_med)
-
-# Coverage
-cover=raster("mosaic_pulsepenrat.tif")
-
-# 3D shape
+# LiDAR metrics
+eiglargest=raster("mosaic_eigenlargest.tif")
+eigmedium=raster("mosaic_eigenmedium.tif")
+eigsmallest=raster("mosaic_eigensmallest.tif")
 ani=raster("mosaic_anisotropy.tif")
 curva=raster("mosaic_curvature.tif")
-omni=raster("mosaic_omnivariance.tif")
+lin=raster("mosaic_linearity.tif")
+plan=raster("mosaic_planarity.tif")
+sph=raster("mosaic_sphericity.tif")
 
-shape_lidarmetrics = addLayer(ani,curva,omni)
+shape_lidarmetrics = addLayer(eiglargest,eigmedium,eigsmallest,ani,curva,lin,plan,sph)
 
-# Distribution
-heightkurto=raster("mosaic_heightkurto.tif")
+height_max=raster("mosaic_heightq090.tif")
+height_025=raster("mosaic_heightq025.tif")
+height_075=raster("mosaic_heightq075.tif")
+height_med=raster("mosaic_heightmedian.tif")
+height_mean=raster("mosaic_heightmean.tif")
+
+height_metrics = addLayer(height_max,height_025,height_075,height_med,height_mean)
+
+heightcover=raster("mosaic_pulsepenrat.tif")
+
+heightskew=raster("mosaic_heightskew.tif")
 height_std=raster("mosaic_heightstd.tif")
+height_kurto=raster("mosaic_heightkurto.tif")
+height_var=raster("mosaic_heightvar.tif")
 
-distribution_metrics = addLayer(heightkurto,height_std)
+distribution_metrics = addLayer(heightskew,height_kurto,height_std,height_var)
 
-# DTM
-dtm_var=raster("mosaic_terrainvar.tif")
+height_dtm=raster("mosaic_terrainmean.tif")
+height_dtmvar=raster("mosaic_terrainvar.tif")
+
+terrainmetrics = addLayer(height_dtm,height_dtmvar)
 
 # Preprocess import data (rasterizing, masking)
 
 classes_rast_veg_h <- rasterize(training,height_max,field="Vegetation")
 classes_rast_str_h <- rasterize(training,height_max,field="Structure")
 
-classes_rast_veg_cov <- rasterize(training,cover,field="Vegetation")
-classes_rast_str_cov <- rasterize(training,cover,field="Structure")
+classes_rast_veg_cov <- rasterize(training,heightcover,field="Vegetation")
+classes_rast_str_cov <- rasterize(training,heightcover,field="Structure")
 
 classes_rast_veg_shap <- rasterize(training,ani,field="Vegetation")
 classes_rast_str_shap <- rasterize(training,ani,field="Structure")
@@ -77,8 +86,8 @@ classes_rast_str_shap <- rasterize(training,ani,field="Structure")
 classes_rast_veg_dist <- rasterize(training,height_std,field="Vegetation")
 classes_rast_str_dist <- rasterize(training,height_std,field="Structure")
 
-classes_rast_veg_dtm <- rasterize(training,dtm_var,field="Vegetation")
-classes_rast_str_dtm <- rasterize(training,dtm_var,field="Structure")
+classes_rast_veg_dtm <- rasterize(training,height_dtmvar,field="Vegetation")
+classes_rast_str_dtm <- rasterize(training,height_dtmvar,field="Structure")
 
 # Reduce to specific extent
 
@@ -92,7 +101,7 @@ height_metrics_c=crop(height_metrics, area_ofint)
 classes_rast_veg_cov_c=crop(classes_rast_veg_cov, area_ofint)
 classes_rast_str_cov_c=crop(classes_rast_str_cov, area_ofint)
 
-cover_metrics_c=crop(cover, area_ofint)
+cover_metrics_c=crop(heightcover, area_ofint)
 
 classes_rast_veg_shap_c=crop(classes_rast_veg_shap, area_ofint)
 classes_rast_str_shap_c=crop(classes_rast_str_shap, area_ofint)
@@ -107,7 +116,7 @@ distribution_metrics_c=crop(distribution_metrics, area_ofint)
 classes_rast_veg_dtm_c=crop(classes_rast_veg_dtm, area_ofint)
 classes_rast_str_dtm_c=crop(classes_rast_str_dtm, area_ofint)
 
-dtm_metrics_c=crop(dtm_var, area_ofint)
+dtm_metrics_c=crop(terrainmetrics, area_ofint)
 
 # Masking
 masked_h <- mask(height_metrics_c, classes_rast_veg_h_c)
@@ -143,17 +152,31 @@ featuretable_dtm <- as.data.frame(featuretable_dtm)
 # Visualize
 # Boxplot
 
-ggplot(featuretable_h, aes(group=layer.2, x=layer.2,y=mosaic_heightmax,color=as.factor(layer.1))) + geom_boxplot()
+pdf("plots.pdf")
+
+ggplot(featuretable_h, aes(group=layer.2, x=layer.2,y=mosaic_heightq090,color=as.factor(layer.1))) + geom_boxplot()
+ggplot(featuretable_h, aes(group=layer.2, x=layer.2,y=mosaic_heightq025,color=as.factor(layer.1))) + geom_boxplot()
+ggplot(featuretable_h, aes(group=layer.2, x=layer.2,y=mosaic_heightq075,color=as.factor(layer.1))) + geom_boxplot()
 ggplot(featuretable_h, aes(group=layer.2, x=layer.2,y=mosaic_heightmedian,color=as.factor(layer.1))) + geom_boxplot()
+ggplot(featuretable_h, aes(group=layer.2, x=layer.2,y=mosaic_heightmean,color=as.factor(layer.1))) + geom_boxplot()
 
 ggplot(featuretable_cov, aes(group=layer.2, x=layer.2,y=mosaic_pulsepenrat,color=as.factor(layer.1))) + geom_boxplot()
 
+ggplot(featuretable_shap, aes(group=layer.2, x=layer.2,y=mosaic_eigenlargest,color=as.factor(layer.1))) + geom_boxplot()
+ggplot(featuretable_shap, aes(group=layer.2, x=layer.2,y=mosaic_eigenmedium,color=as.factor(layer.1))) + geom_boxplot()
+ggplot(featuretable_shap, aes(group=layer.2, x=layer.2,y=mosaic_eigensmallest,color=as.factor(layer.1))) + geom_boxplot()
 ggplot(featuretable_shap, aes(group=layer.2, x=layer.2,y=mosaic_anisotropy,color=as.factor(layer.1))) + geom_boxplot()
 ggplot(featuretable_shap, aes(group=layer.2, x=layer.2,y=mosaic_curvature,color=as.factor(layer.1))) + geom_boxplot()
-ggplot(featuretable_shap, aes(group=layer.2, x=layer.2,y=mosaic_omnivariance,color=as.factor(layer.1))) + geom_boxplot()
+ggplot(featuretable_shap, aes(group=layer.2, x=layer.2,y=mosaic_linearity,color=as.factor(layer.1))) + geom_boxplot()
+ggplot(featuretable_shap, aes(group=layer.2, x=layer.2,y=mosaic_planarity,color=as.factor(layer.1))) + geom_boxplot()
+ggplot(featuretable_shap, aes(group=layer.2, x=layer.2,y=mosaic_sphericity,color=as.factor(layer.1))) + geom_boxplot()
 
 ggplot(featuretable_dist, aes(group=layer.2, x=layer.2,y=mosaic_heightstd,color=as.factor(layer.1))) + geom_boxplot()
 ggplot(featuretable_dist, aes(group=layer.2, x=layer.2,y=mosaic_heightkurto,color=as.factor(layer.1))) + geom_boxplot()
+ggplot(featuretable_dist, aes(group=layer.2, x=layer.2,y=mosaic_heightskew,color=as.factor(layer.1))) + geom_boxplot()
+ggplot(featuretable_dist, aes(group=layer.2, x=layer.2,y=mosaic_heightvar,color=as.factor(layer.1))) + geom_boxplot()
 
+ggplot(featuretable_dtm, aes(group=layer.2, x=layer.2,y=mosaic_terrainmean,color=as.factor(layer.1))) + geom_boxplot()
 ggplot(featuretable_dtm, aes(group=layer.2, x=layer.2,y=mosaic_terrainvar,color=as.factor(layer.1))) + geom_boxplot()
 
+dev.off()

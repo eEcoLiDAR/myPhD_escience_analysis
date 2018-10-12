@@ -99,7 +99,6 @@ las_norm = readLAS(paste(substr(filename, 1, nchar(filename)-4) ,"_norm.las",sep
 #####################################################
 
 heightmetrics = grid_metrics(las_norm, HeightMetrics(Z),res=2.5)
-plot(heightmetrics)
 
 height_max_r <- rasterFromXYZ(heightmetrics[,c(1,2,3)])
 writeRaster(height_max_r, paste(substr(filename, 1, nchar(filename)-4) ,"_heightmax.tif",sep=""),overwrite=TRUE)
@@ -122,7 +121,6 @@ writeRaster(height_q090_r, paste(substr(filename, 1, nchar(filename)-4) ,"_heigh
 #####################################################
 
 coveragemetrics = grid_metrics(las, CoverageMetrics(Z,Classification),res=2.5)
-plot(coveragemetrics)
 
 cover_pulsepenrat_r <- rasterFromXYZ(coveragemetrics[,c(1,2,3)])
 writeRaster(cover_pulsepenrat_r, paste(substr(filename, 1, nchar(filename)-4) ,"_cover_pulsepenrat.tif",sep=""),overwrite=TRUE)
@@ -130,7 +128,6 @@ writeRaster(cover_pulsepenrat_r, paste(substr(filename, 1, nchar(filename)-4) ,"
 #####################################################
 
 vertdistr_metrics = grid_metrics(las, VegStr_VertDistr_Metrics(Z),res=2.5)
-plot(vertdistr_metrics)
 
 vertdistr_heightstd_r <- rasterFromXYZ(vertdistr_metrics[,c(1,2,3)])
 writeRaster(vertdistr_heightstd_r, paste(substr(filename, 1, nchar(filename)-4) ,"_vertdistr_heightstd.tif",sep=""),overwrite=TRUE)
@@ -147,7 +144,6 @@ writeRaster(vertdistr_heightkurto_r, paste(substr(filename, 1, nchar(filename)-4
 #####################################################
 
 shapemetrics = grid_metrics(las, ShapeMetrics(X,Y,Z),res=2.5)
-plot(shapemetrics)
 
 eigenlargest_r <- rasterFromXYZ(shapemetrics[,c(1,2,3)])
 writeRaster(eigenlargest_r, paste(substr(filename, 1, nchar(filename)-4) ,"_eigenlargest.tif",sep=""),overwrite=TRUE)
@@ -176,7 +172,6 @@ writeRaster(anisotrophy_r, paste(substr(filename, 1, nchar(filename)-4) ,"_aniso
 #####################################################
 
 terrainmetrics = grid_metrics(las_ground, TerrainMetrics(Z),res=2.5)
-plot(terrainmetrics)
 
 terrain_mean_r <- rasterFromXYZ(terrainmetrics[,c(1,2,3)])
 writeRaster(terrain_mean_r, paste(substr(filename, 1, nchar(filename)-4) ,"_terrainmean.tif",sep=""),overwrite=TRUE)
@@ -189,3 +184,16 @@ writeRaster(terrain_var_r, paste(substr(filename, 1, nchar(filename)-4) ,"_terra
 
 end_time <- Sys.time()
 print(end_time - start_time)
+
+# plotting
+#####################################################
+
+pdf("metrics_plots.pdf")
+
+plot(heightmetrics)
+plot(coveragemetrics)
+plot(vertdistr_metrics)
+plot(shapemetrics)
+plot(terrainmetrics)
+
+dev.off()
