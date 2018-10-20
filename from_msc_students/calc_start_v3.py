@@ -110,7 +110,7 @@ if __name__ == "__main__":
 
 	########### Define features ###########
     
-    features = ['linearity', 'planarity', 'sphericity','anisotropy', 'eigenentropy','curvature']
+    features = ['linearity', 'planarity', 'sphericity','anisotropy', 'eigenentropy','omnivariance','curvature','sum_eigenvalues','delta_z','std_z',"radius","density","norm_z"]
     		
 	########### Build up KDTree ###########
     
@@ -292,18 +292,18 @@ if __name__ == "__main__":
     print(out_filename)
     out_LAS = File(out_filename, mode = "w", header = in_LAS.header)      
         
-    #out_LAS.define_new_dimension(name="delta_z"+"_"+str(k), data_type=9, description= "Spatial feature")
-    #out_LAS.define_new_dimension(name="std_z"+"_"+str(k), data_type=9, description= "Spatial feature")
-    #out_LAS.define_new_dimension(name="radius"+"_"+str(k), data_type=9, description= "Spatial feature")
-    #out_LAS.define_new_dimension(name="density"+"_"+str(k), data_type=9, description= "Spatial feature")
-    #out_LAS.define_new_dimension(name="norm_z"+"_"+str(k), data_type=9, description= "Spatial feature")
+    out_LAS.define_new_dimension(name="delta_z"+"_"+str(k), data_type=9, description= "Spatial feature")
+    out_LAS.define_new_dimension(name="std_z"+"_"+str(k), data_type=9, description= "Spatial feature")
+    out_LAS.define_new_dimension(name="radius"+"_"+str(k), data_type=9, description= "Spatial feature")
+    out_LAS.define_new_dimension(name="density"+"_"+str(k), data_type=9, description= "Spatial feature")
+    out_LAS.define_new_dimension(name="norm_z"+"_"+str(k), data_type=9, description= "Spatial feature")
     out_LAS.define_new_dimension(name="linearity"+"_"+str(k), data_type=9, description= "Spatial feature")
     out_LAS.define_new_dimension(name="planarity"+"_"+str(k), data_type=9, description= "Spatial feature")
     out_LAS.define_new_dimension(name="sphericity"+"_"+str(k), data_type=9, description= "Spatial feature")
-    #out_LAS.define_new_dimension(name="omnivariance"+"_"+str(k), data_type=9, description= "Spatial feature")
+    out_LAS.define_new_dimension(name="omnivariance"+"_"+str(k), data_type=9, description= "Spatial feature")
     out_LAS.define_new_dimension(name="anisotropy"+"_"+str(k), data_type=9, description= "Spatial feature")
     out_LAS.define_new_dimension(name="eigenentropy"+"_"+str(k), data_type=9, description= "Spatial feature")
-    #out_LAS.define_new_dimension(name="sum_eigenvalues"+"_"+str(k), data_type=9, description= "Spatial feature")
+    out_LAS.define_new_dimension(name="sum_eigenvalues"+"_"+str(k), data_type=9, description= "Spatial feature")
     out_LAS.define_new_dimension(name="curvature"+"_"+str(k), data_type=9, description= "Spatial feature")
     #out_LAS.define_new_dimension(name="classification"+"_"+str(k),data_type=9, description="reference")
         
@@ -322,15 +322,15 @@ if __name__ == "__main__":
     out_LAS.num_returns = point_cloud['number_of_returns']
         
         #Setting attributes Maybe do this with "try" ?
-    #setattr(out_LAS,'delta_z'+"_"+str(k),point_cloud['delta_z'])
+    setattr(out_LAS,'delta_z'+"_"+str(k),point_cloud['delta_z'])
         #point_cloud.drop('delta_z')
-    #setattr(out_LAS,'std_z'+"_"+str(k),point_cloud['std_z'])
+    setattr(out_LAS,'std_z'+"_"+str(k),point_cloud['std_z'])
         #point_cloud.drop('std_z')
-    #setattr(out_LAS,'radius'+"_"+str(k),point_cloud['radius'])
+    setattr(out_LAS,'radius'+"_"+str(k),point_cloud['radius'])
         #point_cloud.drop('radius')
-    #setattr(out_LAS,'density'+"_"+str(k),point_cloud['density'])
+    setattr(out_LAS,'density'+"_"+str(k),point_cloud['density'])
         #point_cloud.drop('density')
-    #setattr(out_LAS,'norm_z'+"_"+str(k),point_cloud['norm_z'])
+    setattr(out_LAS,'norm_z'+"_"+str(k),point_cloud['norm_z'])
         #point_cloud.drop('norm_z')
     setattr(out_LAS,'linearity'+"_"+str(k),point_cloud['linearity'])
         #point_cloud.drop('linearity')
@@ -338,7 +338,7 @@ if __name__ == "__main__":
         #point_cloud.drop('planarity')
     setattr(out_LAS,'sphericity'+"_"+str(k),point_cloud['sphericity'])
         #point_cloud.drop('sphericity')
-    #setattr(out_LAS,'omnivariance'+"_"+str(k),point_cloud['omnivariance'])
+    setattr(out_LAS,'omnivariance'+"_"+str(k),point_cloud['omnivariance'])
         #point_cloud.drop('omnivariance')
     if "anisotropy" in features:
         setattr(out_LAS,'anisotropy'+"_"+str(k),point_cloud['anisotropy'])
@@ -346,8 +346,8 @@ if __name__ == "__main__":
     if "eigenentropy" in features:
         setattr(out_LAS,'eigenentropy'+"_"+str(k),point_cloud['eigenentropy'])
         #point_cloud.drop('eigenentropy')
-    #if "curvature" in features:
-        #setattr(out_LAS,'sum_eigenvalues'+"_"+str(k),point_cloud['sum_eigenvalues'])
+    if "sum_eigenvalues" in features:
+        setattr(out_LAS,'sum_eigenvalues'+"_"+str(k),point_cloud['sum_eigenvalues'])
         #point_cloud.drop('sum_eigenvalues')
     if "curvature" in features:
         setattr(out_LAS,'curvature'+"_"+str(k),point_cloud['curvature'])
