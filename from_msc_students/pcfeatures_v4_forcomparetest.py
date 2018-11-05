@@ -10,33 +10,24 @@ Functions for calculating point cloud features
 """
 
 import pandas as pd
-
 import numpy as np
-
 import scipy
-
 from scipy import spatial
+import scipy.stats.stats as stat
 
 import math
-
 from math import ceil
 
 import time
-
 import multiprocessing as mp
-
 from concurrent.futures import ThreadPoolExecutor
 
 import pickle
-
 import sys
-
 import gc
-
 import queue
 
 import laspy
-
 from laspy.file import File
 
 import os
@@ -256,13 +247,71 @@ def par_calc(start,stop,points,points_remain_prop,tree,chunk,k,features,tensor_f
         else:
             #print("Filter is off!")
                         
-            #Delta Z
+            #range Z
+			
             neighbour_group_z = neighbour_group_xyz[:,:,2]
             if "delta_z" in features:
                 output.loc[x:x+chunk-1,'delta_z'] = np.amax(neighbour_group_z,axis=1) - np.amin(neighbour_group_z,axis=1)
+				
+			# max Z
+			
+            if "max_z" in features:
+                output.loc[x:x+chunk-1,"max_z"] = np.max(neighbour_group_z,axis=1)
+			
+			# min Z
+			
+            if "min_z" in features:
+                output.loc[x:x+chunk-1,"min_z"] = np.min(neighbour_group_z,axis=1)
+			
+			# mean Z
+			
+            if "mean_z" in features:
+                output.loc[x:x+chunk-1,"mean_z"] = np.mean(neighbour_group_z,axis=1)
+			
+			# median Z
+			
+            if "median_z" in features:
+                output.loc[x:x+chunk-1,"median_z"] = np.median(neighbour_group_z,axis=1)
+			
+			# var Z
+			
+            if "var_z" in features:
+                output.loc[x:x+chunk-1,"var_z"] = np.var(neighbour_group_z,axis=1)
+			
+			# coeff var
+			
+            if "coeffvar_z" in features:
+                output.loc[x:x+chunk-1,"coeffvar_z"] = np.std(neighbour_group_z,axis=1)/np.mean(neighbour_group_z,axis=1)
+			
+			# skew Z
+			
+            if "skew_z" in features:
+                output.loc[x:x+chunk-1,"skew_z"] = stat.skew(neighbour_group_z,axis=1)
+			
+			# kurto Z
+			
+            if "kurto_z" in features:
+                output.loc[x:x+chunk-1,"kurto_z"] = stat.kurtosis(neighbour_group_z,axis=1)
+			
             #Std Z
             if "std_z" in features:
                 output.loc[x:x+chunk-1,"std_z"] = np.std(neighbour_group_z,axis=1)  
+				
+			# eig 1
+			
+            if "eig1" in features:
+                output.loc[x:x+chunk-1,"eig1"] = knn_eigval_sort[:,0]
+			
+			# eig 2
+			
+            if "eig2" in features:
+               output.loc[x:x+chunk-1,"eig2"] = knn_eigval_sort[:,1]
+			
+			# eig 3
+			
+            if "eig3" in features:
+               output.loc[x:x+chunk-1,"eig3"] = knn_eigval_sort[:,2]
+		
             #Local Radius
             Rl = np.amax(knndd,axis=1)
             if "radius" in features:
