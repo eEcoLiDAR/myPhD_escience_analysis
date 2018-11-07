@@ -31,7 +31,30 @@ print(las@header@PHB$`Max Z`)
 hist(las@data$Z)
 
 plot(las)
+plot(las,color="Classification",colorPalette=random.colors(24))
 
 ground = lasfilter(las, Classification == 2)
 plot(ground)
+
+######################## Execise 2. ########################
+
+# Create DTM and normlaize the point cloud
+nonvegetation = lasfilter(las, Classification != 1)
+
+dtm = grid_terrain(nonvegetation, res = 5, method = "knnidw", k = 25L)
+plot(dtm)
+
+lasnormalize(las, dtm)
+
+hist(las@data$Z)
+
+# Calculate maximum height
+hmax = grid_metrics(las, max(Z), res=1)
+plot(hmax)
+
+# Exclude extra objects (bulding, water, bridges)
+filteres_pc = lasfilter(las, Classification < 3)
+
+hmax_filt = grid_metrics(filteres_pc, max(Z), res=1)
+plot(hmax_filt)
 
