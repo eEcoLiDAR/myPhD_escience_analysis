@@ -12,15 +12,15 @@ library("maptools")
 library("e1071")
 
 # Set global variables (workspace)
-
 full_path="D:/Koma/MSc_course/"
 filename="flavopark_forCP.las"
 
 setwd(full_path)
 
+par(mfrow=c(1,1)) # set 1 by 1 plot by default
+
 ######################## Execise 1. ########################
 # Import data
-
 las = readLAS(filename)
 
 # Explore briefly
@@ -33,7 +33,6 @@ hist(las@data$Z)
 plot(las)
 
 # Explore the Cnonvegetationsification flag
-
 print(unique(las@data$Classification))
 
 ground = lasfilter(las, Classification == 2)
@@ -71,10 +70,13 @@ filteres_pc = lasfilter(las, Classification < 3)
 hmax_filt = grid_metrics(filteres_pc, max(Z), res=1)
 plot(hmax_filt)
 
+# Locate highest trees
+highest_trees=hmax_filt[which(hmax_filt$V1>25)]
+plot(highest_trees)
+
 ######################## Execise 3. ########################
 
 # Calculate LiDAR metrics at 1 m resolution
-
 hmax_1m = grid_metrics(nonvegetation, max(Z), res=1)
 plot(hmax_1m)
 
@@ -112,7 +114,6 @@ hpulsepen_1m = grid_metrics(nonvegetation, length(Z[Classification==2])/length(Z
 plot(hpulsepen_1m)
 
 # Calculate LiDAR metrics at 10 m resolution
-
 hmax_10m = grid_metrics(nonvegetation, max(Z), res=10)
 plot(hmax_10m)
 
@@ -150,7 +151,6 @@ hpulsepen_10m = grid_metrics(nonvegetation, length(Z[Classification==2])/length(
 plot(hpulsepen_10m)
 
 # Calculate LiDAR metrics at 100 m resolution
-
 hmax_100m = grid_metrics(nonvegetation, max(Z), res=100)
 plot(hmax_100m)
 
@@ -194,7 +194,6 @@ plot(hpulsepen_10m,main="Pulse penetration ratio 10 m")
 plot(hpulsepen_100m,main="Pulse penetration ratio 100 m")
 
 # Export data as raster
-
 hmax_100m_r <- rasterFromXYZ(hmax_100m[,c(1,2,3)])
 hmean_100m_r <- rasterFromXYZ(hmean_100m[,c(1,2,3)])
 hmedian_100m_r <- rasterFromXYZ(hmedian_100m[,c(1,2,3)])
