@@ -46,6 +46,9 @@ print(summary(cleaned_lidarmetrics))
 plot(all_data[[5]],colNA="black")
 
 # Boxplot
-par(mfrow=c(1,2))
+all_data_df_nonNA=na.omit(all_data_df[,5])
+
+par(mfrow=c(1,3))
 boxplot(all_data_df[,5])
-boxplot(all_data_df[,5], outline = FALSE)
+boxplot(all_data_df[,5],outline=FALSE)
+boxplot(all_data_df_nonNA)
