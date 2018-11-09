@@ -25,9 +25,6 @@ all_data=flip(all_data,direction = 'y')
 # Check LiDAR metrics
 plot(all_data[[5]],colNA="black")
 
-# Where NaNs are located
-
-
 # Save as dataframe and print statistics
 all_data_df=as.data.frame(all_data,xy=TRUE)
 colnames(all_data_df) <- c("x", "y", "coeff_var_z","density_absolute_mean","eigv_1","eigenv_2","eigenv_3","gps_time","intensity","kurto_z","max_z","mean_z",
@@ -44,3 +41,11 @@ myvars <- c("x", "y", "eigv_1","eigenv_2","eigenv_3","kurto_z","max_z","mean_z",
 
 cleaned_lidarmetrics = all_data_df[myvars]
 print(summary(cleaned_lidarmetrics))
+
+# Check LiDAR metrics
+plot(all_data[[5]],colNA="black")
+
+# Boxplot
+par(mfrow=c(1,2))
+boxplot(all_data_df[,5])
+boxplot(all_data_df[,5], outline = FALSE)
