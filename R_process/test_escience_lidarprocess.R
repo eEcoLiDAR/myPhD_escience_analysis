@@ -16,12 +16,12 @@ library(ggplot2)
 library(gridExtra)
 
 # Set global variables
-setwd("D:/Koma/escience/NL_features")
+setwd("D:/Koma/escience/")
 
 # Import
 
 # escience gtiff
-all_data=stack("terrainData1km_v2.tif")
+all_data=stack("terrainData100m_run2.tif")
 all_data=flip(all_data,direction = 'y')
 
 plot(all_data)
