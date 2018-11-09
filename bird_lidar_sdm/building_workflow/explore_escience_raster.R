@@ -22,6 +22,12 @@ setwd(full_path)
 all_data=stack(filename)
 all_data=flip(all_data,direction = 'y')
 
+# Check LiDAR metrics
+plot(all_data[[5]],colNA="black")
+
+# Where NaNs are located
+
+
 # Save as dataframe and print statistics
 all_data_df=as.data.frame(all_data,xy=TRUE)
 colnames(all_data_df) <- c("x", "y", "coeff_var_z","density_absolute_mean","eigv_1","eigenv_2","eigenv_3","gps_time","intensity","kurto_z","max_z","mean_z",
@@ -30,14 +36,11 @@ colnames(all_data_df) <- c("x", "y", "coeff_var_z","density_absolute_mean","eigv
 
 print(summary(all_data_df))
 
+# Exclude data which are obviosly wrong (all values are null)
 myvars <- c("x", "y", "eigv_1","eigenv_2","eigenv_3","kurto_z","max_z","mean_z",
             "median_z","min_z","perc_10","perc_100","perc_20","perc_30","perc_40",
             "perc_50","perc_60","perc_70","perc_80","perc_90", "point_density",
             "skew_z","std_z","var_z")
 
-cleaned_lidarmetrics <- all_data_df[myvars]
+cleaned_lidarmetrics = all_data_df[myvars]
 print(summary(cleaned_lidarmetrics))
-
-# Check where the NaNs are located
-eig1=cleaned_lidarmetrics[is.na(cleaned_lidarmetrics$eigv_1),]
-plot(eig1$x,eig1$y,color=eig1$eigv_1)
