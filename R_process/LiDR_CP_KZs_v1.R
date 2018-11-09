@@ -1,10 +1,10 @@
 "
 @author: Zsofia Koma, UvA
-Aim: Global ecology and biodiversity MSc course, LiDAR execise solution
+Aim: Global ecology and biodiversity MSc course, LiDAR execise solutions
+2018 November
 "
 
 # Import required libraries
-
 library("lidR")
 library("raster")
 library("maptools")
@@ -32,7 +32,7 @@ hist(las@data$Z)
 
 plot(las)
 
-# Explore the Cnonvegetationsification flag
+# Explore the Classification flag
 print(unique(las@data$Classification))
 
 ground = lasfilter(las, Classification == 2)
