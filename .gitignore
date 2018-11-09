@@ -2,3 +2,4 @@
 test_data/
 .idea/
 test_laserchicken/test/.ipynb_checkpoints
+/bird_lidar_sdm/building_workflow/.ipynb_checkpoints
