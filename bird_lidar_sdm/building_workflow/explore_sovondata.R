@@ -49,6 +49,47 @@ ggplot() +
   coord_equal() +
   geom_point(data=bird_data_onebird_onlypres, aes(x=x,y=y,size=number),inherit.aes = FALSE)
 
+ggplot() + 
+  geom_polygon(data=nl_bound.df,aes(long,lat,group=group),fill = NA, color="black") +
+  geom_path(color="white") +
+  coord_equal() +
+  geom_point(data=bird_data_onebird_onlypres, aes(x=x,y=y,size=number,color=factor(year)),inherit.aes = FALSE)
+
+# Visulaization per year
+bird_data_onebird_onlypres_2013=bird_data_onebird_onlypres[ which(bird_data_onebird_onlypres$year==2013),]
+bird_data_onebird_onlypres_2014=bird_data_onebird_onlypres[ which(bird_data_onebird_onlypres$year==2014),]
+bird_data_onebird_onlypres_2015=bird_data_onebird_onlypres[ which(bird_data_onebird_onlypres$year==2015),]
+bird_data_onebird_onlypres_2016=bird_data_onebird_onlypres[ which(bird_data_onebird_onlypres$year==2016),]
+
+ggplot() + 
+  geom_polygon(data=nl_bound.df,aes(long,lat,group=group),fill = NA, color="black") +
+  geom_path(color="white") +
+  coord_equal() +
+  geom_point(data=bird_data_onebird_onlypres_2013, aes(x=x,y=y,size=number,color=factor(month)),inherit.aes = FALSE) +
+  ggtitle("2013")
+
+ggplot() + 
+  geom_polygon(data=nl_bound.df,aes(long,lat,group=group),fill = NA, color="black") +
+  geom_path(color="white") +
+  coord_equal() +
+  geom_point(data=bird_data_onebird_onlypres_2014, aes(x=x,y=y,size=number,color=factor(month)),inherit.aes = FALSE) +
+  ggtitle("2014")
+
+ggplot() + 
+  geom_polygon(data=nl_bound.df,aes(long,lat,group=group),fill = NA, color="black") +
+  geom_path(color="white") +
+  coord_equal() +
+  geom_point(data=bird_data_onebird_onlypres_2015, aes(x=x,y=y,size=number,color=factor(month)),inherit.aes = FALSE) +
+  ggtitle("2015")
+
+ggplot() + 
+  geom_polygon(data=nl_bound.df,aes(long,lat,group=group),fill = NA, color="black") +
+  geom_path(color="white") +
+  coord_equal() +
+  geom_point(data=bird_data_onebird_onlypres_2016, aes(x=x,y=y,size=number,color=factor(month)),inherit.aes = FALSE) +
+  ggtitle("2016")
+
+
 # Shapefile export
 coordinates(bird_data_onebird)=~x+y
 proj4string(bird_data_onebird)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
