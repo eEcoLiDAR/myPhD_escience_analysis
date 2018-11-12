@@ -20,7 +20,7 @@ library("maps")
 library("mapdata")
 
 # Set global variables
-full_path="C:/zsofia/Amsterdam/BirdData/2018-06-08/"
+full_path="D:/Koma/lidar_bird_dsm_workflow/birdatlas/"
 filename="Breeding_bird_atlas_aggregated_data_kmsquares.csv"
 nl="Boundary_NL_RDNew.shp"
 lidarfile="terrainData100m_run2.tif"
@@ -48,13 +48,12 @@ nl_bound.df = join(nl_bound.points, nl_bound@data, by="id")
 lidarmetrics=stack(lidarfile)
 lidarmetrics=flip(lidarmetrics,direction = 'y')
 
-lidar_outline=boundaries(lidarmetrics[[5]], type='inner', classes=FALSE, directions=1, asNA=FALSE)
-lidar_outline=flip(lidar_outline,direction = 'y')
+lidar <- rasterToPoints(lidarmetrics[[27]])
+lidar <- data.frame(lidar)
+colnames(lidar) <- c("X","Y","V")
+lidar_filt=lidar[ which(lidar$V>0 & lidar$V<10),]
 
-lidar <- rasterToPoints(lidar_outline); lidar <- data.frame(lidar)
-colnames(lidar) <- c("X","Y","Bound")
-
-ggplot() + geom_raster(data=lidar,aes(X,Y))
+ggplot() + geom_raster(data=lidar_filt,aes(X,Y,fill=V))
 
 ggplot() + 
   geom_polygon(data=nl_bound.df,aes(long,lat,group=group),fill = NA, color="black") +
@@ -66,7 +65,7 @@ ggplot() +
   geom_polygon(data=nl_bound.df,aes(long,lat,group=group),fill = NA, color="black") +
   geom_path(color="white") +
   coord_equal() +
-  geom_raster(data=lidar,aes(X,Y)) +
+  geom_raster(data=lidar_filt,aes(X,Y,fill=V)) +
   geom_point(data=bird_data_onebird_onlypres, aes(x=x,y=y,size=number,color=factor(year)),inherit.aes = FALSE)
 
 # Visulaization per year
