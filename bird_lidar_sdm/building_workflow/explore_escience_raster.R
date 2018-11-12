@@ -13,7 +13,7 @@ library(ggplot2)
 library(gridExtra)
 
 # Set global variables
-full_path="D:/Koma/lidar_bird_dsm_workflow/"
+full_path="D:/Koma/lidar_bird_dsm_workflow/birdatlas/"
 filename="terrainData100m_run2.tif"
 
 setwd(full_path)
@@ -22,16 +22,14 @@ setwd(full_path)
 all_data=stack(filename)
 all_data=flip(all_data,direction = 'y')
 
-# Check LiDAR metrics
-plot(all_data[[5]],colNA="black")
-
 # Save as dataframe and print statistics
-all_data_df=as.data.frame(all_data,xy=TRUE)
-colnames(all_data_df) <- c("x", "y", "coeff_var_z","density_absolute_mean","eigv_1","eigenv_2","eigenv_3","gps_time","intensity","kurto_z","max_z","mean_z",
+lidarmetrics = rasterToPoints(all_data)
+lidarmetrics = data.frame(lidarmetrics)
+colnames(lidarmetrics) <- c("x", "y", "coeff_var_z","density_absolute_mean","eigv_1","eigenv_2","eigenv_3","gps_time","intensity","kurto_z","max_z","mean_z",
                            "median_z","min_z","perc_10","perc_100","perc_20","perc_30","perc_40","perc_50","perc_60","perc_70","perc_80","perc_90", "point_density",
                            "pulse_pen_ratio","range","skew_z","std_z","var_z")
 
-print(summary(all_data_df))
+print(summary(lidarmetrics))
 
 # Exclude data which are obviosly wrong (all values are null)
 myvars <- c("x", "y", "eigv_1","eigenv_2","eigenv_3","kurto_z","max_z","mean_z",
@@ -39,16 +37,20 @@ myvars <- c("x", "y", "eigv_1","eigenv_2","eigenv_3","kurto_z","max_z","mean_z",
             "perc_50","perc_60","perc_70","perc_80","perc_90", "point_density",
             "skew_z","std_z","var_z")
 
-cleaned_lidarmetrics = all_data_df[myvars]
+cleaned_lidarmetrics = lidarmetrics[myvars]
 print(summary(cleaned_lidarmetrics))
 
-# Check LiDAR metrics
-plot(all_data[[5]],colNA="black")
-
 # Boxplot
-all_data_df_nonNA=na.omit(all_data_df[,5])
+sel_attr=5
 
-par(mfrow=c(1,3))
-boxplot(all_data_df[,5])
-boxplot(all_data_df[,5],outline=FALSE)
-boxplot(all_data_df_nonNA)
+par(mfrow=c(1,2))
+boxplot(cleaned_lidarmetrics[,sel_attr])
+boxplot(cleaned_lidarmetrics[,sel_attr],outline=FALSE)
+
+lidar_filtoulier=cleaned_lidarmetrics[ which(cleaned_lidarmetrics[,sel_attr]>0 & cleaned_lidarmetrics[,sel_attr]<35),]
+lidar_oulier_below=cleaned_lidarmetrics[ which(cleaned_lidarmetrics[,sel_attr]<0),]
+lidar_oulier_above=cleaned_lidarmetrics[ which(cleaned_lidarmetrics[,sel_attr]>35),]
+
+ggplot() + geom_raster(data=lidar_filtoulier,aes(x,y,fill=lidar_filtoulier[,sel_attr])) + coord_equal()
+ggplot() + geom_raster(data=lidar_oulier_below,aes(x,y,fill=lidar_oulier_below[,sel_attr])) + coord_equal()
+ggplot() + geom_raster(data=lidar_oulier_above,aes(x,y,fill=lidar_oulier_above[,sel_attr])) + coord_equal()
