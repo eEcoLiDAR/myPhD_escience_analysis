@@ -117,7 +117,7 @@ class(modelRF)
 varImpPlot(modelRF)
 
 predLC <- predict(lidarmetrics_raster, model=modelRF, na.rm=TRUE)
-plot(predLC)
+plot(predLC,col=rainbow(10))
 
 writeRaster(predLC, filename="classified_asprs.tif", format="GTiff",overwrite=TRUE)
 
