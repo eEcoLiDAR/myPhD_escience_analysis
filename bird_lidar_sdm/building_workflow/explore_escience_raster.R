@@ -50,9 +50,9 @@ writeWorksheetToFile(paste(substr(filename, 1, nchar(filename)-4) ,"_summarytabl
 
 ggplot() + geom_raster(data=lidarmetrics,aes(x,y,fill=lidarmetrics[,"max_z"])) + coord_equal() + scale_fill_gradientn(colours=topo.colors(7),na.value = "transparent",limits=c(0,35))
 
-# Filter based on landcover
-formask <- setValues(raster(landcover), NA)
-formask[landcover==11 | landcover==12] <- 1
+# Exclude cities
+formask <- setValues(raster(landcover), 1)
+formask[landcover==16 | landcover==17 | landcover==18 | landcover==19 | landcover==20 | landcover==22 | landcover==23 | landcover==24 | landcover==28 | landcover==25] <- NA
 plot(formask, col="dark green", legend = FALSE)
 
 formask=crop(formask,extent(lidar_data))
@@ -69,7 +69,13 @@ colnames(lidarmetrics_masked_df) <- c("x", "y", "coeff_var_z","density_absolute_
 
 print(summary(lidarmetrics_masked_df))
 
-ggplot() + geom_raster(data=lidarmetrics_masked_df,aes(x,y,fill=lidarmetrics_masked_df[,"max_z"])) + coord_equal() 
+ggplot() + geom_raster(data=lidarmetrics_masked_df,aes(x,y,fill=lidarmetrics_masked_df[,"max_z"])) + coord_equal() + scale_fill_gradientn(colours=topo.colors(7),na.value = "transparent",limits=c(0,35))
+
+lidar_oulier_above=lidarmetrics_masked_df[ which(lidarmetrics_masked_df[,"max_z"]>1000),]
+ggplot() + geom_raster(data=lidar_oulier_above,aes(x,y,fill=lidar_oulier_above[,"max_z"])) + coord_equal() + scale_fill_gradientn(colours=topo.colors(7),na.value = "transparent",limits=c(30,max(lidar_oulier_above[,"max_z"])))
+
+hmax_r <- rasterFromXYZ(lidar_oulier_above[,c(1,2,11)])
+writeRaster(hmax_r, paste(substr(filename, 1, nchar(filename)-4) ,"_maxh_out.tif",sep=""),overwrite=TRUE)
 
 # Boxplot
 sel_attr=5
