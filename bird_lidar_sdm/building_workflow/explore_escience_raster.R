@@ -48,7 +48,7 @@ writeWorksheetToFile(paste(substr(filename, 1, nchar(filename)-4) ,"_summarytabl
                      header = TRUE,
                      clearSheets = TRUE)
 
-ggplot() + geom_raster(data=lidarmetrics,aes(x,y,fill=lidarmetrics[,"max_z"])) + coord_equal()
+ggplot() + geom_raster(data=lidarmetrics,aes(x,y,fill=lidarmetrics[,"max_z"])) + coord_equal() + scale_fill_gradientn(colours=topo.colors(7),na.value = "transparent",limits=c(0,35))
 
 # Filter based on landcover
 formask <- setValues(raster(landcover), NA)
