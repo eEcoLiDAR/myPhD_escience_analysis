@@ -11,6 +11,9 @@ Input file (geotiff):
 library(raster)
 library(ggplot2)
 library(gridExtra)
+library(dplyr)
+
+library(XLConnect)
 
 # Set global variables
 full_path="D:/Koma/lidar_bird_dsm_workflow/birdatlas/"
@@ -31,14 +34,11 @@ colnames(lidarmetrics) <- c("x", "y", "coeff_var_z","density_absolute_mean","eig
 
 print(summary(lidarmetrics))
 
-# Exclude data which are obviosly wrong (all values are null)
-myvars <- c("x", "y", "eigv_1","eigenv_2","eigenv_3","kurto_z","max_z","mean_z",
-            "median_z","min_z","perc_10","perc_100","perc_20","perc_30","perc_40",
-            "perc_50","perc_60","perc_70","perc_80","perc_90", "point_density",
-            "skew_z","std_z","var_z")
-
-cleaned_lidarmetrics = lidarmetrics[myvars]
-print(summary(cleaned_lidarmetrics))
+writeWorksheetToFile(paste(substr(filename, 1, nchar(filename)-4) ,"_summarytable.xlsx",sep=""), 
+                     data = data.frame(unclass(summary(lidarmetrics)), check.names = FALSE, stringsAsFactors = FALSE), 
+                     sheet = "summary", 
+                     header = TRUE,
+                     clearSheets = TRUE)
 
 # Boxplot
 sel_attr=5
