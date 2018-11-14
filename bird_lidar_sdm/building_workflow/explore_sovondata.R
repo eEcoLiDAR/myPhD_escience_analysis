@@ -39,6 +39,8 @@ uniqueyears=unique(bird_data_onebird$year)
 
 bird_data_onebird_onlypres=bird_data_onebird[ which(bird_data_onebird$present==1),]
 
+bird_groupby_kmsquare=ddply(bird_data_onebird_onlypres,~kmsquare+x+y+present+species,summarise,sum=sum(number))
+
 # Visualization
 nl_bound = readOGR(dsn=nl)
 nl_bound@data$id = rownames(nl_bound@data)
@@ -102,15 +104,13 @@ ggplot() +
   geom_point(data=bird_data_onebird_onlypres_2016, aes(x=x,y=y,size=number,color=factor(month)),inherit.aes = FALSE) +
   ggtitle("2016")
 
-
-# Shapefile export
-coordinates(bird_data_onebird)=~x+y
-proj4string(bird_data_onebird)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
-
-for (year in uniqueyears){
-  mapdata=bird_data_onebird[ which(bird_data_onebird$year==year),]
-  rgdal::writeOGR(mapdata, "." ,paste(year,bird_species,sep="_"), 'ESRI Shapefile')
-}
+# Groupby result
+ggplot() + 
+  geom_polygon(data=nl_bound.df,aes(long,lat,group=group),fill = NA, color="black") +
+  geom_path(color="white") +
+  coord_equal() +
+  geom_raster(data=lidar_filt,aes(X,Y,fill=V)) +
+  geom_point(data=bird_groupby_kmsquare, aes(x=x,y=y,size=sum),inherit.aes = FALSE)
 
 
 
