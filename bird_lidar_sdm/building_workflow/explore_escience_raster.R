@@ -15,18 +15,26 @@ library(dplyr)
 
 library(XLConnect)
 
+library(sp)
+library(spatialEco)
+
 # Set global variables
 full_path="D:/Koma/lidar_bird_dsm_workflow/birdatlas/"
 filename="terrainData100m_run2.tif"
+landcoverfile="LGN7.tif"
 
 setwd(full_path)
 
 # Import data
-all_data=stack(filename)
-all_data=flip(all_data,direction = 'y')
+lidar_data=stack(filename)
+lidar_data=flip(lidar_data,direction = 'y')
+plot(lidar_data)
+
+landcover=stack(landcoverfile)
+plot(landcover)
 
 # Save as dataframe and print statistics
-lidarmetrics = rasterToPoints(all_data)
+lidarmetrics = rasterToPoints(lidar_data)
 lidarmetrics = data.frame(lidarmetrics)
 colnames(lidarmetrics) <- c("x", "y", "coeff_var_z","density_absolute_mean","eigv_1","eigenv_2","eigenv_3","gps_time","intensity","kurto_z","max_z","mean_z",
                            "median_z","min_z","perc_10","perc_100","perc_20","perc_30","perc_40","perc_50","perc_60","perc_70","perc_80","perc_90", "point_density",
@@ -39,6 +47,29 @@ writeWorksheetToFile(paste(substr(filename, 1, nchar(filename)-4) ,"_summarytabl
                      sheet = "summary", 
                      header = TRUE,
                      clearSheets = TRUE)
+
+ggplot() + geom_raster(data=lidarmetrics,aes(x,y,fill=lidarmetrics[,"max_z"])) + coord_equal()
+
+# Filter based on landcover
+formask <- setValues(raster(landcover), NA)
+formask[landcover==11 | landcover==12] <- 1
+plot(formask, col="dark green", legend = FALSE)
+
+formask=crop(formask,extent(lidar_data))
+formask_resampled=resample(formask,lidar_data)
+plot(formask_resampled)
+
+lidarmetrics_masked <- mask(lidar_data, formask_resampled)
+
+lidarmetrics_masked_pt = rasterToPoints(lidarmetrics_masked)
+lidarmetrics_masked_df = data.frame(lidarmetrics_masked_pt)
+colnames(lidarmetrics_masked_df) <- c("x", "y", "coeff_var_z","density_absolute_mean","eigv_1","eigenv_2","eigenv_3","gps_time","intensity","kurto_z","max_z","mean_z",
+                            "median_z","min_z","perc_10","perc_100","perc_20","perc_30","perc_40","perc_50","perc_60","perc_70","perc_80","perc_90", "point_density",
+                            "pulse_pen_ratio","range","skew_z","std_z","var_z")
+
+print(summary(lidarmetrics_masked_df))
+
+ggplot() + geom_raster(data=lidarmetrics_masked_df,aes(x,y,fill=lidarmetrics_masked_df[,"max_z"])) + coord_equal() 
 
 # Boxplot
 sel_attr=5
