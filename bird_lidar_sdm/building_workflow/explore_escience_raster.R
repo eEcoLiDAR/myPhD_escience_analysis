@@ -71,23 +71,17 @@ print(summary(lidarmetrics_masked_df))
 
 ggplot() + geom_raster(data=lidarmetrics_masked_df,aes(x,y,fill=lidarmetrics_masked_df[,"max_z"])) + coord_equal() + scale_fill_gradientn(colours=topo.colors(7),na.value = "transparent",limits=c(0,35))
 
-lidar_oulier_above=lidarmetrics_masked_df[ which(lidarmetrics_masked_df[,"max_z"]>1000),]
-ggplot() + geom_raster(data=lidar_oulier_above,aes(x,y,fill=lidar_oulier_above[,"max_z"])) + coord_equal() + scale_fill_gradientn(colours=topo.colors(7),na.value = "transparent",limits=c(30,max(lidar_oulier_above[,"max_z"])))
+myvars <- c("x", "y","kurto_z","mean_z","max_z","perc_10","perc_30","perc_50","perc_70","perc_90","point_density","skew_z","std_z","var_z")
+filtered_lidarmetrics=lidarmetrics_masked_df[myvars]
 
-hmax_r <- rasterFromXYZ(lidar_oulier_above[,c(1,2,11)])
-writeRaster(hmax_r, paste(substr(filename, 1, nchar(filename)-4) ,"_maxh_out.tif",sep=""),overwrite=TRUE)
+filtered_lidarmetrics_r=rasterFromXYZ(filtered_lidarmetrics, digits = 3)
+plot(filtered_lidarmetrics_r)
 
-# Boxplot
-sel_attr=5
+writeRaster(filtered_lidarmetrics_r, paste(substr(filename, 1, nchar(filename)-4) ,"_filtered.tif",sep=""),overwrite=TRUE)
 
-par(mfrow=c(1,2))
-boxplot(cleaned_lidarmetrics[,sel_attr])
-boxplot(cleaned_lidarmetrics[,sel_attr],outline=FALSE)
+writeWorksheetToFile(paste(substr(filename, 1, nchar(filename)-4) ,"_summarytable_filtered.xlsx",sep=""), 
+                     data = data.frame(unclass(summary(filtered_lidarmetrics)), check.names = FALSE, stringsAsFactors = FALSE), 
+                     sheet = "summary", 
+                     header = TRUE,
+                     clearSheets = TRUE)
 
-lidar_filtoulier=cleaned_lidarmetrics[ which(cleaned_lidarmetrics[,sel_attr]>0 & cleaned_lidarmetrics[,sel_attr]<35),]
-lidar_oulier_below=cleaned_lidarmetrics[ which(cleaned_lidarmetrics[,sel_attr]<0),]
-lidar_oulier_above=cleaned_lidarmetrics[ which(cleaned_lidarmetrics[,sel_attr]>35),]
-
-ggplot() + geom_raster(data=lidar_filtoulier,aes(x,y,fill=lidar_filtoulier[,sel_attr])) + coord_equal()
-ggplot() + geom_raster(data=lidar_oulier_below,aes(x,y,fill=lidar_oulier_below[,sel_attr])) + coord_equal()
-ggplot() + geom_raster(data=lidar_oulier_above,aes(x,y,fill=lidar_oulier_above[,sel_attr])) + coord_equal()
