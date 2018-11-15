@@ -100,6 +100,15 @@ gc()
 
 # Detect outlier Boxplot + Visualization
 
+plots <- list()
+
+for(name in names(lidarmetrics_wlandcover)) {
+  print(name)
+  plots[[name]] <- ggplot(lidarmetrics_wlandcover, aes_string(x="landcover_class", y=name ,group="landcover_class",fill="landcover_class")) + geom_boxplot()
+}
+
+plots[["kurto_z"]]
+
 p1=ggplot(lidarmetrics_wlandcover, aes(x=landcover_class, y=kurto_z ,group=landcover_class,fill=landcover_class)) +
   geom_boxplot()
 ylim1 = boxplot.stats(lidarmetrics_wlandcover$kurto_z)$stats[c(1, 5)]
@@ -108,82 +117,18 @@ p2=ggplot(lidarmetrics_wlandcover, aes(x=landcover_class, y=kurto_z ,group=landc
   geom_boxplot() + coord_cartesian(ylim = ylim1*1.05)
 grid.arrange(p1, p2, nrow = 1)
 
+plots <- list()
 
-ggplot(lidarmetrics_wlandcover, aes(x=landcover_class, y=mean_z ,group=landcover_class,fill=landcover_class)) +
-  geom_boxplot()
-ylim1 = boxplot.stats(lidarmetrics_wlandcover$mean_z)$stats[c(1, 5)]
-print(ylim1)
-ggplot(lidarmetrics_wlandcover, aes(x=landcover_class, y=mean_z ,group=landcover_class,fill=landcover_class)) +
-  geom_boxplot() + coord_cartesian(ylim = ylim1*1.05)
+for(name in names(lidarmetrics_wlandcover)) {
+  print(name)
+  p1 <- ggplot(lidarmetrics_wlandcover, aes_string(x="landcover_class", y=name ,group="landcover_class",fill="landcover_class")) + geom_boxplot()
+  
+  ylim1 = boxplot.stats(lidarmetrics_wlandcover$kurto_z)$stats[c(1, 5)]
+  p2 <- ggplot(lidarmetrics_wlandcover, aes_string(x="landcover_class", y=name ,group="landcover_class",fill="landcover_class")) + geom_boxplot() + coord_cartesian(ylim = ylim1*1.05)
+  
+  plots[[name]] <- grid.arrange(p1, p2, nrow = 1)
+}
 
-ggplot(lidarmetrics_wlandcover, aes(x=landcover_class, y=max_z, group=landcover_class,fill=landcover_class)) +
-  geom_boxplot()
-ylim1 = boxplot.stats(lidarmetrics_wlandcover$max_z)$stats[c(1, 5)]
-print(ylim1)
-ggplot(lidarmetrics_wlandcover, aes(x=landcover_class, y=max_z ,group=landcover_class,fill=landcover_class)) +
-  geom_boxplot() + coord_cartesian(ylim = ylim1*1.05)
-
-ggplot(lidarmetrics_wlandcover, aes(x=landcover_class, y=perc_10 ,group=landcover_class,fill=landcover_class)) +
-  geom_boxplot()
-ylim1 = boxplot.stats(lidarmetrics_wlandcover$perc_10)$stats[c(1, 5)]
-print(ylim1)
-ggplot(lidarmetrics_wlandcover, aes(x=landcover_class, y=perc_10 ,group=landcover_class,fill=landcover_class)) +
-  geom_boxplot() + coord_cartesian(ylim = ylim1*1.05)
-
-ggplot(lidarmetrics_wlandcover, aes(x=landcover_class, y=perc_30 ,group=landcover_class,fill=landcover_class)) +
-  geom_boxplot()
-ylim1 = boxplot.stats(lidarmetrics_wlandcover$perc_30)$stats[c(1, 5)]
-print(ylim1)
-ggplot(lidarmetrics_wlandcover, aes(x=landcover_class, y=perc_30 ,group=landcover_class,fill=landcover_class)) +
-  geom_boxplot() + coord_cartesian(ylim = ylim1*1.05)
-
-ggplot(lidarmetrics_wlandcover, aes(x=landcover_class, y=perc_50 ,group=landcover_class,fill=landcover_class)) +
-  geom_boxplot()
-ylim1 = boxplot.stats(lidarmetrics_wlandcover$perc_50)$stats[c(1, 5)]
-print(ylim1)
-ggplot(lidarmetrics_wlandcover, aes(x=landcover_class, y=perc_50 ,group=landcover_class,fill=landcover_class)) +
-  geom_boxplot() + coord_cartesian(ylim = ylim1*1.05)
-
-ggplot(lidarmetrics_wlandcover, aes(x=landcover_class, y=perc_70 ,group=landcover_class,fill=landcover_class)) +
-  geom_boxplot()
-ylim1 = boxplot.stats(lidarmetrics_wlandcover$perc_70)$stats[c(1, 5)]
-print(ylim1)
-ggplot(lidarmetrics_wlandcover, aes(x=landcover_class, y=perc_70 ,group=landcover_class,fill=landcover_class)) +
-  geom_boxplot() + coord_cartesian(ylim = ylim1*1.05)
-
-ggplot(lidarmetrics_wlandcover, aes(x=landcover_class, y=perc_90 ,group=landcover_class,fill=landcover_class)) +
-  geom_boxplot()
-ylim1 = boxplot.stats(lidarmetrics_wlandcover$perc_90)$stats[c(1, 5)]
-print(ylim1)
-ggplot(lidarmetrics_wlandcover, aes(x=landcover_class, y=perc_90 ,group=landcover_class,fill=landcover_class)) +
-  geom_boxplot() + coord_cartesian(ylim = ylim1*1.05)
-
-ggplot(lidarmetrics_wlandcover, aes(x=landcover_class, y=point_density ,group=landcover_class,fill=landcover_class)) +
-  geom_boxplot()
-ylim1 = boxplot.stats(lidarmetrics_wlandcover$point_density)$stats[c(1, 5)]
-print(ylim1)
-ggplot(lidarmetrics_wlandcover, aes(x=landcover_class, y=point_density ,group=landcover_class,fill=landcover_class)) +
-  geom_boxplot() + coord_cartesian(ylim = ylim1*1.05)
-
-ggplot(lidarmetrics_wlandcover, aes(x=landcover_class, y=skew_z, group=landcover_class,fill=landcover_class)) +
-  geom_boxplot()
-ylim1 = boxplot.stats(lidarmetrics_wlandcover$skew_z)$stats[c(1, 5)]
-print(ylim1)
-ggplot(lidarmetrics_wlandcover, aes(x=landcover_class, y=skew_z ,group=landcover_class,fill=landcover_class)) +
-  geom_boxplot() + coord_cartesian(ylim = ylim1*1.05)
-
-ggplot(lidarmetrics_wlandcover, aes(x=landcover_class, y=std_z, group=landcover_class,fill=landcover_class)) +
-  geom_boxplot()
-ylim1 = boxplot.stats(lidarmetrics_wlandcover$std_z)$stats[c(1, 5)]
-print(ylim1)
-ggplot(lidarmetrics_wlandcover, aes(x=landcover_class, y=std_z ,group=landcover_class,fill=landcover_class)) +
-  geom_boxplot() + coord_cartesian(ylim = ylim1*1.05)
-
-ggplot(lidarmetrics_wlandcover, aes(x=landcover_class, y=var_z, group=landcover_class,fill=landcover_class)) +
-  geom_boxplot()
-ylim1 = boxplot.stats(lidarmetrics_wlandcover$var_z)$stats[c(1, 5)]
-print(ylim1)
-ggplot(lidarmetrics_wlandcover, aes(x=landcover_class, y=var_z ,group=landcover_class,fill=landcover_class)) +
-  geom_boxplot() + coord_cartesian(ylim = ylim1*1.05)
+plots[["kurto_z"]]
 
 # Test linear correlation between variables
