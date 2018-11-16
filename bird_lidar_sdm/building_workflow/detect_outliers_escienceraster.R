@@ -16,7 +16,8 @@ library(spatialEco)
 
 # Set global variables
 full_path="D:/Koma/lidar_bird_dsm_workflow/birdatlas/"
-filename="terrainData100m_run2_filtered.tif"
+#filename="terrainData100m_run2_filtered.tif"
+filename="terrainData100m_run1_filtered.tif"
 landcoverfile="LGN7.tif"
 
 setwd(full_path)
@@ -44,7 +45,7 @@ lidarmetrics_agrar <- mask(lidar_data, formask_agrar_resampled)
 
 lidarmetrics_agrar_pt = rasterToPoints(lidarmetrics_agrar)
 lidarmetrics_agrar_df = data.frame(lidarmetrics_agrar_pt)
-colnames(lidarmetrics_agrar_df) <- c("x", "y","kurto_z","mean_z","max_z","perc_10","perc_30","perc_50","perc_70","perc_90","point_density","skew_z","std_z","var_z")
+colnames(lidarmetrics_agrar_df) <- c("x", "y","kurto_z","mean_z","max_z","perc_10","perc_30","perc_50","perc_70","perc_90","point_density","skew_z","std_z","var_z","pulse_pen_ratio")
 lidarmetrics_agrar_df["landcover_class"] <- 1
 
 print(summary(lidarmetrics_agrar_df))
@@ -62,7 +63,7 @@ lidarmetrics_forest <- mask(lidar_data, formask_forest_resampled)
 
 lidarmetrics_forest_pt = rasterToPoints(lidarmetrics_forest)
 lidarmetrics_forest_df = data.frame(lidarmetrics_forest_pt)
-colnames(lidarmetrics_forest_df) <- c("x", "y","kurto_z","mean_z","max_z","perc_10","perc_30","perc_50","perc_70","perc_90","point_density","skew_z","std_z","var_z")
+colnames(lidarmetrics_forest_df) <- c("x", "y","kurto_z","mean_z","max_z","perc_10","perc_30","perc_50","perc_70","perc_90","point_density","skew_z","std_z","var_z","pulse_pen_ratio")
 lidarmetrics_forest_df["landcover_class"] <- 2
 
 print(summary(lidarmetrics_forest_df))
@@ -81,7 +82,7 @@ lidarmetrics_nature <- mask(lidar_data, formask_nature_resampled)
 
 lidarmetrics_nature_pt = rasterToPoints(lidarmetrics_nature)
 lidarmetrics_nature_df = data.frame(lidarmetrics_nature_pt)
-colnames(lidarmetrics_nature_df) <- c("x", "y","kurto_z","mean_z","max_z","perc_10","perc_30","perc_50","perc_70","perc_90","point_density","skew_z","std_z","var_z")
+colnames(lidarmetrics_nature_df) <- c("x", "y","kurto_z","mean_z","max_z","perc_10","perc_30","perc_50","perc_70","perc_90","point_density","skew_z","std_z","var_z","pulse_pen_ratio")
 lidarmetrics_nature_df["landcover_class"] <- 3
 
 print(summary(lidarmetrics_nature_df))
@@ -107,7 +108,7 @@ for(name in names(lidarmetrics_wlandcover)) {
   plots[[name]] <- ggplot(lidarmetrics_wlandcover, aes_string(x="landcover_class", y=name ,group="landcover_class",fill="landcover_class")) + geom_boxplot()
 }
 
-plots[["kurto_z"]]
+plots[["perc_90"]]
 
 p1=ggplot(lidarmetrics_wlandcover, aes(x=landcover_class, y=kurto_z ,group=landcover_class,fill=landcover_class)) +
   geom_boxplot()
@@ -116,19 +117,3 @@ print(ylim1)
 p2=ggplot(lidarmetrics_wlandcover, aes(x=landcover_class, y=kurto_z ,group=landcover_class,fill=landcover_class)) +
   geom_boxplot() + coord_cartesian(ylim = ylim1*1.05)
 grid.arrange(p1, p2, nrow = 1)
-
-plots <- list()
-
-for(name in names(lidarmetrics_wlandcover)) {
-  print(name)
-  p1 <- ggplot(lidarmetrics_wlandcover, aes_string(x="landcover_class", y=name ,group="landcover_class",fill="landcover_class")) + geom_boxplot()
-  
-  ylim1 = boxplot.stats(lidarmetrics_wlandcover$kurto_z)$stats[c(1, 5)]
-  p2 <- ggplot(lidarmetrics_wlandcover, aes_string(x="landcover_class", y=name ,group="landcover_class",fill="landcover_class")) + geom_boxplot() + coord_cartesian(ylim = ylim1*1.05)
-  
-  plots[[name]] <- grid.arrange(p1, p2, nrow = 1)
-}
-
-plots[["kurto_z"]]
-
-# Test linear correlation between variables

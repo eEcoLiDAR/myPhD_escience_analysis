@@ -20,7 +20,8 @@ library(spatialEco)
 
 # Set global variables
 full_path="D:/Koma/lidar_bird_dsm_workflow/birdatlas/"
-filename="terrainData100m_run2.tif"
+#filename="terrainData100m_run2.tif"
+filename="terrainData100m_run1.tif"
 landcoverfile="LGN7.tif"
 
 setwd(full_path)
@@ -71,7 +72,7 @@ print(summary(lidarmetrics_masked_df))
 
 ggplot() + geom_raster(data=lidarmetrics_masked_df,aes(x,y,fill=lidarmetrics_masked_df[,"max_z"])) + coord_equal() + scale_fill_gradientn(colours=topo.colors(7),na.value = "transparent",limits=c(0,35))
 
-myvars <- c("x", "y","kurto_z","mean_z","max_z","perc_10","perc_30","perc_50","perc_70","perc_90","point_density","skew_z","std_z","var_z")
+myvars <- c("x", "y","kurto_z","mean_z","max_z","perc_10","perc_30","perc_50","perc_70","perc_90","point_density","skew_z","std_z","var_z","pulse_pen_ratio")
 filtered_lidarmetrics=lidarmetrics_masked_df[myvars]
 
 filtered_lidarmetrics_r=rasterFromXYZ(filtered_lidarmetrics, digits = 3)
