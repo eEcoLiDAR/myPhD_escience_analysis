@@ -79,6 +79,7 @@ ggplot() + geom_raster(data=lidar_oulier_below,aes(x,y,fill=lidar_oulier_below[,
 lidar_outlier <- rbind(lidar_oulier_above, lidar_oulier_below) 
 
 outlier_hmax <- rasterFromXYZ(lidar_outlier)
+crs(outlier_hmax) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
 writeRaster(outlier_hmax, paste(substr(filename, 1, nchar(filename)-4) ,"_maxh_out.tif",sep=""),overwrite=TRUE)
 
 # Delete max_z related outliers
@@ -116,4 +117,5 @@ writeWorksheetToFile(paste(substr(filename, 1, nchar(filename)-4) ,"_summarytabl
                      clearSheets = TRUE)
 
 lidar_whoutoulier_r <- rasterFromXYZ(lidar_whoutoulier)
+crs(lidar_whoutoulier_r) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
 writeRaster(lidar_whoutoulier_r, paste(substr(filename, 1, nchar(filename)-4) ,"_lidar_whoutoulier.tif",sep=""),overwrite=TRUE)
