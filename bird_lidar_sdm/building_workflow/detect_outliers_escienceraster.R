@@ -17,7 +17,7 @@ library(spatialEco)
 # Set global variables
 full_path="D:/Koma/lidar_bird_dsm_workflow/birdatlas/"
 filename="terrainData100m_run1_filtered_lidarmetrics.rds"
-#filename="terrainData100m_run1_filtered.tif"
+#filename="terrainData100m_run2_filtered_lidarmetrics.rds"
 
 setwd(full_path)
 
@@ -32,7 +32,7 @@ colnames=names(lidar_data)
 for (i in 3:16){
   print(colnames[i])
   
-  jpeg(paste(colnames[i],'_boxplot.jpg',sep=''))
+  jpeg(paste(substr(filename, 1, nchar(filename)-16),colnames[i],'_boxplot.jpg',sep=''))
   
   par(mfrow=c(1,2))
   boxplot(lidar_data[,i],ylab=colnames[i],col="darkgreen")
@@ -49,7 +49,7 @@ for (i in 3:16){
 for (i in 3:16){
   print(colnames[i])
   
-  jpeg(paste(colnames[i],'_boxplot_landcover.jpg',sep=''))
+  jpeg(paste(substr(filename, 1, nchar(filename)-16),colnames[i],'_boxplot_landcover.jpg',sep=''))
   
   par(mfrow=c(1,2))
   boxplot(lidar_data[[colnames[i]]]~landcover_class,data=lidar_data,ylab=colnames[i],col=c("gold","darkgreen","darkblue"))
@@ -98,7 +98,7 @@ ggplot() + geom_raster(data=lidar_oulier_above2,aes(x,y,fill=lidar_oulier_above2
 for (i in 3:16){
   print(colnames[i])
   
-  jpeg(paste(colnames[i],'_boxplot_whoutoutliers.jpg',sep=''))
+  jpeg(paste(substr(filename, 1, nchar(filename)-16),colnames[i],'_boxplot_whoutoutliers.jpg',sep=''))
   
   par(mfrow=c(1,2))
   boxplot(lidar_whoutoulier[,i],ylab=colnames[i],col="darkgreen")
