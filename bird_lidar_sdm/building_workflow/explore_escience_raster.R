@@ -68,6 +68,7 @@ print(summary(lidarmetrics_masked_df))
 
 ggplot() + geom_raster(data=lidarmetrics_masked_df,aes(x,y,fill=lidarmetrics_masked_df[,"max_z"])) + coord_equal() + scale_fill_gradientn(colours=topo.colors(7),na.value = "transparent",limits=c(0,35))
 
+# Secelt LiDAR metrics and export
 myvars <- c("x", "y","kurto_z","mean_z","max_z","perc_10","perc_30","perc_50","perc_70","perc_90","point_density","skew_z","std_z","var_z","pulse_pen_ratio","density_absolute_mean")
 filtered_lidarmetrics=lidarmetrics_masked_df[myvars]
 

@@ -29,7 +29,7 @@ plot(lidar_data)
 landcover=stack(landcoverfile)
 plot(landcover)
 
-# Analyse values per main landcover classes
+# Add values per main landcover classes
 
 # Agrar
 formask_agrar <- setValues(raster(landcover), NA)
