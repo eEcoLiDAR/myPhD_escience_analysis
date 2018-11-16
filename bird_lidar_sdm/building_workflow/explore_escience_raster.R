@@ -1,10 +1,6 @@
 "
 @author: Zsofia Koma, UvA
-Aim: Explore laserchicken output for the Global Ecology and Biodiversity course
-
-Input file (geotiff):
-    100 m resolution
-    LiDAR metrics based on Classification == 1 -- unclassified category (by ASPRS standard)
+Aim: Explore laserchicken output for the Global Ecology and Biodiversity course, correct obvious errors and exclude human objects + water
 "
 
 # Import libraries
@@ -20,8 +16,8 @@ library(spatialEco)
 
 # Set global variables
 full_path="D:/Koma/lidar_bird_dsm_workflow/birdatlas/"
-#filename="terrainData100m_run2.tif"
-filename="terrainData100m_run1.tif"
+filename="terrainData100m_run2.tif"
+#filename="terrainData100m_run1.tif"
 landcoverfile="LGN7.tif"
 
 setwd(full_path)
@@ -72,7 +68,7 @@ print(summary(lidarmetrics_masked_df))
 
 ggplot() + geom_raster(data=lidarmetrics_masked_df,aes(x,y,fill=lidarmetrics_masked_df[,"max_z"])) + coord_equal() + scale_fill_gradientn(colours=topo.colors(7),na.value = "transparent",limits=c(0,35))
 
-myvars <- c("x", "y","kurto_z","mean_z","max_z","perc_10","perc_30","perc_50","perc_70","perc_90","point_density","skew_z","std_z","var_z","pulse_pen_ratio")
+myvars <- c("x", "y","kurto_z","mean_z","max_z","perc_10","perc_30","perc_50","perc_70","perc_90","point_density","skew_z","std_z","var_z","pulse_pen_ratio","density_absolute_mean")
 filtered_lidarmetrics=lidarmetrics_masked_df[myvars]
 
 filtered_lidarmetrics_r=rasterFromXYZ(filtered_lidarmetrics, digits = 3)
@@ -81,9 +77,9 @@ crs(filtered_lidarmetrics_r) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.
 
 writeRaster(filtered_lidarmetrics_r, paste(substr(filename, 1, nchar(filename)-4) ,"_filtered.tif",sep=""),overwrite=TRUE)
 
-writeWorksheetToFile(paste(substr(filename, 1, nchar(filename)-4) ,"_summarytable_filtered.xlsx",sep=""), 
+writeWorksheetToFile(paste(substr(filename, 1, nchar(filename)-4) ,"_summarytable.xlsx",sep=""), 
                      data = data.frame(unclass(summary(filtered_lidarmetrics)), check.names = FALSE, stringsAsFactors = FALSE), 
-                     sheet = "summary", 
+                     sheet = "summary_filtered", 
                      header = TRUE,
                      clearSheets = TRUE)
 
