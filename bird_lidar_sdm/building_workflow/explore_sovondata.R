@@ -44,8 +44,7 @@ colnames(lidar) <- c("X","Y","max_z")
 # Pre-processing
 
 # Filter species
-#bird_species="Roerdomp"
-bird_species="Kleine Karekiet"
+bird_species="Roerdomp"
 
 bird_data_onebird=bird_data[ which(bird_data$species==bird_species),]
 
