@@ -145,7 +145,7 @@ for (i in 1:3){
 
 # Classify
 
-modelRF <- randomForest(x=trainclassifier[ ,c(4,5,8,9,10,13,14,15)], y=factor(trainclassifier$id),importance = TRUE)
+modelRF <- randomForest(x=trainclassifier[ ,c(4,5,8,9,10)], y=factor(trainclassifier$id),importance = TRUE)
 class(modelRF)
 varImpPlot(modelRF)
 
@@ -155,6 +155,8 @@ crs(crop_poly) <- crs("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.3876388888
 
 lidarmetrics_r_cropped <- crop(lidarmetrics_r, crop_poly)
 plot(lidarmetrics_r_cropped)
+
+writeRaster(lidarmetrics_r_cropped, filename="cropped.tif", format="GTiff",overwrite=TRUE)
 
 predLC <- predict(lidarmetrics_r_cropped, model=modelRF, na.rm=TRUE)
 plot(predLC,col=rainbow(3))
