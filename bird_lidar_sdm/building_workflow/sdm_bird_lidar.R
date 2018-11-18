@@ -34,38 +34,11 @@ setwd(full_path)
 birdand_lidar=readRDS(file = birdfile)
 lidarmetrics=stack(lidarfile)
 
-# Explore variables
-# Analyse bird-lidar
+# Correlations in bird-lidar dataset
 corr_m <- rcorr(as.matrix(birdand_lidar[,7:20]))
 
 corrplot(corr_m$r, type="upper", order="hclust", 
          p.mat = corr_m$P, sig.level = 0.01, insig = "blank")
-
-hclust_avg <- hclust(dist(birdand_lidar[,7:20], method = 'euclidean'), method = 'average')
-plot(hclust_avg)
-
-cut_avg <- cutree(hclust_avg, k = 2)
-birdand_lidar_clust <- mutate(birdand_lidar, cluster = cut_avg)
-
-filteredbird_lidarmetrics_r=rasterFromXYZ(birdand_lidar_clust[,c(2,3,21)])
-writeRaster(filteredbird_lidarmetrics_r, paste(substr(birdfile, 1, nchar(birdfile)-4) ,"_clustered.tif",sep=""),overwrite=TRUE)
-
-#Cluster lidar
-lidarmetrics_pc = rasterToPoints(lidarmetrics)
-lidarmetrics_df = data.frame(lidarmetrics_pc)
-
-hclust_avg <- hclust(dist(lidarmetrics_df[50000:60000,c(3,5,13)], method = 'euclidean'), method = 'average')
-plot(hclust_avg)
-
-cut_avg <- cutree(hclust_avg, k = 2)
-lidarmetrics_clust <- mutate(lidarmetrics_df[50000:60000,c(1,2)], cluster = cut_avg)
-
-lidarmetrics_r=rasterFromXYZ(lidarmetrics_clust[,c(1,2,3)])
-writeRaster(lidarmetrics_r, paste(substr(lidarfile, 1, nchar(lidarfile)-4) ,"_clustered.tif",sep=""),overwrite=TRUE)
-
-
-# Correlation
-
 
 # Data prep. for SDM
 
