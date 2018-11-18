@@ -24,15 +24,27 @@ library("corrplot")
 library("Hmisc")
 library("scatterplot3d")
 
+library("sp")
+library("spatialEco")
+library("randomForest")
+library("caret")
+
 # Set global variables
 full_path="C:/Users/zsofi/Google Drive/_Amsterdam/xOther/lidar_bird_dsm_workflow/birdatlas/"
 filename="terrainData100m_run1_filtered_lidarmetrics.rds"
 
+raster="terrainData100m_run1_filtered.tif"
+training="C:/Users/zsofi/Google Drive/_Amsterdam/xOther/lidar_bird_dsm_workflow/training.shp"
+
 setwd(full_path)
 
-# Import LiDAR 
+# Import 
 lidar_data=readRDS(file = filename)
 print(summary(lidar_data))
+
+classes = rgdal::readOGR(training)
+lidarmetrics_r=stack(raster)
+crs(lidarmetrics_r)="+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
 
 # Make a spatial selection
 xmin=165000
@@ -86,6 +98,65 @@ p2=ggplot() +
 
 grid.arrange(p1, p2, ncol = 2)
 
-# Export
-lidarmetrics_r=rasterFromXYZ(lidarmetrics_clust[,c(1,2,3)])
-writeRaster(lidarmetrics_r, paste(substr(lidarfile, 1, nchar(lidarfile)-4) ,"_clustered.tif",sep=""),overwrite=TRUE)
+# Random Forest
+
+# Prepare dataset
+vals <- extract(lidarmetrics_r,classes)
+
+classes$terrainData100m_run1_filtered.1 <- vals[,1]
+classes$terrainData100m_run1_filtered.2 <- vals[,2]
+classes$terrainData100m_run1_filtered.3 <- vals[,3]
+classes$terrainData100m_run1_filtered.4 <- vals[,4]
+classes$terrainData100m_run1_filtered.5 <- vals[,5]
+classes$terrainData100m_run1_filtered.6 <- vals[,6]
+classes$terrainData100m_run1_filtered.7 <- vals[,7]
+classes$terrainData100m_run1_filtered.8 <- vals[,8]
+classes$terrainData100m_run1_filtered.9 <- vals[,9]
+classes$terrainData100m_run1_filtered.10 <- vals[,10]
+classes$terrainData100m_run1_filtered.11 <- vals[,11]
+classes$terrainData100m_run1_filtered.12 <- vals[,12]
+classes$terrainData100m_run1_filtered.13 <- vals[,13]
+classes$terrainData100m_run1_filtered.14 <- vals[,14]
+
+trainclassifier <- as(classes, "data.frame")
+trainclassifier <- na.omit(trainclassifier)
+
+# Accuracy assessment
+first_seed <- 3
+accuracies <-c()
+
+for (i in 1:3){
+  set.seed(first_seed)
+  first_seed <- first_seed+1
+  
+  trainIndex <- createDataPartition(y=trainclassifier$id, p=0.5, list=FALSE)
+  trainingSet<- trainclassifier[trainIndex,]
+  testingSet<- trainclassifier[-trainIndex,]
+  
+  modelFit <- randomForest(x=trainclassifier[ ,c(3:16)], y=factor(trainclassifier$id))
+  prediction <- predict(modelFit,testingSet[ ,c(3:16)])
+  testingSet$rightPred <- prediction == testingSet$id
+  conf_m<-table(prediction, testingSet$id)
+  print(conf_m)
+  
+  accuracy <- sum(testingSet$rightPred)/nrow(testingSet)
+  print(accuracy)
+}
+
+# Classify
+
+modelRF <- randomForest(x=trainclassifier[ ,c(4,5,8,9,10,13,14,15)], y=factor(trainclassifier$id),importance = TRUE)
+class(modelRF)
+varImpPlot(modelRF)
+
+# Crop
+crop_poly <- as(extent(xmin, xmax, ymin, ymax), 'SpatialPolygons')
+crs(crop_poly) <- crs("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
+
+lidarmetrics_r_cropped <- crop(lidarmetrics_r, crop_poly)
+plot(lidarmetrics_r_cropped)
+
+predLC <- predict(lidarmetrics_r_cropped, model=modelRF, na.rm=TRUE)
+plot(predLC,col=rainbow(3))
+
+writeRaster(predLC, filename="classified.tif", format="GTiff",overwrite=TRUE)
