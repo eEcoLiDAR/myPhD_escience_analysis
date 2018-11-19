@@ -22,7 +22,7 @@ library("mapdata")
 library("sdm")
 library("corrplot")
 library("Hmisc")
-library(usdm)
+library("usdm")
 
 # Set global variables
 full_path="D:/Koma/lidar_bird_dsm_workflow/birdatlas/"
