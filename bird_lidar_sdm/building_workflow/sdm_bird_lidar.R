@@ -36,13 +36,12 @@ setwd(full_path)
 birdand_lidar=readRDS(file = birdfile)
 lidarmetrics=stack(lidarfile)
 
+# Exclude highly correlating variables
 v <- vifstep(lidarmetrics)
 v
 lidarmetrics2 <- exclude(lidarmetrics,v)
 
 v <- vifcor(extract(lidarmetrics,bird_obs),th=0.9)
-
-
 
 # Correlations in bird-lidar dataset
 corr_m <- rcorr(as.matrix(birdand_lidar[,7:20]))
@@ -58,21 +57,22 @@ proj4string(bird_obs)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.3876
 
 data_forsdm <- sdmData(formula=presence~., train=bird_obs, predictors=lidarmetrics2)
 data_forsdm
+
 #getmethodNames()
+
 # Modelling
 model1 <- sdm(presence~.,data=data_forsdm,methods=c('glm','brt','rf','svm','mars','mlp','glmnet'),replication=c('boot'),n=2)
 model1
 
 roc(model1)
-
-
+rcurve(model1) # response curve
 
 # Predict
 p1 <- predict(model1,newdata=lidarmetrics,filename='p3m.img')
 plot(p1)
 
+#Ensemble
 e1 <- ensemble(model1,newdata=lidarmetrics,filename='e3m.img',setting=list(method="weighted",stat="AUC"))
 
 #GUI
 gui(model1)
-rcurve(model1)
