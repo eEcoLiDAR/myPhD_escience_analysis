@@ -30,11 +30,11 @@ library("randomForest")
 library("caret")
 
 # Set global variables
-full_path="C:/Users/zsofi/Google Drive/_Amsterdam/xOther/lidar_bird_dsm_workflow/birdatlas/"
+full_path="D:/Koma/lidar_bird_dsm_workflow/birdatlas/"
 filename="terrainData100m_run1_filtered_lidarmetrics.rds"
 
 raster="terrainData100m_run1_filtered.tif"
-training="C:/Users/zsofi/Google Drive/_Amsterdam/xOther/lidar_bird_dsm_workflow/training.shp"
+training="training.shp"
 
 setwd(full_path)
 
