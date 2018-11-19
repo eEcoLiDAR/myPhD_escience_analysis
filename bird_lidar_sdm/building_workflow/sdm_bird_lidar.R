@@ -24,8 +24,9 @@ library("corrplot")
 library("Hmisc")
 
 # Set global variables
-full_path="C:/Users/zsofi/Google Drive/_Amsterdam/xOther/lidar_bird_dsm_workflow/birdatlas/"
-birdfile="Breeding_bird_atlas_aggregated_data_kmsquaresKleine Karekiet_grouped_presabs_lidar.rds"
+full_path="D:/Koma/lidar_bird_dsm_workflow/birdatlas/"
+#birdfile="Breeding_bird_atlas_aggregated_data_kmsquaresKleine Karekiet_grouped_presabs_lidar.rds"
+birdfile="Breeding_bird_atlas_aggregated_data_kmsquaresRoerdomp_grouped_presabs_lidar.rds"
 lidarfile="terrainData100m_run1_filtered_lidarmetrics_lidar_whoutoulier.tif"
 
 setwd(full_path)
