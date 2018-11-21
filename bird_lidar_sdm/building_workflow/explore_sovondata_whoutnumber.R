@@ -19,6 +19,8 @@ library("ggmap")
 library("maps")
 library("mapdata")
 
+library("RColorBrewer")
+
 # Set global variables
 full_path="D:/Koma/lidar_bird_dsm_workflow/birdatlas/"
 filename="Breeding_bird_atlas_aggregated_data_kmsquares.csv"
@@ -45,6 +47,7 @@ colnames(lidar) <- c("X","Y","max_z")
 
 # Filter species
 bird_species="Kleine Karekiet"
+#bird_species="Roerdomp"
 
 bird_data_onebird=bird_data[ which(bird_data$species==bird_species),]
 
@@ -106,7 +109,7 @@ p5=ggplot() +
 ggsave(paste(substr(filename, 1, nchar(filename)-4),'_grouped_onlypres.jpg',sep=''),p5)
 
 #Presence-absence
-observationmap=ddply(bird_data_onebird,~kmsquare+x+y+species,summarise,sum=sum(present))
+observationmap=ddply(bird_data_onebird,~kmsquare+species+x+y,summarise,sum=sum(present))
 observationmap = within(observationmap, {
   presence = ifelse(sum >0, 1, 0)
 })
@@ -115,9 +118,13 @@ p6=ggplot() +
   geom_polygon(data=nl_bound.df,aes(long,lat,group=group),fill = NA, color="black") +
   geom_path(color="white") +
   coord_equal() +
-  geom_point(data=observationmap, aes(x=x,y=y,size=sum,color=presence),inherit.aes = FALSE) +
-  ggtitle(paste(bird_species,"2013-2016",sep=" "))
+  geom_point(data=observationmap, aes(x=x,y=y,color=as.factor(presence)),inherit.aes = FALSE) +
+  scale_color_manual(values=c('#6666FF','#990000'))+
+  labs(x="x",y="y",color="Present-Absence") +
+  ggtitle(paste("Aggregated atlas data of",bird_species,"2013-2016",sep=" ")) +
+  theme_bw()
 
+p6
 ggsave(paste(substr(filename, 1, nchar(filename)-4),bird_species,'_grouped_presabs_nl.jpg',sep=''),p6)
 
 # Intersection with lidar

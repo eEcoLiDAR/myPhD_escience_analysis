@@ -46,8 +46,8 @@ colnames(lidar) <- c("X","Y","max_z")
 # Pre-processing
 
 # Filter species
-bird_species="Kleine Karekiet"
-#bird_species="Roerdomp"
+#bird_species="Kleine Karekiet"
+bird_species="Roerdomp"
 
 bird_data_onebird=bird_data[ which(bird_data$species==bird_species),]
 
@@ -120,8 +120,12 @@ p6=ggplot() +
   geom_polygon(data=nl_bound.df,aes(long,lat,group=group),fill = NA, color="black") +
   geom_path(color="white") +
   coord_equal() +
-  geom_point(data=observationmap, aes(x=x_point,y=y_point,size=sum,color=presence),inherit.aes = FALSE) +
-  ggtitle(paste(bird_species,"2013-2016",sep=" "))
+  geom_point(data=observationmap, aes(x=x_point,y=y_point,fill="black"),inherit.aes = FALSE) +
+  labs(x="x",y="y",fill="Present") +
+  ggtitle(paste("Individual observations of",bird_species,"2013-2016",sep=" ")) +
+  theme_bw()
+
+p6
 
 ggsave(paste(substr(filename, 1, nchar(filename)-4),bird_species,'_grouped_presabs_nl.jpg',sep=''),p6)
 
