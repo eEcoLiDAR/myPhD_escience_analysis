@@ -24,3 +24,10 @@ set workingdirectory=D:\Koma\Paper1_ReedStructure\1_ProcessingLiDAR\02gz2
 
 ::for %%i in (%workingdirectory%\tiled\*_ground.las) do pdal pipeline createDTM_v2.json --readers.las.filename=%%i --writers.gdal.filename=%%~nfi_ground_dtm.tif
 ::for %%i in (%workingdirectory%\tiled\*_ground_dtm.tif) do gdaldem hillshade %%i %%~nfi_ground_dtm_shd.tif -z 1.0 -s 1.0 -az 315.0 -alt 45.0 -of GTiff
+
+:: Compute terrain proporties
+::for %%i in (%workingdirectory%\tiled\*_ground_dtm.tif) do gdaldem slope %%i %%~nfi_ground_dtm_slope.tif
+::for %%i in (%workingdirectory%\tiled\*_ground_dtm.tif) do gdaldem aspect %%i %%~nfi_ground_dtm_aspect.tif
+::for %%i in (%workingdirectory%\tiled\*_ground_dtm.tif) do gdaldem TRI %%i %%~nfi_ground_dtm_tri.tif
+::for %%i in (%workingdirectory%\tiled\*_ground_dtm.tif) do gdaldem TPI %%i %%~nfi_ground_dtm_tpi.tif
+::for %%i in (%workingdirectory%\tiled\*_ground_dtm.tif) do gdaldem roughness %%i %%~nfi_ground_dtm_roughness.tif
