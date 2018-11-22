@@ -19,4 +19,5 @@ set workingdirectory=D:\Koma\Paper1_ReedStructure\1_ProcessingLiDAR\02gz2
 
 :: Create DTM
 ::pdal pipeline createDTM.json
-gdaldem hillshade D:/Koma/Paper1_ReedStructure/1_ProcessingLiDAR/02gz2/tiled/tile_1_0.las_ground.tif D:/Koma/Paper1_ReedStructure/1_ProcessingLiDAR/02gz2/tiled/tile_1_0.las_ground_shd.tif -z 1.0 -s 1.0 -az 315.0 -alt 45.0 -of GTiff
+pdal pipeline createDTM_v2.json --readers.las.filename=%workingdirectory%\tiled\tile_1_-3.las_ground.las --writers.gdal.filename=%workingdirectory%\tiled\tile_1_-3.las_ground_dtm.tif
+::gdaldem hillshade D:/Koma/Paper1_ReedStructure/1_ProcessingLiDAR/02gz2/tiled/tile_1_0.las_ground.tif D:/Koma/Paper1_ReedStructure/1_ProcessingLiDAR/02gz2/tiled/tile_1_0.las_ground_shd.tif -z 1.0 -s 1.0 -az 315.0 -alt 45.0 -of GTiff

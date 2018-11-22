@@ -6,7 +6,7 @@
             "limits":"Classification[2:2]"
         },
         {
-			"resolution" : 2,
+			"resolution" : 2.5,
             "output_type":"idw",
 			"filename": "D:/Koma/Paper1_ReedStructure/1_ProcessingLiDAR/02gz2/tiled/tile_1_0.las_ground.tif"
         }

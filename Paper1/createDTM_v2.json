@@ -1,0 +1,14 @@
+{
+    "pipeline": [
+	    "input.las",
+        {
+            "type":"filters.range",
+            "limits":"Classification[2:2]"
+        },
+        {
+			"resolution":2.5,
+            "output_type":"idw",
+			"filename":"output.tif"
+        }
+    ]
+}
