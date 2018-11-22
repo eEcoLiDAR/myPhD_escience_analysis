@@ -31,3 +31,4 @@ set workingdirectory=D:\Koma\Paper1_ReedStructure\1_ProcessingLiDAR\02gz2
 ::for %%i in (%workingdirectory%\tiled\*_ground_dtm.tif) do gdaldem TRI %%i %%~nfi_ground_dtm_tri.tif
 ::for %%i in (%workingdirectory%\tiled\*_ground_dtm.tif) do gdaldem TPI %%i %%~nfi_ground_dtm_tpi.tif
 ::for %%i in (%workingdirectory%\tiled\*_ground_dtm.tif) do gdaldem roughness %%i %%~nfi_ground_dtm_roughness.tif
+
