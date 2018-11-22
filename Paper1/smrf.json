@@ -1,0 +1,8 @@
+{
+  "pipeline": [
+    {
+        "type":"filters.smrf",
+        "cell": 0.5
+    }
+  ]
+}
