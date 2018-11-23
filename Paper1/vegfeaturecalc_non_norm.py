@@ -102,7 +102,7 @@ for x in neighbors:
     print("Computed neighborhoods list length at iteration %d is: %d" % (iteration,len(x)))
 
     print("------ Feature calculation is started ------")
-    compute_features(pc, x, target_idx_base, target, ['max_z','mean_z','median_z','perc_10','perc_30','perc_50','perc_70','perc_90','point_density','eigenv_1','eigenv_2','eigenv_3','z_entropy','std_z','var_z','skew_z','kurto_z','pulse_penetration_ratio','density_absolute_mean'], Cell(np.float(radius)))
+    compute_features(pc, x, target_idx_base, target, ['min_z','max_z','mean_z','median_z','perc_10','perc_30','perc_50','perc_70','perc_90','point_density','eigenv_1','eigenv_2','eigenv_3','z_entropy','std_z','var_z','skew_z','kurto_z','pulse_penetration_ratio','density_absolute_mean'], Cell(np.float(radius)))
     target_idx_base+=len(x)
 
     iteration+=1
