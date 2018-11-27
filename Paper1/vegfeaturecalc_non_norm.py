@@ -14,7 +14,8 @@ from laspy.file import File
 
 import numpy as np
 
-sys.path.insert(0, "D:/GitHub/eEcoLiDAR/develop-branch/eEcoLiDAR/")
+#sys.path.insert(0, "D:/GitHub/eEcoLiDAR/develop-branch/eEcoLiDAR/")
+sys.path.insert(0, "D:/Koma/GitHub/eEcoLiDAR/")
 
 from laserchicken import read_las
 from laserchicken.keys import point

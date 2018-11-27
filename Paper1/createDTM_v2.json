@@ -7,7 +7,7 @@
         },
         {
 			"resolution":2.5,
-            "output_type":"idw",
+            "output_type":"min",
 			"filename":"output.tif"
         }
     ]
