@@ -4,7 +4,8 @@
 :: Set global variables
 ::set workingdirectory=D:\Koma\Paper1_ReedStructure\1_ProcessingLiDAR\02gz2
 ::set workingdirectory=D:\Koma\Paper1\ALS\02gz2
-set workingdirectory=D:\Koma\Paper1\ALS\06en2
+::set workingdirectory=D:\Koma\Paper1\ALS\06en2
+set workingdirectory=D:\Koma\Paper1\ALS\06fn1
 
 :: Tiling
 mkdir %workingdirectory%\tiled
