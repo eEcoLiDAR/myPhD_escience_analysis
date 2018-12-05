@@ -21,7 +21,7 @@ setwd(workingdirectory)
 
 # Metrics
 
-pc_fea_veg = fread(paste(filename ,"2.5m_cell.ply",sep=""), header = F, sep = ' ',skip=43)
+pc_fea_veg = fread(paste(filename ,"1m_cell.ply",sep=""), header = F, sep = ' ',skip=43)
 
 dtm_tifs = list.files(path=workingdirectory,pattern=paste(filename,".las_ground_dtm*.tif",sep=''))
 fea_dtm = stack(dtm_tifs)

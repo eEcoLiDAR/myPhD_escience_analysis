@@ -31,7 +31,7 @@ parser.add_argument('input', help='absolute path of input point cloud (las file)
 args = parser.parse_args()
 
 filename=args.input
-resolution=2.5
+resolution=1
 
 # Create target point cloud
 

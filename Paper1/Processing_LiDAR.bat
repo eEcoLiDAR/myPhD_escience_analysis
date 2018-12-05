@@ -4,19 +4,19 @@
 :: Set global variables
 ::set workingdirectory=D:\Koma\Paper1_ReedStructure\1_ProcessingLiDAR\02gz2
 ::set workingdirectory=D:\Koma\Paper1\ALS\02gz2
-::set workingdirectory=D:\Koma\Paper1\ALS\06en2
+set workingdirectory=D:\Koma\Paper1\ALS\06en2
 ::set workingdirectory=D:\Koma\Paper1\ALS\06fn1
-set workingdirectory=D:\Koma\Paper1\ALS\02hz1
+::set workingdirectory=D:\Koma\Paper1\ALS\02hz1
 
 :: Tiling
-mkdir %workingdirectory%\tiled
-C:\OSGeo4W64\bin\pdal tile %workingdirectory%\*.laz %workingdirectory%\tiled\tile_#.las 2000
+::mkdir %workingdirectory%\tiled
+::C:\OSGeo4W64\bin\pdal tile %workingdirectory%\*.laz %workingdirectory%\tiled\tile_#.las 2000
 
 ::Create boundary
-C:\OSGeo4W64\bin\pdal tindex %workingdirectory%\tiled\boundary.shp %workingdirectory%\tiled\*.las
+::C:\OSGeo4W64\bin\pdal tindex %workingdirectory%\tiled\boundary.shp %workingdirectory%\tiled\*.las
 
 :: Extract ground points (using simple morphological filter (SMRF))
-for %%i in (%workingdirectory%\tiled\*.las) do C:\OSGeo4W64\bin\pdal translate %%i %%~nfi_ground.las --json smrf.json 
+::for %%i in (%workingdirectory%\tiled\*.las) do C:\OSGeo4W64\bin\pdal translate %%i %%~nfi_ground.las --json smrf.json 
 
 :: Normalization (standard PDAL)
 ::for %%i in (%workingdirectory%\tiled\*_ground.las) do C:\OSGeo4W64\bin\pdal translate %%i %%~nfi_ground_norm.las hag ferry --filters.ferry.dimensions="HeightAboveGround=Z"
@@ -45,5 +45,5 @@ for %%i in (%workingdirectory%\tiled\*.las_ground.las) do Rscript.exe ply_tostac
 
 :: Mosaicing
 C:\OSGeo4W64\bin\gdalbuildvrt %workingdirectory%\tiled\mosaic.vrt %workingdirectory%\tiled\tile*allfea.tif
-C:\OSGeo4W64\bin\gdal_translate -of GTiff %workingdirectory%\tiled\mosaic.vrt %workingdirectory%\tiled\allfea.tif
+C:\OSGeo4W64\bin\gdal_translate -of GTiff %workingdirectory%\tiled\mosaic.vrt %workingdirectory%\tiled\allfea_1m.tif
 
