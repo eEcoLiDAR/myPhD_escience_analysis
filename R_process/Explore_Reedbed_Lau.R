@@ -1,6 +1,6 @@
 "
 @author: Zsofia Koma, UvA
-Aim: Explore LiDAR metrics based on validation data
+Aim: Explore LiDAR metrics based on validation dataw
 
 input:
 output:
