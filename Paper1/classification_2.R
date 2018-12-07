@@ -13,12 +13,12 @@ setwd("D:/Koma/Paper1/ALS/forClassification/") # working directory
 
 # Import
 classes = rgdal::readOGR("training.shp")
-plot(classes)
+classes@data$V6=as.numeric(factor(classes@data$V4))
 
 lidarmetrics=stack("lidarmetrics_forClassification.grd")
 
 # Masking
-classes_rast <- rasterize(classes, lidarmetrics[[1]],field="class")
+classes_rast <- rasterize(classes, lidarmetrics[[1]],field="V6")
 
 masked <- mask(lidarmetrics, classes_rast)
 
@@ -27,6 +27,8 @@ trainingbrick <- addLayer(masked, classes_rast)
 featuretable <- getValues(trainingbrick)
 featuretable <- na.omit(featuretable)
 featuretable <- as.data.frame(featuretable)
+
+write.table(featuretable,"featuretable.csv",row.names=FALSE,sep=",")
 
 # apply RF
 modelRF <- randomForest(x=featuretable[ ,c(1:22)], y=factor(featuretable$layer),importance = TRUE)
