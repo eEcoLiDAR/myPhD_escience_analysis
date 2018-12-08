@@ -57,10 +57,12 @@ for (i in 1:2){
 # predict for sub-region
 crop_lidarmetrics=crop(lidarmetrics,extent(206573,209611,594309,597140))
 predLC_crop <- predict(crop_lidarmetrics, model=modelRF, na.rm=TRUE)
-plot(predLC_crop)
+
+cols <- c("grey", "dark green", "chartreuse", "orange", "darkolivegreen1", "light blue")
+
+plot(predLC_crop,col=cols)
 
 unique(classes@data$V3)
-
 
 # predict for whole study area
 #predLC <- predict(lidarmetrics, model=modelRF, na.rm=TRUE)
