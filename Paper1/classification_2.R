@@ -12,7 +12,7 @@ library(caret)
 setwd("D:/Koma/Paper1/ALS/forClassification/") # working directory
 
 # Import
-classes = rgdal::readOGR("training_level2_b2o5.shp")
+classes = rgdal::readOGR("training_level3_b2o5.shp")
 classes@data$V4=as.numeric(factor(classes@data$V3))
 
 lidarmetrics=stack("lidarmetrics_forClassification.grd")
@@ -28,7 +28,7 @@ featuretable <- getValues(trainingbrick)
 featuretable <- na.omit(featuretable)
 featuretable <- as.data.frame(featuretable)
 
-write.table(featuretable,"featuretable_level2_b2o5.csv",row.names=FALSE,sep=",")
+write.table(featuretable,"featuretable_level3_b2o5.csv",row.names=FALSE,sep=",")
 
 # apply RF
 modelRF <- randomForest(x=featuretable[ ,c(1:22)], y=factor(featuretable$layer),importance = TRUE)
@@ -58,7 +58,7 @@ for (i in 1:2){
 crop_lidarmetrics=crop(lidarmetrics,extent(206573,209611,594309,597140))
 predLC_crop <- predict(crop_lidarmetrics, model=modelRF, na.rm=TRUE)
 
-cols <- c("grey", "dark green", "chartreuse", "orange", "darkolivegreen1", "light blue")
+cols <- c("grey", "dark green", "chartreuse", "orange", "orange", "orange", "darkolivegreen1", "darkolivegreen3", "light blue")
 
 plot(predLC_crop,col=cols)
 

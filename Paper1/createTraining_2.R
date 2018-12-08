@@ -98,19 +98,19 @@ polygon@data$level1[polygon@data$StructDef=='Rkd' | polygon@data$StructDef=='Rko
 unique(polygon@data$level1)
 
 # Create trainings per classes
-classes=unique(polygon@data$level2)
+classes=unique(polygon@data$level3)
 
 for (cat in classes) { 
   print(cat)
-  sel_poly <- polygon[polygon@data$level2 == cat,]
+  sel_poly <- polygon[polygon@data$level3 == cat,]
   points_inpoly=spsample(sel_poly, n = 25, "random")
   points_inpoly_df=as.data.frame(points_inpoly)
   points_inpoly_df$level3=cat
-  write.table(points_inpoly_df, file = paste(cat,"_selpolyperlevel2.csv",sep="_"),row.names=FALSE,col.names=FALSE,sep=",")
+  write.table(points_inpoly_df, file = paste(cat,"_selpolyperlevel3.csv",sep="_"),row.names=FALSE,col.names=FALSE,sep=",")
 }
 
 # Reorganize
-files <- list.files(pattern = "_selpolyperlevel2.csv")
+files <- list.files(pattern = "_selpolyperlevel3.csv")
 
 allcsv <- lapply(files,function(i){
   read.csv(i, header=FALSE)
@@ -126,4 +126,4 @@ proj4string(allcsv_df)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.387
 allcsv_df_buff <- gBuffer( allcsv_df, width=2.5, byid=TRUE )
 
 # Export shapefile
-rgdal::writeOGR(allcsv_df_buff, '.', 'training_level2_b2o5', 'ESRI Shapefile',overwrite_layer = TRUE)
+rgdal::writeOGR(allcsv_df_buff, '.', 'training_level3_b2o5', 'ESRI Shapefile',overwrite_layer = TRUE)
