@@ -12,13 +12,13 @@ library(caret)
 setwd("D:/Koma/Paper1/ALS/forClassification/") # working directory
 
 # Import
-classes = rgdal::readOGR("training.shp")
-classes@data$V6=as.numeric(factor(classes@data$V4))
+classes = rgdal::readOGR("training_level2_b2o5.shp")
+classes@data$V4=as.numeric(factor(classes@data$V3))
 
 lidarmetrics=stack("lidarmetrics_forClassification.grd")
 
 # Masking
-classes_rast <- rasterize(classes, lidarmetrics[[1]],field="V6")
+classes_rast <- rasterize(classes, lidarmetrics[[1]],field="V4")
 
 masked <- mask(lidarmetrics, classes_rast)
 
@@ -28,7 +28,7 @@ featuretable <- getValues(trainingbrick)
 featuretable <- na.omit(featuretable)
 featuretable <- as.data.frame(featuretable)
 
-write.table(featuretable,"featuretable.csv",row.names=FALSE,sep=",")
+write.table(featuretable,"featuretable_level2_b2o5.csv",row.names=FALSE,sep=",")
 
 # apply RF
 modelRF <- randomForest(x=featuretable[ ,c(1:22)], y=factor(featuretable$layer),importance = TRUE)
@@ -54,12 +54,10 @@ for (i in 1:2){
   print(accuracy)
 }
 
-# predict
+# predict for sub-region
+
+
+# predict for whole study area
 predLC <- predict(lidarmetrics, model=modelRF, na.rm=TRUE)
-
-names(featuretable)
-names(lidarmetrics)
-
-plot(predLC)
 
 writeRaster(predLC, filename="classified.tif", format="GTiff",overwrite=TRUE)
