@@ -55,9 +55,13 @@ for (i in 1:2){
 }
 
 # predict for sub-region
+crop_lidarmetrics=crop(lidarmetrics,extent(206573,209611,594309,597140))
+predLC_crop <- predict(crop_lidarmetrics, model=modelRF, na.rm=TRUE)
+plot(predLC_crop)
+
+unique(classes@data$V3)
 
 
 # predict for whole study area
-predLC <- predict(lidarmetrics, model=modelRF, na.rm=TRUE)
-
-writeRaster(predLC, filename="classified.tif", format="GTiff",overwrite=TRUE)
+#predLC <- predict(lidarmetrics, model=modelRF, na.rm=TRUE)
+#writeRaster(predLC, filename="classified.tif", format="GTiff",overwrite=TRUE)
