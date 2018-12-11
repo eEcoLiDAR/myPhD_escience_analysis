@@ -20,7 +20,7 @@ library("maps")
 library("mapdata")
 
 # Set global variables
-full_path="D:/Koma/Paper1/ALS/forClassification/"
+full_path="D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/forClassification/"
 polygon_file="vlakken_union_structuur.shp"
 
 setwd(full_path)
@@ -65,7 +65,7 @@ polygon@data$level3[polygon@data$StructDef=='Slo' | polygon@data$StructDef=='Sld
                     | polygon@data$StructDef=='Smd' | polygon@data$StructDef=='Sho' | polygon@data$StructDef=='Shd'] = "S"
 polygon@data$level3[polygon@data$StructDef=='Bo' | polygon@data$StructDef=='Bd']="B"
 
-unique(polygon@data$level3)
+sort(unique(polygon@data$level3))
 
 # level 2
 polygon@data$level2=NA
@@ -81,7 +81,7 @@ polygon@data$level2[polygon@data$StructDef=='Slo' | polygon@data$StructDef=='Sld
                     | polygon@data$StructDef=='Smd' | polygon@data$StructDef=='Sho' | polygon@data$StructDef=='Shd'] = "S"
 polygon@data$level2[polygon@data$StructDef=='Bo' | polygon@data$StructDef=='Bd']="B"
 
-unique(polygon@data$level2)
+sort(unique(polygon@data$level2))
 
 # level 1
 polygon@data$level1=NA
@@ -95,22 +95,22 @@ polygon@data$level1[polygon@data$StructDef=='Rkd' | polygon@data$StructDef=='Rko
                     | polygon@data$StructDef=='Smo' | polygon@data$StructDef=='Smd' | polygon@data$StructDef=='Sho' | polygon@data$StructDef=='Shd'
                     | polygon@data$StructDef=='Bo' | polygon@data$StructDef=='Bd']="V"
 
-unique(polygon@data$level1)
+sort(unique(polygon@data$level1))
 
 # Create trainings per classes
-classes=unique(polygon@data$level3)
+classes=unique(polygon@data$level1)
 
 for (cat in classes) { 
   print(cat)
-  sel_poly <- polygon[polygon@data$level3 == cat,]
+  sel_poly <- polygon[polygon@data$level1 == cat,]
   points_inpoly=spsample(sel_poly, n = 25, "random")
   points_inpoly_df=as.data.frame(points_inpoly)
-  points_inpoly_df$level3=cat
-  write.table(points_inpoly_df, file = paste(cat,"_selpolyperlevel3.csv",sep="_"),row.names=FALSE,col.names=FALSE,sep=",")
+  points_inpoly_df$level1=cat
+  write.table(points_inpoly_df, file = paste(cat,"_selpolyperlevel1.csv",sep="_"),row.names=FALSE,col.names=FALSE,sep=",")
 }
 
 # Reorganize
-files <- list.files(pattern = "_selpolyperlevel3.csv")
+files <- list.files(pattern = "_selpolyperlevel1.csv")
 
 allcsv <- lapply(files,function(i){
   read.csv(i, header=FALSE)
@@ -126,4 +126,4 @@ proj4string(allcsv_df)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.387
 allcsv_df_buff <- gBuffer( allcsv_df, width=2.5, byid=TRUE )
 
 # Export shapefile
-rgdal::writeOGR(allcsv_df_buff, '.', 'training_level3_b2o5', 'ESRI Shapefile',overwrite_layer = TRUE)
+rgdal::writeOGR(allcsv_df_buff, '.', 'training_level1_b2o5', 'ESRI Shapefile',overwrite_layer = TRUE)
