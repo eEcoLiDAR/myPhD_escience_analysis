@@ -20,8 +20,8 @@ library("maps")
 library("mapdata")
 
 # Set global variables
-full_path="D:/Koma/Paper1/ALS/forClassification/"
-filename="featuretable_level3_b2o5.csv"
+full_path="D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/forClassification/"
+filename="featuretable_level1_b2o5.csv"
 
 setwd(full_path)
 
