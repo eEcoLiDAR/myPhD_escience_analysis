@@ -25,6 +25,8 @@ filename="featuretable_level1_b2o5.csv"
 
 setwd(full_path)
 
+pdf("boxplot.pdf") 
+
 # Import
 featuretable=read.csv(filename)
 
@@ -35,7 +37,9 @@ colnames=names(featuretable)
 for (i in 1:22){
   print(colnames[i])
   
-  jpeg(paste(substr(filename, 1, nchar(filename)-4),colnames[i],'_boxplot.jpg',sep=''))
+  #jpeg(paste(substr(filename, 1, nchar(filename)-4),colnames[i],'_boxplot.jpg',sep=''))
   boxplot(featuretable[[colnames[i]]]~layer,data=featuretable,ylab=colnames[i])
-  dev.off()
+  #dev.off()
 }
+
+dev.off()
