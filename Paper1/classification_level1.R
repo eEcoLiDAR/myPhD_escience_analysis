@@ -96,6 +96,20 @@ predLC_crop_level1_3 <- predict(crop_lidarmetrics3, model=modelRF_level1, na.rm=
 cols_level1 <- c("grey", "dark green", "darkslategray1")
 plot(predLC_crop_level1_3,col=cols_level1)
 
+#predict probabilities
+
+crop_lidarmetrics1_pt = rasterToPoints(crop_lidarmetrics1)
+crop_lidarmetrics1_df = data.frame(crop_lidarmetrics1_pt)
+crop_lidarmetrics1_df = na.omit(crop_lidarmetrics1_df)
+
+predLC_crop_level1_1_prob_df = predict(modelRF_level1,crop_lidarmetrics1_df[ ,c(3:24)], type = "prob")
+predLC_crop_level1_1_prob_df_merged <- cbind(crop_lidarmetrics1_df$x, crop_lidarmetrics1_df$y, predLC_crop_level1_1_prob_df) 
+level1_reg1_prob_class1=rasterFromXYZ(predLC_crop_level1_1_prob_df_merged[,c(1,2,3)])
+level1_reg1_prob_class2=rasterFromXYZ(predLC_crop_level1_1_prob_df_merged[,c(1,2,4)])
+
+plot(level1_reg1_prob_class1)
+plot(level1_reg1_prob_class2)
+
 dev.off()
 
 writeRaster(predLC_crop_level1_1, filename="classified_reg1_lev1.tif", format="GTiff",overwrite=TRUE)
