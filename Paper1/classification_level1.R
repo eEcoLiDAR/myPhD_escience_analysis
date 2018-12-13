@@ -55,9 +55,9 @@ for (i in 1:3) {
 
 
 # accuracy assessment
-first_seed <- 2
+first_seed <- 3
 accuracies <-c()
-for (i in 1:2){
+for (i in 1:3){
   set.seed(first_seed)
   first_seed <- first_seed+1
   trainIndex <- caret::createDataPartition(y=featuretable_level1$layer, p=0.75, list=FALSE)
@@ -75,11 +75,29 @@ for (i in 1:2){
 
 
 # predict for sub-region
-crop_lidarmetrics=crop(lidarmetrics,extent(206573,209611,594309,597140))
+crop_lidarmetrics1=crop(lidarmetrics,extent(206573,209611,594309,597140))
 
-predLC_crop_level1 <- predict(crop_lidarmetrics, model=modelRF_level1, na.rm=TRUE)
+predLC_crop_level1_1 <- predict(crop_lidarmetrics1, model=modelRF_level1, na.rm=TRUE)
 
 cols_level1 <- c("grey", "dark green", "darkslategray1")
-plot(predLC_crop_level1,col=cols_level1)
+plot(predLC_crop_level1_1,col=cols_level1)
+
+crop_lidarmetrics2=crop(lidarmetrics,extent(205462,207261,598308,600314))
+
+predLC_crop_level1_2 <- predict(crop_lidarmetrics2, model=modelRF_level1, na.rm=TRUE)
+
+cols_level1 <- c("grey", "dark green", "darkslategray1")
+plot(predLC_crop_level1_2,col=cols_level1)
+
+crop_lidarmetrics3=crop(lidarmetrics,extent(207790,210179,597664,600168))
+
+predLC_crop_level1_3 <- predict(crop_lidarmetrics3, model=modelRF_level1, na.rm=TRUE)
+
+cols_level1 <- c("grey", "dark green", "darkslategray1")
+plot(predLC_crop_level1_3,col=cols_level1)
 
 dev.off()
+
+writeRaster(predLC_crop_level1_1, filename="classified_reg1_lev1.tif", format="GTiff",overwrite=TRUE)
+writeRaster(predLC_crop_level1_2, filename="classified_reg2_lev1.tif", format="GTiff",overwrite=TRUE)
+writeRaster(predLC_crop_level1_3, filename="classified_reg3_lev1.tif", format="GTiff",overwrite=TRUE)

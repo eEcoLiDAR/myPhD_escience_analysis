@@ -13,7 +13,7 @@ setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/fo
 
 # Import
 
-classes = rgdal::readOGR("selpolyper_level1_v3.shp.shp")
+classes = rgdal::readOGR("selpolyper_level1_v4.shp")
 #classes = rgdal::readOGR("training_level2_b2o5.shp")
 #classes = rgdal::readOGR("training_level3_b2o5.shp")
 
