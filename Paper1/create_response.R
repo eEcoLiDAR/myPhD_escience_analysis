@@ -11,18 +11,61 @@ library(pROC)
 library(plotmo)
 library(rpart)
 library(rpart.plot)
+library(Boruta)
+library(usdm)
 
 # Set global variables
 #setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/forClassification/") # working directory
 setwd("D:/Koma/Paper1/ALS/forClassification/")
 
+level1="featuretable_level1_b2o5.csv"
 level2="featuretable_level2_b2o5.csv"
 level3="featuretable_level3_b2o5.csv"
 
+lidar="lidarmetrics_forClassification.grd"
+
 # Import
 
+featuretable_l0=read.csv(level1)
 featuretable_l1=read.csv(level2)
 featuretable_l2=read.csv(level3)
+
+lidarmetrics=stack(lidar)
+
+#usdm
+vif(lidarmetrics)
+vifcor(lidarmetrics,th=0.9)
+vifstep(lidarmetrics,th=10)
+
+#Boruta
+set.seed(25)
+boruta <- Boruta(layer~., data = featuretable_l2, doTrace = 1)
+print(boruta)
+plot(boruta)
+
+#RFE
+#featuretable_l2$layer[featuretable_l2$layer==1]="Rk"
+#featuretable_l2$layer[featuretable_l2$layer==2]="Rl"
+#featuretable_l2$layer[featuretable_l2$layer==3]="Rw"
+#featuretable_l2$layer[featuretable_l2$layer==4]="U"
+
+control <- rfeControl(functions=rfFuncs, method="cv", number=10)
+rfe <- rfe(featuretable_l0[,1:22], factor(featuretable_l0$layer), rfeControl=control)
+print(rfe, top=10)
+plot(rfe, type=c("g", "o"), cex = 1.0,metric="Accuracy")
+predictors(rfe)
+
+control <- rfeControl(functions=rfFuncs, method="cv", number=10)
+rfe <- rfe(featuretable_l1[,1:22], factor(featuretable_l1$layer), rfeControl=control)
+print(rfe, top=10)
+plot(rfe, type=c("g", "o"), cex = 1.0,metric="Accuracy")
+predictors(rfe)
+
+control <- rfeControl(functions=rfFuncs, method="cv", number=10)
+rfe <- rfe(featuretable_l2[,1:22], factor(featuretable_l2$layer), rfeControl=control)
+print(rfe, top=10)
+plot(rfe, type=c("g", "o"), cex = 1.0,metric="Accuracy")
+predictors(rfe)
 
 # plot tree
 #tree=rpart(layer~.,data = featuretable_l1, method = "class")
