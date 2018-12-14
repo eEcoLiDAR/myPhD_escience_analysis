@@ -15,12 +15,14 @@ setwd("D:/Koma/Paper1/ALS/forClassification/")
 # Import
 
 #classes = rgdal::readOGR("selpolyper_level1_v4.shp")
-classes = rgdal::readOGR("selpolyper_level2_v4.shp")
+#classes = rgdal::readOGR("selpolyper_level2_v4.shp")
+classes = rgdal::readOGR("selpolyper_level3_v4.shp")
 
 classes@data$V4=as.numeric(factor(classes@data$V3))
 
 #lidarmetrics=stack("lidarmetrics_forClassification.grd")
-lidarmetrics=stack("lidarmetrics_forlevel2.grd")
+#lidarmetrics=stack("lidarmetrics_forlevel2.grd")
+lidarmetrics=stack("lidarmetrics_forlevel3.grd")
 
 # Masking
 classes_rast <- rasterize(classes, lidarmetrics[[1]],field="V4")
@@ -35,5 +37,5 @@ featuretable <- na.omit(featuretable)
 featuretable <- as.data.frame(featuretable)
 
 #write.table(featuretable,"featuretable_level1_b2o5.csv",row.names=FALSE,sep=",")
-write.table(featuretable,"featuretable_level2_b2o5.csv",row.names=FALSE,sep=",")
-#write.table(featuretable,"featuretable_level3_b2o5.csv",row.names=FALSE,sep=",")
+#write.table(featuretable,"featuretable_level2_b2o5.csv",row.names=FALSE,sep=",")
+write.table(featuretable,"featuretable_level3_b2o5.csv",row.names=FALSE,sep=",")
