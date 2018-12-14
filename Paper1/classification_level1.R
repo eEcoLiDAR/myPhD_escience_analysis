@@ -10,7 +10,8 @@ library(caret)
 library(pROC)
 
 # Set global variables
-setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/forClassification/") # working directory
+#setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/forClassification/") # working directory
+setwd("D:/Koma/Paper1/ALS/forClassification/")
 
 level1="featuretable_level1_b2o5.csv"
 
