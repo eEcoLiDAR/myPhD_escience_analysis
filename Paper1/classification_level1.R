@@ -115,3 +115,7 @@ dev.off()
 writeRaster(predLC_crop_level1_1, filename="classified_reg1_lev1.tif", format="GTiff",overwrite=TRUE)
 writeRaster(predLC_crop_level1_2, filename="classified_reg2_lev1.tif", format="GTiff",overwrite=TRUE)
 writeRaster(predLC_crop_level1_3, filename="classified_reg3_lev1.tif", format="GTiff",overwrite=TRUE)
+
+# predict for whole study area
+predLC <- predict(lidarmetrics, model=modelRF_level1, na.rm=TRUE)
+writeRaster(predLC, filename="classified_level1.tif", format="GTiff",overwrite=TRUE)
