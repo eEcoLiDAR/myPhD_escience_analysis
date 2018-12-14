@@ -45,11 +45,11 @@ varImpPlot(rf.mod)
 plotmo(rf.mod, type="prob", nresponse="yes",all1=TRUE,all2 = TRUE)
 
 #Reed
-rf.mod <- randomForest(x=featuretable_l1[ ,c(1:22)], y=featuretable_l1$reed,importance = TRUE)
+rf.mod <- randomForest(x=featuretable_l1[ ,c(1:22)], y=featuretable_l1$reed,importance = TRUE,ntree=100)
 class(rf.mod)
 varImpPlot(rf.mod)
 
-plotmo(rf.mod, type="prob", nresponse="yes",all1=TRUE,all2 = TRUE)
+plotmo(rf.mod, type="prob", nresponse="yes",all1=TRUE)
 
 #Grass
 rf.mod <- randomForest(x=featuretable_l1[ ,c(1:22)], y=featuretable_l1$grass,importance = TRUE)
