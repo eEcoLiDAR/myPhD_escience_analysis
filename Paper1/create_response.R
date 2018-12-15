@@ -16,7 +16,7 @@ library(usdm)
 
 # Set global variables
 #setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/forClassification/") # working directory
-setwd("D:/Koma/Paper1/ALS/forClassification/")
+setwd("D:/Koma/Paper1/ALS/forClassification2/")
 
 level1="featuretable_level1_b2o5.csv"
 level2="featuretable_level2_b2o5.csv"
@@ -24,9 +24,11 @@ level3="featuretable_level3_b2o5.csv"
 
 lidar="lidarmetrics_forClassification.grd"
 
+pdf("response_plots.pdf") 
+
 # Import
 
-featuretable_l0=read.csv(level1)
+#featuretable_l0=read.csv(level1)
 featuretable_l1=read.csv(level2)
 featuretable_l2=read.csv(level3)
 
@@ -39,9 +41,17 @@ vifstep(lidarmetrics,th=10)
 
 #Boruta
 set.seed(25)
-boruta <- Boruta(layer~., data = featuretable_l2, doTrace = 1)
+boruta <- Boruta(layer~., data = featuretable_l2, doTrace = 2)
 print(boruta)
 plot(boruta)
+plotImpHistory(boruta)
+
+set.seed(25)
+boruta <- Boruta(layer~., data = featuretable_l3, doTrace = 2)
+print(boruta)
+plot(boruta)
+plotImpHistory(boruta)
+attStats(boruta)
 
 #RFE
 #featuretable_l2$layer[featuretable_l2$layer==1]="Rk"
@@ -68,9 +78,13 @@ plot(rfe, type=c("g", "o"), cex = 1.0,metric="Accuracy")
 predictors(rfe)
 
 # plot tree
-#tree=rpart(layer~.,data = featuretable_l1, method = "class")
-#rpart.plot(tree,type=4,cex=0.45,branch=.2)
-#rpart.rules(tree, cover = TRUE)
+tree=rpart(layer~.,data = featuretable_l2[c(1:23)], method = "class")
+rpart.plot(tree,type=4,cex=0.45)
+rpart.rules(tree, cover = TRUE)
+
+tree=rpart(layer~.,data = featuretable_l1[c(1:23)], method = "class")
+rpart.plot(tree,type=4,cex=0.45,branch=.45)
+rpart.rules(tree, cover = TRUE)
 
 # Level2
 
@@ -120,7 +134,6 @@ plotmo(rf.mod, type="prob", nresponse="yes",all1=TRUE,all2 = TRUE)
 featuretable_l2$Rk <- factor(ifelse(featuretable_l2$layer==1,"yes","no"))
 featuretable_l2$Rl <- factor(ifelse(featuretable_l2$layer==2,"yes","no"))
 featuretable_l2$Rw <- factor(ifelse(featuretable_l2$layer==3,"yes","no"))
-featuretable_l2$U <- factor(ifelse(featuretable_l2$layer==4,"yes","no"))
 
 #Rk
 rf.mod <- randomForest(x=featuretable_l2[ ,c(1:22)], y=featuretable_l2$Rk,importance = TRUE)
@@ -143,9 +156,4 @@ varImpPlot(rf.mod)
 
 plotmo(rf.mod, type="prob", nresponse="yes",all1=TRUE,all2 = TRUE)
 
-#U
-rf.mod <- randomForest(x=featuretable_l2[ ,c(1:22)], y=featuretable_l2$U,importance = TRUE)
-class(rf.mod)
-varImpPlot(rf.mod)
-
-plotmo(rf.mod, type="prob", nresponse="yes",all1=TRUE,all2 = TRUE)
+dev.off()
