@@ -21,7 +21,7 @@ library("mapdata")
 
 # Set global variables
 #full_path="D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/forClassification/"
-full_path="D:/Koma/Paper1/ALS/forClassification/"
+full_path="D:/Koma/Paper1/ALS/forClassification2/"
 
 #polygon_file="recategorized_level2.shp"
 polygon_file="recategorized_level3.shp"

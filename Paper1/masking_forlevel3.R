@@ -9,7 +9,7 @@ library(rgdal)
 
 # Set global variables
 #setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/forClassification/") # working directory
-setwd("D:/Koma/Paper1/ALS/forClassification/")
+setwd("D:/Koma/Paper1/ALS/forClassification2/")
 
 mask_file="classified_level2.tif"
 lidar_file="lidarmetrics_forlevel2.grd"
@@ -23,7 +23,7 @@ polygon=readOGR(dsn=polygon_file)
 
 # Mask LiDAR
 formask <- setValues(raster(level1_mask), NA)
-formask[level1_mask==4 | level1_mask==5] <- 1
+formask[level1_mask==4] <- 1
 plot(formask, col="dark green", legend = FALSE)
 
 lidarmetrics_masked <- mask(lidarmetrics,formask)
@@ -38,9 +38,8 @@ plot(polygon_forlevel3)
 # Create level 3 classes
 polygon_forlevel3@data$level3=NA
 
-polygon_forlevel3@data$level3[polygon_forlevel3@data$StructDef=='Rkd' | polygon_forlevel3@data$StructDef=='Rko']="Rk"
-polygon_forlevel3@data$level3[polygon_forlevel3@data$StructDef=='Rld' | polygon_forlevel3@data$StructDef=='Rlo']="Rl"
-polygon_forlevel3@data$level3[polygon_forlevel3@data$StructDef=='Rwd' | polygon_forlevel3@data$StructDef=='Rwo']="Rw"
-polygon_forlevel3@data$level3[polygon_forlevel3@data$StructDef=='U']="U"
+polygon_forlevel3@data$level3[polygon_forlevel3@data$StructDef=='Rkd']="Rk"
+polygon_forlevel3@data$level3[polygon_forlevel3@data$StructDef=='Rld']="Rl"
+polygon_forlevel3@data$level3[polygon_forlevel3@data$StructDef=='Rwd']="Rw"
 
 rgdal::writeOGR(polygon_forlevel3, '.', 'recategorized_level3', 'ESRI Shapefile',overwrite_layer = TRUE)

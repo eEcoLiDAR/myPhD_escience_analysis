@@ -9,7 +9,7 @@ library(rgdal)
 
 # Set global variables
 #setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/forClassification/") # working directory
-setwd("D:/Koma/Paper1/ALS/forClassification/")
+setwd("D:/Koma/Paper1/ALS/forClassification2/")
 
 mask_file="classified_level1.tif"
 lidar_file="lidarmetrics_forClassification.grd"
@@ -46,14 +46,15 @@ plot(polygon_forlevel2_wbuildings)
 polygon_forlevel2_wbuildings@data$level2=NA
 
 polygon_forlevel2_wbuildings@data$level2[polygon_forlevel2_wbuildings@data$StructDef=='Bu']="Bu"
-polygon_forlevel2_wbuildings@data$level2[polygon_forlevel2_wbuildings@data$StructDef=='Rkd' | polygon_forlevel2_wbuildings@data$StructDef=='Rko' | polygon_forlevel2_wbuildings@data$StructDef=='Rld'
-                    | polygon_forlevel2_wbuildings@data$StructDef=='Rlo' | polygon_forlevel2_wbuildings@data$StructDef=='Rwd' | polygon_forlevel2_wbuildings@data$StructDef=='Rwo'
-                    | polygon_forlevel2_wbuildings@data$StructDef=='U']="R"
+polygon_forlevel2_wbuildings@data$level2[polygon_forlevel2_wbuildings@data$StructDef=='Rkd' | polygon_forlevel2_wbuildings@data$StructDef=='Rld'
+                    | polygon_forlevel2_wbuildings@data$StructDef=='Rwd']="R"
 polygon_forlevel2_wbuildings@data$level2[polygon_forlevel2_wbuildings@data$StructDef=='Gh']="G"
-polygon_forlevel2_wbuildings@data$level2[polygon_forlevel2_wbuildings@data$StructDef=='Slo' | polygon_forlevel2_wbuildings@data$StructDef=='Sld' | polygon_forlevel2_wbuildings@data$StructDef=='Smo' 
-                    | polygon_forlevel2_wbuildings@data$StructDef=='Smd' | polygon_forlevel2_wbuildings@data$StructDef=='Sho' | polygon_forlevel2_wbuildings@data$StructDef=='Shd'] = "S"
+polygon_forlevel2_wbuildings@data$level2[ polygon_forlevel2_wbuildings@data$StructDef=='Sld' 
+                    | polygon_forlevel2_wbuildings@data$StructDef=='Smd' | polygon_forlevel2_wbuildings@data$StructDef=='Shd' | polygon_forlevel2_wbuildings@data$StructDef=='U'] = "S"
 polygon_forlevel2_wbuildings@data$level2[polygon_forlevel2_wbuildings@data$StructDef=='Bo' | polygon_forlevel2_wbuildings@data$StructDef=='Bd']="B"
 
 sort(unique(polygon_forlevel2_wbuildings@data$level2))
+
+polygon_forlevel2_wbuildings=polygon_forlevel2_wbuildings[!is.na(polygon_forlevel2_wbuildings@data$level2),]
 
 rgdal::writeOGR(polygon_forlevel2_wbuildings, '.', 'recategorized_level2', 'ESRI Shapefile',overwrite_layer = TRUE)

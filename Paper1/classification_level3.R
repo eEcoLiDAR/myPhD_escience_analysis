@@ -11,7 +11,7 @@ library(pROC)
 
 # Set global variables
 #setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/forClassification/") # working directory
-setwd("D:/Koma/Paper1/ALS/forClassification/")
+setwd("D:/Koma/Paper1/ALS/forClassification2/")
 
 level1="featuretable_level3_b2o5.csv"
 
@@ -43,7 +43,7 @@ testingSet<- featuretable_level1[-trainIndex,]
 modelFit <- randomForest(factor(layer)~.,data=trainingSet)
 prediction <- predict(modelFit,testingSet[ ,c(1:22)])
 
-confusionMatrix(factor(prediction), factor(testingSet$layer))
+confusionMatrix(factor(prediction), factor(testingSet$layer),mode = "everything")
 
 prediction_prob <- predict(modelFit,testingSet[ ,c(1:22)],type="prob")
 

@@ -10,7 +10,7 @@ library(caret)
 
 # Set global variables
 #setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/forClassification/") # working directory
-setwd("D:/Koma/Paper1/ALS/forClassification/")
+setwd("D:/Koma/Paper1/ALS/forClassification2/")
 
 # Import
 
