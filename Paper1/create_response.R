@@ -22,7 +22,7 @@ level1="featuretable_level1_b2o5.csv"
 level2="featuretable_level2_b2o5.csv"
 level3="featuretable_level3_b2o5.csv"
 
-lidar="lidarmetrics_forClassification.grd"
+#lidar="lidarmetrics_forClassification.grd"
 
 pdf("response_plots.pdf") 
 
@@ -35,9 +35,9 @@ featuretable_l2=read.csv(level3)
 lidarmetrics=stack(lidar)
 
 #usdm
-vif(lidarmetrics)
-vifcor(lidarmetrics,th=0.9)
-vifstep(lidarmetrics,th=10)
+#vif(lidarmetrics)
+#vifcor(lidarmetrics,th=0.9)
+#vifstep(lidarmetrics,th=10)
 
 #Boruta
 set.seed(25)
@@ -157,3 +157,5 @@ varImpPlot(rf.mod)
 plotmo(rf.mod, type="prob", nresponse="yes",all1=TRUE,all2 = TRUE)
 
 dev.off()
+
+#plotres(rf.mod,which=c(1,2,3,4,5,6),info=TRUE,standardize=TRUE)
