@@ -13,6 +13,7 @@ library(rpart)
 library(rpart.plot)
 library(Boruta)
 library(usdm)
+library(randomForestExplainer)
 
 # Set global variables
 #setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/forClassification/") # working directory
@@ -159,3 +160,6 @@ plotmo(rf.mod, type="prob", nresponse="yes",all1=TRUE,all2 = TRUE)
 dev.off()
 
 #plotres(rf.mod,which=c(1,2,3,4,5,6),info=TRUE,standardize=TRUE)
+
+explain_forest(rf.mod, interactions = TRUE, data = featuretable_l2)
+plot(rf.mod)
