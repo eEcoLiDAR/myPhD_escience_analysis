@@ -18,14 +18,16 @@ library("ggplot2")
 library("ggmap")
 library("maps")
 library("mapdata")
+library('lattice')
 
 # Set global variables
-full_path="D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/forClassification/"
-filename="featuretable_level1_b2o5.csv"
+#full_path="D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/forClassification/"
+full_path="D:/Koma/Paper1/ALS/forClassification2/"
+filename="featuretable_level3_b2o5.csv"
 
 setwd(full_path)
 
-pdf("boxplot.pdf") 
+pdf("boxplot_level3.pdf") 
 
 # Import
 featuretable=read.csv(filename)
@@ -40,6 +42,12 @@ for (i in 1:22){
   #jpeg(paste(substr(filename, 1, nchar(filename)-4),colnames[i],'_boxplot.jpg',sep=''))
   boxplot(featuretable[[colnames[i]]]~layer,data=featuretable,ylab=colnames[i])
   #dev.off()
+}
+
+for (i in 1:22){
+  print(colnames[i])
+  p=ggplot(featuretable,aes(x=featuretable[,i]))+geom_histogram()+facet_grid(~layer)+theme_bw()+ggtitle(colnames[i])
+  print(p)
 }
 
 dev.off()
