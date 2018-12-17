@@ -9,9 +9,9 @@ library(rgdal)
 
 # Set global variables
 #setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/forClassification/") # working directory
-setwd("D:/Koma/Paper1/ALS/forClassification2/")
+setwd("D:/Koma/Paper1/ALS/forClassification4/")
 
-mask_file="classified_level1.tif"
+mask_file="classified_level1_v2.tif"
 lidar_file="lidarmetrics_forClassification.grd"
 polygon_file="recategorized.shp"
 building_file="buldings.shp"
@@ -49,9 +49,8 @@ polygon_forlevel2_wbuildings@data$level2[polygon_forlevel2_wbuildings@data$Struc
 polygon_forlevel2_wbuildings@data$level2[polygon_forlevel2_wbuildings@data$StructDef=='Rkd' | polygon_forlevel2_wbuildings@data$StructDef=='Rld'
                     | polygon_forlevel2_wbuildings@data$StructDef=='Rwd']="R"
 polygon_forlevel2_wbuildings@data$level2[polygon_forlevel2_wbuildings@data$StructDef=='Gh']="G"
-polygon_forlevel2_wbuildings@data$level2[ polygon_forlevel2_wbuildings@data$StructDef=='Sld' 
-                    | polygon_forlevel2_wbuildings@data$StructDef=='Smd' | polygon_forlevel2_wbuildings@data$StructDef=='Shd' | polygon_forlevel2_wbuildings@data$StructDef=='U'] = "S"
-polygon_forlevel2_wbuildings@data$level2[polygon_forlevel2_wbuildings@data$StructDef=='Bo' | polygon_forlevel2_wbuildings@data$StructDef=='Bd']="B"
+polygon_forlevel2_wbuildings@data$level2[polygon_forlevel2_wbuildings@data$StructDef=='Sld'| polygon_forlevel2_wbuildings@data$StructDef=='Smd' | polygon_forlevel2_wbuildings@data$StructDef=='Shd' | polygon_forlevel2_wbuildings@data$StructDef=='U'] = "S"
+polygon_forlevel2_wbuildings@data$level2[polygon_forlevel2_wbuildings@data$StructDef=='Bd']="B"
 
 sort(unique(polygon_forlevel2_wbuildings@data$level2))
 
