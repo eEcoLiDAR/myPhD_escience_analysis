@@ -11,7 +11,7 @@ library(pROC)
 
 # Set global variables
 #setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/forClassification/") # working directory
-setwd("D:/Koma/Paper1/ALS/forClassification2/")
+setwd("D:/Koma/Paper1/ALS/forClassification5/")
 
 level1="featuretable_level3_b2o5.csv"
 
@@ -48,21 +48,21 @@ conf_m
 
 #Export accuracy report 
 tocsv_t <- data.frame(conf_m$table)
-write.csv(tocsv_t,file="conf_m_level1.csv")
+write.csv(tocsv_t,file="conf_m_level3.csv")
 
 tocsv_oa <- data.frame(conf_m$overall)
-write.csv(tocsv_oa,file="acc_oa_level1.csv")
+write.csv(tocsv_oa,file="acc_oa_level3.csv")
 
 tocsv_cl <- data.frame(conf_m$byClass)
-write.csv(tocsv_cl,file="acc_byclass_level1.csv")
+write.csv(tocsv_cl,file="acc_byclass_level3.csv")
 
-sink("acc_level1.txt")
+sink("acc_level3.txt")
 print(conf_m)
 sink()  # returns output to the console
 
 prediction_prob <- predict(modelFit,testingSet[ ,c(1:22)],type="prob")
 
-for (i in 1:4) {
+for (i in 1:3) {
   result.roc <- roc(testingSet$layer, prediction_prob[,i])
   plot(result.roc,print.thres="best", print.thres.best.method="closest.topleft")
   title(paste("class:",i,"AUC",auc(result.roc)))
@@ -122,18 +122,55 @@ predLC_crop_level1_1_prob_df_merged <- cbind(crop_lidarmetrics1_df$x, crop_lidar
 level1_reg1_prob_class1=rasterFromXYZ(predLC_crop_level1_1_prob_df_merged[,c(1,2,3)])
 level1_reg1_prob_class2=rasterFromXYZ(predLC_crop_level1_1_prob_df_merged[,c(1,2,4)])
 level1_reg1_prob_class3=rasterFromXYZ(predLC_crop_level1_1_prob_df_merged[,c(1,2,5)])
-level1_reg1_prob_class4=rasterFromXYZ(predLC_crop_level1_1_prob_df_merged[,c(1,2,6)])
 
 plot(level1_reg1_prob_class1)
 plot(level1_reg1_prob_class2)
 plot(level1_reg1_prob_class3)
-plot(level1_reg1_prob_class4)
+
+crop_lidarmetrics2_pt = rasterToPoints(crop_lidarmetrics2)
+crop_lidarmetrics2_df = data.frame(crop_lidarmetrics2_pt)
+crop_lidarmetrics2_df = na.omit(crop_lidarmetrics2_df)
+
+predLC_crop_level1_2_prob_df = predict(modelRF_level1,crop_lidarmetrics2_df[ ,c(3:24)], type = "prob")
+predLC_crop_level1_2_prob_df_merged <- cbind(crop_lidarmetrics2_df$x, crop_lidarmetrics2_df$y, predLC_crop_level1_2_prob_df) 
+level1_reg2_prob_class1=rasterFromXYZ(predLC_crop_level1_2_prob_df_merged[,c(1,2,3)])
+level1_reg2_prob_class2=rasterFromXYZ(predLC_crop_level1_2_prob_df_merged[,c(1,2,4)])
+level1_reg2_prob_class3=rasterFromXYZ(predLC_crop_level1_2_prob_df_merged[,c(1,2,5)])
+
+plot(level1_reg2_prob_class1)
+plot(level1_reg2_prob_class2)
+plot(level1_reg2_prob_class3)
+
+crop_lidarmetrics3_pt = rasterToPoints(crop_lidarmetrics3)
+crop_lidarmetrics3_df = data.frame(crop_lidarmetrics3_pt)
+crop_lidarmetrics3_df = na.omit(crop_lidarmetrics3_df)
+
+predLC_crop_level1_3_prob_df = predict(modelRF_level1,crop_lidarmetrics3_df[ ,c(3:24)], type = "prob")
+predLC_crop_level1_3_prob_df_merged <- cbind(crop_lidarmetrics3_df$x, crop_lidarmetrics3_df$y, predLC_crop_level1_3_prob_df) 
+level1_reg3_prob_class1=rasterFromXYZ(predLC_crop_level1_3_prob_df_merged[,c(1,2,3)])
+level1_reg3_prob_class2=rasterFromXYZ(predLC_crop_level1_3_prob_df_merged[,c(1,2,4)])
+level1_reg3_prob_class3=rasterFromXYZ(predLC_crop_level1_3_prob_df_merged[,c(1,2,5)])
+
+plot(level1_reg3_prob_class1)
+plot(level1_reg3_prob_class2)
+plot(level1_reg3_prob_class3)
 
 dev.off()
 
 writeRaster(predLC_crop_level1_1, filename="classified_reg1_lev3.tif", format="GTiff",overwrite=TRUE)
+writeRaster(level1_reg1_prob_class1, filename="classified_prob_class1_reg1_lev2.tif", format="GTiff",overwrite=TRUE)
+writeRaster(level1_reg1_prob_class2, filename="classified_prob_class2_reg1_lev2.tif", format="GTiff",overwrite=TRUE)
+writeRaster(level1_reg1_prob_class3, filename="classified_prob_class3_reg1_lev2.tif", format="GTiff",overwrite=TRUE)
+
 writeRaster(predLC_crop_level1_2, filename="classified_reg2_lev3.tif", format="GTiff",overwrite=TRUE)
+writeRaster(level1_reg2_prob_class1, filename="classified_prob_class1_reg2_lev2.tif", format="GTiff",overwrite=TRUE)
+writeRaster(level1_reg2_prob_class2, filename="classified_prob_class2_reg2_lev2.tif", format="GTiff",overwrite=TRUE)
+writeRaster(level1_reg2_prob_class3, filename="classified_prob_class3_reg2_lev2.tif", format="GTiff",overwrite=TRUE)
+
 writeRaster(predLC_crop_level1_3, filename="classified_reg3_lev3.tif", format="GTiff",overwrite=TRUE)
+writeRaster(level1_reg3_prob_class1, filename="classified_prob_class1_reg3_lev2.tif", format="GTiff",overwrite=TRUE)
+writeRaster(level1_reg3_prob_class2, filename="classified_prob_class2_reg3_lev2.tif", format="GTiff",overwrite=TRUE)
+writeRaster(level1_reg3_prob_class3, filename="classified_prob_class3_reg3_lev2.tif", format="GTiff",overwrite=TRUE)
 
 # predict for whole study area
 predLC <- predict(lidarmetrics, model=modelRF_level1, na.rm=TRUE)
