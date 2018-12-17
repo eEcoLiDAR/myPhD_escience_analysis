@@ -21,13 +21,13 @@ library("mapdata")
 
 # Set global variables
 #full_path="D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/forClassification/"
-full_path="D:/Koma/Paper1/ALS/forClassification2/"
+full_path="D:/Koma/Paper1/ALS/forClassification4/"
 
-#polygon_file="recategorized_level2.shp"
-polygon_file="recategorized_level3.shp"
+polygon_file="recategorized_level2.shp"
+#polygon_file="recategorized_level3.shp"
 
-#level=26
-level=25
+level=26
+#level=25
 
 setwd(full_path)
 
@@ -40,8 +40,8 @@ classes=unique(polygon@data[,level])
 for (cat in classes) { 
   print(cat)
   sel_poly <- polygon[polygon@data[,level] == cat,]
-  sel_poly_invbuf=gBuffer(sel_poly, width=-5, byid=TRUE )
-  points_inpoly=spsample(sel_poly_invbuf, n = 50, "random")
+  #sel_poly_invbuf=gBuffer(sel_poly, width=-5, byid=TRUE )
+  points_inpoly=spsample(sel_poly, n = 75, "random")
   points_inpoly_df=as.data.frame(points_inpoly)
   points_inpoly_df$level=cat
   write.table(points_inpoly_df, file = paste(cat,"_selpolyper",names(polygon@data)[level],"v2.csv",sep="_"),row.names=FALSE,col.names=FALSE,sep=",")
