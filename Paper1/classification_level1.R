@@ -11,7 +11,7 @@ library(pROC)
 
 # Set global variables
 #setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/forClassification/") # working directory
-setwd("D:/Koma/Paper1/ALS/forClassification3/")
+setwd("D:/Koma/Paper1/ALS/forClassification/")
 
 level1="featuretable_level1_b2o5.csv"
 
@@ -43,17 +43,31 @@ testingSet<- featuretable_level1[-trainIndex,]
 modelFit <- randomForest(factor(layer)~.,data=trainingSet)
 prediction <- predict(modelFit,testingSet[ ,c(1:22)])
 
-confusionMatrix(factor(prediction), factor(testingSet$layer),mode = "everything")
+conf_m=confusionMatrix(factor(prediction), factor(testingSet$layer),mode = "everything")
+conf_m
+
+#Export accuracy report 
+tocsv_t <- data.frame(conf_m$table)
+write.csv(tocsv_t,file="conf_m_level1.csv")
+
+tocsv_oa <- data.frame(conf_m$overall)
+write.csv(tocsv_oa,file="acc_oa_level1.csv")
+
+tocsv_cl <- data.frame(conf_m$byClass)
+write.csv(tocsv_cl,file="acc_byclass_level1.csv")
+
+sink("acc_level1.txt")
+print(conf_m)
+sink()  # returns output to the console
 
 prediction_prob <- predict(modelFit,testingSet[ ,c(1:22)],type="prob")
 
-for (i in 1:3) {
+for (i in 1:2) {
   result.roc <- roc(testingSet$layer, prediction_prob[,i])
   plot(result.roc,print.thres="best", print.thres.best.method="closest.topleft")
-  title(paste(i))
+  title(paste("class:",i,"AUC",auc(result.roc)))
+  print(auc(result.roc))
 }
-
-
 
 # accuracy assessment
 first_seed <- 3
@@ -119,4 +133,4 @@ writeRaster(predLC_crop_level1_3, filename="classified_reg3_lev1.tif", format="G
 
 # predict for whole study area
 predLC <- predict(lidarmetrics, model=modelRF_level1, na.rm=TRUE)
-writeRaster(predLC, filename="classified_level1.tif", format="GTiff",overwrite=TRUE)
+writeRaster(predLC, filename="classified_level1_v2.tif", format="GTiff",overwrite=TRUE)
