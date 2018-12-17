@@ -46,10 +46,10 @@ plot(polygon_forlevel2_wbuildings)
 polygon_forlevel2_wbuildings@data$level2=NA
 
 polygon_forlevel2_wbuildings@data$level2[polygon_forlevel2_wbuildings@data$StructDef=='Bu']="Bu"
-polygon_forlevel2_wbuildings@data$level2[polygon_forlevel2_wbuildings@data$StructDef=='Rkd' | polygon_forlevel2_wbuildings@data$StructDef=='Rld'
-                    | polygon_forlevel2_wbuildings@data$StructDef=='Rwd']="R"
+polygon_forlevel2_wbuildings@data$level2[polygon_forlevel2_wbuildings@data$StructDef=='Rkd' | polygon_forlevel2_wbuildings@data$StructDef=='Rld']="R"
+polygon_forlevel2_wbuildings@data$level2[polygon_forlevel2_wbuildings@data$StructDef=='Rwd']="Rw"
 polygon_forlevel2_wbuildings@data$level2[polygon_forlevel2_wbuildings@data$StructDef=='Gh']="G"
-polygon_forlevel2_wbuildings@data$level2[polygon_forlevel2_wbuildings@data$StructDef=='Sld'| polygon_forlevel2_wbuildings@data$StructDef=='Smd' | polygon_forlevel2_wbuildings@data$StructDef=='Shd' | polygon_forlevel2_wbuildings@data$StructDef=='U'] = "S"
+polygon_forlevel2_wbuildings@data$level2[polygon_forlevel2_wbuildings@data$StructDef=='Sld'| polygon_forlevel2_wbuildings@data$StructDef=='Smd'| polygon_forlevel2_wbuildings@data$StructDef=='Shd'] = "S"
 polygon_forlevel2_wbuildings@data$level2[polygon_forlevel2_wbuildings@data$StructDef=='Bd']="B"
 
 sort(unique(polygon_forlevel2_wbuildings@data$level2))

@@ -62,7 +62,7 @@ sink()  # returns output to the console
 
 prediction_prob <- predict(modelFit,testingSet[ ,c(1:22)],type="prob")
 
-for (i in 1:5) {
+for (i in 1:6) {
   result.roc <- roc(testingSet$layer, prediction_prob[,i])
   plot(result.roc,print.thres="best", print.thres.best.method="closest.topleft")
   title(paste("class:",i,"AUC",auc(result.roc)))
@@ -124,12 +124,14 @@ level1_reg1_prob_class2=rasterFromXYZ(predLC_crop_level1_1_prob_df_merged[,c(1,2
 level1_reg1_prob_class3=rasterFromXYZ(predLC_crop_level1_1_prob_df_merged[,c(1,2,5)])
 level1_reg1_prob_class4=rasterFromXYZ(predLC_crop_level1_1_prob_df_merged[,c(1,2,6)])
 level1_reg1_prob_class5=rasterFromXYZ(predLC_crop_level1_1_prob_df_merged[,c(1,2,7)])
+level1_reg1_prob_class6=rasterFromXYZ(predLC_crop_level1_1_prob_df_merged[,c(1,2,8)])
 
 plot(level1_reg1_prob_class1)
 plot(level1_reg1_prob_class2)
 plot(level1_reg1_prob_class3)
 plot(level1_reg1_prob_class4)
 plot(level1_reg1_prob_class5)
+plot(level1_reg1_prob_class6)
 
 crop_lidarmetrics2_pt = rasterToPoints(crop_lidarmetrics2)
 crop_lidarmetrics2_df = data.frame(crop_lidarmetrics2_pt)
@@ -142,12 +144,14 @@ level1_reg2_prob_class2=rasterFromXYZ(predLC_crop_level1_2_prob_df_merged[,c(1,2
 level1_reg2_prob_class3=rasterFromXYZ(predLC_crop_level1_2_prob_df_merged[,c(1,2,5)])
 level1_reg2_prob_class4=rasterFromXYZ(predLC_crop_level1_2_prob_df_merged[,c(1,2,6)])
 level1_reg2_prob_class5=rasterFromXYZ(predLC_crop_level1_2_prob_df_merged[,c(1,2,7)])
+level1_reg2_prob_class6=rasterFromXYZ(predLC_crop_level1_2_prob_df_merged[,c(1,2,8)])
 
 plot(level1_reg2_prob_class1)
 plot(level1_reg2_prob_class2)
 plot(level1_reg2_prob_class3)
 plot(level1_reg2_prob_class4)
 plot(level1_reg2_prob_class5)
+plot(level1_reg2_prob_class6)
 
 crop_lidarmetrics3_pt = rasterToPoints(crop_lidarmetrics3)
 crop_lidarmetrics3_df = data.frame(crop_lidarmetrics3_pt)
@@ -160,12 +164,14 @@ level1_reg3_prob_class2=rasterFromXYZ(predLC_crop_level1_3_prob_df_merged[,c(1,2
 level1_reg3_prob_class3=rasterFromXYZ(predLC_crop_level1_3_prob_df_merged[,c(1,2,5)])
 level1_reg3_prob_class4=rasterFromXYZ(predLC_crop_level1_3_prob_df_merged[,c(1,2,6)])
 level1_reg3_prob_class5=rasterFromXYZ(predLC_crop_level1_3_prob_df_merged[,c(1,2,7)])
+level1_reg3_prob_class6=rasterFromXYZ(predLC_crop_level1_3_prob_df_merged[,c(1,2,8)])
 
 plot(level1_reg3_prob_class1)
 plot(level1_reg3_prob_class2)
 plot(level1_reg3_prob_class3)
 plot(level1_reg3_prob_class4)
 plot(level1_reg3_prob_class5)
+plot(level1_reg3_prob_class6)
 
 dev.off()
 
@@ -175,6 +181,7 @@ writeRaster(level1_reg1_prob_class2, filename="classified_prob_class2_reg1_lev2.
 writeRaster(level1_reg1_prob_class3, filename="classified_prob_class3_reg1_lev2.tif", format="GTiff",overwrite=TRUE)
 writeRaster(level1_reg1_prob_class4, filename="classified_prob_class4_reg1_lev2.tif", format="GTiff",overwrite=TRUE)
 writeRaster(level1_reg1_prob_class5, filename="classified_prob_class5_reg1_lev2.tif", format="GTiff",overwrite=TRUE)
+writeRaster(level1_reg1_prob_class6, filename="classified_prob_class6_reg1_lev2.tif", format="GTiff",overwrite=TRUE)
 
 writeRaster(predLC_crop_level1_2, filename="classified_reg2_lev2.tif", format="GTiff",overwrite=TRUE)
 writeRaster(level1_reg2_prob_class1, filename="classified_prob_class1_reg2_lev2.tif", format="GTiff",overwrite=TRUE)
@@ -182,6 +189,7 @@ writeRaster(level1_reg2_prob_class2, filename="classified_prob_class2_reg2_lev2.
 writeRaster(level1_reg2_prob_class3, filename="classified_prob_class3_reg2_lev2.tif", format="GTiff",overwrite=TRUE)
 writeRaster(level1_reg2_prob_class4, filename="classified_prob_class4_reg2_lev2.tif", format="GTiff",overwrite=TRUE)
 writeRaster(level1_reg2_prob_class5, filename="classified_prob_class5_reg2_lev2.tif", format="GTiff",overwrite=TRUE)
+writeRaster(level1_reg1_prob_class6, filename="classified_prob_class6_reg2_lev2.tif", format="GTiff",overwrite=TRUE)
 
 writeRaster(predLC_crop_level1_3, filename="classified_reg3_lev2.tif", format="GTiff",overwrite=TRUE)
 writeRaster(level1_reg3_prob_class1, filename="classified_prob_class1_reg3_lev2.tif", format="GTiff",overwrite=TRUE)
@@ -189,6 +197,7 @@ writeRaster(level1_reg3_prob_class2, filename="classified_prob_class2_reg3_lev2.
 writeRaster(level1_reg3_prob_class3, filename="classified_prob_class3_reg3_lev2.tif", format="GTiff",overwrite=TRUE)
 writeRaster(level1_reg3_prob_class4, filename="classified_prob_class4_reg3_lev2.tif", format="GTiff",overwrite=TRUE)
 writeRaster(level1_reg3_prob_class5, filename="classified_prob_class5_reg3_lev2.tif", format="GTiff",overwrite=TRUE)
+writeRaster(level1_reg1_prob_class6, filename="classified_prob_class6_reg3_lev2.tif", format="GTiff",overwrite=TRUE)
 
 # predict for whole study area
 predLC <- predict(lidarmetrics, model=modelRF_level1, na.rm=TRUE)

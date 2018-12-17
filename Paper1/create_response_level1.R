@@ -21,7 +21,7 @@ setwd("D:/Koma/Paper1/ALS/forClassification/")
 
 level1="featuretable_level1_b2o5.csv"
 
-pdf("response_plots_level1.pdf") 
+pdf("response_plots_level1.pdf")
 
 # Import
 
@@ -60,7 +60,7 @@ varImpPlot(rf.mod)
 plotmo(rf.mod, type="prob", nresponse="yes",all1=TRUE,all2 = FALSE)
 
 #Explain forest
-forest <- randomForest(x=featuretable_l1[ ,c(1:22)], y=featuretable_l1$O,importance = TRUE)
+forest <- randomForest(x=featuretable_l1[ ,c(1:22)], y=factor(featuretable_l1$layer),importance = TRUE)
 
 #errors
 plot(forest, main = "Learning curve of the RF")
@@ -78,6 +78,6 @@ varImpPlot(forest)
 # Multi way importance plot
 plot_multi_way_importance(importance_frame, size_measure = "no_of_nodes", min_no_of_trees = 30)
 
-plot_multi_way_importance(importance_frame, x_measure = "accuracy_decrease", y_measure = "gini_decrease", size_measure = "p_value")
+plot_multi_way_importance(importance_frame, x_measure = "accuracy_decrease", y_measure = "gini_decrease")
 
 dev.off()
