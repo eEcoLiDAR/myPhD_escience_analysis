@@ -22,12 +22,16 @@ library('lattice')
 
 # Set global variables
 #full_path="D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/forClassification/"
-full_path="D:/Koma/Paper1/ALS/forClassification2/"
-filename="featuretable_level3_b2o5.csv"
+#full_path="D:/Koma/Paper1/ALS/forClassification2/"
+full_path="D:/Koma/Paper1_ReedStructure/preliminarly/Result_run1/"
+
+filename="featuretable_level1_b2o5.csv"
+#filename="featuretable_level2_b2o5.csv"
+#filename="featuretable_level3_b2o5.csv"
 
 setwd(full_path)
 
-pdf("boxplot_level3.pdf") 
+pdf("boxplot_level1.pdf") 
 
 # Import
 featuretable=read.csv(filename)
