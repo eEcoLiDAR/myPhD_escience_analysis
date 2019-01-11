@@ -6,7 +6,7 @@ library("lidR")
 
 # Set working dirctory
 #workingdirectory="C:/Koma/Paper1/ALS/"
-workingdirectory="D:/Koma/Paper1/ALS/test/"
+workingdirectory="D:/Koma/Paper1/ALS/01_test/"
 setwd(workingdirectory)
 
 # Set filenames
@@ -25,10 +25,25 @@ unzip(paste("u",req_tile,".laz.zip",sep=""))
 # Create catalog
 ctg <- catalog(workingdirectory)
 
-opt_chunk_size(ctg) <- 1000
-opt_cores(ctg) <- 2
-#plot(ctg, chunk = TRUE)
+opt_chunk_buffer(ctg) <- 0
+opt_chunk_size(ctg) <- 500
+opt_cores(ctg) <- 18
+opt_output_files(ctg) <- "D:/Koma/Paper1/ALS/01_test/tiled/{XLEFT}_{YBOTTOM}"
 
-opt_output_files(ctg) <- "D:/Koma/Paper1/ALS/test/ground/{XLEFT}_{YBOTTOM}_ground"
+# Retile catalog
+newctg = catalog_retile(ctg)
 
-ground_output <- lasground(ctg, pmf(3,1.5))
+opt_chunk_buffer(newctg) <- 5
+opt_cores(newctg) <- 18
+opt_output_files(newctg) <- "D:/Koma/Paper1/ALS/01_test/tiled/ground/{XLEFT}_{YBOTTOM}_ground"
+
+# Extract ground points
+ground_output <- lasground(newctg, csf(sloop_smooth = TRUE))
+
+# Create DTM
+opt_output_files(ground_output) <- "D:/Koma/Paper1/ALS/01_test/tiled/{XLEFT}_{YBOTTOM}_ground_dtm"
+
+dtm_output = grid_metrics(ground_output,mean(Z),res=1.25)
+
+
+
