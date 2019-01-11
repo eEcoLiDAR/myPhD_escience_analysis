@@ -19,8 +19,8 @@ HeightMetrics = function(z)
 }
 
 # Set working dirctory
-workingdirectory="C:/Koma/Paper1/ALS/"
-#workingdirectory="D:/Koma/Paper1/ALS/01_test/"
+#workingdirectory="C:/Koma/Paper1/ALS/"
+workingdirectory="D:/Koma/Paper1/ALS/test/"
 
 setwd(workingdirectory)
 
