@@ -3,6 +3,7 @@
 Aim: Pre-process AHN2 data
 "
 library("lidR")
+library("rgdal")
 
 # Set working dirctory
 #workingdirectory="C:/Koma/Paper1/ALS/"
@@ -10,7 +11,7 @@ workingdirectory="D:/Koma/Paper1/ALS/01_test/"
 setwd(workingdirectory)
 
 # Set filenames and dwnload and unzip the required dataset
-req_tile=list("02gz2","02hz1")
+req_tile=list("02gz2","02hz1","06en2","06fn1")
 
 for (tile in req_tile){
   download.file(paste("http://geodata.nationaalgeoregister.nl/ahn2/extract/ahn2_","gefilterd/g",tile,".laz.zip",sep=""),
