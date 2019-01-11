@@ -5,7 +5,8 @@ Aim: Pre-process AHN2 data
 library("lidR")
 
 # Set working dirctory
-workingdirectory="C:/Koma/Paper1/ALS/"
+#workingdirectory="C:/Koma/Paper1/ALS/"
+workingdirectory="D:/Koma/Paper1/ALS/test/"
 setwd(workingdirectory)
 
 # Set filenames
@@ -24,13 +25,10 @@ unzip(paste("u",req_tile,".laz.zip",sep=""))
 # Create catalog
 ctg <- catalog(workingdirectory)
 
-opt_chunk_size(ctg) <- 500
-opt_cores(ctg) <- 3
+opt_chunk_size(ctg) <- 1000
+opt_cores(ctg) <- 2
 #plot(ctg, chunk = TRUE)
 
-opt_output_files(ctg) <- "C:/Koma/Paper1/ALS/{XLEFT}_{YBOTTOM}_ground"
+opt_output_files(ctg) <- "D:/Koma/Paper1/ALS/test/ground/{XLEFT}_{YBOTTOM}_ground"
 
-output <- lasground(ctg, pmf(3,1.5))
-
-#hmean <- grid_metrics(ctg, mean(Z), 100)
-#plot(hmean)
+ground_output <- lasground(ctg, pmf(3,1.5))
