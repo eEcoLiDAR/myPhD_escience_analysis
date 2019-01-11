@@ -35,15 +35,16 @@ newctg = catalog_retile(ctg)
 
 opt_chunk_buffer(newctg) <- 5
 opt_cores(newctg) <- 18
-opt_output_files(newctg) <- "D:/Koma/Paper1/ALS/01_test/tiled/ground/{XLEFT}_{YBOTTOM}_ground"
+opt_output_files(newctg) <- "D:/Koma/Paper1/ALS/01_test/tiled/{XLEFT}_{YBOTTOM}_ground"
 
 # Extract ground points
 ground_output <- lasground(newctg, csf(sloop_smooth = TRUE))
 
 # Create DTM
-opt_output_files(ground_output) <- "D:/Koma/Paper1/ALS/01_test/tiled/{XLEFT}_{YBOTTOM}_ground_dtm"
+opt_output_files(ground_output) <- "D:/Koma/Paper1/ALS/01_test/tiled/{XLEFT}_{YBOTTOM}_ground_dtm2"
+ground_output@input_options$filter <- "-keep_class 2"
 
-dtm_output = grid_metrics(ground_output,mean(Z),res=1.25)
+dtm_output = grid_metrics(ground_output,min(Z),res=1.25)
 
 # Hillshade
 setwd(paste(workingdirectory,"tiled/",sep=""))
@@ -70,4 +71,30 @@ dtm_shd <- hillShade(slope, aspect, 40, 270)
 plot(dtm_shd, col=grey(0:100/100))
 
 writeRaster(dtm_shd, "dtm_shd.tif",overwrite=TRUE)
+
+# Normalize
+opt_output_files(ground_output) <- "D:/Koma/Paper1/ALS/01_test/tiled/{XLEFT}_{YBOTTOM}_ground_normalized"
+ground_output@input_options$filter <- ""
+
+normalized_ctg <- lasnormalize(ground_output, dtm)
+
+# Canopy Modell
+opt_output_files(normalized_ctg) <- "D:/Koma/Paper1/ALS/01_test/tiled/{XLEFT}_{YBOTTOM}_ground_chm"
+grid_canopy(normalized_ctg, res = 1.25, p2r())
+
+chmfiles <- list.files(pattern = "_ground_chm.tif")
+
+alltiff <- lapply(chmfiles,function(i){
+  stack(i)
+})
+
+alltiff$fun <- mean
+alltiff$na.rm <- TRUE
+chm <- do.call(mosaic, alltiff)
+
+plot(chm)
+
+crs(chm) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
+
+writeRaster(chm, "chm.tif",overwrite=TRUE)
 
