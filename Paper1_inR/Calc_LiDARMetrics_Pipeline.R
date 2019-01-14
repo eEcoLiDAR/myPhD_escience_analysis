@@ -17,24 +17,26 @@ ctg <- catalog(workingdirectory)
 opt_chunk_buffer(ctg) <- 0
 opt_cores(ctg) <- 3
 
-# Calculate metrics into separate files per feature groups and classes
+# Calculate metrics into separate files per feature groups and classes -- point cloud based
 
-coveragemetrics = grid_metrics(ctg, CoverageMetrics(Z,Classification),res=10)
+coveragemetrics = grid_metrics(ctg, CoverageMetrics(Z,Classification),res=2.5)
 plot(coveragemetrics)
 
 writeRaster(coveragemetrics,"coveragemetrics.grd",overwrite=TRUE)
 
-#shapemetrics = grid_metrics(ctg, ShapeMetrics(X,Y,Z),res=10)
-#plot(shapemetrics)
+shapemetrics = grid_metrics(ctg, ShapeMetrics(X,Y,Z),res=2.5) #the values are strangely equal - something wrong
+plot(shapemetrics)
 
-#writeRaster(shapemetrics,"shapemetrics.grd",overwrite=TRUE)
+summary(shapemetrics@data@values)
 
-vertdistr_metrics = grid_metrics(ctg, VegStr_VertDistr_Metrics(Z),res=10)
+writeRaster(shapemetrics,"shapemetrics.grd",overwrite=TRUE)
+
+vertdistr_metrics = grid_metrics(ctg, VegStr_VertDistr_Metrics(Z),res=2.5)
 plot(vertdistr_metrics)
 
-heightmetrics = grid_metrics(ctg, HeightMetrics(Z),res=10)
+writeRaster(vertdistr_metricss,"vertdistr_metrics.grd",overwrite=TRUE)
+
+heightmetrics = grid_metrics(ctg, HeightMetrics(Z),res=2.5)
 plot(heightmetrics)
 
 writeRaster(heightmetrics,"heightmetrics.grd",overwrite=TRUE)
-
-# Merge and reorganize features into one file
