@@ -6,8 +6,8 @@ library("lidR")
 library("rgdal")
 
 # Set working dirctory
-#workingdirectory="C:/Koma/Paper1/ALS/"
-workingdirectory="D:/Koma/Paper1/ALS/01_test/"
+workingdirectory="C:/Koma/Paper1/ALS/"
+#workingdirectory="D:/Koma/Paper1/ALS/01_test/"
 setwd(workingdirectory)
 
 # Set filenames and dwnload and unzip the required dataset
@@ -42,28 +42,15 @@ opt_output_files(newctg) <- "D:/Koma/Paper1/ALS/01_test/tiled/{XLEFT}_{YBOTTOM}_
 ground_output <- lasground(newctg, csf(sloop_smooth = TRUE))
 
 # Create DTM
-opt_output_files(ground_output) <- "D:/Koma/Paper1/ALS/01_test/tiled/{XLEFT}_{YBOTTOM}_ground_dtm"
 ground_output@input_options$filter <- "-keep_class 2"
 
-dtm_output = grid_metrics(ground_output,min(Z),res=1.25) #somehow an windows error message occur related to usage gdal -- should accept and restart the program from here
-
-# Hillshade
-setwd(paste(workingdirectory,"tiled/",sep=""))
-dtmfiles <- list.files(pattern = "_ground_dtm.tif")
-
-alltiff <- lapply(dtmfiles,function(i){
-  stack(i)
-})
-
-alltiff$fun <- mean
-alltiff$na.rm <- TRUE
-dtm <- do.call(mosaic, alltiff)
+dtm = grid_metrics(ground_output,min(Z),res=1.25)
+crs(dtm) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
+writeRaster(dtm, "dtm.tif",overwrite=TRUE)
 
 plot(dtm)
 
-crs(dtm) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
-
-writeRaster(dtm, "dtm.tif",overwrite=TRUE)
+# Hillshade
 
 slope <- terrain(dtm, opt='slope')
 aspect <- terrain(dtm, opt='aspect')
@@ -72,4 +59,6 @@ dtm_shd <- hillShade(slope, aspect, 40, 270)
 plot(dtm_shd, col=grey(0:100/100))
 
 writeRaster(dtm_shd, "dtm_shd.tif",overwrite=TRUE)
+
+# Create CHM
 
