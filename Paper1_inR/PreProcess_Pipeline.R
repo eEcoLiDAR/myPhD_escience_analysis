@@ -47,7 +47,10 @@ ground_ctg <- lasground(newctg, csf(sloop_smooth = TRUE))
 setwd(paste(workingdirectory,"ground/",sep=""))
 
 ground_ctg <- catalog(paste(workingdirectory,"ground/",sep=""))
+
 ground_ctg@input_options$filter <- "-keep_class 2"
+opt_chunk_buffer(ground_ctg) <- 0
+opt_cores(ground_ctg) <- 18
 
 dtm = grid_metrics(ground_ctg,min(Z),res=2.5)
 crs(dtm) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
