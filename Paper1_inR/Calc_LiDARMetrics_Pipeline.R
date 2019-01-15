@@ -23,7 +23,7 @@ pdf("lidarmetrics.pdf")
 # Set up catalog
 ctg <- catalog(workingdirectory)
 
-opt_chunk_buffer(ctg) <- 0
+opt_chunk_buffer(ctg) <- 5
 opt_cores(ctg) <- 18
 
 # Calculate metrics into separate files per feature groups and classes -- point cloud based
@@ -67,9 +67,10 @@ dsm=raster(dsm_file)
 rough_dsm=terrain(dsm,opt="roughness",neighbors=4)
 tpi_dsm=terrain(dsm,opt="TPI",neighbors=4)
 tri_dsm=terrain(dsm,opt="TRI",neighbors=4)
-sd_dsm=focal(dsm, w=matrix(1,3,3), fun=sd)
+
+sd_dsm=focal_hpc(dsm, w=matrix(1,3,3), fun=sd)
 names(sd_dsm) <- "sd_dsm"
-var_dsm=focal(dsm, w=matrix(1,3,3), fun=var)
+var_dsm=focal_hpc(dsm, w=matrix(1,3,3), fun=var)
 names(var_dsm) <- "var_dsm"
 
 dsm_metrics=stack(rough_dsm,tpi_dsm,tri_dsm,sd_dsm,var_dsm) 

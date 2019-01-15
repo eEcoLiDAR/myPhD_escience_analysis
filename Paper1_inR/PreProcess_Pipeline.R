@@ -27,16 +27,16 @@ for (tile in req_tile){
 ctg <- catalog(workingdirectory)
 
 opt_chunk_buffer(ctg) <- 0
-opt_chunk_size(ctg) <- 500
+opt_chunk_size(ctg) <- 1000
 opt_cores(ctg) <- 18
-opt_output_files(ctg) <- "D:/Koma/Paper1/ALS/01_test/tiled/{XLEFT}_{YBOTTOM}"
+opt_output_files(ctg) <- paste(workingdirectory,"tiled/{XLEFT}_{YBOTTOM}",sep="")
 
 # Retile catalog
 newctg = catalog_retile(ctg)
 
 opt_chunk_buffer(newctg) <- 5
 opt_cores(newctg) <- 18
-opt_output_files(newctg) <- "D:/Koma/Paper1/ALS/01_test/ground/{XLEFT}_{YBOTTOM}_ground"
+opt_output_files(newctg) <- paste(workingdirectory,"ground/{XLEFT}_{YBOTTOM}_ground",sep="")
 
 # Extract ground points
 ground_ctg <- lasground(newctg, csf(sloop_smooth = TRUE))
@@ -49,7 +49,7 @@ pdf("pre_process.pdf")
 ground_ctg <- catalog(paste(workingdirectory,"ground/",sep=""))
 
 ground_ctg@input_options$filter <- "-keep_class 2"
-opt_chunk_buffer(ground_ctg) <- 0
+opt_chunk_buffer(ground_ctg) <- 5
 opt_cores(ground_ctg) <- 18
 
 dtm = grid_metrics(ground_ctg,min(Z),res=2.5)

@@ -14,19 +14,19 @@ CoverageMetrics = function(z,classification)
 
 ShapeMetrics = function(X,Y,Z)
 {
-  xyz=rbind(X,Y,Z)
-  xyz=as.matrix(xyz)
-  eigen_m=rev(prcomp(xyz)[[1]])
+  xyz=rbind(X,Y,Z) 
+  cov_m=cov(xyz)
+  eigen_m=eigen(cov_m)
   
   shapemetrics = list(
-    eigen_largest = eigen_m[3],
-    eigen_medium = eigen_m[2],
-    eigen_smallest = eigen_m[1],
-    curvature = eigen_m[1]/(eigen_m[3]+eigen_m[2]+eigen_m[1]),
-    linearity = (eigen_m[3]-eigen_m[2])/eigen_m[3],
-    planarity = (eigen_m[2]-eigen_m[1])/eigen_m[3],
-    sphericity = eigen_m[1]/eigen_m[3],
-    anisotrophy = (eigen_m[3]-eigen_m[1])/eigen_m[3]
+    eigen_largest = eigen_m$values[1],
+    eigen_medium = eigen_m$values[2],
+    eigen_smallest = eigen_m$values[3],
+    curvature = eigen_m$values[3]/(eigen_m$values[1]+eigen_m$values[2]+eigen_m$values[3]),
+    linearity = (eigen_m$values[1]-eigen_m$values[2])/eigen_m$values[1],
+    planarity = (eigen_m$values[2]-eigen_m$values[3])/eigen_m$values[1],
+    sphericity = eigen_m$values[3]/eigen_m$values[1],
+    anisotrophy = (eigen_m$values[1]-eigen_m$values[3])/eigen_m$values[1]
   )
   return(shapemetrics)
 }
