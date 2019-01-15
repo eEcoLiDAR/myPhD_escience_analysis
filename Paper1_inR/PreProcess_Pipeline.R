@@ -6,8 +6,8 @@ library("lidR")
 library("rgdal")
 
 # Set working dirctory
-workingdirectory="C:/Koma/Paper1/ALS/"
-#workingdirectory="D:/Koma/Paper1/ALS/01_test/"
+#workingdirectory="C:/Koma/Paper1/ALS/"
+workingdirectory="D:/Koma/Paper1/ALS/01_test/"
 setwd(workingdirectory)
 
 # Set filenames and dwnload and unzip the required dataset
@@ -39,12 +39,12 @@ opt_cores(newctg) <- 18
 opt_output_files(newctg) <- "D:/Koma/Paper1/ALS/01_test/tiled/{XLEFT}_{YBOTTOM}_ground"
 
 # Extract ground points
-ground_output <- lasground(newctg, csf(sloop_smooth = TRUE))
+ground_ctg <- lasground(newctg, csf(sloop_smooth = TRUE))
 
 # Create DTM
-ground_output@input_options$filter <- "-keep_class 2"
+ground_ctg@input_options$filter <- "-keep_class 2"
 
-dtm = grid_metrics(ground_output,min(Z),res=1.25)
+dtm = grid_metrics(ground_ctg,min(Z),res=1.25)
 crs(dtm) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
 writeRaster(dtm, "dtm.tif",overwrite=TRUE)
 
@@ -60,5 +60,21 @@ plot(dtm_shd, col=grey(0:100/100))
 
 writeRaster(dtm_shd, "dtm_shd.tif",overwrite=TRUE)
 
-# Create CHM
+# Create DSM
+ground_ctg@input_options$filter <- ""
 
+dsm = grid_metrics(ground_ctg,max(Z),res=1.25)
+crs(dsm) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
+writeRaster(dsm, "dsm.tif",overwrite=TRUE)
+
+plot(dsm)
+
+# Hillshade
+
+slope <- terrain(dsm, opt='slope')
+aspect <- terrain(dsm, opt='aspect')
+dsm_shd <- hillShade(slope, aspect, 40, 270)
+
+plot(dsm_shd, col=grey(0:100/100))
+
+writeRaster(dsm_shd, "dsm_shd.tif",overwrite=TRUE)
