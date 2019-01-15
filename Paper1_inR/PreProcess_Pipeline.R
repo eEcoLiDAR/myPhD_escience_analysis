@@ -10,8 +10,6 @@ library("rgdal")
 workingdirectory="D:/Koma/Paper1/ALS/01_test/"
 setwd(workingdirectory)
 
-pdf("pre_process.pdf")
-
 # Set filenames and dwnload and unzip the required dataset
 req_tile=list("02gz2","02hz1","06en2","06fn1")
 
@@ -45,6 +43,8 @@ ground_ctg <- lasground(newctg, csf(sloop_smooth = TRUE))
 
 # Create DTM
 setwd(paste(workingdirectory,"ground/",sep=""))
+
+pdf("pre_process.pdf")
 
 ground_ctg <- catalog(paste(workingdirectory,"ground/",sep=""))
 
