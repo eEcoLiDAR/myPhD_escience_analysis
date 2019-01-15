@@ -39,7 +39,8 @@ VegStr_VertDistr_Metrics = function(z)
     zvar = var(z),
     zskew = skewness(z),
     zkurto = kurtosis(z),
-    zentropy=VCI(z,by=1,zmax=max(z))
+    zentropy1=VCI(z,by=0.5,zmax=NULL),
+    zentropy2=entropy(z+500, by = 0.5,zmax=NULL)
   )
   return(vertdistr_metrics)
 }
