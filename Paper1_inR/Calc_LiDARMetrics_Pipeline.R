@@ -4,24 +4,27 @@ Aim: Calculate LiDAR metrics
 "
 library("lidR")
 #source("C:/Koma/Github/komazsofi/myPhD_escience_analysis/Paper1_inR/FeaCalc_functions.R")
-source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR/FeaCalc_functions.R")
+#source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR/FeaCalc_functions.R")
+source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR/FeaCalc_functions.R")
 
 # Set working dirctory
 #workingdirectory="C:/Koma/Paper1/ALS/"
-workingdirectory="D:/Koma/Paper1/ALS/01_test/"
+workingdirectory="D:/Koma/Paper1/ALS/01_test/ground/"
 
 setwd(workingdirectory)
 
 dtm_file="dtm.tif"
 dsm_file="dsm.tif"
 
-resolution=1.25
+resolution=2.5
+
+pdf("lidarmetrics.pdf")
 
 # Set up catalog
 ctg <- catalog(workingdirectory)
 
 opt_chunk_buffer(ctg) <- 0
-opt_cores(ctg) <- 2
+opt_cores(ctg) <- 18
 
 # Calculate metrics into separate files per feature groups and classes -- point cloud based
 
@@ -90,3 +93,5 @@ lidar_metrics=stack(coveragemetrics,shapemetrics,vertdistr_metrics,dsm_metrics,h
 crs(lidar_metrics) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
 
 writeRaster(lidar_metrics, "lidar_metrics.grd", overwrite=TRUE)
+
+dev.off()
