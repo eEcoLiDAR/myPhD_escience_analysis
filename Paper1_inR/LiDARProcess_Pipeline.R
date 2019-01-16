@@ -8,7 +8,7 @@ source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR/FeaCalc_functions.R")
 
 # Set working dirctory
 #workingdirectory="C:/Koma/Paper1/ALS/"
-workingdirectory="D:/Koma/Paper1/ALS/02hz1/"
+workingdirectory="D:/Koma/Paper1/ALS/06fn1/"
 setwd(workingdirectory)
 
 resolution=2.5
