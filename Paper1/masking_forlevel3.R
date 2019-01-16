@@ -9,7 +9,8 @@ library(rgdal)
 
 # Set global variables
 #setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/forClassification/") # working directory
-setwd("D:/Koma/Paper1/ALS/forClassification5/")
+#setwd("D:/Koma/Paper1/ALS/forClassification5/")
+setwd("D:/Koma/Paper1/ALS/forClassification_v2_run1/")
 
 mask_file="classified_level2.tif"
 lidar_file="lidarmetrics_forlevel2.grd"
@@ -27,7 +28,7 @@ formask[level1_mask==4 | level1_mask==5] <- 1
 plot(formask, col="dark green", legend = FALSE)
 
 lidarmetrics_masked <- mask(lidarmetrics,formask)
-#plot(lidarmetrics_masked)
+plot(lidarmetrics_masked)
 writeRaster(lidarmetrics_masked, filename="lidarmetrics_forlevel3.grd",overwrite=TRUE)
 
 # Mask polygon and add level2 classes

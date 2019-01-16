@@ -17,7 +17,8 @@ library(randomForestExplainer)
 
 # Set global variables
 #setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/forClassification/") # working directory
-setwd("D:/Koma/Paper1/ALS/forClassification5/")
+#setwd("D:/Koma/Paper1/ALS/forClassification5/")
+setwd("D:/Koma/Paper1/ALS/forClassification_v2_run1/")
 
 level1="featuretable_level3_b2o5.csv"
 
@@ -30,13 +31,13 @@ featuretable_l1=read.csv(level1)
 # RFE
 
 control <- rfeControl(functions=rfFuncs, method="cv", number=50)
-rfe <- rfe(featuretable_l1[,1:22], factor(featuretable_l1$layer), rfeControl=control)
+rfe <- rfe(featuretable_l1[,1:28], factor(featuretable_l1$layer), rfeControl=control)
 print(rfe, top=10)
 plot(rfe, type=c("g", "o"), cex = 1.0,metric="Accuracy")
 predictors(rfe)
 
 # plot tree
-tree=rpart(layer~.,data = featuretable_l1[c(1:23)], method = "class")
+tree=rpart(layer~.,data = featuretable_l1[c(1:29)], method = "class")
 rpart.plot(tree,type=4,cex=0.45)
 rpart.rules(tree, cover = TRUE)
 
@@ -48,28 +49,28 @@ featuretable_l1$Rw <- factor(ifelse(featuretable_l1$layer==3,"yes","no"))
 
 
 #Rk
-rf.mod <- randomForest(x=featuretable_l1[ ,c(1:22)], y=featuretable_l1$Rk,importance = TRUE)
+rf.mod <- randomForest(x=featuretable_l1[ ,c(1:28)], y=featuretable_l1$Rk,importance = TRUE)
 class(rf.mod)
 varImpPlot(rf.mod)
 
 plotmo(rf.mod, type="prob", nresponse="yes",all1=TRUE,all2 = FALSE)
 
 #Rl
-rf.mod <- randomForest(x=featuretable_l1[ ,c(1:22)], y=featuretable_l1$Rl,importance = TRUE)
+rf.mod <- randomForest(x=featuretable_l1[ ,c(1:28)], y=featuretable_l1$Rl,importance = TRUE)
 class(rf.mod)
 varImpPlot(rf.mod)
 
 plotmo(rf.mod, type="prob", nresponse="yes",all1=TRUE,all2 = FALSE)
 
 #Rw
-rf.mod <- randomForest(x=featuretable_l1[ ,c(1:22)], y=featuretable_l1$Rw,importance = TRUE)
+rf.mod <- randomForest(x=featuretable_l1[ ,c(1:28)], y=featuretable_l1$Rw,importance = TRUE)
 class(rf.mod)
 varImpPlot(rf.mod)
 
 plotmo(rf.mod, type="prob", nresponse="yes",all1=TRUE,all2 = FALSE)
 
 #Explain forest
-forest <- randomForest(x=featuretable_l1[ ,c(1:22)], y=factor(featuretable_l1$layer),importance = TRUE)
+forest <- randomForest(x=featuretable_l1[ ,c(1:28)], y=factor(featuretable_l1$layer),importance = TRUE)
 
 #errors
 plot(forest, main = "Learning curve of the RF")
@@ -81,7 +82,7 @@ plot_min_depth_distribution(min_depth_frame)
 
 # Importance
 importance_frame <- measure_importance(forest)
-head(importance_frame, n = 22)
+head(importance_frame, n = 28)
 varImpPlot(forest)
 
 # Multi way importance plot

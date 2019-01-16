@@ -9,7 +9,8 @@ library(rgdal)
 
 # Set global variables
 #setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/forClassification/") # working directory
-setwd("D:/Koma/Paper1/ALS/forClassification4/")
+#setwd("D:/Koma/Paper1/ALS/forClassification4/")
+setwd("D:/Koma/Paper1/ALS/forClassification_v2_run1/")
 
 mask_file="classified_level1_v2.tif"
 lidar_file="lidarmetrics_forClassification.grd"
@@ -25,7 +26,7 @@ buildings=readOGR(dsn=building_file)
 
 # Mask LiDAR
 formask <- setValues(raster(level1_mask), NA)
-formask[level1_mask==2] <- 1
+formask[level1_mask==1 | level1_mask==3] <- 1
 plot(formask, col="dark green", legend = FALSE)
 
 lidarmetrics_masked <- mask(lidarmetrics,formask)
