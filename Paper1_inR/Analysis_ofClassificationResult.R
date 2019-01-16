@@ -31,8 +31,7 @@ grid.arrange(
   p1,
   p2,
   p3,
-  nrow = 1,
-  top = "Title of the page"
+  nrow = 1
 )
 
 # Fig.6. Response curves related to the most important feature sper classes 
