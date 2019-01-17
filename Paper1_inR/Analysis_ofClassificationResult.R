@@ -128,13 +128,13 @@ rfe_l2 <- rfe(featuretable_l2[,1:28], factor(featuretable_l2$layer), rfeControl=
 control <- rfeControl(functions=rfFuncs, method="cv", number=50)
 rfe_l3 <- rfe(featuretable_l3[,1:28], factor(featuretable_l3$layer), rfeControl=control)
 
-rfe_l1_df=data.frame(rfe_l1$results$Variables, rfe_l1$results$Accuracy)
-rfe_l2_df=data.frame(rfe_l2$results$Variables, rfe_l2$results$Accuracy)
-rfe_l3_df=data.frame(rfe_l3$results$Variables, rfe_l3$results$Accuracy)
+rfe_l1_df=data.frame(rfe_l1$results$Variables, rfe_l1$results$Accuracy, rfe_l1$results$AccuracySD)
+rfe_l2_df=data.frame(rfe_l2$results$Variables, rfe_l2$results$Accuracy, rfe_l2$results$AccuracySD)
+rfe_l3_df=data.frame(rfe_l3$results$Variables, rfe_l3$results$Accuracy, rfe_l3$results$AccuracySD)
 
-p7=ggplot(rfe_l1_df,aes(x=rfe_l1$results$Variables,y=rfe_l1$results$Accuracy))+geom_point(color="blue",size=2) + geom_line(color="blue",size=1)+ xlab("LiDAR metrics") + ylab("Accuracy")
-p8=ggplot(rfe_l2_df,aes(x=rfe_l2$results$Variables,y=rfe_l2$results$Accuracy))+geom_point(color="blue",size=2) + geom_line(color="blue",size=1)+ xlab("LiDAR metrics") + ylab("Accuracy")
-p9=ggplot(rfe_l3_df,aes(x=rfe_l3$results$Variables,y=rfe_l3$results$Accuracy))+geom_point(color="blue",size=2) + geom_line(color="blue",size=1)+ xlab("LiDAR metrics") + ylab("Accuracy")
+p7=ggplot(rfe_l1_df,aes(x=rfe_l1$results$Variables,y=rfe_l1$results$Accuracy))+geom_point(color="blue",size=2) + geom_line(color="blue",size=1)+ geom_ribbon(aes(ymin=rfe_l1$results$Accuracy-rfe_l1$results$AccuracySD, ymax=rfe_l1$results$Accuracy+rfe_l1$results$AccuracySD), linetype=2, alpha=0.1) + xlab("LiDAR metrics") + ylab("Accuracy") + ylim(0, 1) + ggtitle("Level 1")
+p8=ggplot(rfe_l2_df,aes(x=rfe_l2$results$Variables,y=rfe_l2$results$Accuracy))+geom_point(color="blue",size=2) + geom_line(color="blue",size=1)+ geom_ribbon(aes(ymin=rfe_l2$results$Accuracy-rfe_l2$results$AccuracySD, ymax=rfe_l2$results$Accuracy+rfe_l2$results$AccuracySD), linetype=2, alpha=0.1) + xlab("LiDAR metrics") + ylab("Accuracy") + ylim(0, 1) + ggtitle("Level 2")
+p9=ggplot(rfe_l3_df,aes(x=rfe_l3$results$Variables,y=rfe_l3$results$Accuracy))+geom_point(color="blue",size=2) + geom_line(color="blue",size=1)+ geom_ribbon(aes(ymin=rfe_l3$results$Accuracy-rfe_l3$results$AccuracySD, ymax=rfe_l3$results$Accuracy+rfe_l3$results$AccuracySD), linetype=2, alpha=0.1) + xlab("LiDAR metrics") + ylab("Accuracy") + ylim(0, 1) + ggtitle("Level 3")
 
 grid.arrange(
   p7,
