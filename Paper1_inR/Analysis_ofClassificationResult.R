@@ -44,8 +44,9 @@ grid.arrange(
   nrow = 1
 )
 
-# Fig.6. Response curves related to the most important feature sper classes 
+# Fig.6. 1. Partial dependence plots related to the most important features per classes 
 
+# level 1
 imp <- importance(forest_l1)
 impvar <- rownames(imp)[order(imp[, 1], decreasing=TRUE)]
 
@@ -66,3 +67,48 @@ grid.arrange(
   p6,
   nrow = 1
 )
+
+# level 2
+imp <- importance(forest_l2)
+impvar <- rownames(imp)[order(imp[, 1], decreasing=TRUE)]
+
+id=1
+response_l2_imp1 <- Response_l2(forest_l2,featuretable_l2,id)
+id=2
+response_l2_imp2 <- Response_l2(forest_l2,featuretable_l2,id)
+id=3
+response_l2_imp3 <- Response_l2(forest_l2,featuretable_l2,id)
+
+p4=ggplot(response_l2_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[1]) + ylab("Partial dependence")
+p5=ggplot(response_l2_imp2,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[2]) + ylab("Partial dependence")
+p6=ggplot(response_l2_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[3]) + ylab("Partial dependence")
+
+grid.arrange(
+  p4,
+  p5,
+  p6,
+  nrow = 1
+)
+
+#level 3
+imp <- importance(forest_l3)
+impvar <- rownames(imp)[order(imp[, 1], decreasing=TRUE)]
+
+id=1
+response_l3_imp1 <- Response_l1(forest_l3,featuretable_l3,id)
+id=2
+response_l3_imp2 <- Response_l1(forest_l3,featuretable_l3,id)
+id=3
+response_l3_imp3 <- Response_l1(forest_l3,featuretable_l3,id)
+
+p4=ggplot(response_l3_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[1]) + ylab("Partial dependence")
+p5=ggplot(response_l3_imp2,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[2]) + ylab("Partial dependence")
+p6=ggplot(response_l3_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[3]) + ylab("Partial dependence")
+
+grid.arrange(
+  p4,
+  p5,
+  p6,
+  nrow = 1
+)
+
