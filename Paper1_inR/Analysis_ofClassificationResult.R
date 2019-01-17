@@ -4,6 +4,7 @@ Aim: Analyse the results of the classification - feature importance and response
 "
 
 library(randomForest)
+library(caret)
 
 library(ggplot2)
 library(gridExtra)
@@ -44,7 +45,7 @@ grid.arrange(
   nrow = 1
 )
 
-# Fig.6. 1. Partial dependence plots related to the most important features per classes 
+# Fig.6. v1. Partial dependence plots related to the most important features per classes 
 
 # level 1
 imp <- importance(forest_l1)
@@ -112,3 +113,32 @@ grid.arrange(
   nrow = 1
 )
 
+# Fig.6. v2. : response curves
+
+# RFE
+# level 1
+control <- rfeControl(functions=rfFuncs, method="cv", number=50)
+rfe_l1 <- rfe(featuretable_l1[,1:28], factor(featuretable_l1$layer), rfeControl=control)
+
+# level 2
+control <- rfeControl(functions=rfFuncs, method="cv", number=50)
+rfe_l2 <- rfe(featuretable_l2[,1:28], factor(featuretable_l2$layer), rfeControl=control)
+
+# level 3
+control <- rfeControl(functions=rfFuncs, method="cv", number=50)
+rfe_l3 <- rfe(featuretable_l3[,1:28], factor(featuretable_l3$layer), rfeControl=control)
+
+rfe_l1_df=data.frame(rfe_l1$results$Variables, rfe_l1$results$Accuracy)
+rfe_l2_df=data.frame(rfe_l2$results$Variables, rfe_l2$results$Accuracy)
+rfe_l3_df=data.frame(rfe_l3$results$Variables, rfe_l3$results$Accuracy)
+
+p7=ggplot(rfe_l1_df,aes(x=rfe_l1$results$Variables,y=rfe_l1$results$Accuracy))+geom_point(color="blue",size=2) + geom_line(color="blue",size=1)+ xlab("LiDAR metrics") + ylab("Accuracy")
+p8=ggplot(rfe_l2_df,aes(x=rfe_l2$results$Variables,y=rfe_l2$results$Accuracy))+geom_point(color="blue",size=2) + geom_line(color="blue",size=1)+ xlab("LiDAR metrics") + ylab("Accuracy")
+p9=ggplot(rfe_l3_df,aes(x=rfe_l3$results$Variables,y=rfe_l3$results$Accuracy))+geom_point(color="blue",size=2) + geom_line(color="blue",size=1)+ xlab("LiDAR metrics") + ylab("Accuracy")
+
+grid.arrange(
+  p7,
+  p8,
+  p9,
+  nrow = 1
+)
