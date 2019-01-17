@@ -2,6 +2,10 @@
 @author: Zsofia Koma, UvA
 Aim: Analyse the results of the classification - feature importance and response curves
 "
+
+library(randomForest)
+
+library(ggplot2)
 library(gridExtra)
 source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR/Analysis_Functions.R")
 
@@ -13,15 +17,21 @@ level2="featuretable_level2_b2o5.csv"
 level3="featuretable_level3_b2o5.csv"
 
 # Import
+
 featuretable_l1=read.csv(level1)
 featuretable_l2=read.csv(level2)
 featuretable_l3=read.csv(level3)
 
+# RF
+forest_l1 <- randomForest(x=featuretable_l1[ ,c(1:28)], y=factor(featuretable_l1$layer),importance = TRUE,ntree = 100)
+forest_l2 <- randomForest(x=featuretable_l2[ ,c(1:28)], y=factor(featuretable_l2$layer),importance = TRUE,ntree = 100)
+forest_l3 <- randomForest(x=featuretable_l3[ ,c(1:28)], y=factor(featuretable_l3$layer),importance = TRUE,ntree = 100)
+
 # Fig.5. : Feature Importance
 
-importance_frame_l1=Analysis_FeatureImportance(featuretable_l1)
-importance_frame_l2=Analysis_FeatureImportance(featuretable_l2)
-importance_frame_l3=Analysis_FeatureImportance(featuretable_l3)
+importance_frame_l1=Analysis_FeatureImportance(forest_l1)
+importance_frame_l2=Analysis_FeatureImportance(forest_l2)
+importance_frame_l3=Analysis_FeatureImportance(forest_l3)
 
 p1=plot_multi_way_importance(importance_frame_l1, x_measure = "norm_accuracy_decrease", y_measure = "norm_gini_decrease", main='Level 1') + xlab("Normalized accuracy decrease") + ylab("Normalized gini decrease")
 p2=plot_multi_way_importance(importance_frame_l2, x_measure = "norm_accuracy_decrease", y_measure = "norm_gini_decrease", main='Level 2') + xlab("Normalized accuracy decrease") + ylab("Normalized gini decrease")
@@ -35,3 +45,24 @@ grid.arrange(
 )
 
 # Fig.6. Response curves related to the most important feature sper classes 
+
+imp <- importance(forest_l1)
+impvar <- rownames(imp)[order(imp[, 1], decreasing=TRUE)]
+
+id=1
+response_l1_imp1 <- Response_l1(forest_l1,featuretable_l1,id)
+id=2
+response_l1_imp2 <- Response_l1(forest_l1,featuretable_l1,id)
+id=3
+response_l1_imp3 <- Response_l1(forest_l1,featuretable_l1,id)
+
+p4=ggplot(response_l1_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[1]) + ylab("Partial dependence")
+p5=ggplot(response_l1_imp2,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[2]) + ylab("Partial dependence")
+p6=ggplot(response_l1_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[3]) + ylab("Partial dependence")
+
+grid.arrange(
+  p4,
+  p5,
+  p6,
+  nrow = 1
+)
