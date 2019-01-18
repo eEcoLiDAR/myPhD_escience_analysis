@@ -115,6 +115,8 @@ grid.arrange(
 
 # Fig.6. v2. : response curves
 
+
+
 # RFE
 # level 1
 control <- rfeControl(functions=rfFuncs, method="cv", number=50)
