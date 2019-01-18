@@ -14,11 +14,21 @@ setwd(workingdirectory)
 
 classes = rgdal::readOGR("selpolyper_level1_v4.shp")
 
+# Get points per classes
+
+Class_1= subset(classes, V3 == "Bu")
+Class_2= subset(classes, V3 == "O")
+Class_3= subset(classes, V3 == "V")
+
 # Create catalog
 ctg <- catalog(workingdirectory)
 
 # Intersection
 
-las=lasclip(ctg, classes@polygons[[1]]@Polygons[[1]], inside = TRUE)
+las1=lasclip(ctg, Class_1@polygons[[1]]@Polygons[[1]], inside = TRUE)
+las2=lasclip(ctg, Class_2@polygons[[1]]@Polygons[[1]], inside = TRUE)
+las3=lasclip(ctg, Class_3@polygons[[1]]@Polygons[[1]], inside = TRUE)
 
-writeLAS(las,"test.las")
+writeLAS(las1,"Bu.las")
+writeLAS(las2,"O.las")
+writeLAS(las3,"V.las")
