@@ -16,6 +16,7 @@ VegStr_VertDistr_Metrics = function(z)
     zvar = var(z),
     zskew = skewness(z),
     zkurto = kurtosis(z),
+    zentropy1=VCI(z,by=0.5,zmax=NULL),
     zentropy2=entropy(z+500, by = 0.5,zmax=NULL)
   )
   return(vertdistr_metrics)
@@ -54,16 +55,17 @@ ShapeMetrics = function(X,Y,Z)
 }
 
 
+
 # Set working dirctory
 #workingdirectory="C:/Koma/Paper1/ALS/"
-workingdirectory="D:/Koma/Paper1/ALS/wholestudyarea/ground/"
+workingdirectory="D:/Koma/Paper1/ALS/lidR_error/"
 setwd(workingdirectory)
 
 ctg <- catalog(workingdirectory)
 
-opt_chunk_buffer(ctg) <- 5
-opt_chunk_size(ctg) <- 2500
+opt_chunk_buffer(ctg) <- 1
+opt_chunk_size(ctg) <- 500
 opt_cores(ctg) <- 18
 
-metrics = grid_metrics(ctg, c(CoverageMetrics(Z,Classification), VegStr_VertDistr_Metrics(Z), HeightMetrics(Z),ShapeMetrics(X,Y,Z)), res = 2.5)
+metrics = grid_metrics(ctg, c(CoverageMetrics(Z,Classification), VegStr_VertDistr_Metrics(Z), HeightMetrics(Z), ShapeMetrics(X,Y,Z)), res = 2.5)
 plot(metrics)

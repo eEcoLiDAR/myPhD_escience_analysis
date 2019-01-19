@@ -8,7 +8,8 @@ source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR/FeaCalc_functions.R")
 
 # Set working dirctory
 #workingdirectory="C:/Koma/Paper1/ALS/"
-workingdirectory="D:/Koma/Paper1/ALS/wholestudyarea/"
+#workingdirectory="D:/Koma/Paper1/ALS/wholestudyarea/"
+workingdirectory="D:/Koma/Paper1/ALS/lidR_error/"
 setwd(workingdirectory)
 
 resolution=2.5
@@ -17,7 +18,7 @@ resolution=2.5
 ctg <- catalog(workingdirectory)
 
 opt_chunk_buffer(ctg) <- 5
-opt_chunk_size(ctg) <- 2500
+opt_chunk_size(ctg) <- 500
 opt_cores(ctg) <- 18
 opt_output_files(ctg) <- paste(workingdirectory,"tiled/{XLEFT}_{YBOTTOM}",sep="")
 
