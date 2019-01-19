@@ -7,7 +7,7 @@ library("raster")
 
 # Set working dirctory
 #workingdirectory="C:/Koma/Paper1/ALS/"
-workingdirectory="D:/Koma/Paper1/ALS/forClassification_v2_run1/"
+workingdirectory="D:/Koma/Paper1/ALS/forClassification_v2_run2/"
 setwd(workingdirectory)
 
 # Get the name of the colomns

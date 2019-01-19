@@ -8,8 +8,7 @@ source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR/FeaCalc_functions.R")
 
 # Set working dirctory
 #workingdirectory="C:/Koma/Paper1/ALS/"
-#workingdirectory="D:/Koma/Paper1/ALS/wholestudyarea/"
-workingdirectory="D:/Koma/Paper1/ALS/lidR_error/"
+workingdirectory="D:/Koma/Paper1/ALS/06fn1/"
 setwd(workingdirectory)
 
 resolution=2.5
@@ -40,7 +39,7 @@ pdf("LiDAR_process.pdf")
 ground_ctg <- catalog(paste(workingdirectory,"ground/",sep=""))
 
 ground_ctg@input_options$filter <- "-keep_class 2"
-opt_chunk_buffer(ground_ctg) <- 5
+opt_chunk_buffer(ground_ctg) <- 0
 opt_cores(ground_ctg) <- 18
 
 dtm = grid_metrics(ground_ctg,min(Z),res=resolution)
