@@ -8,10 +8,12 @@ library(caret)
 
 library(ggplot2)
 library(gridExtra)
-source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR/Analysis_Functions.R")
+#source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR/Analysis_Functions.R")
+source("C:/Koma/Github/komazsofi/myPhD_escience_analysis/Paper1_inR/Analysis_Functions.R")
 
 # Set global variables
-setwd("D:/Koma/Paper1_ReedStructure/run_withR_2019Jan/")
+#setwd("D:/Koma/Paper1_ReedStructure/run_withR_2019Jan/")
+setwd("C:/Koma/Paper1/run2_withR_2019Jan/")
 
 level1="featuretable_level1_b2o5.csv"
 level2="featuretable_level2_b2o5.csv"
@@ -49,7 +51,7 @@ grid.arrange(
 
 # level 1
 imp <- importance(forest_l1)
-impvar <- rownames(imp)[order(imp[, 1], decreasing=TRUE)]
+impvar <- rownames(imp)[order(imp[, 4], decreasing=TRUE)]
 
 id=1
 response_l1_imp1 <- Response_l1(forest_l1,featuretable_l1,id)
@@ -71,7 +73,7 @@ grid.arrange(
 
 # level 2
 imp <- importance(forest_l2)
-impvar <- rownames(imp)[order(imp[, 1], decreasing=TRUE)]
+impvar <- rownames(imp)[order(imp[, 4], decreasing=TRUE)]
 
 id=1
 response_l2_imp1 <- Response_l2(forest_l2,featuretable_l2,id)
@@ -93,14 +95,15 @@ grid.arrange(
 
 #level 3
 imp <- importance(forest_l3)
-impvar <- rownames(imp)[order(imp[, 1], decreasing=TRUE)]
+varImpPlot(forest_l3)
+impvar <- rownames(imp)[order(imp[, 4], decreasing=TRUE)]
 
 id=1
-response_l3_imp1 <- Response_l1(forest_l3,featuretable_l3,id)
+response_l3_imp1 <- Response_l3(forest_l3,featuretable_l3,id)
 id=2
-response_l3_imp2 <- Response_l1(forest_l3,featuretable_l3,id)
+response_l3_imp2 <- Response_l3(forest_l3,featuretable_l3,id)
 id=3
-response_l3_imp3 <- Response_l1(forest_l3,featuretable_l3,id)
+response_l3_imp3 <- Response_l3(forest_l3,featuretable_l3,id)
 
 p4=ggplot(response_l3_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[1]) + ylab("Partial dependence")
 p5=ggplot(response_l3_imp2,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[2]) + ylab("Partial dependence")
@@ -113,7 +116,7 @@ grid.arrange(
   nrow = 1
 )
 
-# Fig.6. v2. : response curves
+# Fig.6. v2. : response curves with probabilities
 
 
 # RFE
@@ -133,9 +136,9 @@ rfe_l1_df=data.frame(rfe_l1$results$Variables, rfe_l1$results$Accuracy, rfe_l1$r
 rfe_l2_df=data.frame(rfe_l2$results$Variables, rfe_l2$results$Accuracy, rfe_l2$results$AccuracySD)
 rfe_l3_df=data.frame(rfe_l3$results$Variables, rfe_l3$results$Accuracy, rfe_l3$results$AccuracySD)
 
-p7=ggplot(rfe_l1_df,aes(x=rfe_l1$results$Variables,y=rfe_l1$results$Accuracy))+geom_point(color="blue",size=2) + geom_line(color="blue",size=1)+ geom_ribbon(aes(ymin=rfe_l1$results$Accuracy-rfe_l1$results$AccuracySD, ymax=rfe_l1$results$Accuracy+rfe_l1$results$AccuracySD), linetype=2, alpha=0.1) + xlab("LiDAR metrics") + ylab("Accuracy") + ylim(0, 1) + ggtitle("Level 1")
-p8=ggplot(rfe_l2_df,aes(x=rfe_l2$results$Variables,y=rfe_l2$results$Accuracy))+geom_point(color="blue",size=2) + geom_line(color="blue",size=1)+ geom_ribbon(aes(ymin=rfe_l2$results$Accuracy-rfe_l2$results$AccuracySD, ymax=rfe_l2$results$Accuracy+rfe_l2$results$AccuracySD), linetype=2, alpha=0.1) + xlab("LiDAR metrics") + ylab("Accuracy") + ylim(0, 1) + ggtitle("Level 2")
-p9=ggplot(rfe_l3_df,aes(x=rfe_l3$results$Variables,y=rfe_l3$results$Accuracy))+geom_point(color="blue",size=2) + geom_line(color="blue",size=1)+ geom_ribbon(aes(ymin=rfe_l3$results$Accuracy-rfe_l3$results$AccuracySD, ymax=rfe_l3$results$Accuracy+rfe_l3$results$AccuracySD), linetype=2, alpha=0.1) + xlab("LiDAR metrics") + ylab("Accuracy") + ylim(0, 1) + ggtitle("Level 3")
+p7=ggplot(rfe_l1_df,aes(x=rfe_l1$results$Variables,y=rfe_l1$results$Accuracy))+geom_point(color="blue",size=2) + geom_line(color="blue",size=1)+ geom_ribbon(aes(ymin=rfe_l1$results$Accuracy-rfe_l1$results$AccuracySD, ymax=rfe_l1$results$Accuracy+rfe_l1$results$AccuracySD), linetype=2, alpha=0.1) + xlab("Number of LiDAR metrics") + ylab("Accuracy") + ylim(0, 1) + ggtitle("Level 1")
+p8=ggplot(rfe_l2_df,aes(x=rfe_l2$results$Variables,y=rfe_l2$results$Accuracy))+geom_point(color="blue",size=2) + geom_line(color="blue",size=1)+ geom_ribbon(aes(ymin=rfe_l2$results$Accuracy-rfe_l2$results$AccuracySD, ymax=rfe_l2$results$Accuracy+rfe_l2$results$AccuracySD), linetype=2, alpha=0.1) + xlab("Number of LiDAR metrics") + ylab("Accuracy") + ylim(0, 1) + ggtitle("Level 2")
+p9=ggplot(rfe_l3_df,aes(x=rfe_l3$results$Variables,y=rfe_l3$results$Accuracy))+geom_point(color="blue",size=2) + geom_line(color="blue",size=1)+ geom_ribbon(aes(ymin=rfe_l3$results$Accuracy-rfe_l3$results$AccuracySD, ymax=rfe_l3$results$Accuracy+rfe_l3$results$AccuracySD), linetype=2, alpha=0.1) + xlab("Number of LiDAR metrics") + ylab("Accuracy") + ylim(0, 1) + ggtitle("Level 3")
 
 grid.arrange(
   p7,
