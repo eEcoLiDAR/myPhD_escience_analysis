@@ -8,12 +8,12 @@ library(caret)
 
 library(ggplot2)
 library(gridExtra)
-#source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR/Analysis_Functions.R")
-source("C:/Koma/Github/komazsofi/myPhD_escience_analysis/Paper1_inR/Analysis_Functions.R")
+source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR/Analysis_Functions.R")
+#source("C:/Koma/Github/komazsofi/myPhD_escience_analysis/Paper1_inR/Analysis_Functions.R")
 
 # Set global variables
-#setwd("D:/Koma/Paper1_ReedStructure/run_withR_2019Jan/")
-setwd("C:/Koma/Paper1/run2_withR_2019Jan/")
+setwd("D:/Koma/Paper1_ReedStructure/run2_withR_2019Jan/")
+#setwd("C:/Koma/Paper1/run2_withR_2019Jan/")
 
 level1="featuretable_level1_b2o5.csv"
 level2="featuretable_level2_b2o5.csv"
