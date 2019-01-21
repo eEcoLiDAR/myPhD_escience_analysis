@@ -106,6 +106,12 @@ for (workingdirectory in workdirectories){
   
   writeRaster(heightmetrics_whoutgr,"heightmetrics_whoutgr.grd",overwrite=TRUE)
   
+  dtm_whoutgr = grid_metrics(ground_ctg,min(Z),res=resolution)
+  crs(dtm_whoutgr) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
+  writeRaster(dtm_whoutgr, "dtm_whoutgr.tif",overwrite=TRUE)
+  
+  plot(dtm_whoutgr)
+  
   # Calculate metrics into separate files per feature groups and classes -- raster-based 
   
   slope_dtm=terrain(dtm,opt="slope",unit="degrees",neighbors=4)
@@ -143,21 +149,26 @@ for (workingdirectory in workdirectories){
   
   plot(heightmetrics)
   
-  heightmetrics_whoutgr$n_zmax=(heightmetrics_whoutgr$zmax+500)-(dtm+500)
-  heightmetrics_whoutgr$n_zmean=(heightmetrics_whoutgr$zmean+500)-(dtm+500)
-  heightmetrics_whoutgr$n_zmedian=(heightmetrics_whoutgr$zmedian+500)-(dtm+500)
-  heightmetrics_whoutgr$n_z025quantile=(heightmetrics_whoutgr$z025quantile+500)-(dtm+500)
-  heightmetrics_whoutgr$n_z075quantile=(heightmetrics_whoutgr$z075quantile+500)-(dtm+500)
-  heightmetrics_whoutgr$n_z090quantile=(heightmetrics_whoutgr$z090quantile+500)-(dtm+500)
+  heightmetrics_whoutgr$n_zmax=(heightmetrics_whoutgr$zmax+500)-(dtm_whoutgr+500)
+  heightmetrics_whoutgr$n_zmean=(heightmetrics_whoutgr$zmean+500)-(dtm_whoutgr+500)
+  heightmetrics_whoutgr$n_zmedian=(heightmetrics_whoutgr$zmedian+500)-(dtm_whoutgr+500)
+  heightmetrics_whoutgr$n_z025quantile=(heightmetrics_whoutgr$z025quantile+500)-(dtm_whoutgr+500)
+  heightmetrics_whoutgr$n_z075quantile=(heightmetrics_whoutgr$z075quantile+500)-(dtm_whoutgr+500)
+  heightmetrics_whoutgr$n_z090quantile=(heightmetrics_whoutgr$z090quantile+500)-(dtm_whoutgr+500)
   
   plot(heightmetrics_whoutgr)
   
   # Merge, organize files
   lidar_metrics=stack(coveragemetrics,shapemetrics,vertdistr_metrics,dsm_metrics,heightmetrics$n_zmax,heightmetrics$n_zmean,heightmetrics$n_zmedian,heightmetrics$n_z025quantile,heightmetrics$n_z075quantile,
-                      heightmetrics$n_z090quantile,dtm_metrics,shapemetrics_whoutgr,vertdistr_metrics_whoutgr,heightmetrics_whoutgr)
+                      heightmetrics$n_z090quantile,dtm_metrics)
   crs(lidar_metrics) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
   
   writeRaster(lidar_metrics, "lidar_metrics.grd", overwrite=TRUE)
+  
+  lidar_metrics_whoutgr=stack(shapemetrics_whoutgr,vertdistr_metrics_whoutgr,heightmetrics_whoutgr)
+  crs(lidar_metrics_whoutgr) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
+  
+  writeRaster(lidar_metrics_whoutgr, "lidar_metrics_whoutgr.grd", overwrite=TRUE)
   
   dev.off()
   
