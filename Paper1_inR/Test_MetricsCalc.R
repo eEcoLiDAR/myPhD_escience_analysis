@@ -12,11 +12,11 @@ VegStr_VertDistr_Metrics = function(z)
 {
   library("e1071")
   vertdistr_metrics = list(
-    #zstd = sd(z),
-    #zvar = var(z),
+    zstd = sd(z),
+    zvar = var(z),
     zskew = skewness(z),
-    zkurto = kurtosis(z)
-    #zentropy2=entropy(z+500, by = 0.5,zmax=NULL)
+    zkurto = kurtosis(z),
+    zentropy2=entropy(z+500, by = 0.5,zmax=NULL)
   )
   return(vertdistr_metrics)
 }
