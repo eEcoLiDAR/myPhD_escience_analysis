@@ -16,8 +16,8 @@ Analysis_FeatureImportance = function(forest)
 }
 
 Response_l1 = function(forest_l1,featuretable_l1,id) {
-  p1=partialPlot(forest_l1, featuretable_l1, impvar[id], 1)
-  p2=partialPlot(forest_l1, featuretable_l1, impvar[id], 2)
+  p1=partialPlot(forest_l1, featuretable_l1, impvar[id], 1, plot=FALSE)
+  p2=partialPlot(forest_l1, featuretable_l1, impvar[id], 2, plot=FALSE)
   
   response_l1_c1 <- data.frame(p1[["x"]], p1[["y"]])
   names(response_l1_c1)[1]<-"class_1_x"
@@ -35,12 +35,12 @@ Response_l1 = function(forest_l1,featuretable_l1,id) {
 }
 
 Response_l2 = function(forest_l1,featuretable_l1,id) {
-  p1=partialPlot(forest_l1, featuretable_l1, impvar[id], 1)
-  p2=partialPlot(forest_l1, featuretable_l1, impvar[id], 2)
-  p3=partialPlot(forest_l1, featuretable_l1, impvar[id], 3)
-  p4=partialPlot(forest_l1, featuretable_l1, impvar[id], 4)
-  p5=partialPlot(forest_l1, featuretable_l1, impvar[id], 5)
-  p6=partialPlot(forest_l1, featuretable_l1, impvar[id], 6)
+  p1=partialPlot(forest_l1, featuretable_l1, impvar[id], 1, plot=FALSE)
+  p2=partialPlot(forest_l1, featuretable_l1, impvar[id], 2, plot=FALSE)
+  p3=partialPlot(forest_l1, featuretable_l1, impvar[id], 3, plot=FALSE)
+  p4=partialPlot(forest_l1, featuretable_l1, impvar[id], 4, plot=FALSE)
+  p5=partialPlot(forest_l1, featuretable_l1, impvar[id], 5, plot=FALSE)
+  p6=partialPlot(forest_l1, featuretable_l1, impvar[id], 6, plot=FALSE)
   
   response_l1_c1 <- data.frame(p1[["x"]], p1[["y"]])
   names(response_l1_c1)[1]<-"class_1_x"
@@ -78,9 +78,9 @@ Response_l2 = function(forest_l1,featuretable_l1,id) {
 }
 
 Response_l3 = function(forest_l1,featuretable_l1,id) {
-  p1=partialPlot(forest_l1, featuretable_l1, impvar[id], 1)
-  p2=partialPlot(forest_l1, featuretable_l1, impvar[id], 2)
-  p3=partialPlot(forest_l1, featuretable_l1, impvar[id], 3)
+  p1=partialPlot(forest_l1, featuretable_l1, impvar[id], 1, plot=FALSE)
+  p2=partialPlot(forest_l1, featuretable_l1, impvar[id], 2, plot=FALSE)
+  p3=partialPlot(forest_l1, featuretable_l1, impvar[id], 3, plot=FALSE)
   
   response_l1_c1 <- data.frame(p1[["x"]], p1[["y"]])
   names(response_l1_c1)[1]<-"class_1_x"

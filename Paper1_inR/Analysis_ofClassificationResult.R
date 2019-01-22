@@ -12,7 +12,7 @@ source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR/Analysis_Function
 #source("C:/Koma/Github/komazsofi/myPhD_escience_analysis/Paper1_inR/Analysis_Functions.R")
 
 # Set global variables
-setwd("D:/Koma/Paper1_ReedStructure/run2_withR_2019Jan/")
+setwd("D:/Koma/Paper1_ReedStructure/run3_withR_2019Jan/")
 #setwd("C:/Koma/Paper1/run2_withR_2019Jan/")
 
 level1="featuretable_level1_b2o5.csv"
@@ -26,9 +26,9 @@ featuretable_l2=read.csv(level2)
 featuretable_l3=read.csv(level3)
 
 # RF
-forest_l1 <- randomForest(x=featuretable_l1[ ,c(1:28)], y=factor(featuretable_l1$layer),importance = TRUE,ntree = 100)
-forest_l2 <- randomForest(x=featuretable_l2[ ,c(1:28)], y=factor(featuretable_l2$layer),importance = TRUE,ntree = 100)
-forest_l3 <- randomForest(x=featuretable_l3[ ,c(1:28)], y=factor(featuretable_l3$layer),importance = TRUE,ntree = 100)
+forest_l1 <- randomForest(x=featuretable_l1[ ,c(1:39)], y=factor(featuretable_l1$layer),importance = TRUE,ntree = 100)
+forest_l2 <- randomForest(x=featuretable_l2[ ,c(1:39)], y=factor(featuretable_l2$layer),importance = TRUE,ntree = 100)
+forest_l3 <- randomForest(x=featuretable_l3[ ,c(1:39)], y=factor(featuretable_l3$layer),importance = TRUE,ntree = 100)
 
 # Fig.5. : Feature Importance
 
@@ -55,14 +55,14 @@ impvar <- rownames(imp)[order(imp[, 4], decreasing=TRUE)]
 
 id=1
 response_l1_imp1 <- Response_l1(forest_l1,featuretable_l1,id)
-id=2
+id=5
 response_l1_imp2 <- Response_l1(forest_l1,featuretable_l1,id)
-id=3
+id=12
 response_l1_imp3 <- Response_l1(forest_l1,featuretable_l1,id)
 
-p4=ggplot(response_l1_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[1]) + ylab("Partial dependence")
-p5=ggplot(response_l1_imp2,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[2]) + ylab("Partial dependence")
-p6=ggplot(response_l1_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[3]) + ylab("Partial dependence")
+p4=ggplot(response_l1_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[1]) + ylab("Partial dependence") + scale_color_manual(values = c("1" = "gray", "2" = "green"),name="General classes",labels=c("Planar surface", "Vegetation"))
+p5=ggplot(response_l1_imp2,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[5]) + ylab("Partial dependence") + scale_color_manual(values = c("1" = "gray", "2" = "green"),name="General classes",labels=c("Planar surface", "Vegetation"))
+p6=ggplot(response_l1_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[12]) + ylab("Partial dependence") + scale_color_manual(values = c("1" = "gray", "2" = "green"),name="General classes",labels=c("Planar surface", "Vegetation"))
 
 grid.arrange(
   p4,
@@ -122,15 +122,15 @@ grid.arrange(
 # RFE
 # level 1
 control <- rfeControl(functions=rfFuncs, method="cv", number=50)
-rfe_l1 <- rfe(featuretable_l1[,1:28], factor(featuretable_l1$layer), rfeControl=control)
+rfe_l1 <- rfe(featuretable_l1[,1:39], factor(featuretable_l1$layer), rfeControl=control)
 
 # level 2
 control <- rfeControl(functions=rfFuncs, method="cv", number=50)
-rfe_l2 <- rfe(featuretable_l2[,1:28], factor(featuretable_l2$layer), rfeControl=control)
+rfe_l2 <- rfe(featuretable_l2[,1:39], factor(featuretable_l2$layer), rfeControl=control)
 
 # level 3
 control <- rfeControl(functions=rfFuncs, method="cv", number=50)
-rfe_l3 <- rfe(featuretable_l3[,1:28], factor(featuretable_l3$layer), rfeControl=control)
+rfe_l3 <- rfe(featuretable_l3[,1:39], factor(featuretable_l3$layer), rfeControl=control)
 
 rfe_l1_df=data.frame(rfe_l1$results$Variables, rfe_l1$results$Accuracy, rfe_l1$results$AccuracySD)
 rfe_l2_df=data.frame(rfe_l2$results$Variables, rfe_l2$results$Accuracy, rfe_l2$results$AccuracySD)
