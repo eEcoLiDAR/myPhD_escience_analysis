@@ -70,7 +70,7 @@ Response_l2 = function(forest_l1,featuretable_l1,id) {
   response_l1_c6 <- data.frame(p6[["x"]], p6[["y"]])
   names(response_l1_c6)[1]<-"class_1_x"
   names(response_l1_c6)[2]<-"class_1_y"
-  response_l1_c6$class <- 3
+  response_l1_c6$class <- 6
   
   response_l1 <- rbind(response_l1_c1, response_l1_c2, response_l1_c3, response_l1_c4, response_l1_c5, response_l1_c6)
   

@@ -60,9 +60,9 @@ response_l1_imp2 <- Response_l1(forest_l1,featuretable_l1,id)
 id=12
 response_l1_imp3 <- Response_l1(forest_l1,featuretable_l1,id)
 
-p4=ggplot(response_l1_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[1]) + ylab("Partial dependence") + scale_color_manual(values = c("1" = "gray", "2" = "green"),name="General classes",labels=c("Planar surface", "Vegetation"))
-p5=ggplot(response_l1_imp2,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[5]) + ylab("Partial dependence") + scale_color_manual(values = c("1" = "gray", "2" = "green"),name="General classes",labels=c("Planar surface", "Vegetation"))
-p6=ggplot(response_l1_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[12]) + ylab("Partial dependence") + scale_color_manual(values = c("1" = "gray", "2" = "green"),name="General classes",labels=c("Planar surface", "Vegetation"))
+p4=ggplot(response_l1_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[1]) + ylab("Partial dependence") + scale_color_manual(values = c("1" = "gray", "2" = "green"),name="General classes",labels=c("Planar surface", "Vegetation")) + theme_bw(base_size = 20)
+p5=ggplot(response_l1_imp2,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[5]) + ylab("Partial dependence") + scale_color_manual(values = c("1" = "gray", "2" = "green"),name="General classes",labels=c("Planar surface", "Vegetation")) + theme_bw(base_size = 20)
+p6=ggplot(response_l1_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[12]) + ylab("Partial dependence") + scale_color_manual(values = c("1" = "gray", "2" = "green"),name="General classes",labels=c("Planar surface", "Vegetation")) + theme_bw(base_size = 20)
 
 grid.arrange(
   p4,
@@ -75,16 +75,19 @@ grid.arrange(
 imp <- importance(forest_l2)
 impvar <- rownames(imp)[order(imp[, 4], decreasing=TRUE)]
 
-id=1
+id=7
 response_l2_imp1 <- Response_l2(forest_l2,featuretable_l2,id)
-id=2
+id=20
 response_l2_imp2 <- Response_l2(forest_l2,featuretable_l2,id)
-id=3
+id=11
 response_l2_imp3 <- Response_l2(forest_l2,featuretable_l2,id)
 
-p4=ggplot(response_l2_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[1]) + ylab("Partial dependence")
-p5=ggplot(response_l2_imp2,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[2]) + ylab("Partial dependence")
-p6=ggplot(response_l2_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[3]) + ylab("Partial dependence")
+p4=ggplot(response_l2_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[7]) + ylab("Partial dependence")+ scale_color_manual(values = c("1" = "darkgreen", "2" = "gray46", "3" = "green1","4"="gold","5"="chocolate4","6"="darkolivegreen4"),
+                                                                                                                                                                    name="Wetland",labels=c("Forest", "Infrastructure","Grassland","Land reed","Water reed","Shrubs")) + theme_bw(base_size = 20)
+p5=ggplot(response_l2_imp2,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[20]) + ylab("Partial dependence")+ scale_color_manual(values = c("1" = "darkgreen", "2" = "gray46", "3" = "green1","4"="gold","5"="chocolate4","6"="darkolivegreen4"),
+                                                                                                                                                                     name="Wetland",labels=c("Forest", "Infrastructure","Grassland","Land reed","Water reed","Shrubs")) + theme_bw(base_size = 20)
+p6=ggplot(response_l2_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[11]) + ylab("Partial dependence")+ scale_color_manual(values = c("1" = "darkgreen", "2" = "gray46", "3" = "green1","4"="gold","5"="chocolate4","6"="darkolivegreen4"),
+                                                                                                                                                                     name="Wetland",labels=c("Forest", "Infrastructure","Grassland","Land reed","Water reed","Shrubs")) + theme_bw(base_size = 20)
 
 grid.arrange(
   p4,
@@ -95,19 +98,18 @@ grid.arrange(
 
 #level 3
 imp <- importance(forest_l3)
-varImpPlot(forest_l3)
 impvar <- rownames(imp)[order(imp[, 4], decreasing=TRUE)]
 
 id=1
 response_l3_imp1 <- Response_l3(forest_l3,featuretable_l3,id)
-id=2
+id=9
 response_l3_imp2 <- Response_l3(forest_l3,featuretable_l3,id)
-id=3
+id=10
 response_l3_imp3 <- Response_l3(forest_l3,featuretable_l3,id)
 
-p4=ggplot(response_l3_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[1]) + ylab("Partial dependence")
-p5=ggplot(response_l3_imp2,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[2]) + ylab("Partial dependence")
-p6=ggplot(response_l3_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[3]) + ylab("Partial dependence")
+p4=ggplot(response_l3_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[1]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="gold","2"="tan2","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
+p5=ggplot(response_l3_imp2,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[9]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="gold","2"="tan2","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
+p6=ggplot(response_l3_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[10]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="gold","2"="tan2","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
 
 grid.arrange(
   p4,
@@ -136,9 +138,9 @@ rfe_l1_df=data.frame(rfe_l1$results$Variables, rfe_l1$results$Accuracy, rfe_l1$r
 rfe_l2_df=data.frame(rfe_l2$results$Variables, rfe_l2$results$Accuracy, rfe_l2$results$AccuracySD)
 rfe_l3_df=data.frame(rfe_l3$results$Variables, rfe_l3$results$Accuracy, rfe_l3$results$AccuracySD)
 
-p7=ggplot(rfe_l1_df,aes(x=rfe_l1$results$Variables,y=rfe_l1$results$Accuracy))+geom_point(color="blue",size=2) + geom_line(color="blue",size=1)+ geom_ribbon(aes(ymin=rfe_l1$results$Accuracy-rfe_l1$results$AccuracySD, ymax=rfe_l1$results$Accuracy+rfe_l1$results$AccuracySD), linetype=2, alpha=0.1) + xlab("Number of LiDAR metrics") + ylab("Accuracy") + ylim(0, 1) + ggtitle("Level 1")
-p8=ggplot(rfe_l2_df,aes(x=rfe_l2$results$Variables,y=rfe_l2$results$Accuracy))+geom_point(color="blue",size=2) + geom_line(color="blue",size=1)+ geom_ribbon(aes(ymin=rfe_l2$results$Accuracy-rfe_l2$results$AccuracySD, ymax=rfe_l2$results$Accuracy+rfe_l2$results$AccuracySD), linetype=2, alpha=0.1) + xlab("Number of LiDAR metrics") + ylab("Accuracy") + ylim(0, 1) + ggtitle("Level 2")
-p9=ggplot(rfe_l3_df,aes(x=rfe_l3$results$Variables,y=rfe_l3$results$Accuracy))+geom_point(color="blue",size=2) + geom_line(color="blue",size=1)+ geom_ribbon(aes(ymin=rfe_l3$results$Accuracy-rfe_l3$results$AccuracySD, ymax=rfe_l3$results$Accuracy+rfe_l3$results$AccuracySD), linetype=2, alpha=0.1) + xlab("Number of LiDAR metrics") + ylab("Accuracy") + ylim(0, 1) + ggtitle("Level 3")
+p7=ggplot(rfe_l1_df,aes(x=rfe_l1$results$Variables,y=rfe_l1$results$Accuracy))+geom_point(color="blue",size=2) + geom_line(color="blue",size=1)+ geom_ribbon(aes(ymin=rfe_l1$results$Accuracy-rfe_l1$results$AccuracySD, ymax=rfe_l1$results$Accuracy+rfe_l1$results$AccuracySD), linetype=2, alpha=0.1) + xlab("Number of LiDAR metrics") + ylab("Accuracy") + ylim(0, 1) + ggtitle("Level 1") + theme_bw(base_size = 20)
+p8=ggplot(rfe_l2_df,aes(x=rfe_l2$results$Variables,y=rfe_l2$results$Accuracy))+geom_point(color="blue",size=2) + geom_line(color="blue",size=1)+ geom_ribbon(aes(ymin=rfe_l2$results$Accuracy-rfe_l2$results$AccuracySD, ymax=rfe_l2$results$Accuracy+rfe_l2$results$AccuracySD), linetype=2, alpha=0.1) + xlab("Number of LiDAR metrics") + ylab("Accuracy") + ylim(0, 1) + ggtitle("Level 2") + theme_bw(base_size = 20)
+p9=ggplot(rfe_l3_df,aes(x=rfe_l3$results$Variables,y=rfe_l3$results$Accuracy))+geom_point(color="blue",size=2) + geom_line(color="blue",size=1)+ geom_ribbon(aes(ymin=rfe_l3$results$Accuracy-rfe_l3$results$AccuracySD, ymax=rfe_l3$results$Accuracy+rfe_l3$results$AccuracySD), linetype=2, alpha=0.1) + xlab("Number of LiDAR metrics") + ylab("Accuracy") + ylim(0, 1) + ggtitle("Level 3") + theme_bw(base_size = 20)
 
 grid.arrange(
   p7,
