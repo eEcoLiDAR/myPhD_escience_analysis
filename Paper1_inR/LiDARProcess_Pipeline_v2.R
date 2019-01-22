@@ -8,7 +8,8 @@ source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR/FeaCalc_functions.R")
 
 # Set working dirctory
 
-workdirectories=list("D:/Koma/Paper1/ALS/02gz2/","D:/Koma/Paper1/ALS/02hz1/","D:/Koma/Paper1/ALS/06en2/","D:/Koma/Paper1/ALS/06fn1/")
+#workdirectories=list("D:/Koma/Paper1/ALS/02gz2/","D:/Koma/Paper1/ALS/02hz1/","D:/Koma/Paper1/ALS/06en2/","D:/Koma/Paper1/ALS/06fn1/")
+workdirectories=list("D:/Koma/Paper1/ALS/06en2/")
 
 for (workingdirectory in workdirectories){
   
