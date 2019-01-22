@@ -30,6 +30,13 @@ forest_l1 <- randomForest(x=featuretable_l1[ ,c(1:39)], y=factor(featuretable_l1
 forest_l2 <- randomForest(x=featuretable_l2[ ,c(1:39)], y=factor(featuretable_l2$layer),importance = TRUE,ntree = 100)
 forest_l3 <- randomForest(x=featuretable_l3[ ,c(1:39)], y=factor(featuretable_l3$layer),importance = TRUE,ntree = 100)
 
+#Save it
+save(forest_l1,file = "forest_l1.RData")
+save(forest_l2,file = "forest_l2.RData")
+save(forest_l3,file = "forest_l3.RData")
+
+#load("forest_l1.RData")
+
 # Fig.5. : Feature Importance
 
 importance_frame_l1=Analysis_FeatureImportance(forest_l1)
