@@ -8,7 +8,8 @@ library("raster")
 resolution=2.5
 core=18
 
-workdirectories=list("D:/Koma/Paper1/ALS/02gz2/ground/","D:/Koma/Paper1/ALS/02hz1/ground/","D:/Koma/Paper1/ALS/06en2/ground/","D:/Koma/Paper1/ALS/06fn1/ground/")
+#workdirectories=list("D:/Koma/Paper1/ALS/02gz2/ground/","D:/Koma/Paper1/ALS/02hz1/ground/","D:/Koma/Paper1/ALS/06en2/ground/","D:/Koma/Paper1/ALS/06fn1/ground/")
+workdirectories=list("D:/Koma/Paper1/ALS/02hz1/ground/","D:/Koma/Paper1/ALS/06en2/ground/","D:/Koma/Paper1/ALS/06fn1/ground/")
 
 for (workingdirectory in workdirectories){
   
@@ -28,6 +29,7 @@ for (workingdirectory in workdirectories){
   ground_ctg@input_options$filter <- "-keep_class 2"
   opt_chunk_buffer(ground_ctg) <- 0
   opt_cores(ground_ctg) <- core
+  opt_output_files(ground_ctg)=""
   
   dtm = grid_metrics(ground_ctg,min(Z),res=resolution)
   crs(dtm) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
@@ -54,7 +56,7 @@ for (workingdirectory in workdirectories){
   crs(orig_pdens) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
   writeRaster(orig_pdens, "orig_pdens.tif",overwrite=TRUE)
   
-  opt_output_files(ground_ctg) <- paste(workingdirectory,"homogenized/{XLEFT}_{YBOTTOM}",sep="")
+  opt_output_files(ground_ctg) <- paste(workingdirectory,"homogenized/{XLEFT}_{YBOTTOM}_gr_homo",sep="")
   
   homogenized_ctg=lasfilterdecimate(ground_ctg,homogenize(10,1))
   
@@ -66,7 +68,7 @@ for (workingdirectory in workdirectories){
   writeRaster(hom_pdens, "hom_pdens.tif",overwrite=TRUE)
   
   # Normalize
-  opt_output_files(homogenized_ctg) <- paste(workingdirectory,"normalized/{XLEFT}_{YBOTTOM}",sep="")
+  opt_output_files(homogenized_ctg) <- paste(workingdirectory,"normalized/{XLEFT}_{YBOTTOM}_gr_homo_norm",sep="")
   normalized_ctg=lasnormalize(homogenized_ctg,knnidw(k=50))
   
 }
