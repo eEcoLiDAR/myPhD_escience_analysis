@@ -52,4 +52,16 @@ writeRaster(dtm_shd, "dtm_shd.tif",overwrite=TRUE)
 opt_output_files(homogenized_ctg) <- paste(workingdirectory,"normalized/{XLEFT}_{YBOTTOM}",sep="")
 normalized_ctg=lasnormalize(homogenized_ctg,knnidw(k=50))
 
+# Check DSMs
+opt_output_files(homogenized_ctg) <- ""
+opt_output_files(normalized_ctg) <- ""
+
+dsm_whnorm = grid_metrics(homogenized_ctg,range(Z),res=2.5)
+dsm_wnorm = grid_metrics(normalized_ctg,max(Z),res=2.5)
+
+plot(dsm_whnorm)
+plot(dsm_wnorm)
+
+plot(dsm_whnorm-dsm_wnorm)
+hist(dsm_whnorm-dsm_wnorm)
 
