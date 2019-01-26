@@ -29,30 +29,22 @@ dtm_m_f_r=raster(dtm_m_f)
 extent(dtm_m_f_r) <- extent(dtm)
 
 # Normalize
-dtm_cc=stack("C:/Koma/Paper1/ALS/dtm_fromcc.tif")
-plot(dtm_cc)
-
 opt_output_files(homogenized_ctg) <- paste(workingdirectory,"normalized2/{XLEFT}_{YBOTTOM}_1",sep="")
-normalized_ctg=lasnormalize(homogenized_ctg[1,],dtm_cc$dtm_fromcc)
+normalized_ctg=lasnormalize(homogenized_ctg,tin())
 
-opt_output_files(homogenized_ctg) <- paste(workingdirectory,"normalized2/{XLEFT}_{YBOTTOM}_2",sep="")
-normalized_ctg2=lasnormalize(homogenized_ctg,knnidw(k=5,p=2))
+# with CC
+las=readLAS("C:/Koma/Paper1/ALS/homogenized/205000_600000.las")
+dtm_cc=stack("C:/Koma/Paper1/ALS/raster.tif")
 
-opt_output_files(homogenized_ctg) <- paste(workingdirectory,"normalized2/{XLEFT}_{YBOTTOM}_3",sep="")
-normalized_ctg3=lasnormalize(homogenized_ctg,knnidw(k=10,p=10))
+crs(dtm_cc) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
+crs(las) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
 
-# Check back
-opt_output_files(normalized_ctg) <- ""
-norm_error1 = grid_metrics(normalized_ctg,length(Z[Z<0]),res=2.5)
-plot(norm_error1)
-hist(norm_error1)
+las = lasmergespatial(las,dtm_cc$raster,"dtm")
+las@data$Z=las@data$Z-las@data$dtm
 
-opt_output_files(normalized_ctg2) <- ""
-norm_error2 = grid_metrics(normalized_ctg2,length(Z[Z<0]),res=2.5)
-plot(norm_error2)
-hist(norm_error2)
+las@header@PHB$`Max Z`=max(las@data$Z)
+las@header@PHB$`Min Z`=min(las@data$Z)
 
-opt_output_files(normalized_ctg3) <- ""
-norm_error3 = grid_metrics(normalized_ctg3,length(Z[Z<0]),res=2.5)
-plot(norm_error3)
-hist(norm_error3)
+writeLAS(las,"test_las.las")
+
+
