@@ -33,7 +33,7 @@ dtm_cc=stack("C:/Koma/Paper1/ALS/dtm_fromcc.tif")
 plot(dtm_cc)
 
 opt_output_files(homogenized_ctg) <- paste(workingdirectory,"normalized2/{XLEFT}_{YBOTTOM}_1",sep="")
-normalized_ctg=lasnormalize(homogenized_ctg,knnidw(k=5,p=6))
+normalized_ctg=lasnormalize(homogenized_ctg[1,],dtm_cc$dtm_fromcc)
 
 opt_output_files(homogenized_ctg) <- paste(workingdirectory,"normalized2/{XLEFT}_{YBOTTOM}_2",sep="")
 normalized_ctg2=lasnormalize(homogenized_ctg,knnidw(k=5,p=2))
