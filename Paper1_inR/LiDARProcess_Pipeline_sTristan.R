@@ -15,13 +15,15 @@ core=3
 
 # Set cataloge
 
-gr_hom_norm_ctg <- catalog(paste(workingdirectory,"normalized/",sep=""))
+gr_hom_ctg <- catalog(paste(workingdirectory,"homogenized/",sep=""))
 
-opt_chunk_buffer(ground_ctg) <- resolution
-opt_cores(ground_ctg) <- core
+opt_chunk_buffer(gr_hom_ctg) <- resolution
+opt_cores(gr_hom_ctg) <- core
 
-coveragemetrics = grid_metrics(gr_hom_norm_ctg, CoverageMetrics(Z,Classification),res=resolution)
+coveragemetrics = grid_metrics(gr_hom_ctg, CoverageMetrics(Z,Classification),res=resolution)
 plot(coveragemetrics)
-
 writeRaster(coveragemetrics,"coveragemetrics.grd",overwrite=TRUE)
-plot(coveragemetrics$blow0)
+
+heightmetrics = grid_metrics(gr_hom_ctg, HeightMetrics(Z,Classification),res=resolution)
+plot(heightmetrics)
+writeRaster(heightmetrics,"heightmetrics.grd",overwrite=TRUE)
