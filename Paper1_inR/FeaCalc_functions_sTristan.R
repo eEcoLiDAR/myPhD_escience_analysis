@@ -22,18 +22,39 @@ CoverageMetrics = function(z,classification)
 
 HeightMetrics = function(z,classification)
 {
+  
+  z_norm=z-min(z)
+  
   heightmetrics = list(
-    zmax = max(z), 
-    zmean = mean(z),
-    zmedian = median(z),
-    z025quantile = quantile(z, 0.25),
-    z075quantile = quantile(z, 0.75),
-    z090quantile = quantile(z, 0.90),
-    zmean = mean(z[classification==1]),
-    zmedian = median(z[classification==1]),
-    z025quantile = quantile(z[classification==1], 0.25),
-    z075quantile = quantile(z[classification==1], 0.75),
-    z090quantile = quantile(z[classification==1], 0.90)
+    zmax = max(z_norm), 
+    zmean = mean(z_norm),
+    zmedian = median(z_norm),
+    z025quantile = quantile(z_norm, 0.25),
+    z075quantile = quantile(z_norm, 0.75),
+    z090quantile = quantile(z_norm, 0.90),
+    zcoeffvar = sd(z_norm)/mean(z_norm),
+    zmean_veg = mean(z_norm[classification==1]),
+    zmedian_veg = median(z_norm[classification==1]),
+    z025quantile_veg = quantile(z_norm[classification==1], 0.25),
+    z075quantile_veg = quantile(z_norm[classification==1], 0.75),
+    z090quantile_veg = quantile(z_norm[classification==1], 0.90),
+    zcoeffvar_veg = sd(z_norm[classification==1])/mean(z_norm[classification==1])
   )
   return(heightmetrics)
+}
+
+ShapeMetrics = function(x,y,z)
+{
+  xyz=rbind(x,y,z) 
+  cov_m=cov(xyz)
+  eigen_m=eigen(cov_m)
+  
+  shapemetrics = list(
+    curvature = eigen_m$values[3]/(eigen_m$values[1]+eigen_m$values[2]+eigen_m$values[3]),
+    linearity = (eigen_m$values[1]-eigen_m$values[2])/eigen_m$values[1],
+    planarity = (eigen_m$values[2]-eigen_m$values[3])/eigen_m$values[1],
+    sphericity = eigen_m$values[3]/eigen_m$values[1],
+    anisotrophy = (eigen_m$values[1]-eigen_m$values[3])/eigen_m$values[1]
+  )
+  return(shapemetrics)
 }
