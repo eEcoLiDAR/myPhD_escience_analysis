@@ -13,9 +13,9 @@ CoverageMetrics = function(z,classification)
     totalvegvol = length(z[classification==1])/length(z[classification==2])*100,
     vegcover = (length(z[classification==1])/length(z))*100,
     cancov = (length(z[z>mean(z)])/length(z))*100,
-    undcov1 = (length(z_norm[classification==1 & z_norm<2])/length(z_norm))*100,
-    undcov2 = (length(z_norm[classification==1 & z_norm>0.5 & z_norm<2])),
-    undcov3 = (length(z_norm[classification==1 & z_norm>2 & z_norm<5]))
+    undcov = (length(z_norm[classification==1 & z_norm>0.5 & z_norm<2])),
+    dens_perc_b2 = (length(z_norm[classification==1 & z_norm<2])/length(z_norm))*100,
+    dens_perc_b2_5 = (length(z_norm[classification==1 & z_norm>2 & z_norm<5])/length(z_norm))*100
   )
   return(coveragemetrics)
 }
@@ -33,12 +33,14 @@ HeightMetrics = function(z,classification)
     z075quantile = quantile(z_norm, 0.75),
     z090quantile = quantile(z_norm, 0.90),
     zcoeffvar = sd(z_norm)/mean(z_norm),
+    zmean_undst = mean(z_norm[z_norm<5]),
     zmean_veg = mean(z_norm[classification==1]),
     zmedian_veg = median(z_norm[classification==1]),
     z025quantile_veg = quantile(z_norm[classification==1], 0.25),
     z075quantile_veg = quantile(z_norm[classification==1], 0.75),
     z090quantile_veg = quantile(z_norm[classification==1], 0.90),
-    zcoeffvar_veg = sd(z_norm[classification==1])/mean(z_norm[classification==1])
+    zcoeffvar_veg = sd(z_norm[classification==1])/mean(z_norm[classification==1]),
+    zmean_undst_veg = mean(z_norm[classification==1 & z_norm<5])
   )
   return(heightmetrics)
 }
