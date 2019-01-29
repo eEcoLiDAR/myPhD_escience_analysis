@@ -1,22 +1,7 @@
 "
 @author: Zsofia Koma, UvA
-Aim: Feature caculation AHN2 data
+Aim: Multilayer related feature caculation 
 "
-library("lidR")
-library("rgdal")
-#source("C:/Koma/Github/komazsofi/myPhD_escience_analysis/Paper1_inR/FeaCalc_functions_sTristan.R")
-source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR/FeaCalc_functions_sTristan.R")
-
-# Set working dirctory
-workingdirectory="D:/Koma/Paper1/ALS/"
-setwd(workingdirectory)
-
-resolution=2.5
-core=2
-
-# Set cataloge
-
-gr_hom_ctg <- catalog(paste(workingdirectory,"homogenized/",sep=""))
 
 simpson = function(z, by = 1, zmax = NULL)
 {

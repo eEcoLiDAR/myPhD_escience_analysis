@@ -61,6 +61,63 @@ ShapeMetrics = function(x,y,z)
   return(shapemetrics)
 }
 
+simpson = function(z, by = 1, zmax = NULL)
+{
+  # Fixed entropy (van Ewijk et al. (2011)) or flexible entropy
+  if (is.null(zmax))
+    zmax = max(z)
+  
+  # If zmax < 3 it is meaningless to compute entropy
+  if (zmax < 2 * by)
+    return(NA_real_)
+  
+  if (min(z) < 0)
+    return(NA_real_)
+  
+  # Define the number of x meters bins from 0 to zmax (rounded to the next integer)
+  bk = seq(0, ceiling(zmax/by)*by, by)
+  
+  # Compute the p for each bin
+  hist = hist(z,bk,plot=FALSE)
+  
+  # Proportion
+  p=(hist$counts/length(z))
+  
+  # Simpson index
+  D=1/sum(sqrt(p))
+  
+  return(D)
+}
+
+shannon = function(z, by = 1, zmax = NULL)
+{
+  # Fixed entropy (van Ewijk et al. (2011)) or flexible entropy
+  if (is.null(zmax))
+    zmax = max(z)
+  
+  # If zmax < 3 it is meaningless to compute entropy
+  if (zmax < 2 * by)
+    return(NA_real_)
+  
+  if (min(z) < 0)
+    return(NA_real_)
+  
+  # Define the number of x meters bins from 0 to zmax (rounded to the next integer)
+  bk = seq(0, ceiling(zmax/by)*by, by)
+  
+  # Compute the p for each bin
+  hist = hist(z,bk,plot=FALSE)
+  
+  # Proportion
+  p=(hist$counts/length(z))
+  p=p[p>0]
+  
+  # Simpson index
+  S=-sum(p*log(p))
+  
+  return(S)
+}
+
 VegStr_VertDistr_Metrics = function(z)
 {
   library("e1071")
@@ -74,7 +131,9 @@ VegStr_VertDistr_Metrics = function(z)
     zkurto = kurtosis(z),
     zentropy = entropy(z_norm, by = 0.5,zmax=NULL),
     canrelrat = (mean(z)-min(z))/max(z)-min(z),
-    vertdenrat = ((max(z)-median(z))/max(z))*100
+    vertdenrat = (max(z)-median(z))/max(z),
+    simpson = simpson(z_norm, by = 1, zmax = NULL),
+    shannon = shannon(z_norm, by = 1, zmax = NULL)
   )
   return(vertdistr_metrics)
 }
