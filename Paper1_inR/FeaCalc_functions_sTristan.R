@@ -60,3 +60,21 @@ ShapeMetrics = function(x,y,z)
   )
   return(shapemetrics)
 }
+
+VegStr_VertDistr_Metrics = function(z)
+{
+  library("e1071")
+  
+  z_norm=z-min(z)
+  
+  vertdistr_metrics = list(
+    zstd = sd(z),
+    zvar = var(z),
+    zskew = skewness(z),
+    zkurto = kurtosis(z),
+    zentropy = entropy(z_norm, by = 0.5,zmax=NULL),
+    canrelrat = (mean(z)-min(z))/max(z)-min(z),
+    vertdenrat = ((max(z)-median(z))/max(z))*100
+  )
+  return(vertdistr_metrics)
+}

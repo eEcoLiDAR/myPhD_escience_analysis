@@ -41,4 +41,8 @@ writeRaster(shapemetrics_whgr,"shapemetrics_whgr.grd",overwrite=TRUE)
 
 gr_hom_ctg@input_options$filter <- ""
 
+vertdistr_metrics = grid_metrics(gr_hom_ctg, VegStr_VertDistr_Metrics(Z),res=resolution)
+plot(vertdistr_metrics)
+writeRaster(vertdistr_metrics,"vertdistr_metrics.grd",overwrite=TRUE)
+
 
