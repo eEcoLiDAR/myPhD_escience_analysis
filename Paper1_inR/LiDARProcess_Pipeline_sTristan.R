@@ -13,6 +13,7 @@ source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR/FeaCalc_functions_sTri
 #setwd(workingdirectory)
 
 workdirectories=list("D:/Koma/Paper1/ALS/02gz2/ground/","D:/Koma/Paper1/ALS/02hz1/ground/","D:/Koma/Paper1/ALS/06en2/ground/","D:/Koma/Paper1/ALS/06fn1/ground/")
+#workdirectories=list("D:/Koma/Paper1/ALS/")
 
 for (workingdirectory in workdirectories){
   
@@ -21,13 +22,13 @@ for (workingdirectory in workdirectories){
   setwd(workingdirectory)
   
   resolution=2.5
-  core=18
+  core=2
   
   pdf("LiDAR_process.pdf")
   
   # Set cataloge
   
-  gr_hom_ctg <- catalog(paste(workingdirectory,"homogenized/",sep=""))
+  gr_hom_ctg <- catalog(paste(workingdirectory,"normalized/",sep=""))
   
   opt_chunk_buffer(gr_hom_ctg) <- resolution
   opt_cores(gr_hom_ctg) <- core

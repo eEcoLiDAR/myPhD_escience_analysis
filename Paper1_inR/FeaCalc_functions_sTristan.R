@@ -5,42 +5,37 @@ Aim: Feature caculation functions (based on Tristan article)
 
 CoverageMetrics = function(z,classification)
 {
-  
-  z_norm=z-min(z)
-  
   coveragemetrics = list(
     pulsepen_ground = (length(z[classification==2])/length(z))*100,
     totalvegvol = length(z[classification==1])/length(z[classification==2])*100,
     vegcover = (length(z[classification==1])/length(z))*100,
     cancov = (length(z[z>mean(z)])/length(z))*100,
-    undcov = (length(z_norm[classification==1 & z_norm>0.5 & z_norm<2])),
-    dens_perc_b2 = (length(z_norm[classification==1 & z_norm<2])/length(z_norm))*100,
-    dens_perc_b2_5 = (length(z_norm[classification==1 & z_norm>2 & z_norm<5])/length(z_norm))*100
+    undcov = (length(z[classification==1 & z>0.5 & z<2])),
+    dens_perc_b2 = (length(z[classification==1 & z<2])/length(z))*100,
+    dens_perc_b2_5 = (length(z[classification==1 & z>2 & z<5])/length(z))*100
   )
   return(coveragemetrics)
 }
 
 HeightMetrics = function(z,classification)
 {
-  
-  z_norm=z-min(z)
-  
+
   heightmetrics = list(
-    zmax = max(z_norm), 
-    zmean = mean(z_norm),
-    zmedian = median(z_norm),
-    z025quantile = quantile(z_norm, 0.25),
-    z075quantile = quantile(z_norm, 0.75),
-    z090quantile = quantile(z_norm, 0.90),
-    zcoeffvar = sd(z_norm)/mean(z_norm),
-    zmean_undst = mean(z_norm[z_norm<5]),
-    zmean_veg = mean(z_norm[classification==1]),
-    zmedian_veg = median(z_norm[classification==1]),
-    z025quantile_veg = quantile(z_norm[classification==1], 0.25),
-    z075quantile_veg = quantile(z_norm[classification==1], 0.75),
-    z090quantile_veg = quantile(z_norm[classification==1], 0.90),
-    zcoeffvar_veg = sd(z_norm[classification==1])/mean(z_norm[classification==1]),
-    zmean_undst_veg = mean(z_norm[classification==1 & z_norm<5])
+    zmax = max(z), 
+    zmean = mean(z),
+    zmedian = median(z),
+    z025quantile = quantile(z, 0.25),
+    z075quantile = quantile(z, 0.75),
+    z090quantile = quantile(z, 0.90),
+    zcoeffvar = sd(z)/mean(z),
+    zmean_undst = mean(z[z<5]),
+    zmean_veg = mean(z[classification==1]),
+    zmedian_veg = median(z[classification==1]),
+    z025quantile_veg = quantile(z[classification==1], 0.25),
+    z075quantile_veg = quantile(z[classification==1], 0.75),
+    z090quantile_veg = quantile(z[classification==1], 0.90),
+    zcoeffvar_veg = sd(z[classification==1])/mean(z[classification==1]),
+    zmean_undst_veg = mean(z[classification==1 & z<5])
   )
   return(heightmetrics)
 }
@@ -90,8 +85,8 @@ VegStr_VertDistr_Metrics = function(z)
 {
   library("e1071")
   
-  z_norm=z-min(z)
-  p=proportion(z_norm, by = 1, zmax = NULL)
+  z=z-min(z)
+  p=proportion(z, by = 1, zmax = NULL)
   p_whnull=p[p>0]
   
   vertdistr_metrics = list(
