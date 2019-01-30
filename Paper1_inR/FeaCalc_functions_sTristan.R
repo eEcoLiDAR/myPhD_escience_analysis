@@ -85,7 +85,6 @@ VegStr_VertDistr_Metrics = function(z)
 {
   library("e1071")
   
-  z=z-min(z)
   p=proportion(z, by = 1, zmax = NULL)
   p_whnull=p[p>0]
   

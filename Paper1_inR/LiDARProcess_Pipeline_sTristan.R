@@ -15,6 +15,8 @@ source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR/FeaCalc_functions_sTri
 workdirectories=list("D:/Koma/Paper1/ALS/02gz2/ground/","D:/Koma/Paper1/ALS/02hz1/ground/","D:/Koma/Paper1/ALS/06en2/ground/","D:/Koma/Paper1/ALS/06fn1/ground/")
 #workdirectories=list("D:/Koma/Paper1/ALS/")
 
+rasterOptions(maxmemory = 200000000000)
+
 for (workingdirectory in workdirectories){
   
   print(workingdirectory)
@@ -22,7 +24,7 @@ for (workingdirectory in workdirectories){
   setwd(workingdirectory)
   
   resolution=2.5
-  core=2
+  core=18
   
   pdf("LiDAR_process.pdf")
   
