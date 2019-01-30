@@ -7,7 +7,7 @@ library(rgdal)
 source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR/Classification_functions.R")
 
 # Set working dirctory
-workingdirectory="D:/Koma/Paper1/ALS/forClassification_v2_run3/"
+workingdirectory="D:/Koma/Paper1/ALS/forClassification_run4/"
 setwd(workingdirectory)
 
 #Skipped: selection of training data from polygon + buffer and recategorization

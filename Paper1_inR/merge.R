@@ -7,7 +7,7 @@ library("raster")
 
 # Set working dirctory
 #workingdirectory="C:/Koma/Paper1/ALS/"
-workingdirectory="D:/Koma/Paper1/ALS/forClassification_v2_run3/"
+workingdirectory="D:/Koma/Paper1/ALS/forClassification_run4/"
 setwd(workingdirectory)
 
 # Get the name of the colomns
@@ -30,16 +30,9 @@ names(lidar_metrics) <- col_names
 
 # Drop layers which are wrong
 
-lidar_metrics=dropLayer(lidar_metrics, c(3,4,5,15,34,35,36,37,38,39))
+lidar_metrics=dropLayer(lidar_metrics, c(16,17,18,19,20,21,22))
 
-plot(lidar_metrics[[1:14]])
-plot(lidar_metrics[[14:28]])
-plot(lidar_metrics[[18:32]])
-plot(lidar_metrics[[32:46]])
-
-#Export
-
-lidar_metrics=dropLayer(lidar_metrics, c(34,35,36,37,38,39))
+# Export
 
 crs(lidar_metrics) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
 writeRaster(lidar_metrics, "lidar_metrics.grd",overwrite=TRUE)
