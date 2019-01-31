@@ -8,12 +8,14 @@ library(caret)
 
 library(ggplot2)
 library(gridExtra)
-source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR/Analysis_Functions.R")
+#source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR/Analysis_Functions.R")
 #source("C:/Koma/Github/komazsofi/myPhD_escience_analysis/Paper1_inR/Analysis_Functions.R")
+source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR/Analysis_Functions.R")
 
 # Set global variables
-setwd("D:/Koma/Paper1/ALS/forClassification_run4/")
+#setwd("D:/Koma/Paper1/ALS/forClassification_run4/")
 #setwd("C:/Koma/Paper1/run2_withR_2019Jan/")
+setwd("D:/Koma/Paper1_ReedStructure/run5_withR_Jan2019/")
 
 level1="featuretable_level1_b2o5.csv"
 level2="featuretable_level2_b2o5.csv"
@@ -62,14 +64,14 @@ impvar <- rownames(imp)[order(imp[, 4], decreasing=TRUE)]
 
 id=1
 response_l1_imp1 <- Response_l1(forest_l1,featuretable_l1,id)
-id=5
+id=2
 response_l1_imp2 <- Response_l1(forest_l1,featuretable_l1,id)
-id=12
+id=3
 response_l1_imp3 <- Response_l1(forest_l1,featuretable_l1,id)
 
 p4=ggplot(response_l1_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[1]) + ylab("Partial dependence") + scale_color_manual(values = c("1" = "gray", "2" = "green"),name="General classes",labels=c("Planar surface", "Vegetation")) + theme_bw(base_size = 20)
-p5=ggplot(response_l1_imp2,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[5]) + ylab("Partial dependence") + scale_color_manual(values = c("1" = "gray", "2" = "green"),name="General classes",labels=c("Planar surface", "Vegetation")) + theme_bw(base_size = 20)
-p6=ggplot(response_l1_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[12]) + ylab("Partial dependence") + scale_color_manual(values = c("1" = "gray", "2" = "green"),name="General classes",labels=c("Planar surface", "Vegetation")) + theme_bw(base_size = 20)
+p5=ggplot(response_l1_imp2,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[2]) + ylab("Partial dependence") + scale_color_manual(values = c("1" = "gray", "2" = "green"),name="General classes",labels=c("Planar surface", "Vegetation")) + theme_bw(base_size = 20)
+p6=ggplot(response_l1_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[3]) + ylab("Partial dependence") + scale_color_manual(values = c("1" = "gray", "2" = "green"),name="General classes",labels=c("Planar surface", "Vegetation")) + theme_bw(base_size = 20)
 
 grid.arrange(
   p4,
@@ -82,18 +84,18 @@ grid.arrange(
 imp <- importance(forest_l2)
 impvar <- rownames(imp)[order(imp[, 4], decreasing=TRUE)]
 
-id=7
+id=1
 response_l2_imp1 <- Response_l2(forest_l2,featuretable_l2,id)
-id=20
+id=2
 response_l2_imp2 <- Response_l2(forest_l2,featuretable_l2,id)
-id=11
+id=3
 response_l2_imp3 <- Response_l2(forest_l2,featuretable_l2,id)
 
-p4=ggplot(response_l2_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[7]) + ylab("Partial dependence")+ scale_color_manual(values = c("1" = "darkgreen", "2" = "gray46", "3" = "green1","4"="gold","5"="chocolate4","6"="darkolivegreen4"),
+p4=ggplot(response_l2_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[1]) + ylab("Partial dependence")+ scale_color_manual(values = c("1" = "darkgreen", "2" = "gray46", "3" = "green1","4"="gold","5"="chocolate4","6"="darkolivegreen4"),
                                                                                                                                                                     name="Wetland",labels=c("Forest", "Infrastructure","Grassland","Land reed","Water reed","Shrubs")) + theme_bw(base_size = 20)
-p5=ggplot(response_l2_imp2,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[20]) + ylab("Partial dependence")+ scale_color_manual(values = c("1" = "darkgreen", "2" = "gray46", "3" = "green1","4"="gold","5"="chocolate4","6"="darkolivegreen4"),
+p5=ggplot(response_l2_imp2,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[2]) + ylab("Partial dependence")+ scale_color_manual(values = c("1" = "darkgreen", "2" = "gray46", "3" = "green1","4"="gold","5"="chocolate4","6"="darkolivegreen4"),
                                                                                                                                                                      name="Wetland",labels=c("Forest", "Infrastructure","Grassland","Land reed","Water reed","Shrubs")) + theme_bw(base_size = 20)
-p6=ggplot(response_l2_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[11]) + ylab("Partial dependence")+ scale_color_manual(values = c("1" = "darkgreen", "2" = "gray46", "3" = "green1","4"="gold","5"="chocolate4","6"="darkolivegreen4"),
+p6=ggplot(response_l2_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[3]) + ylab("Partial dependence")+ scale_color_manual(values = c("1" = "darkgreen", "2" = "gray46", "3" = "green1","4"="gold","5"="chocolate4","6"="darkolivegreen4"),
                                                                                                                                                                      name="Wetland",labels=c("Forest", "Infrastructure","Grassland","Land reed","Water reed","Shrubs")) + theme_bw(base_size = 20)
 
 grid.arrange(
@@ -109,14 +111,14 @@ impvar <- rownames(imp)[order(imp[, 4], decreasing=TRUE)]
 
 id=1
 response_l3_imp1 <- Response_l3(forest_l3,featuretable_l3,id)
-id=9
+id=2
 response_l3_imp2 <- Response_l3(forest_l3,featuretable_l3,id)
-id=10
+id=3
 response_l3_imp3 <- Response_l3(forest_l3,featuretable_l3,id)
 
 p4=ggplot(response_l3_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[1]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="gold","2"="tan2","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
-p5=ggplot(response_l3_imp2,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[9]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="gold","2"="tan2","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
-p6=ggplot(response_l3_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[10]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="gold","2"="tan2","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
+p5=ggplot(response_l3_imp2,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[2]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="gold","2"="tan2","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
+p6=ggplot(response_l3_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[3]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="gold","2"="tan2","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
 
 grid.arrange(
   p4,
