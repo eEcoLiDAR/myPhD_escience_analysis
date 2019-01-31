@@ -31,6 +31,7 @@ level1="level1"
 Pred_l1=Classification_werrorass(featuretable_l1,lidarmetrics,level1)
 writeRaster(Pred_l1, filename="classified_level1.tif", format="GTiff",overwrite=TRUE)
 
+Pred_l1=stack("classified_level1.tif")
 # Mask 
 formask <- setValues(raster(Pred_l1), NA)
 formask[Pred_l1==2] <- 1
