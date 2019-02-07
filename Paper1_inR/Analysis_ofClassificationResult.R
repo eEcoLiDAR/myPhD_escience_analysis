@@ -8,6 +8,7 @@ library(caret)
 
 library(ggplot2)
 library(gridExtra)
+library(ggrepel)
 #source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR/Analysis_Functions.R")
 #source("C:/Koma/Github/komazsofi/myPhD_escience_analysis/Paper1_inR/Analysis_Functions.R")
 source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR/Analysis_Functions.R")
@@ -47,9 +48,54 @@ importance_frame_l1=Analysis_FeatureImportance(forest_l1)
 importance_frame_l2=Analysis_FeatureImportance(forest_l2)
 importance_frame_l3=Analysis_FeatureImportance(forest_l3)
 
-p1=plot_multi_way_importance(importance_frame_l1, x_measure = "norm_accuracy_decrease", y_measure = "norm_gini_decrease", main='Level 1') + xlab("Normalized accuracy decrease") + ylab("Normalized gini decrease")
-p2=plot_multi_way_importance(importance_frame_l2, x_measure = "norm_accuracy_decrease", y_measure = "norm_gini_decrease", main='Level 2') + xlab("Normalized accuracy decrease") + ylab("Normalized gini decrease")
-p3=plot_multi_way_importance(importance_frame_l3, x_measure = "norm_accuracy_decrease", y_measure = "norm_gini_decrease", main='Level 3') + xlab("Normalized accuracy decrease") + ylab("Normalized gini decrease")
+write.csv(importance_frame_l1, file = "importance_frame_l1.csv",row.names=FALSE)
+write.csv(importance_frame_l2, file = "importance_frame_l2.csv",row.names=FALSE)
+write.csv(importance_frame_l3, file = "importance_frame_l3.csv",row.names=FALSE)
+
+importance_frame_l1_m=read.csv("importance_frame_l1.csv")
+importance_frame_l2_m=read.csv("importance_frame_l2.csv")
+importance_frame_l3_m=read.csv("importance_frame_l3.csv")
+
+
+data_l1 <- importance_frame_l1_m[importance_frame_l1_m$no_of_trees > 0, ]
+data_for_labels_l1 <- importance_frame_l1_m[importance_frame_l1_m$variable %in%
+                                      important_variables(importance_frame_l1_m, k = 10,
+                                                          measures = c("norm_accuracy_decrease","norm_gini_decrease")), ]
+
+data_l2 <- importance_frame_l2_m[importance_frame_l2_m$no_of_trees > 0, ]
+data_for_labels_l2 <- importance_frame_l2_m[importance_frame_l2_m$variable %in%
+                                              important_variables(importance_frame_l2_m, k = 10,
+                                                                  measures = c("norm_accuracy_decrease","norm_gini_decrease")), ]
+
+data_l3 <- importance_frame_l3_m[importance_frame_l3_m$no_of_trees > 0, ]
+data_for_labels_l3 <- importance_frame_l3_m[importance_frame_l3_m$variable %in%
+                                              important_variables(importance_frame_l3_m, k = 10,
+                                                                  measures = c("norm_accuracy_decrease","norm_gini_decrease")), ]
+
+p1=ggplot(data_l1, aes_string(x = "norm_accuracy_decrease", y = "norm_gini_decrease")) +
+  geom_point(aes(color=factor(data_l1$varclass)),size=5,show.legend = FALSE) + geom_point(data = data_for_labels_l1, aes(color=factor(data_for_labels_l1$varclass)),size=5,show.legend = FALSE) +
+  geom_label_repel(data = data_for_labels_l1, aes(label = variable,size=20), show.legend = FALSE) +
+  scale_color_manual(values = c("1" = "deeppink", "2" = "darkolivegreen3", "3" = "blueviolet","4"="chocolate4"),name="LiDAR metrics",labels=c("Coverage", "Structure","Height","Terrain")) +
+  xlab("Normalized accuracy decrease") + ylab("Normalized gini decrease") +
+  theme_bw(base_size = 20)
+
+p2=ggplot(data_l2, aes_string(x = "norm_accuracy_decrease", y = "norm_gini_decrease")) +
+  geom_point(aes(color=factor(data_l1$varclass)),size=5) + geom_point(data = data_for_labels_l2, aes(color=factor(data_for_labels_l2$varclass)),size=5) +
+  geom_label_repel(data = data_for_labels_l2, aes(label = variable,size=20), show.legend = FALSE) +
+  scale_color_manual(values = c("1" = "deeppink", "2" = "darkolivegreen3", "3" = "blueviolet","4"="chocolate4"),name="",labels=c("Coverage", "Structure","Height","Terrain")) +
+  xlab("Normalized accuracy decrease") + ylab("Normalized gini decrease") +
+  theme_bw(base_size = 20) + theme(legend.position="bottom")
+
+p3=ggplot(data_l3, aes_string(x = "norm_accuracy_decrease", y = "norm_gini_decrease")) +
+  geom_point(aes(color=factor(data_l3$varclass)),size=5,show.legend = FALSE) + geom_point(data = data_for_labels_l3, aes(color=factor(data_for_labels_l3$varclass)),size=5,show.legend = FALSE) +
+  geom_label_repel(data = data_for_labels_l3, aes(label = variable,size=20), show.legend = FALSE) +
+  scale_color_manual(values = c("1" = "deeppink", "2" = "darkolivegreen3", "3" = "blueviolet","4"="chocolate4"),name="LiDAR metrics",labels=c("Coverage", "Structure","Height","Terrain")) +
+  xlab("Normalized accuracy decrease") + ylab("Normalized gini decrease") +
+  theme_bw(base_size = 20)
+
+#p1=plot_multi_way_importance(importance_frame_l1, x_measure = "norm_accuracy_decrease", y_measure = "norm_gini_decrease", main='Level 1') + xlab("Normalized accuracy decrease") + ylab("Normalized gini decrease") 
+#p2=plot_multi_way_importance(importance_frame_l2, x_measure = "norm_accuracy_decrease", y_measure = "norm_gini_decrease", main='Level 2') + xlab("Normalized accuracy decrease") + ylab("Normalized gini decrease") 
+#p3=plot_multi_way_importance(importance_frame_l3, x_measure = "norm_accuracy_decrease", y_measure = "norm_gini_decrease", main='Level 3') + xlab("Normalized accuracy decrease") + ylab("Normalized gini decrease") 
 
 grid.arrange(
   p1,
