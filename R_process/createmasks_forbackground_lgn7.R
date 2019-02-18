@@ -69,3 +69,12 @@ plot(formask_natur, col="dark green", legend = FALSE)
 writeRaster(formask_natur, filename="formask_natur.tif", format="GTiff",overwrite=TRUE)
 
 gc()
+
+# Reedbed close habitats
+formask_wethab <- setValues(raster(landcover), NA)
+formask_wethab[landcover>30] <- 1
+
+plot(formask_wethab, col="dark green", legend = FALSE)
+writeRaster(formask_wethab, filename="formask_wethab.tif", format="GTiff",overwrite=TRUE)
+
+gc()
