@@ -38,11 +38,11 @@ nl_bound.df = join(nl_bound.points, nl_bound@data, by="id")
 # Pre-processing
 
 # Filter species
-bird_species="Kleine Karekiet"
+#bird_species="Kleine Karekiet"
 #bird_species="Roerdomp" #not enough occurance:6
 #bird_species="Snor" #not enough occurance:21
 #bird_species="Baardman" #not enough occurance:12
-#bird_species="Grote Karekiet"  #not enough occurance:3
+bird_species="Grote Karekiet"  #not enough occurance:3
 
 bird_data_onebird=bird_data[ which(bird_data$species==bird_species),]
 
@@ -52,7 +52,8 @@ observationmap = within(observationmap, {
   occurrence = ifelse(sum >0, 1, 0)
 })
 
-#observationmap$sum <- NULL
+pres=observationmap[which(observationmap$occurrence==1),]
+length(pres$occurrence)
 
 # Visualize
 p6=ggplot() + 
