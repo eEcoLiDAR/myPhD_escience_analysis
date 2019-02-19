@@ -44,7 +44,4 @@ coordinates(VegDB_filter)=~Longitude+Latitude
 proj4string(VegDB_filter)<- CRS("+proj=longlat +datum=WGS84")
 raster::shapefile(VegDB_filter, "PhA_DutchVegDB_points.shp",overwrite=TRUE)
 
-# Create polygon -- buffer
-
-# Export polygon
 
