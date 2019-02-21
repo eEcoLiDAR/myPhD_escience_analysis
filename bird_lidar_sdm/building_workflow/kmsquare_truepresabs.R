@@ -40,16 +40,16 @@ nl_bound.df = join(nl_bound.points, nl_bound@data, by="id")
 # Filter species
 #bird_species="Kleine Karekiet"
 #bird_species="Roerdomp" 
-#bird_species="Snor" 
+bird_species="Snor" 
 #bird_species="Baardman" 
-bird_species="Grote Karekiet" 
+#bird_species="Grote Karekiet" 
 
 bird_data_onebird=bird_data[ which(bird_data$species==bird_species),]
 
 # generate id from coords
-bird_data_onebird$coordid <- with(bird_data_onebird, paste0(x,y))
+#bird_data_onebird$coordid <- with(bird_data_onebird, paste0(x,y))
 
-observationmap=ddply(bird_data_onebird,~coordid+species+x+y,summarise,sum=sum(present))
+observationmap=ddply(bird_data_onebird,~kmsquare+species+x+y,summarise,sum=sum(present))
 observationmap = within(observationmap, {
   occurrence = ifelse(sum >0, 1, 0)
 })
