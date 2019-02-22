@@ -79,6 +79,16 @@ p1
 
 ggsave(paste('Ind_obs_sumpercoord.jpg',sep=''),p1)
 
+overall_indobsstat_peryear <- bird_data %>%
+  group_by(species,year) %>%
+  summarise(nofsp = length(species))
+
+p2<-ggplot(overall_indobsstat_peryear, aes(x=species, y=nofsp, fill=factor(year))) +
+  geom_bar(stat="identity",position=position_dodge())
+p2
+
+ggsave(paste('Ind_obs_sumperyear.jpg',sep=''),p1)
+
 #
 overall_kmsquaresgroup <- bird_data %>%
   group_by(kmsquare,species) %>%
@@ -95,4 +105,17 @@ p2
 
 ggsave(paste('Ind_obs_perkmsquares.jpg',sep=''),p2)
 
+overall_kmsquaresgroup_peryear <- bird_data %>%
+  group_by(kmsquare,species,year) %>%
+  summarise(nofbird = sum(number))
+
+overall_kmsquaresstat_pyear <- overall_kmsquaresgroup_peryear %>%
+  group_by(species,year) %>%
+  summarise(nofkmsquare = length(kmsquare))
+
+p2<-ggplot(overall_kmsquaresstat_pyear, aes(x=species, y=nofkmsquare, fill=factor(year))) +
+  geom_bar(stat="identity",position=position_dodge())
+p2
+
+ggsave(paste('Ind_obs_perkmsquares_peryear.jpg',sep=''),p1)
 

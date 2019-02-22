@@ -76,10 +76,10 @@ for (bird_species in species) {
     theme_bw()
   
   p6
-  ggsave(paste(substr(filename, 1, nchar(filename)-4),bird_species,'_grouped_presabs_nl.jpg',sep=''),p6)
+  ggsave(paste(bird_species,'_atlas_presabs_nl.jpg',sep=''),p6)
   
   # Export
-  write.csv(observation_presabs, file = paste(substr(filename, 1, nchar(filename)-4),bird_species,'_grouped_presabs_nl.csv',sep=''),row.names=FALSE)
+  write.csv(observation_presabs, file = paste(bird_species,'_atlas_presabs_nl.csv',sep=''),row.names=FALSE)
 }
 
 # Overall stat.
@@ -92,4 +92,5 @@ p<-ggplot(overall_atlasstat, aes(x=species, y=nofsp, fill=species)) +
   geom_text(aes(label=nofsp), vjust=1.6, color="white", size=3.5)
 p
 
-ggsave(paste(substr(filename, 1, nchar(filename)-4),'_overallatlas.jpg',sep=''),p)
+ggsave(paste('overallatlas.jpg',sep=''),p)
+

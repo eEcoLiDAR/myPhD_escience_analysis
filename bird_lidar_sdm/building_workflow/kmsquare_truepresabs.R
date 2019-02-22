@@ -100,3 +100,18 @@ p1<-ggplot(overall_kmstat, aes(x=species, y=nofsp, fill=species)) +
 p1
 
 ggsave(paste('kmsquarestat.jpg',sep=''),p1)
+
+# per year
+
+bird_data_notnull=bird_data[ which(bird_data$present==1),]
+bird_data_notnull_grouped=ddply(bird_data_notnull,~kmsquare+species+year,summarise,sum=sum(present))
+
+overall_kmstat_year <- bird_data_notnull_grouped %>%
+  group_by(species,year) %>%
+  summarise(nofsp = length(species))
+
+p2<-ggplot(overall_kmstat_year, aes(x=species, y=nofsp, fill=factor(year))) +
+  geom_bar(stat="identity",position=position_dodge())
+p2
+
+ggsave(paste('kmstat_pyear.jpg',sep=''),p2)
