@@ -43,7 +43,7 @@ for (bird_species in species) {
   bird_data_onebird=bird_data[ which(bird_data$species==bird_species),]
   
   #Presence-only
-  observationmap=ddply(bird_data_onebird,~kmsquare+species+x_point+y_point,summarise,sum=sum(number))
+  observationmap=ddply(bird_data_onebird,~kmsquare+species+x_observation+y_observation,summarise,sum=sum(number))
   observationmap = within(observationmap, {
     occurrence = ifelse(sum >0, 1, 0)
   })
@@ -53,18 +53,18 @@ for (bird_species in species) {
     geom_polygon(data=nl_bound.df,aes(long,lat,group=group),fill = NA, color="black") +
     geom_path(color="white") +
     coord_equal() +
-    geom_point(data=observationmap, aes(x=x_point,y=y_point,color=as.factor(occurrence)),inherit.aes = FALSE) +
+    geom_point(data=observationmap, aes(x=x_observation,y=y_observation,color=as.factor(occurrence)),inherit.aes = FALSE) +
     scale_color_manual(values=c('#6666FF','#990000'))+
     labs(x="x",y="y",color="Presence-only") +
     ggtitle(paste("Aggregated individual observation of",bird_species,"2013-2016",sep=" ")) +
     theme_bw()
   
   p6
-  ggsave(paste(substr(filename, 1, nchar(filename)-4),bird_species,'_grouped_presonly_nl.jpg',sep=''),p6)
+  ggsave(paste(bird_species,'_indobs_grouped_presonly_nl.jpg',sep=''),p6)
   
   # Export
-  write.csv(bird_data_onebird, file = paste(substr(filename, 1, nchar(filename)-4),bird_species,'indobs_presonly_nl.csv',sep=''),row.names=FALSE)
-  write.csv(observationmap, file = paste(substr(filename, 1, nchar(filename)-4),bird_species,'_grouped_presonly_nl.csv',sep=''),row.names=FALSE)
+  write.csv(bird_data_onebird, file = paste(bird_species,'_indobs_presonly_nl.csv',sep=''),row.names=FALSE)
+  write.csv(observationmap, file = paste(bird_species,'_indobs_grouped_presonly_nl.csv',sep=''),row.names=FALSE)
 }
 
 # Overall stat.
@@ -77,7 +77,7 @@ p1<-ggplot(overall_indobsstat, aes(x=species, y=nofsp, fill=species)) +
   geom_text(aes(label=nofsp), vjust=1.6, color="white", size=3.5)
 p1
 
-ggsave(paste(substr(filename, 1, nchar(filename)-4),'_stat_sumindobs.jpg',sep=''),p1)
+ggsave(paste('Ind_obs_sumpercoord.jpg',sep=''),p1)
 
 #
 overall_kmsquaresgroup <- bird_data %>%
@@ -93,6 +93,6 @@ p2<-ggplot(overall_kmsquaresstat, aes(x=species, y=nofkmsquare, fill=species)) +
   geom_text(aes(label=nofkmsquare), vjust=1.6, color="white", size=3.5)
 p2
 
-ggsave(paste(substr(filename, 1, nchar(filename)-4),'_observedkmsquares.jpg',sep=''),p2)
+ggsave(paste('Ind_obs_perkmsquares.jpg',sep=''),p2)
 
 

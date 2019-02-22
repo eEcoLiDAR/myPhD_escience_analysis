@@ -25,6 +25,7 @@ filename="Breeding_bird_atlas_aggregated_data_kmsquares.csv"
 
 nl="Boundary_NL_RDNew.shp"
 
+#kmsquares="kmsquares.shp"
 kmsquares="kmsquare_aslist.csv"
 
 setwd(full_path)
@@ -78,10 +79,10 @@ for (bird_species in species) {
     theme_bw()
   
   p6
-  ggsave(paste(substr(filename, 1, nchar(filename)-4),bird_species,'_kmsquare_presabs_nl.jpg',sep=''),p6)
+  ggsave(paste(bird_species,'_kmsquare_presabs_nl.jpg',sep=''),p6)
   
   # Export
-  write.csv(observation_presabs, file = paste(substr(filename, 1, nchar(filename)-4),bird_species,'_kmsquare_presabs_nl.csv',sep=''),row.names=FALSE)
+  write.csv(observation_presabs, file = paste(bird_species,'_kmsquare_presabs_nl.csv',sep=''),row.names=FALSE)
 }
 
 # Stat
@@ -98,4 +99,4 @@ p1<-ggplot(overall_kmstat, aes(x=species, y=nofsp, fill=species)) +
   geom_text(aes(label=nofsp), vjust=1.6, color="white", size=3.5)
 p1
 
-ggsave(paste(substr(filename, 1, nchar(filename)-4),'_kmsquarestat.jpg',sep=''),p1)
+ggsave(paste('kmsquarestat.jpg',sep=''),p1)
