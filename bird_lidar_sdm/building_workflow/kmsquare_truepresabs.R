@@ -32,6 +32,7 @@ setwd(full_path)
 
 # Import
 bird_data=read.csv(file=filename,header=TRUE,sep=";")
+bird_data=bird_data[ which(bird_data$year<2016),]
 
 nl_bound = readOGR(dsn=nl)
 nl_bound@data$id = rownames(nl_bound@data)
