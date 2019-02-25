@@ -15,7 +15,7 @@ setwd(workingdirectory)
 ctg <- catalog(workingdirectory)
 
 opt_chunk_buffer(ctg) <- 0
-opt_chunk_size(ctg) <- 2000
+opt_chunk_size(ctg) <- 1000
 opt_cores(ctg) <- 18
 opt_output_files(ctg) <- paste(workingdirectory,"homogenized/{XLEFT}_{YBOTTOM}_homo",sep="")
 
