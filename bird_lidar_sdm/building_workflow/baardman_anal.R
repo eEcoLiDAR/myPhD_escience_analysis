@@ -17,7 +17,8 @@ library("ggplot2")
 library("sdm")
 
 # Set global variables
-full_path="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess/"
+#full_path="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess/"
+full_path="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess/"
 
 filename="Baardman_kmsquare_presabs_nl.csv"
 lidarfile="Lidarmetrics_forMScCourse.grd"
@@ -106,3 +107,8 @@ ggplot(data=response_glm@response$perc_90_nonground, aes(x=perc_90_nonground, y=
   geom_point()
 
 #gui(model1)
+
+p1 <- predict(model1,newdata=lidarmetrics_sel,filename='model1.tif')
+plot(p1)
+
+writeRaster(p1,"sdm_predict.tif",overwrite=TRUE)
