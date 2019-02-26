@@ -53,3 +53,25 @@ opt_output_files(ground_ctg)=""
 dtm = grid_terrain(ground_ctg, algorithm =knnidw(k=20,p=2), res=2.5, keep_lowest = TRUE)
 crs(dtm) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
 writeRaster(dtm, "dtm.tif",overwrite=TRUE)
+
+# Hillshade
+
+slope <- terrain(dtm, opt='slope')
+aspect <- terrain(dtm, opt='aspect')
+dtm_shd <- hillShade(slope, aspect, 40, 270)
+
+writeRaster(dtm_shd, "dtm_shd.tif",overwrite=TRUE)
+
+# Create DSM
+
+dsm = grid_metrics(ground_ctg,max(Z),res=2.5)
+crs(dsm) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
+writeRaster(dsm, "dsm.tif",overwrite=TRUE)
+
+# Hillshade
+
+slope <- terrain(dsm, opt='slope')
+aspect <- terrain(dsm, opt='aspect')
+dsm_shd <- hillShade(slope, aspect, 40, 270)
+
+writeRaster(dsm_shd, "dsm_shd.tif",overwrite=TRUE)
