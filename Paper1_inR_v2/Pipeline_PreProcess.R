@@ -16,6 +16,8 @@ chunksize=1000
 buffer=2.5
 resolution=2.5
 
+rasterOptions(maxmemory = 200000000000)
+
 # Create catalog and homogenize the point cloud (overlapping areas -> 10 pt/m2)
 ctg <- catalog(workingdirectory)
 
@@ -43,3 +45,11 @@ opt_cores(ground_ctg) <- cores
 opt_output_files(ground_ctg) <- paste(workingdirectory,"normalized_neibased/{XLEFT}_{YBOTTOM}_homo_gr_norm",sep="")
 
 normalized_ctg=lasnormalize(ground_ctg,knnidw(k=20,p=2))
+
+# Generate DTM
+
+opt_output_files(ground_ctg)=""
+
+dtm = grid_terrain(ground_ctg, algorithm =knnidw(k=20,p=2), res=2.5, keep_lowest = TRUE)
+crs(dtm) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
+writeRaster(dtm, "dtm.tif",overwrite=TRUE)
