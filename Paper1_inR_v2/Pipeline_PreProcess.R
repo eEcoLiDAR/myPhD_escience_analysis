@@ -75,5 +75,3 @@ aspect <- terrain(dsm, opt='aspect')
 dsm_shd <- hillShade(slope, aspect, 40, 270)
 
 writeRaster(dsm_shd, "dsm_shd.tif",overwrite=TRUE)
-
-# Calculate metrics
