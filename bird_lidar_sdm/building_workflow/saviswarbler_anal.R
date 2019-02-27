@@ -85,15 +85,21 @@ proj4string(bird_obs)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.3876
 data_forsdm <- sdmData(formula=occurrence~., train=bird_obs, predictors=lidarmetrics_sel)
 data_forsdm
 
-model1 <- sdm(occurrence~.,data=data_forsdm,methods=c('glm','rf'),replication=c('boot'),n=2)
+model1 <- sdm(occurrence~.,data=data_forsdm,methods=c('glm','rf','maxent'),replication=c('boot'),n=2)
 model1
+
+model2 <- sdm(occurrence~.,data=data_forsdm,methods=c('maxent'),replication=c('boot'),n=2)
+model2
 
 roc(model1)
 rcurve(model1,id = 3)
+rcurve(model1,id = 5)
 
 feaimp_rf=getVarImp(model1,id = 3)
+feaimp_maxent=getVarImp(model1,id = 5)
 
 feaimp_rf_ord <- feaimp_rf@varImportance[ order(feaimp_rf@varImportance[,3]), ]
+feaimp_maxent_ord <- feaimp_maxent@varImportance[ order(feaimp_maxent@varImportance[,3]), ]
 
 response_glm=getResponseCurve(model1,id = 1)
 response_rf=getResponseCurve(model1,id = 3)
