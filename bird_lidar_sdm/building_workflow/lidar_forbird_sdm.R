@@ -14,6 +14,7 @@ library("dplyr")
 library("gridExtra")
 
 library("ggplot2")
+library("spatial.tools")
 
 # Set global variables
 #full_path="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess/"
@@ -27,7 +28,6 @@ setwd(full_path)
 
 # Import LiDAR metrics
 lidarmetrics=stack(lidarfile)
-bird_data=read.csv(file=filename,header=TRUE,sep=",")
 landcover=stack(landcoverfile)
 
 # Habitat selection
@@ -66,3 +66,6 @@ writeRaster(lidarmetrics_sel_exp, "lidarmetrics_wetlands_expanded.grd",overwrite
 
 lidarmetrics_sel_exp2=stack(lidarmetrics_sel,rough_perc90_nonground,rough_perc90_ground)
 writeRaster(lidarmetrics_sel_exp2, "lidarmetrics_wetlands_expanded2.grd",overwrite=TRUE)
+
+#Parallelize focal
+sd_perc90_nonground=focal_hpc(lidarmetrics_sel[[22]], window_dims=c(3,3), fun=sd)
