@@ -42,6 +42,13 @@ data_forsdm
 model1 <- sdm(occurrence~.,data=data_forsdm,methods=c('glm','rf','maxent'),replication=c('boot'),n=2)
 model1
 
+p1 <- predict(model1,newdata=lidarmetrics,filename='Baardman_model3.img')
+plot(p1)
+
+writeRaster(p1,"Baardman_sdm_predict_2.tif",overwrite=TRUE)
+writeRaster(p1[[3]],"Baardman_sdm_predict_rf_2.tif",overwrite=TRUE)
+writeRaster(p1[[5]],"Baardman_sdm_predict_maxent_2.tif",overwrite=TRUE)
+
 save(model1,file = "Baardman_model1.RData")
 load("Baardman_model1.RData")
 
@@ -58,13 +65,6 @@ feaimp_maxent_ord <- feaimp_maxent@varImportance[ order(feaimp_maxent@varImporta
 
 feaimp_rf_ord
 feaimp_maxent_ord
-
-p1 <- predict(model1,newdata=lidarmetrics,filename='Baardman_model3.img')
-plot(p1)
-
-writeRaster(p1,"Baardman_sdm_predict_2.tif",overwrite=TRUE)
-writeRaster(p1[[3]],"Baardman_sdm_predict_rf_2.tif",overwrite=TRUE)
-writeRaster(p1[[5]],"Baardman_sdm_predict_maxent_2.tif",overwrite=TRUE)
 
 response_rf=getResponseCurve(model1,id = 3)
 
