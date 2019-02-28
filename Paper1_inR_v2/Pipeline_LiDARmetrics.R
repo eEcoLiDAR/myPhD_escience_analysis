@@ -33,8 +33,11 @@ opt_chunk_buffer(normalized_ctg) <- buffer
 opt_chunk_size(normalized_ctg) <- chunksize
 opt_cores(normalized_ctg) <- cores
 
-shapemetrics = grid_metrics(ground_ctg,  eigenmetrics(X,Y,Z), res = resolution)
+shapemetrics = grid_metrics(normalized_ctg,  eigenmetrics(X,Y,Z), res = resolution)
 plot(shapemetrics)
 
 covermetrics = grid_metrics(ground_ctg,  coverageMetrics(Z,Classification), res = resolution)
 plot(covermetrics)
+
+vertdistr_metrics = grid_metrics(normalized_ctg, vertDistr_Metrics(Z),res=resolution)
+plot(vertdistr_metrics)
