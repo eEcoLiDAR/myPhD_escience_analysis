@@ -16,11 +16,12 @@ library("gridExtra")
 library("ggplot2")
 
 # Set global variables
-full_path="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess/"
+#full_path="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess/"
+full_path="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess/"
 
 lidarfile="Lidarmetrics_forMScCourse.grd"
 landcoverfile="LGN7.tif"
-lidarfile_sel="lidarmetrics_sel.grd"
+lidarfile_sel_file="lidarmetrics_sel.grd"
 
 setwd(full_path)
 
@@ -40,7 +41,7 @@ lidarmetrics_sel <- mask(lidarmetrics, formask_resampled)
 writeRaster(lidarmetrics_sel, "lidarmetrics_sel.grd",overwrite=TRUE)
 
 # Aggregation
-lidarmetrics_sel=stack(lidarfile_sel)
+lidarmetrics_sel=stack(lidarfile_sel_file)
 
 lidarmetrics_1km <- aggregate(lidarmetrics_sel, fact = 10, fun = mean)
 writeRaster(lidarmetrics_1km, "lidarmetrics_1km.grd",overwrite=TRUE)
@@ -62,3 +63,6 @@ names(var_perc90_ground) <- "var_perc90_ground"
 
 lidarmetrics_sel_exp=stack(lidarmetrics_sel,rough_perc90_nonground,sd_perc90_nonground,var_perc90_nonground,rough_perc90_ground,sd_perc90_ground,var_perc90_ground)
 writeRaster(lidarmetrics_sel_exp, "lidarmetrics_wetlands_expanded.grd",overwrite=TRUE)
+
+lidarmetrics_sel_exp2=stack(lidarmetrics_sel,rough_perc90_nonground,rough_perc90_ground)
+writeRaster(lidarmetrics_sel_exp2, "lidarmetrics_wetlands_expanded2.grd",overwrite=TRUE)

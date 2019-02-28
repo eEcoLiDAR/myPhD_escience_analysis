@@ -19,10 +19,10 @@ library("sdm")
 # Set global variables
 full_path="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess/"
 
-birdobsfile="Snor_indobs_presonly_nl.csv"
-birdkmfile="Snor_kmsquare_presabs_nl.csv"
+birdobsfile="Baardman_indobs_presonly_nl.csv"
+birdkmfile="Baardman_kmsquare_presabs_nl.csv"
 
-lidarfile="lidarmetrics_wetlands_expanded.grd"
+lidarfile="lidarmetrics_wetlands_expanded2.grd"
 
 setwd(full_path)
 
@@ -37,7 +37,7 @@ geomcoord_mean_kmsquaresgroup <- bird_data_obs %>%
   group_by(kmsquare) %>%
   summarise(X = mean(x_observation),Y = mean(y_observation))
 
-geomcoord_mean_kmsquaresgroup$species <- "Snor"
+geomcoord_mean_kmsquaresgroup$species <- "Baardman"
 geomcoord_mean_kmsquaresgroup$occurrence <- 1
 
 write.csv(geomcoord_mean_kmsquaresgroup, file = 'Snor_pres_perkmsquare_geommean.csv',row.names=FALSE)
@@ -50,4 +50,4 @@ birdkmfile_onlynull_org <- data.frame("kmsquare" = birdkmfile_onlynull$kmsquare,
 # Aggregate
 bird_presabs <- rbind(geomcoord_mean_kmsquaresgroup, birdkmfile_onlynull_org) 
 
-write.csv(bird_presabs, file = 'Snor_presabs_perkmsquare_geommean.csv',row.names=FALSE)
+write.csv(bird_presabs, file = 'Baardman_presabs_perkmsquare_geommean.csv',row.names=FALSE)
