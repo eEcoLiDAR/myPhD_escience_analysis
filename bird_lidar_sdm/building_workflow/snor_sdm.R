@@ -65,3 +65,13 @@ plot(p1)
 writeRaster(p1,"Snor_sdm_predict_2.tif",overwrite=TRUE)
 writeRaster(p1[[3]],"Snor_sdm_predict_rf_2.tif",overwrite=TRUE)
 writeRaster(p1[[5]],"Snor_sdm_predict_maxent_2.tif",overwrite=TRUE)
+
+response_rf=getResponseCurve(model1,id = 3)
+
+ggplot(data=response_rf@response$perc_10_nonground, aes(x=perc_10_nonground, y=`rf_ID-3`)) +
+  geom_line()+
+  geom_point()
+
+ggplot(data=response_rf@response$perc_90_nonground, aes(x=perc_90_nonground, y=`rf_ID-3`)) +
+  geom_line()+
+  geom_point()
