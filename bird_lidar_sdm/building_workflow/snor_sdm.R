@@ -55,6 +55,7 @@ load("Snor_model1.RData")
 roc(model1)
 rcurve(model1,id = 1)
 rcurve(model1,id = 3)
+?rcurve
 rcurve(model1,id = 5)
 
 feaimp_rf=getVarImp(model1,id = 3)
