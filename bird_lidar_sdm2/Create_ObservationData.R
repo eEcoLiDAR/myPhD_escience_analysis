@@ -111,3 +111,7 @@ bird_presabs_ahn3_hasdata_wlandc_bykmsquare = within(bird_presabs_ahn3_hasdata_w
 
 listahn3=ddply(bird_presabs_ahn3_hasdata_wlandc_bykmsquare,~bladnr,summarise,sum=sum(occurrence))
 nrow(listahn3)
+
+listahn3$bladnr_up=toupper(listahn3$bladnr)
+
+write.csv(listahn3, file = 'listahn3.csv',row.names=FALSE)
