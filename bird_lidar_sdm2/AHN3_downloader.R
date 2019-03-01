@@ -18,6 +18,6 @@ for (tile in req_tile){
   print(tile[1])
   
   download.file(paste("https://geodata.nationaalgeoregister.nl/ahn3/extract/ahn3_laz/C_",tile,".LAZ",sep=""),
-                paste("C_",tile,".LAZ",sep=""),cacheOK=FALSE)
+                paste("C_",tile,".LAZ",sep=""))
 }
 
