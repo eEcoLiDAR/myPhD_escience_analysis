@@ -18,8 +18,8 @@ library("sdm")
 library("usdm")
 
 # Set global variables
-#full_path="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess/"
-full_path="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess/"
+full_path="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess/"
+#full_path="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess/"
 
 birdfile="Baardman_bird_presabs_lidar.csv"
 lidarfile="lidarmetrics_wetlands_expanded2.grd"
