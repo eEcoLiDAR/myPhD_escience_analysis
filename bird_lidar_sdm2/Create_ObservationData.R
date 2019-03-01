@@ -94,6 +94,8 @@ bird_presabs_ahn3_hasdata_wlandc=bird_presabs_ahn3_hasdata_shp@data
 bird_presabs_ahn3_hasdata_wlandc=bird_presabs_ahn3_hasdata_wlandc[ which(bird_presabs_ahn3_hasdata_wlandc$landcovermask==1),]
 nrow(bird_presabs_ahn3_hasdata_wlandc)
 
+write.csv(bird_presabs_ahn3_hasdata_wlandc, file = 'fulllist_wahn3.csv',row.names=FALSE)
+
 pres=bird_presabs_ahn3_hasdata_wlandc[ which(bird_presabs_ahn3_hasdata_wlandc$occurrence==1),]
 abs=bird_presabs_ahn3_hasdata_wlandc[ which(bird_presabs_ahn3_hasdata_wlandc$occurrence==0),]
 
