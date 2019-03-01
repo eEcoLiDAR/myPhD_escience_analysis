@@ -15,11 +15,13 @@ bykmsquare_wcoord=read.csv(file=bykmsquare_wcoord_file,header=TRUE,sep=",")
 
 ctg = catalog(workingdirectory)
 
-for (i in seq(from=1,to=nrow(bykmsquare_wcoord))){ 
+for (i in seq(from=14,to=nrow(bykmsquare_wcoord))){ 
   print(paste(workingdirectory,"C_",toupper(bykmsquare_wcoord$bladnr[i]),".LAZ",sep=""))
   
   subset = lasclipRectangle(ctg, bykmsquare_wcoord$X[i]-500, bykmsquare_wcoord$Y[i]-500, bykmsquare_wcoord$X[i]+500, bykmsquare_wcoord$Y[i]+500)
   
-  writeLAS(subset,paste("C_",toupper(bykmsquare_wcoord$bladnr[i]),"_",i,".laz",sep=""))
+  if (subset@header@PHB[["Number of point records"]]>0) {
+    writeLAS(subset,paste("C_",toupper(bykmsquare_wcoord$bladnr[i]),"_",i,".laz",sep=""))
+  }
   
 }
