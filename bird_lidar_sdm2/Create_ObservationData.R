@@ -99,12 +99,12 @@ abs=bird_presabs_ahn3_hasdata_wlandc[ which(bird_presabs_ahn3_hasdata_wlandc$occ
 
 nofpres=nrow(bird_presabs_ahn3_hasdata_wlandc[ which(bird_presabs_ahn3_hasdata_wlandc$occurrence==1),])
 
-abs_sampled=abs[sample(nrow(abs), nofpres), ]
+abs_sampled=abs[sample(nrow(abs), 48), ] #nof kmsquare with presence
 
 presabs_bird <- rbind(pres, abs_sampled) 
 
 # Groupby kmsquare
-bird_presabs_ahn3_hasdata_wlandc_bykmsquare=ddply(pres,~kmsquare+species+bladnr,summarise,sum=sum(occurrence))
+bird_presabs_ahn3_hasdata_wlandc_bykmsquare=ddply(presabs_bird,~kmsquare+species+bladnr,summarise,sum=sum(occurrence))
 bird_presabs_ahn3_hasdata_wlandc_bykmsquare = within(bird_presabs_ahn3_hasdata_wlandc_bykmsquare, {
   occurrence = ifelse(sum >0, 1, 0)
 })
