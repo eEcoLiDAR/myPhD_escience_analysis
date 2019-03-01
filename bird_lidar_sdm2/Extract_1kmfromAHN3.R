@@ -6,7 +6,7 @@ library("lidR")
 library("rgdal")
 
 # Set working dirctory
-workingdirectory="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_2/"
+workingdirectory="D:/Koma/Paper3/"
 setwd(workingdirectory)
 
 #Import csv
