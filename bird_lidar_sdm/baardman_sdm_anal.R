@@ -92,5 +92,5 @@ plot(p1)
 
 writeRaster(p1,"Baardman_sdm_predict2.tif",overwrite=TRUE)
 
-ens1 <- ensemble(model1, newdata=lidarmetrics2, filename="",setting=list(method='weighted',stat='TSS',opt=2))
-writeRaster(ens1,"Baardman_ensemble_tss.tif",overwrite=TRUE)
+ens1 <- ensemble(model1, newdata=lidarmetrics2, filename="",setting=list(method='weighted',stat='AUC',opt=2))
+writeRaster(ens1,"Baardman_ensemble_auc.tif",overwrite=TRUE)
