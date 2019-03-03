@@ -73,7 +73,7 @@ proj4string(bird_obs)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.3876
 data_forsdm <- sdmData(formula=occurrence~., train=bird_obs, predictors=lidarmetrics2)
 data_forsdm
 
-model1 <- sdm(occurrence~.,data=data_forsdm,methods=c('glm','gam','brt','rf','svm','mars'),replication=c('cv','boot'),cv.folds=2,n=2)
+model1 <- sdm(occurrence~.,data=data_forsdm,methods=c('glm','gam','brt','rf','svm','mars'),replication=c('boot'),n=2)
 model1
 
 rcurve(model1,id = 1)
