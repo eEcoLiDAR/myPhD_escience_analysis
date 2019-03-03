@@ -20,7 +20,7 @@ library("usdm")
 # Set global variables
 full_path="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_3/"
 
-birdfile="Baardman_indpres_kmsquareabs_joined.csv"
+birdfile="Snor_indpres_kmsquareabs_joined.csv"
 lidarfile="lidarmetrics_wetlands_expanded2.grd"
 
 setwd(full_path)
@@ -29,7 +29,7 @@ setwd(full_path)
 lidarmetrics=stack(lidarfile)
 lidarmetrics <- dropLayer(lidarmetrics,c("density_absolute_mean_all","point_density"))
 
-v <- vifstep(lidarmetrics,th=2)
+v <- vifstep(lidarmetrics,th=4)
 v
 lidarmetrics2 <- exclude(lidarmetrics,v)
 
@@ -73,7 +73,7 @@ proj4string(bird_obs)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.3876
 data_forsdm <- sdmData(formula=occurrence~., train=bird_obs, predictors=lidarmetrics2)
 data_forsdm
 
-model1 <- sdm(occurrence~.,data=data_forsdm,methods=c('glm','gam','brt','rf','svm','mars'),replication=c('cv','boot'),cv.folds=5,n=5)
+model1 <- sdm(occurrence~.,data=data_forsdm,methods=c('glm','gam','brt','rf','svm','mars'),replication=c('cv','boot'),cv.folds=2,n=2)
 model1
 
 rcurve(model1,id = 1)
@@ -88,7 +88,7 @@ roc(model1)
 p1 <- predict(model1,newdata=lidarmetrics2,filename='')
 plot(p1)
 
-writeRaster(p1,"Baardman_sdm_predict2.tif",overwrite=TRUE)
+writeRaster(p1,"Snor_sdm_predict2.tif",overwrite=TRUE)
 
 ens1 <- ensemble(model1, newdata=lidarmetrics2, filename="",setting=list(method='weighted',stat='AUC',opt=2))
-writeRaster(ens1,"Baardman_ensemble_auc.tif",overwrite=TRUE)
+writeRaster(ens1,"Snor_ensemble_auc.tif",overwrite=TRUE)

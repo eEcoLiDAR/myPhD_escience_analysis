@@ -18,10 +18,14 @@ library("sdm")
 library("sf")
 
 # Set global variables
-full_path="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess/"
+#full_path="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess/"
+full_path="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess/"
 
-birdobsfile="Baardman_indobs_presonly_nl.csv"
-birdkmfile="Baardman_kmsquare_presabs_nl.csv"
+#birdobsfile="Baardman_indobs_presonly_nl.csv"
+#birdkmfile="Baardman_kmsquare_presabs_nl.csv"
+
+birdobsfile="Snor_indobs_presonly_nl.csv"
+birdkmfile="Snor_kmsquare_presabs_nl.csv"
 
 lidarfile="lidarmetrics_wetlands_expanded2.grd"
 
@@ -60,7 +64,7 @@ bird_presence_per100m_aggr = within(bird_presence_per100m_aggr, {
   occurrence = ifelse(sum >0, 1, 0)
 })
 
-write.csv(bird_presence_per100m_aggr, file ='Baardman_indobs_grouped100m_presonly_nl.csv',row.names=FALSE)
+write.csv(bird_presence_per100m_aggr, file ='Snor_indobs_grouped100m_presonly_nl.csv',row.names=FALSE)
 
 names(bird_presence_per100m_aggr)[4]<-"X"
 names(bird_presence_per100m_aggr)[5]<-"Y"
@@ -73,7 +77,7 @@ birdkmfile_onlynull_org <- data.frame("X" = birdkmfile_onlynull$X, "Y" = birdkmf
 
 # Aggregate
 bird_presabs <- rbind(bird_presence_per100m_aggr_forjoin, birdkmfile_onlynull_org) 
-write.csv(bird_presabs, file = 'Baardman_indpres_kmsquareabs_joined.csv',row.names=FALSE)
+write.csv(bird_presabs, file = 'Snor_indpres_kmsquareabs_joined.csv',row.names=FALSE)
 
 #Intersect with lidarmetrics extent again
 bird_presabs$X_obs=bird_presabs$X
@@ -88,4 +92,4 @@ bird_presabs_lidar=intersect_bird_presabs@data
 bird_presabs_lidar=bird_presabs_lidar[complete.cases(bird_presabs_lidar), ]
 
 bird_presabs_lidar$perc_90_nonground <- NULL
-write.csv(bird_presabs_lidar, file = 'Baardman_bird_presabs_lidar.csv',row.names=FALSE)
+write.csv(bird_presabs_lidar, file = 'Snor_bird_presabs_lidar.csv',row.names=FALSE)
