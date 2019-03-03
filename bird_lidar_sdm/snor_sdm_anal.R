@@ -29,7 +29,7 @@ setwd(full_path)
 lidarmetrics=stack(lidarfile)
 lidarmetrics <- dropLayer(lidarmetrics,c("density_absolute_mean_all","point_density"))
 
-v <- vifstep(lidarmetrics,th=4)
+v <- vifstep(lidarmetrics,th=3)
 v
 lidarmetrics2 <- exclude(lidarmetrics,v)
 
