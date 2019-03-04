@@ -40,6 +40,16 @@ formask_resampled=resample(formask,lidarmetrics)
 lidarmetrics_sel <- mask(lidarmetrics, formask_resampled)
 writeRaster(lidarmetrics_sel, "lidarmetrics_sel.grd",overwrite=TRUE)
 
+# Get reduced landcover map
+maskedlandcover <- setValues(raster(landcover), NA)
+
+maskedlandcover[landcover==30] <- 1
+maskedlandcover[landcover==45] <- 2
+maskedlandcover[landcover==41] <- 3
+maskedlandcover[landcover==42] <- 4
+
+writeRaster(maskedlandcover, "maskedlandcover.tif",overwrite=TRUE)
+
 # Aggregation
 lidarmetrics_sel=stack(lidarfile_sel_file)
 
