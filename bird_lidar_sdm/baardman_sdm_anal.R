@@ -46,6 +46,8 @@ bird_data_shp=bird_data[c("X","Y","x_observation","y_observation","species","occ
 coordinates(bird_data_shp)=~x_observation+y_observation
 proj4string(bird_data_shp)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
+writeOGR(bird_data_shp,".","Baardman_bird_data", driver="ESRI Shapefile")
+
 intersect_poly_birdobs = point.in.poly(bird_data_shp, polygon_100mcell)
 
 bird_data_intersect=intersect_poly_birdobs@data
@@ -80,12 +82,14 @@ model1
 
 rcurve(model1,id = 1)
 rcurve(model1,id = 3)
-rcurve(model1,id = 5)
+rcurve(model1,id = 5,mean=F,confidence = T)
 rcurve(model1,id = 7)
 rcurve(model1,id = 9)
 rcurve(model1,id = 11)
-
+a <- getResponseCurve(model1,id=5)
 roc(model1)
+a@response
+
 
 # Feature importance
 
@@ -110,9 +114,9 @@ plot(feaimp_5,'auc')
 plot(feaimp_5,'cor')
 
 feaimp_6=getVarImp(model1,id = 11)
-plot(feaimp_6,'auc')
+plot(feaimp_6,'auc',cex.axis=0.6,cex=0.6)
 plot(feaimp_6,'cor')
-
+boxplot()
 # Exploration orig. predictors
 featureset=data_forsdm@features
 
@@ -134,7 +138,9 @@ for (name in colNames) {
   ggsave(paste(name,'_baardman_boxplot.jpg',sep=''),p)
 }
 
+model1@data@features.name
 
+niche(lidarmetrics2,model1@data,n=c("roughness.1" ,"perc_30_nonground"))
 # Predict
 
 p1 <- predict(model1,newdata=lidarmetrics2,filename='')
