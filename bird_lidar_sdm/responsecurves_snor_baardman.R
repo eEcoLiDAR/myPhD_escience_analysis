@@ -47,8 +47,12 @@ baardman_data_forsdm
 snor_model <- sdm(occurrence~.,data=snor_data_forsdm,methods=c('glm','gam','brt','rf','svm','mars'),replication=c('boot'),n=50)
 snor_model
 
+save(snor_model,file = "snor_model.RData")
+
 baardman_model <- sdm(occurrence~.,data=baardman_data_forsdm,methods=c('glm','gam','brt','rf','svm','mars'),replication=c('boot'),n=50)
 baardman_model
+
+save(baardman_model,file = "baardman_model.RData")
 
 # Response curves
 
@@ -68,8 +72,8 @@ rcurve(baardman_model,id = 11)
 
 # make nice graph
 
-response_snor_svm=getResponseCurve(snor_model,id = 9)
-response_baardman_svm=getResponseCurve(baardman_model,id = 9)
+response_snor_svm=getResponseCurve(snor_model,id = 201)
+response_baardman_svm=getResponseCurve(baardman_model,id = 201)
 
 # pulsepen
 
@@ -101,17 +105,17 @@ max_z__nonground=rbind(response_snor_svm@response$max_z__nonground,response_baar
 
 # plot
 
-p1=ggplot(data=pulse_pen, aes(x=pulse_pen_ratio_all, y=`svm_ID-9`,group=species,color=species)) + 
+p1=ggplot(data=pulse_pen, aes(x=pulse_pen_ratio_all, y=`svm_ID-201`,group=species,color=species)) + 
   scale_color_manual(values = c("Savi's Warbler"="tan2","Bearded Reedling"="chocolate4")) + 
   geom_line(size=3,show.legend = FALSE) + 
   xlab("Pulse penetration ratio [%]") + ylab("Response") + theme_bw(base_size = 30) + ylim(0.25, 1)
 
-p2=ggplot(data=roughness, aes(x=roughness.1, y=`svm_ID-9`,group=species,color=species)) + 
+p2=ggplot(data=roughness, aes(x=roughness.1, y=`svm_ID-201`,group=species,color=species)) + 
   scale_color_manual(values = c("Savi's Warbler"="tan2","Bearded Reedling"="chocolate4")) + 
   geom_line(size=3,show.legend = FALSE) + 
   xlab("Surface roughness [m]") + ylab("Response") + theme_bw(base_size = 30) + ylim(0.25, 1)
 
-p3=ggplot(data=max_z__nonground, aes(x=max_z__nonground, y=`svm_ID-9`,group=species,color=species)) + 
+p3=ggplot(data=max_z__nonground, aes(x=max_z__nonground, y=`svm_ID-201`,group=species,color=species)) + 
   scale_color_manual(values = c("Savi's Warbler"="tan2","Bearded Reedling"="chocolate4")) + 
   geom_line(size=3,show.legend = FALSE) + 
   xlab("Vegetation height [m]") + ylab("Response") + theme_bw(base_size = 30) + ylim(0.25, 1)
