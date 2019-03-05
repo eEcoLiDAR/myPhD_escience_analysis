@@ -18,7 +18,7 @@ library("sdm")
 library("usdm")
 
 # Set global variables
-full_path="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_3/"
+full_path="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_3/"
 
 birdfile="Snor_indpres_kmsquareabs_joined.csv"
 lidarfile="lidarmetrics_wetlands_expanded2.grd"
@@ -69,6 +69,8 @@ presabs_bird <- rbind(pres, abs_sampled)
 bird_obs=presabs_bird[c("X","Y","occurrence")]
 coordinates(bird_obs)=~X+Y
 proj4string(bird_obs)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
+
+writeOGR(bird_obs,".","Snor_bird_data_forSDM", driver="ESRI Shapefile")
 
 data_forsdm <- sdmData(formula=occurrence~., train=bird_obs, predictors=lidarmetrics2)
 data_forsdm
