@@ -43,8 +43,10 @@ baardman_data_forsdm
 
 # Modelling
 
-snor_model <- sdm(occurrence~.,data=snor_data_forsdm,methods=c('glm','gam','brt','rf','svm','mars'),replication=c('boot'),n=15)
+snor_model <- sdm(occurrence~.,data=snor_data_forsdm,methods=c('glm','gam','brt','rf','svm','mars'),replication=c('boot'),n=5)
 snor_model
 
 baardman_model <- sdm(occurrence~.,data=baardman_data_forsdm,methods=c('glm','gam','brt','rf','svm','mars'),replication=c('boot'),n=15)
 baardman_model
+
+rcurve(snor_model,id = 5,mean=F,confidence = T)
