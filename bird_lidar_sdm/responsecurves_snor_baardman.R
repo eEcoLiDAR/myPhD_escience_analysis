@@ -18,7 +18,7 @@ library("sdm")
 library("usdm")
 
 # Set global variables
-full_path="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_3/"
+full_path="D:/Koma/Paper3/DataProcess/"
 
 snorfile="Snor_bird_data_forSDM.shp"
 baardmanfile="Baardman_bird_data_forSDM.shp"
@@ -43,8 +43,8 @@ baardman_data_forsdm
 
 # Modelling
 
-snor_model <- sdm(occurrence~.,data=snor_data_forsdm,methods=c('glm','gam','brt','rf','svm','mars'),replication=c('boot'),n=50)
+snor_model <- sdm(occurrence~.,data=snor_data_forsdm,methods=c('glm','gam','brt','rf','svm','mars'),replication=c('boot'),n=15)
 snor_model
 
-baardman_model <- sdm(occurrence~.,data=baardman_data_forsdm,methods=c('glm','gam','brt','rf','svm','mars'),replication=c('boot'),n=50)
+baardman_model <- sdm(occurrence~.,data=baardman_data_forsdm,methods=c('glm','gam','brt','rf','svm','mars'),replication=c('boot'),n=15)
 baardman_model
