@@ -63,23 +63,25 @@ max_z__nonground=rbind(max_z__nonground_snor[["data"]],max_z__nonground_baardman
 
 max_z__nonground$variable <- NULL
 
+# Plot
+
 p1=ggplot(data=pulse_pen, aes(x=Value, y=Response,group=species,color=species)) + 
   scale_color_manual(values = c("Savi's Warbler"="tan2","Bearded Reedling"="chocolate4")) + 
   geom_line(size=3,show.legend = FALSE) + 
   geom_ribbon(aes(x=Value,ymin=lower, ymax=upper), linetype=2, alpha=0.1,show.legend = FALSE) +
-  xlab("Pulse penetration ratio [%]") + ylab("Response") + theme_bw(base_size = 30) + ylim(0.1, 1)
+  xlab("Proxy for vegetation coverage [%]") + ylab("Predicted probability") + theme_bw(base_size = 30) + scale_y_continuous(breaks=seq(0, 1.1, 0.2), limits=c(0.1, 1.1))
 
 p2=ggplot(data=roughness, aes(x=Value, y=Response,group=species,color=species)) + 
   scale_color_manual(values = c("Savi's Warbler"="tan2","Bearded Reedling"="chocolate4")) + 
   geom_line(size=3,show.legend = FALSE) + 
   geom_ribbon(aes(x=Value,ymin=lower, ymax=upper), linetype=2, alpha=0.1,show.legend = FALSE) +
-  xlab("Canopy roughness [m]") + ylab("Response") + theme_bw(base_size = 30) + ylim(0.1, 1)
+  xlab("Canopy roughness [m]") + ylab("Predicted probability") + theme_bw(base_size = 30) + scale_y_continuous(breaks=seq(0, 1.1, 0.2), limits=c(0.1, 1.1))
 
 p3=ggplot(data=max_z__nonground, aes(x=Value, y=Response,group=species,color=species)) + 
   scale_color_manual(values = c("Savi's Warbler"="tan2","Bearded Reedling"="chocolate4")) + 
   geom_line(size=3,show.legend = FALSE) + 
   geom_ribbon(aes(x=Value,ymin=lower, ymax=upper), linetype=2, alpha=0.1,show.legend = FALSE) +
-  xlab("Vegetation height [m]") + ylab("Response") + theme_bw(base_size = 30) + ylim(0.1, 1)
+  xlab("Vegetation height [m]") + ylab("Predicted probability") + theme_bw(base_size = 30) + scale_y_continuous(breaks=seq(0, 1.1, 0.2), limits=c(0.1, 1.1))
 
 grid.arrange(
   p1,
