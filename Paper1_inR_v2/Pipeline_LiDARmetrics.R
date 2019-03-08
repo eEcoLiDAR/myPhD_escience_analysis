@@ -38,37 +38,40 @@ opt_cores(normalized_ctg) <- cores
 # Calculate metrics
 
 covermetrics = grid_metrics(ground_ctg,  CoverageMetrics(Z,Classification), res = resolution)
-plot(covermetrics)
+#plot(covermetrics)
+writeRaster(covermetrics,"covermetrics.grd",overwrite=TRUE)
 
 shapemetrics = grid_metrics(normalized_ctg,  EigenMetrics(X,Y,Z), res = resolution)
-plot(shapemetrics)
+#plot(shapemetrics)
+writeRaster(shapemetrics,"shapemetrics.grd",overwrite=TRUE)
 
 vertdistr_metrics = grid_metrics(normalized_ctg, VertDistr_Metrics(Z),res=resolution)
-plot(vertdistr_metrics)
+#plot(vertdistr_metrics)
+writeRaster(vertdistr_metrics,"vertdistr_metrics.grd",overwrite=TRUE)
 
 height_metrics = grid_metrics(normalized_ctg, HeightMetrics(Z),res=resolution)
-plot(height_metrics)
+#plot(height_metrics)
+writeRaster(height_metrics,"height_metrics.grd",overwrite=TRUE)
 
 proj4string(height_metrics)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
 horizontal_metrics = HorizontalMetrics(height_metrics$zmax)
-plot(horizontal_metrics)
+#plot(horizontal_metrics)
+writeRaster(horizontal_metrics,"horizontal_metrics.grd",overwrite=TRUE)
 
 # Only for vegetation
 
 opt_filter(normalized_ctg) <- "-keep_class 1"
 
 shapemetrics_whgr = grid_metrics(normalized_ctg,  EigenMetrics(X,Y,Z), res = resolution)
-plot(shapemetrics_whgr)
+#plot(shapemetrics_whgr)
+writeRaster(shapemetrics_whgr,"shapemetrics_whgr.grd",overwrite=TRUE)
 
 vertdistr_metrics_whgr = grid_metrics(normalized_ctg, VertDistr_Metrics(Z),res=resolution)
-plot(vertdistr_metrics_whgr)
+#plot(vertdistr_metrics_whgr)
+writeRaster(vertdistr_metrics_whgr,"vertdistr_metrics_whgr.grd",overwrite=TRUE)
 
 height_metrics_whgr = grid_metrics(normalized_ctg, HeightMetrics(Z),res=resolution)
-plot(height_metrics)
-
-proj4string(height_metrics_whgr)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
-
-horizontal_metrics_whgr = HorizontalMetrics(height_metrics_whgr$zmax)
-plot(horizontal_metrics_whgr)
+#plot(height_metrics)
+writeRaster(height_metrics_whgr ,"height_metrics_whgr.grd",overwrite=TRUE)
 

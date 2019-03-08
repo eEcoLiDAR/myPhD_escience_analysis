@@ -16,7 +16,8 @@ EigenMetrics = function(X,Y,Z)
       curvature = eigen_m$values[3]/(eigen_m$values[1]+eigen_m$values[2]+eigen_m$values[3]),
       linearity = (eigen_m$values[1]-eigen_m$values[2])/eigen_m$values[1],
       planarity = (eigen_m$values[2]-eigen_m$values[3])/eigen_m$values[1],
-      sphericity = eigen_m$values[3]/eigen_m$values[1]
+      sphericity = eigen_m$values[3]/eigen_m$values[1],
+      anisotrophy = (eigen_m$values[1]-eigen_m$values[3])/eigen_m$values[1]
     )
     return(shapemetrics)
   }
