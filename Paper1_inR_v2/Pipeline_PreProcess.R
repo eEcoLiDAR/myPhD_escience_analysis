@@ -26,7 +26,7 @@ ctg <- catalog(workingdirectory)
 opt_chunk_buffer(ctg) <- buffer
 opt_chunk_size(ctg) <- chunksize
 opt_cores(ctg) <- cores
-opt_output_files(ctg) <- paste(workingdirectory,"ground/{XLEFT}_{YBOTTOM}_homo_gr",sep="")
+opt_output_files(ctg) <- paste(workingdirectory,"ground/{XLEFT}_{YBOTTOM}_gr",sep="")
 
 ground_ctg <- lasground(ctg, pmf(2.5,0.1))
 
@@ -35,7 +35,7 @@ ground_ctg <- lasground(ctg, pmf(2.5,0.1))
 opt_chunk_buffer(ground_ctg) <- buffer
 opt_chunk_size(ground_ctg) <- chunksize
 opt_cores(ground_ctg) <- cores
-opt_output_files(ground_ctg) <- paste(workingdirectory,"normalized_neibased/{XLEFT}_{YBOTTOM}_homo_gr_norm",sep="")
+opt_output_files(ground_ctg) <- paste(workingdirectory,"normalized_neibased/{XLEFT}_{YBOTTOM}_gr_norm",sep="")
 
 normalized_ctg=lasnormalize(ground_ctg,knnidw(k=20,p=2))
 
