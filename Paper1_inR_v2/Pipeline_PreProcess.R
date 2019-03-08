@@ -12,7 +12,7 @@ workingdirectory="D:/Koma/Paper1_v2/ALS/" ## set this directory where your input
 setwd(workingdirectory)
 
 cores=18
-chunksize=1000
+chunksize=2000
 buffer=2.5
 resolution=2.5
 
@@ -21,21 +21,14 @@ rasterOptions(maxmemory = 200000000000)
 # Create catalog and homogenize the point cloud (overlapping areas -> 10 pt/m2)
 ctg <- catalog(workingdirectory)
 
-opt_chunk_buffer(ctg) <- 0
-opt_chunk_size(ctg) <- chunksize
-opt_cores(ctg) <- cores
-opt_output_files(ctg) <- paste(workingdirectory,"homogenized/{XLEFT}_{YBOTTOM}_homo",sep="")
-
-homogenized_ctg=lasfilterdecimate(ctg,homogenize(10,1))
-
 # Classify ground
 
-opt_chunk_buffer(homogenized_ctg) <- buffer
-opt_chunk_size(homogenized_ctg) <- chunksize
-opt_cores(homogenized_ctg) <- cores
-opt_output_files(homogenized_ctg) <- paste(workingdirectory,"ground/{XLEFT}_{YBOTTOM}_homo_gr",sep="")
+opt_chunk_buffer(ctg) <- buffer
+opt_chunk_size(ctg) <- chunksize
+opt_cores(ctg) <- cores
+opt_output_files(ctg) <- paste(workingdirectory,"ground/{XLEFT}_{YBOTTOM}_homo_gr",sep="")
 
-ground_ctg <- lasground(homogenized_ctg, pmf(2.5,0.1))
+ground_ctg <- lasground(ctg, pmf(2.5,0.1))
 
 # Normalize with point neighborhood
 
