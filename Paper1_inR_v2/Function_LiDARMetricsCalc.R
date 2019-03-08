@@ -3,7 +3,7 @@
 Aim: Feature caculation functions (based on Tristan article)
 "
 
-eigenmetrics = function(X,Y,Z)
+EigenMetrics = function(X,Y,Z)
 {
   xyz=cbind(X,Y,Z) 
   cov_m=cov(xyz) 
@@ -22,7 +22,7 @@ eigenmetrics = function(X,Y,Z)
   }
 }
 
-coverageMetrics = function(z,classification)
+CoverageMetrics = function(z,classification)
 {
   coveragemetrics = list(
     pulsepen_ground = (length(z[classification==2])/length(z))*100,
@@ -58,7 +58,7 @@ proportion = function(z, by = 1, zmax = NULL)
 }
 
 
-vertDistr_Metrics = function(z)
+VertDistr_Metrics = function(z)
 {
   library("e1071")
   
@@ -76,4 +76,36 @@ vertDistr_Metrics = function(z)
     shannon = -sum(p_whnull*log(p_whnull))
   )
   return(vertdistr_metrics)
+}
+
+HeightMetrics = function(z)
+{
+  
+  heightmetrics = list(
+    zmax = max(z), 
+    zmean = mean(z),
+    zmedian = median(z),
+    z025quantile = quantile(z, 0.25),
+    z075quantile = quantile(z, 0.75),
+    z090quantile = quantile(z, 0.90),
+    zcoeffvar = sd(z)/mean(z),
+    zmin = min(z)
+  )
+  return(heightmetrics)
+}
+
+HorizontalMetrics = function(dsm) {
+  
+  library("spatial.tools")
+  
+  rough_dsm=terrain(dsm,opt="roughness",neighbors=4)
+  tpi_dsm=terrain(dsm,opt="TPI",neighbors=4)
+  tri_dsm=terrain(dsm,opt="TRI",neighbors=4)
+  
+  sd_dsm=focal_hpc(dsm,fun=sd,window_dims=c(3,3))
+  names(sd_dsm) <- "sd_dsm"
+  
+  horizontal_metrics=stack(rough_dsm,tpi_dsm,tri_dsm,sd_dsm)
+  
+  return(horizontal_metrics)
 }
