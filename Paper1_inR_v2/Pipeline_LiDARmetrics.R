@@ -9,7 +9,8 @@ library("rgdal")
 source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR_v2/Function_LiDARMetricsCalc.R")
 
 # Set working directory
-workingdirectory="D:/Koma/Paper1_v2/ALS/" ## set this directory where your input las files are located
+#workingdirectory="D:/Koma/Paper1_v2/ALS/" ## set this directory where your input las files are located
+workingdirectory="D:/Koma/Paper1/ALS/"
 setwd(workingdirectory)
 
 cores=18

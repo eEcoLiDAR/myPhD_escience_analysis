@@ -8,11 +8,12 @@ library("lidR")
 library("rgdal")
 
 # Set working directory
-workingdirectory="D:/Koma/Paper1_v2/ALS/" ## set this directory where your input las files are located
+#workingdirectory="D:/Koma/Paper1_v2/ALS/" ## set this directory where your input las files are located
+workingdirectory="D:/Koma/Paper1/ALS/"
 setwd(workingdirectory)
 
 cores=18
-chunksize=2000
+chunksize=500
 buffer=2.5
 resolution=2.5
 
