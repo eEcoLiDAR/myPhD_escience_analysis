@@ -85,8 +85,24 @@ vertdistrmetrics_mod <- overlay(vertdistrmetrics_m, vertdistrmetrics_wgr, fun = 
 names(vertdistrmetrics_mod) <- names(vertdistrmetrics_wgr)
 writeRaster(vertdistrmetrics_mod,"vertdistrmetrics_merged.grd",overwrite=TRUE)
 
-
-
 # Merge files into one lidarmetrics file
+ex_m=extent(shapemetrics_mod)
+
+covermetrics_m=crop(covermetrics,ex_m)
+heightmetrics_mod_m=crop(heightmetrics_mod,ex_m)
+horizontalmetrics_mod_m=crop(horizontalmetrics,ex_m)
+vertdistrmetrics_mod_m=crop(vertdistrmetrics_mod,ex_m)
+
+lidarmetrics=stack(covermetrics_m,shapemetrics_mod,vertdistrmetrics_mod_m,horizontalmetrics_mod_m,heightmetrics_mod_m)
+writeRaster(lidarmetrics,"lidarmetrics.grd",overwrite=TRUE)
 
 # Exclude buildings
+buildings=readOGR(dsn="buldings.shp")
+
+building_rast <- rasterize(buildings, lidarmetrics[[1]],field="DN")
+formask <- setValues(raster(lidarmetrics[[1]]), 1)
+formask[building_rast>0] <- NA
+
+lidarmetrics_masked <- mask(lidarmetrics, formask)
+writeRaster(lidarmetrics_masked,"lidarmetrics_masked.grd",overwrite=TRUE)
+
