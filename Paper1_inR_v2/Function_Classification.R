@@ -18,7 +18,7 @@ Create_Intersection = function(classes,lidarmetrics)
   # convert training data into the right format
   trainingbrick <- addLayer(masked, classes_rast)
   featuretable <- getValues(trainingbrick)
-  featuretable <- na.omit(featuretable)
+  #featuretable <- na.omit(featuretable)
   featuretable <- as.data.frame(featuretable)
   
   return(featuretable)
@@ -34,7 +34,7 @@ Classification_werrorass = function(featuretable_level1,lidarmetrics,level_id)
   testingSet<- featuretable_level1[-trainIndex,]
   
   modelFit <- randomForest(factor(layer)~.,data=trainingSet)
-  prediction <- predict(modelFit,testingSet[ ,c(1:44)])
+  prediction <- predict(modelFit,testingSet[ ,c(1:29)])
   
   conf_m=confusionMatrix(factor(prediction), factor(testingSet$layer),mode = "everything")
   

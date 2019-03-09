@@ -4,10 +4,10 @@ Aim: Classify the data
 "
 library(raster)
 library(rgdal)
-source("C:/Koma/Github/komazsofi/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
+source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
 
 # Set working dirctory
-workingdirectory="C:/Koma/Paper1/Paper1_DataProcess/"
+workingdirectory="D:/Koma/Paper1_v2/Classification/"
 setwd(workingdirectory)
 
 #Skipped: selection of training data from polygon + buffer and recategorization
@@ -25,6 +25,12 @@ lidarmetrics=stack("lidarmetrics_masked.grd")
 # Intersection
 featuretable_l1=Create_Intersection(classes1,lidarmetrics)
 write.table(featuretable_l1,"featuretable_level1_b2o5.csv",row.names=FALSE,sep=",")
+
+featuretable_l2=Create_Intersection(classes2,lidarmetrics)
+write.table(featuretable_l2,"featuretable_level2_b2o5.csv",row.names=FALSE,sep=",")
+
+featuretable_l3=Create_Intersection(classes3,lidarmetrics)
+write.table(featuretable_l3,"featuretable_level3_b2o5.csv",row.names=FALSE,sep=",")
 
 # Classification
 level1="level1"

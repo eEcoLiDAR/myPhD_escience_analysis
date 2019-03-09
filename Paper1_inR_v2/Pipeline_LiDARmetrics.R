@@ -6,16 +6,16 @@ Aim: This script is aimed the pre-process AHN2 data (tile, homogenize, extract g
 # Import required R packages
 library("lidR")
 library("rgdal")
-#source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR_v2/Function_LiDARMetricsCalc.R")
-source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis//Paper1_inR_v2/Function_LiDARMetricsCalc.R")
+source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR_v2/Function_LiDARMetricsCalc.R")
+#source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis//Paper1_inR_v2/Function_LiDARMetricsCalc.R")
 
 # Set working directory
-#workingdirectory="D:/Koma/Paper1_v2/ALS/" ## set this directory where your input las files are located
-workingdirectory="D:/Koma/Paper1/ALS/"
+workingdirectory="D:/Koma/Paper1_v2/ALS/" ## set this directory where your input las files are located
+#workingdirectory="D:/Koma/Paper1/ALS/"
 setwd(workingdirectory)
 
 cores=18
-chunksize=500
+chunksize=2000
 buffer=2.5
 resolution=2.5
 
