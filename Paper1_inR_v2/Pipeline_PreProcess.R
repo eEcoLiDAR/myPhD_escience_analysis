@@ -8,12 +8,12 @@ library("lidR")
 library("rgdal")
 
 # Set working directory
-#workingdirectory="D:/Koma/Paper1_v2/ALS/" ## set this directory where your input las files are located
-workingdirectory="D:/Koma/Paper1/ALS/"
+workingdirectory="D:/Koma/Paper1_v2/ALS/" ## set this directory where your input las files are located
+#workingdirectory="D:/Koma/Paper1/ALS/"
 setwd(workingdirectory)
 
 cores=18
-chunksize=500
+chunksize=2000
 buffer=2.5
 resolution=2.5
 
@@ -69,3 +69,9 @@ aspect <- terrain(dsm, opt='aspect')
 dsm_shd <- hillShade(slope, aspect, 40, 270)
 
 writeRaster(dsm_shd, "dsm_shd.tif",overwrite=TRUE)
+
+# Homogenization
+normalized_ctg <- catalog(paste(workingdirectory,"normalized_neibased/",sep=""))
+opt_output_files(normalized_ctg) <- paste(workingdirectory,"homogenized/{XLEFT}_{YBOTTOM}_gr_norm_homo",sep="")
+
+homogenized_ctg=lasfilterdecimate(normalized_ctg,homogenize(12,1))
