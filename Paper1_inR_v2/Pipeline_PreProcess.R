@@ -75,3 +75,9 @@ normalized_ctg <- catalog(paste(workingdirectory,"normalized_neibased/",sep=""))
 opt_output_files(normalized_ctg) <- paste(workingdirectory,"homogenized/{XLEFT}_{YBOTTOM}_gr_norm_homo",sep="")
 
 homogenized_ctg=lasfilterdecimate(normalized_ctg,homogenize(12,1))
+
+# Homogenization without normalization
+normalized_ctg2 <- catalog(paste(workingdirectory,"ground/",sep=""))
+opt_output_files(normalized_ctg2) <- paste(workingdirectory,"ground_homogenized/{XLEFT}_{YBOTTOM}_gr_homo",sep="")
+
+homogenized_ctg2=lasfilterdecimate(normalized_ctg2,homogenize(12,1))
