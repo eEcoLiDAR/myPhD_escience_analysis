@@ -21,7 +21,7 @@ resolution=2.5
 
 rasterOptions(maxmemory = 200000000000)
 
-# Set cataloges
+### Ground run
 
 ground_ctg <- catalog(paste(workingdirectory,"ground/",sep=""))
 
@@ -29,49 +29,51 @@ opt_chunk_buffer(ground_ctg) <- buffer
 opt_chunk_size(ground_ctg) <- chunksize
 opt_cores(ground_ctg) <- cores
 
-normalized_ctg <- catalog(paste(workingdirectory,"normalized_neibased/",sep=""))
-
-opt_chunk_buffer(normalized_ctg) <- buffer
-opt_chunk_size(normalized_ctg) <- chunksize
-opt_cores(normalized_ctg) <- cores
-
 # Calculate metrics
 
 covermetrics = grid_metrics(ground_ctg,  CoverageMetrics(Z,Classification), res = resolution)
 #plot(covermetrics)
-writeRaster(covermetrics,"covermetrics.grd",overwrite=TRUE)
+writeRaster(covermetrics,"covermetrics_gr.grd",overwrite=TRUE)
 
-shapemetrics = grid_metrics(normalized_ctg,  EigenMetrics(X,Y,Z), res = resolution)
+shapemetrics = grid_metrics(ground_ctg,  EigenMetrics(X,Y,Z), res = resolution)
 #plot(shapemetrics)
-writeRaster(shapemetrics,"shapemetrics.grd",overwrite=TRUE)
+writeRaster(shapemetrics,"shapemetrics_gr.grd",overwrite=TRUE)
 
-vertdistr_metrics = grid_metrics(normalized_ctg, VertDistr_Metrics(Z),res=resolution)
+vertdistr_metrics = grid_metrics(ground_ctg, VertDistr_Metrics(Z),res=resolution)
 #plot(vertdistr_metrics)
-writeRaster(vertdistr_metrics,"vertdistr_metrics.grd",overwrite=TRUE)
+writeRaster(vertdistr_metrics,"vertdistr_metrics_gr.grd",overwrite=TRUE)
 
-height_metrics = grid_metrics(normalized_ctg, HeightMetrics(Z),res=resolution)
+height_metrics = grid_metrics(ground_ctg, HeightMetrics(Z),res=resolution)
 #plot(height_metrics)
-writeRaster(height_metrics,"height_metrics.grd",overwrite=TRUE)
+writeRaster(height_metrics,"height_metrics_gr.grd",overwrite=TRUE)
 
 proj4string(height_metrics)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
 horizontal_metrics = HorizontalMetrics(height_metrics$zmax)
 #plot(horizontal_metrics)
-writeRaster(horizontal_metrics,"horizontal_metrics.grd",overwrite=TRUE)
+writeRaster(horizontal_metrics,"horizontal_metrics_gr.grd",overwrite=TRUE)
 
 # Only for vegetation
 
-opt_filter(normalized_ctg) <- "-keep_class 1"
+opt_filter(ground_ctg) <- "-keep_class 1"
 
-shapemetrics_whgr = grid_metrics(normalized_ctg,  EigenMetrics(X,Y,Z), res = resolution)
+shapemetrics_whgr = grid_metrics(ground_ctg,  EigenMetrics(X,Y,Z), res = resolution)
 #plot(shapemetrics_whgr)
-writeRaster(shapemetrics_whgr,"shapemetrics_whgr.grd",overwrite=TRUE)
+writeRaster(shapemetrics_whgr,"shapemetrics_whgr_gr.grd",overwrite=TRUE)
 
-vertdistr_metrics_whgr = grid_metrics(normalized_ctg, VertDistr_Metrics(Z),res=resolution)
+vertdistr_metrics_whgr = grid_metrics(ground_ctg, VertDistr_Metrics(Z),res=resolution)
 #plot(vertdistr_metrics_whgr)
-writeRaster(vertdistr_metrics_whgr,"vertdistr_metrics_whgr.grd",overwrite=TRUE)
+writeRaster(vertdistr_metrics_whgr,"vertdistr_metrics_whgr_gr.grd",overwrite=TRUE)
 
-height_metrics_whgr = grid_metrics(normalized_ctg, HeightMetrics(Z),res=resolution)
+height_metrics_whgr = grid_metrics(ground_ctg, HeightMetrics(Z),res=resolution)
 #plot(height_metrics)
-writeRaster(height_metrics_whgr ,"height_metrics_whgr.grd",overwrite=TRUE)
+writeRaster(height_metrics_whgr ,"height_metrics_whgr_gr.grd",overwrite=TRUE)
+
+### Normlized-ground run
+
+normalized_ctg <- catalog(paste(workingdirectory,"normalized_neibased/",sep=""))
+
+opt_chunk_buffer(normalized_ctg) <- buffer
+opt_chunk_size(normalized_ctg) <- chunksize
+opt_cores(normalized_ctg) <- cores
 

@@ -34,26 +34,20 @@ CoverageMetrics = function(z,classification)
   return(coveragemetrics)
 }
 
-proportion = function(z, by = 1, zmax = NULL)
+proportion = function(z, by = 1)
 {
-  # Fixed 
-  if (is.null(zmax))
-    zmax = max(z)
+  # Normalize
   
-  if (zmax < 0.000001 * by)
-    return(NA_real_)
+  z_norm=z-min(z)
   
-  if (min(z) < 0)
-    return(NA_real_)
-  
-  # Define the number of x meters bins from 0 to zmax (rounded to the next integer)
-  bk = seq(0, ceiling(zmax/by)*by, by)
+  # Define the number of x meters bins from 0 to 100%
+  bk = seq(0, ceiling(100/by)*by, by)
   
   # Compute the p for each bin
-  hist = hist(z,bk,plot=FALSE)
+  hist = hist(z_norm,bk,plot=TRUE)
   
   # Proportion
-  p=(hist$counts/length(z))
+  p=(hist$counts/length(z_norm))
   
   return(p)
 }
@@ -97,16 +91,21 @@ HeightMetrics = function(z)
 
 HorizontalMetrics = function(dsm) {
   
-  library("spatial.tools")
-  
   rough_dsm=terrain(dsm,opt="roughness",neighbors=4)
   tpi_dsm=terrain(dsm,opt="TPI",neighbors=4)
   tri_dsm=terrain(dsm,opt="TRI",neighbors=4)
   
-  sd_dsm=focal_hpc(dsm,fun=sd,window_dims=c(3,3))
-  names(sd_dsm) <- "sd_dsm"
+  beginCluster(18)
   
-  horizontal_metrics=stack(rough_dsm,tpi_dsm,tri_dsm,sd_dsm)
+  sd_dsm=clusterR(dsm, focal, args=list(w=matrix(1,3,3), fun=sd, pad=TRUE,na.rm = TRUE))
+  var_dsm=clusterR(dsm, focal, args=list(w=matrix(1,3,3), fun=var, pad=TRUE,na.rm = TRUE))
+  
+  endCluster()
+  
+  names(sd_dsm) <- "sd_dsm"
+  names(var_dsm) <- "var_dsm"
+  
+  horizontal_metrics=stack(rough_dsm,tpi_dsm,tri_dsm,sd_dsm,var_dsm)
   
   return(horizontal_metrics)
 }
