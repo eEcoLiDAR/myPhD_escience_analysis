@@ -77,6 +77,10 @@ opt_chunk_buffer(normalized_ctg) <- buffer
 opt_chunk_size(normalized_ctg) <- chunksize
 opt_cores(normalized_ctg) <- cores
 
+covermetrics = grid_metrics(normalized_ctg,  CoverageMetrics(Z,Classification), res = resolution)
+#plot(covermetrics)
+writeRaster(covermetrics,"covermetrics_gr_norm.grd",overwrite=TRUE)
+
 shapemetrics = grid_metrics(normalized_ctg,  EigenMetrics(X,Y,Z), res = resolution)
 #plot(shapemetrics)
 writeRaster(shapemetrics,"shapemetrics_gr_norm.grd",overwrite=TRUE)
