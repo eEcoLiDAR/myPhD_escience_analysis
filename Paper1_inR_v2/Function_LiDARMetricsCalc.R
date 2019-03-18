@@ -57,7 +57,7 @@ VertDistr_Metrics = function(z)
 {
   library("e1071")
   
-  p=proportion(z, by = 1, zmax = NULL)
+  p=proportion(z, by = 1)
   p_whnull=p[p>0]
   
   vertdistr_metrics = list(
@@ -90,6 +90,8 @@ HeightMetrics = function(z)
 }
 
 HorizontalMetrics = function(dsm) {
+  
+  library("snow")
   
   rough_dsm=terrain(dsm,opt="roughness",neighbors=4)
   tpi_dsm=terrain(dsm,opt="TPI",neighbors=4)
