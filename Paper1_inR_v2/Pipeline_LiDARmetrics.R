@@ -141,3 +141,39 @@ height_metrics_whgr = grid_metrics(homo_normalized_ctg, HeightMetrics(Z),res=res
 #plot(height_metrics)
 writeRaster(height_metrics_whgr ,"height_metrics_whgr_gr_norm_homo.grd",overwrite=TRUE)
 
+### Homogenized-ground run
+
+homo_ctg <- catalog(paste(workingdirectory,"ground_homogenized/",sep=""))
+
+opt_chunk_buffer(homo_ctg) <- buffer
+opt_chunk_size(homo_ctg) <- chunksize
+opt_cores(homo_ctg) <- cores
+
+shapemetrics = grid_metrics(homo_ctg,  EigenMetrics(X,Y,Z), res = resolution)
+#plot(shapemetrics)
+writeRaster(shapemetrics,"shapemetrics_gr_homo.grd",overwrite=TRUE)
+
+vertdistr_metrics = grid_metrics(homo_ctg, VertDistr_Metrics(Z),res=resolution)
+#plot(vertdistr_metrics)
+writeRaster(vertdistr_metrics,"vertdistr_metrics_gr_homo.grd",overwrite=TRUE)
+
+height_metrics = grid_metrics(homo_ctg, HeightMetrics(Z),res=resolution)
+#plot(height_metrics)
+writeRaster(height_metrics,"height_metrics_gr_homo.grd",overwrite=TRUE)
+
+# Only for vegetation
+
+opt_filter(homo_ctg) <- "-keep_class 1"
+
+shapemetrics_whgr = grid_metrics(homo_ctg,  EigenMetrics(X,Y,Z), res = resolution)
+#plot(shapemetrics_whgr)
+writeRaster(shapemetrics_whgr,"shapemetrics_whgr_gr_homo.grd",overwrite=TRUE)
+
+vertdistr_metrics_whgr = grid_metrics(homo_ctg, VertDistr_Metrics(Z),res=resolution)
+#plot(vertdistr_metrics_whgr)
+writeRaster(vertdistr_metrics_whgr,"vertdistr_metrics_whgr_gr_homo.grd",overwrite=TRUE)
+
+height_metrics_whgr = grid_metrics(homo_ctg, HeightMetrics(Z),res=resolution)
+#plot(height_metrics)
+writeRaster(height_metrics_whgr ,"height_metrics_whgr_gr_homo.grd",overwrite=TRUE)
+
