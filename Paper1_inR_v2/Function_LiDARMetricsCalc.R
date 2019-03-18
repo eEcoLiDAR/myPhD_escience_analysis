@@ -44,7 +44,7 @@ proportion = function(z, by = 1)
   bk = seq(0, ceiling(100/by)*by, by)
   
   # Compute the p for each bin
-  hist = hist(z_norm,bk,plot=TRUE)
+  hist = hist(z_norm,bk,plot=FALSE)
   
   # Proportion
   p=(hist$counts/length(z_norm))
