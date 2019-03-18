@@ -89,6 +89,10 @@ height_metrics = grid_metrics(normalized_ctg, HeightMetrics(Z),res=resolution)
 #plot(height_metrics)
 writeRaster(height_metrics,"height_metrics_gr_norm.grd",overwrite=TRUE)
 
+horizontal_metrics = HorizontalMetrics(height_metrics$zmax)
+#plot(horizontal_metrics)
+writeRaster(horizontal_metrics,"horizontal_metrics_gr_norm.grd",overwrite=TRUE)
+
 # Only for vegetation
 
 opt_filter(normalized_ctg) <- "-keep_class 1"
