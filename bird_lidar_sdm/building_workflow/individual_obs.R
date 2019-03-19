@@ -118,5 +118,5 @@ p2<-ggplot(overall_kmsquaresstat_pyear, aes(x=species, y=nofkmsquare, fill=facto
   geom_bar(stat="identity",position=position_dodge())
 p2
 
-ggsave(paste('Ind_obs_perkmsquares_peryear.jpg',sep=''),p1)
+ggsave(paste('Ind_obs_perkmsquares_peryear.jpg',sep=''),p2)
 
