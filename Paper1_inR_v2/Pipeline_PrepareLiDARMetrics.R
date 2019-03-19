@@ -35,8 +35,8 @@ proj4string(heightmetrics_wgr)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon
 horizontalmetrics=stack("horizontal_metrics_gr.grd")
 proj4string(horizontalmetrics)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
-horizontalmetrics_norm=stack("horizontal_metrics_gr_norm.grd")
-proj4string(horizontalmetrics_norm)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
+horizontalmetrics_wgr=stack("horizontal_metrics_whgr_gr_norm.grd")
+proj4string(horizontalmetrics_wgr)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
 shapemetrics=stack("shapemetrics_gr.grd")
 proj4string(shapemetrics)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
@@ -90,12 +90,22 @@ names(vertdistrmetrics_mod) <- names(vertdistrmetrics_wgr)
 
 #horizontal
 
+ex = extent(horizontalmetrics_wgr)
+horizontalmetrics_m = crop(horizontalmetrics, ex)
+
+horizontalmetrics_mod <- overlay(horizontalmetrics_m, horizontalmetrics_wgr, fun = function(x, y) {
+  y[is.na(y[])] <- x[is.na(y[])]
+  return(y)
+})
+
+names(horizontalmetrics_mod) <- names(horizontalmetrics_wgr)
+
 # Merge files into one lidarmetrics file
 ex_m=extent(shapemetrics_mod)
 
 covermetrics_m=crop(covermetrics,ex_m)
 heightmetrics_mod_m=crop(heightmetrics_mod,ex_m)
-horizontalmetrics_mod_m=crop(horizontalmetrics,ex_m)
+horizontalmetrics_mod_m=crop(horizontalmetrics_mod,ex_m)
 vertdistrmetrics_mod_m=crop(vertdistrmetrics_mod,ex_m)
 
 lidarmetrics=stack(covermetrics_m,shapemetrics_mod,vertdistrmetrics_mod_m,horizontalmetrics_mod_m,heightmetrics_mod_m)
