@@ -113,6 +113,10 @@ height_metrics_whgr = grid_metrics(normalized_ctg, HeightMetrics(Z),res=resoluti
 #plot(height_metrics)
 writeRaster(height_metrics_whgr ,"height_metrics_whgr_gr_norm.grd",overwrite=TRUE)
 
+horizontal_metrics_whgr = HorizontalMetrics(height_metrics_whgr$zmax)
+#plot(horizontal_metrics)
+writeRaster(horizontal_metrics_whgr,"horizontal_metrics_whgr_gr_norm.grd",overwrite=TRUE)
+
 ### Homogenized-normlized-ground run
 
 homo_normalized_ctg <- catalog(paste(workingdirectory,"homogenized/",sep=""))
