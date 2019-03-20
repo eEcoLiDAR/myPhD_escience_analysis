@@ -10,11 +10,11 @@ library(ggplot2)
 library(gridExtra)
 library(ggrepel)
 
-source("C:/Koma/Github/komazsofi/myPhD_escience_analysis/Paper1_inR_v2/Function_ClassificationAnalysis.R")
+source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
 
 
 # Set global variables
-setwd("C:/Koma/Paper1/Paper1_DataProcess/")
+setwd("D:/Koma/Paper1_v2/Run1_2019March/Classification/")
 
 level1="featuretable_level1_b2o5.csv"
 level2="featuretable_level2_b2o5.csv"
