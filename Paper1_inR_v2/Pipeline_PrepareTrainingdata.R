@@ -21,15 +21,14 @@ classes1 = rgdal::readOGR("selpolyper_level1_v4.shp")
 classes2 = rgdal::readOGR("selpolyper_level2_v4.shp")
 classes3 = rgdal::readOGR("selpolyper_level3_v4.shp")
 
-lidarmetrics_forl1=stack("lidarmetrics_gr_masked.grd")
-lidarmetrics_forl23=stack("lidarmetrics_gr_masked_wgr.grd")
+lidarmetrics=stack("lidarmetrics_gr_masked_wgr.grd")
 
 # Intersection
-featuretable_l1=Create_Intersection(classes1,lidarmetrics_forl1)
+featuretable_l1=Create_Intersection(classes1,lidarmetrics)
 write.table(featuretable_l1,"featuretable_level1_b2o5.csv",row.names=FALSE,sep=",")
 
-featuretable_l2=Create_Intersection(classes2,lidarmetrics_forl23)
+featuretable_l2=Create_Intersection(classes2,lidarmetrics)
 write.table(featuretable_l2,"featuretable_level2_b2o5.csv",row.names=FALSE,sep=",")
 
-featuretable_l3=Create_Intersection(classes3,lidarmetrics_forl23)
+featuretable_l3=Create_Intersection(classes3,lidarmetrics)
 write.table(featuretable_l3,"featuretable_level3_b2o5.csv",row.names=FALSE,sep=",")

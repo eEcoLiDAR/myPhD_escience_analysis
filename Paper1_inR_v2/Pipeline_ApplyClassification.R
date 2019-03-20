@@ -7,7 +7,7 @@ library(rgdal)
 source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
 
 # Set working dirctory
-workingdirectory="D:/Koma/Paper1_v2/Classification/"
+workingdirectory="D:/Koma/Paper1_v2/Run1_2019March/Classification/"
 setwd(workingdirectory)
 
 #Skipped: selection of training data from polygon + buffer and recategorization
@@ -18,23 +18,21 @@ classes1 = rgdal::readOGR("selpolyper_level1_v4.shp")
 classes2 = rgdal::readOGR("selpolyper_level2_v4.shp")
 classes3 = rgdal::readOGR("selpolyper_level3_v4.shp")
 
-lidarmetrics=stack("lidarmetrics_masked.grd")
+lidarmetrics_forl1=stack("lidarmetrics_gr_masked.grd")
+lidarmetrics_forl23=stack("lidarmetrics_gr_masked_wgr.grd")
+
+featuretable_l1=read.csv("featuretable_level1_b2o5.csv")
+featuretable_l2=read.csv("featuretable_level2_b2o5.csv")
+featuretable_l3=read.csv("featuretable_level3_b2o5.csv")
+
+# Select coloumns
+
 
 ### Level1 ###
 
-# Intersection
-featuretable_l1=Create_Intersection(classes1,lidarmetrics)
-write.table(featuretable_l1,"featuretable_level1_b2o5.csv",row.names=FALSE,sep=",")
-
-featuretable_l2=Create_Intersection(classes2,lidarmetrics)
-write.table(featuretable_l2,"featuretable_level2_b2o5.csv",row.names=FALSE,sep=",")
-
-featuretable_l3=Create_Intersection(classes3,lidarmetrics)
-write.table(featuretable_l3,"featuretable_level3_b2o5.csv",row.names=FALSE,sep=",")
-
 # Classification
 level1="level1"
-Pred_l1=Classification_werrorass(featuretable_l1,lidarmetrics,level1)
+Pred_l1=Classification_werrorass(featuretable_l1,lidarmetrics_forl1,level1)
 writeRaster(Pred_l1, filename="classified_level1.tif", format="GTiff",overwrite=TRUE)
 
 Pred_l1=stack("classified_level1.tif")
