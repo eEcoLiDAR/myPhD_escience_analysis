@@ -21,24 +21,25 @@ workingdirectory="D:/Koma/Paper1_v2/Run1_2019March/LiDAR_metrics/" ## set this d
 #workingdirectory="C:/Koma/Paper1/Paper1_DataProcess/"
 setwd(workingdirectory)
 
+## Level 1
 # Read the separate lidarmetrics files into memory
 
 covermetrics=stack("covermetrics_gr.grd")
 proj4string(covermetrics)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
-heightmetrics=stack("height_metrics_gr.grd")
+heightmetrics=stack("height_metrics_gr_norm.grd")
 proj4string(heightmetrics)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
-horizontalmetrics=stack("horizontal_metrics_gr.grd")
+horizontalmetrics=stack("horizontal_metrics_gr_norm.grd")
 proj4string(horizontalmetrics)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
-shapemetrics=stack("shapemetrics_gr.grd")
+shapemetrics=stack("shapemetrics_gr_norm.grd")
 proj4string(shapemetrics)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
-vertdistrmetrics=stack("vertdistr_metrics_gr.grd")
+vertdistrmetrics=stack("vertdistr_metrics_gr_norm.grd")
 proj4string(vertdistrmetrics)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
-formask=stack("building_rast.grd")
+buildmask=stack("building_formask.grd")
 proj4string(formask)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
 # Merge files into one lidarmetrics file
@@ -58,12 +59,12 @@ lidarmetrics=stack(covermetrics_m,shapemetrics,vertdistrmetrics_mod_m,horizontal
 
 #building_rast <- rasterize(buildings, lidarmetrics[[1]],field="DN")
 formask <- setValues(raster(lidarmetrics[[1]]), 1)
-formask[building_rast>0] <- NA
+formask[is.na(buildmask)] <- NA
 
-writeRaster(formask,"building_rast.grd",overwrite=TRUE)
+#writeRaster(formask,"building_rast.grd",overwrite=TRUE)
 
 lidarmetrics_masked <- mask(lidarmetrics, formask)
-writeRaster(lidarmetrics_masked,"lidarmetrics_gr_masked.grd",overwrite=TRUE)
+writeRaster(lidarmetrics_masked,"lidarmetrics_l1_masked.grd",overwrite=TRUE)
 
 # Read the separate lidarmetrics files into memory (excluding ground points)
 
@@ -93,7 +94,7 @@ shapemetrics_mod_m_wgr=crop(shapemetrics_wgr,ex_m)
 lidarmetrics_wgr=stack(covermetrics_m_wgr,shapemetrics_mod_m_wgr,vertdistrmetrics_mod_m_wgr,horizontalmetrics_mod_m_wgr,heightmetrics_mod_m_wgr)
 
 formask <- setValues(raster(lidarmetrics_wgr[[1]]), 1)
-formask[building_rast>0] <- NA
+formask[is.na(buildmask)] <- NA
 
 lidarmetrics_masked_wgr <- mask(lidarmetrics_wgr, formask)
-writeRaster(lidarmetrics_masked_wgr,"lidarmetrics_gr_masked_wgr.grd",overwrite=TRUE)
+writeRaster(lidarmetrics_masked_wgr,"lidarmetrics_l2l3_masked_wgr.grd",overwrite=TRUE)
