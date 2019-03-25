@@ -18,15 +18,12 @@ classes1 = rgdal::readOGR("selpolyper_level1_v4.shp")
 classes2 = rgdal::readOGR("selpolyper_level2_v4.shp")
 classes3 = rgdal::readOGR("selpolyper_level3_v4.shp")
 
-lidarmetrics_forl1=stack("lidarmetrics_gr_masked.grd")
-lidarmetrics_forl23=stack("lidarmetrics_gr_masked_wgr.grd")
+lidarmetrics_forl1=stack("lidarmetrics_l1_masked.grd")
+lidarmetrics_forl23=stack("lidarmetrics_l2l3_masked_wgr.grd")
 
 featuretable_l1=read.csv("featuretable_level1_b2o5.csv")
 featuretable_l2=read.csv("featuretable_level2_b2o5.csv")
 featuretable_l3=read.csv("featuretable_level3_b2o5.csv")
-
-# Select coloumns
-
 
 ### Level1 ###
 
@@ -37,17 +34,13 @@ writeRaster(Pred_l1, filename="classified_level1.tif", format="GTiff",overwrite=
 
 Pred_l1=stack("classified_level1.tif")
 # Mask 
-formask <- setValues(raster(Pred_l1), NA)
+formask <- setValues(raster(lidarmetrics_forl23), NA)
 formask[Pred_l1==2] <- 1
 
-lidarmetrics_masked1 <- mask(lidarmetrics,formask)
-writeRaster(lidarmetrics_masked1, filename="lidarmetrics_forlevel2.grd",overwrite=TRUE)
+lidarmetrics_masked1 <- mask(lidarmetrics_forl23,formask)
+#writeRaster(lidarmetrics_masked1, filename="lidarmetrics_forlevel2.grd",overwrite=TRUE)
 
 ### Level2 ###
-
-# Intersection
-featuretable_l2=Create_Intersection(classes2,lidarmetrics_masked1)
-write.table(featuretable_l2,"featuretable_level2_b2o5.csv",row.names=FALSE,sep=",")
 
 # Classification
 level2="level2"
@@ -55,17 +48,13 @@ Pred_l2=Classification_werrorass(featuretable_l2,lidarmetrics_masked1,level2)
 writeRaster(Pred_l2, filename="classified_level2.tif", format="GTiff",overwrite=TRUE)
 
 # Mask 
-formask2 <- setValues(raster(Pred_l2), NA)
+formask2 <- setValues(raster(lidarmetrics_forl23), NA)
 formask2[Pred_l2==4 | Pred_l2==5] <- 1
 
 lidarmetrics_masked2 <- mask(lidarmetrics_masked1,formask2)
-writeRaster(lidarmetrics_masked2, filename="lidarmetrics_forlevel3.grd",overwrite=TRUE)
+#writeRaster(lidarmetrics_masked2, filename="lidarmetrics_forlevel3.grd",overwrite=TRUE)
 
 ### Level3 ###
-
-# Intersection
-featuretable_l3=Create_Intersection(classes3,lidarmetrics_masked2)
-write.table(featuretable_l3,"featuretable_level3_b2o5.csv",row.names=FALSE,sep=",")
 
 # Classification
 level3="level3"

@@ -27,14 +27,14 @@ featuretable_l2=read.csv(level2)
 featuretable_l3=read.csv(level3)
 
 # RF
-forest_l1 <- randomForest(x=featuretable_l1[ ,c(1:29)], y=factor(featuretable_l1$layer),importance = TRUE,ntree = 100)
-forest_l2 <- randomForest(x=featuretable_l2[ ,c(1:29)], y=factor(featuretable_l2$layer),importance = TRUE,ntree = 100)
-forest_l3 <- randomForest(x=featuretable_l3[ ,c(1:29)], y=factor(featuretable_l3$layer),importance = TRUE,ntree = 100)
+forest_l1 <- randomForest(x=featuretable_l1[ ,c(1:26)], y=factor(featuretable_l1$layer),importance = TRUE,ntree = 100)
+forest_l2 <- randomForest(x=featuretable_l2[ ,c(1:26)], y=factor(featuretable_l2$layer),importance = TRUE,ntree = 100)
+forest_l3 <- randomForest(x=featuretable_l3[ ,c(1:26)], y=factor(featuretable_l3$layer),importance = TRUE,ntree = 100)
 
 #Save it
-#save(forest_l1,file = "forest_l1.RData")
-#save(forest_l2,file = "forest_l2.RData")
-#save(forest_l3,file = "forest_l3.RData")
+save(forest_l1,file = "forest_l1.RData")
+save(forest_l2,file = "forest_l2.RData")
+save(forest_l3,file = "forest_l3.RData")
 
 #load("forest_l1.RData")
 #load("forest_l2.RData")
@@ -179,15 +179,15 @@ grid.arrange(
 # RFE
 # level 1
 control <- rfeControl(functions=rfFuncs, method="cv", number=50)
-rfe_l1 <- rfe(featuretable_l1[,1:29], factor(featuretable_l1$layer), rfeControl=control)
+rfe_l1 <- rfe(featuretable_l1[,1:26], factor(featuretable_l1$layer), rfeControl=control)
 
 # level 2
 control <- rfeControl(functions=rfFuncs, method="cv", number=50)
-rfe_l2 <- rfe(featuretable_l2[,1:29], factor(featuretable_l2$layer), rfeControl=control)
+rfe_l2 <- rfe(featuretable_l2[,1:26], factor(featuretable_l2$layer), rfeControl=control)
 
 # level 3
 control <- rfeControl(functions=rfFuncs, method="cv", number=50)
-rfe_l3 <- rfe(featuretable_l3[,1:29], factor(featuretable_l3$layer), rfeControl=control)
+rfe_l3 <- rfe(featuretable_l3[,1:26], factor(featuretable_l3$layer), rfeControl=control)
 
 rfe_l1_df=data.frame(rfe_l1$results$Variables, rfe_l1$results$Accuracy, rfe_l1$results$AccuracySD)
 rfe_l2_df=data.frame(rfe_l2$results$Variables, rfe_l2$results$Accuracy, rfe_l2$results$AccuracySD)

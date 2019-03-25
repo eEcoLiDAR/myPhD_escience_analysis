@@ -34,7 +34,7 @@ Classification_werrorass = function(featuretable_level1,lidarmetrics,level_id)
   testingSet<- featuretable_level1[-trainIndex,]
   
   modelFit <- randomForest(factor(layer)~.,data=trainingSet)
-  prediction <- predict(modelFit,testingSet[ ,c(1:30)])
+  prediction <- predict(modelFit,testingSet[ ,c(1:26)])
   
   conf_m=confusionMatrix(factor(prediction), factor(testingSet$layer),mode = "everything")
   
