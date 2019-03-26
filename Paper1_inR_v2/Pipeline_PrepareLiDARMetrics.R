@@ -40,7 +40,7 @@ vertdistrmetrics=stack("vertdistr_metrics_gr_norm.grd")
 proj4string(vertdistrmetrics)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
 buildmask=stack("building_formask.grd")
-proj4string(formask)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
+proj4string(buildmask)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
 # Merge files into one lidarmetrics file
 ex_m=extent(shapemetrics)
@@ -49,6 +49,11 @@ covermetrics_m=crop(covermetrics,ex_m)
 heightmetrics_mod_m=crop(heightmetrics,ex_m)
 horizontalmetrics_mod_m=crop(horizontalmetrics,ex_m)
 vertdistrmetrics_mod_m=crop(vertdistrmetrics,ex_m)
+
+vertdistrmetrics_mod_m$zskew[vertdistrmetrics_mod_m$zstd==0]<-0
+vertdistrmetrics_mod_m$zkurto[vertdistrmetrics_mod_m$zstd==0]<-0
+vertdistrmetrics_mod_m$canrelrat[vertdistrmetrics_mod_m$zstd==0]<-0
+vertdistrmetrics_mod_m$vertdenrat[vertdistrmetrics_mod_m$zstd==0]<-0
 
 lidarmetrics=stack(covermetrics_m,shapemetrics,vertdistrmetrics_mod_m,horizontalmetrics_mod_m,heightmetrics_mod_m)
 #writeRaster(lidarmetrics,"lidarmetrics.grd",overwrite=TRUE)
