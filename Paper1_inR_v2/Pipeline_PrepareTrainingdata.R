@@ -5,26 +5,81 @@ Aim: Prepare training data
 
 library(raster)
 library(rgdal)
-source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
+#source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
+source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
 
 # Set working dirctory
-workingdirectory="D:/Koma/Paper1_v2/Run1_2019March/Classification/"
+#workingdirectory="D:/Koma/Paper1_v2/Run1_2019March/Classification/"
+workingdirectory="D:/Koma/Paper1_ReedStructure/Results_2019March/"
 setwd(workingdirectory)
 
-# Generate training data from polygon file
+# Import
+lidarmetrics_l1=stack("lidarmetrics_l1_masked.grd")
+lidarmetrics_l23=stack("lidarmetrics_l2l3_masked_wgr.grd")
 
-# Create intersection
+vegetation=readOGR(dsn="vlakken_union_structuur.shp")
 
-# Input
+### Create the defined classes
+
+# Level 1
+vegetation@data$level1=NA
+
+vegetation@data$level1[vegetation@data$StructDef=='W' | vegetation@data$StructDef=='K' | vegetation@data$StructDef=='P' | vegetation@data$StructDef=='Gl' | vegetation@data$StructDef=='A']="O"
+vegetation@data$level1[vegetation@data$StructDef=='Rkd' | vegetation@data$StructDef=='Rko' | vegetation@data$StructDef=='Rld'
+                    | vegetation@data$StructDef=='Rlo' | vegetation@data$StructDef=='Rwd' | vegetation@data$StructDef=='Rwo'
+                    | vegetation@data$StructDef=='U' | vegetation@data$StructDef=='Gh'
+                    | vegetation@data$StructDef=='Slo' | vegetation@data$StructDef=='Sld'
+                    | vegetation@data$StructDef=='Smo' | vegetation@data$StructDef=='Smd' | vegetation@data$StructDef=='Sho' | vegetation@data$StructDef=='Shd'
+                    | vegetation@data$StructDef=='Bo' | vegetation@data$StructDef=='Bd']="V"
+
+sort(unique(vegetation@data$level1))
+
+# Level 2
+vegetation@data$level2=NA
+
+vegetation@data$level2[vegetation@data$StructDef=='Rkd' | vegetation@data$StructDef=='Rld' | vegetation@data$StructDef=='Rwd']="R"
+#vegetation@data$level2[vegetation@data$StructDef=='Rwd']="Rw"
+vegetation@data$level2[vegetation@data$StructDef=='Gh']="G"
+vegetation@data$level2[vegetation@data$StructDef=='Sld'| vegetation@data$StructDef=='Smd'| vegetation@data$StructDef=='Shd'] = "S"
+vegetation@data$level2[vegetation@data$StructDef=='Bd']="B"
+
+sort(unique(vegetation@data$level2))
+
+# Level 3
+vegetation@data$level3=NA
+
+vegetation@data$level3[vegetation@data$StructDef=='Rkd']="Rk"
+vegetation@data$level3[vegetation@data$StructDef=='Rld']="Rl"
+vegetation@data$level3[vegetation@data$StructDef=='Rwd']="Rw"
+
+sort(unique(vegetation@data$level3))
+
+# Create boundary from raster data
+bound_l1 <- reclassify(lidarmetrics_l1[[23]], cbind(-Inf, Inf, 1))
+
+
+# Sampling polygons randomly
+level=25
+vegetation_poly <- vegetation[is.na(vegetation@data[,level]) == FALSE,]
+classes=unique(vegetation_poly@data[,level])
+
+for (cat in classes) { 
+  print(cat)
+  sel_poly <- vegetation_poly[vegetation_poly@data[,level] == cat,]
+  points_inpoly=spsample(sel_poly, n = 75, "random")
+  points_inpoly_df=as.data.frame(points_inpoly)
+  points_inpoly_df$level=cat
+  write.table(points_inpoly_df, file = paste(cat,"_selpolyper",names(vegetation@data)[level],"v2.csv",sep="_"),row.names=FALSE,col.names=FALSE,sep=",")
+}
+
+
+### Create intersection
 
 classes1 = rgdal::readOGR("selpolyper_level1_v4.shp")
 classes2 = rgdal::readOGR("selpolyper_level2_v4.shp")
 classes3 = rgdal::readOGR("selpolyper_level3_v4.shp")
 
-lidarmetrics_l1=stack("lidarmetrics_l1_masked.grd")
-lidarmetrics_l23=stack("lidarmetrics_l2l3_masked_wgr.grd")
-
-# Analysis of LiDAR metrics
+# Finalize of LiDAR metrics
 lidarmetrics_l1=dropLayer(lidarmetrics_l1,c(3,4,29,30))
 lidarmetrics_l23=dropLayer(lidarmetrics_l23,c(3,4,29,30))
 
