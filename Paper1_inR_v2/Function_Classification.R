@@ -3,6 +3,37 @@
 Aim: Functions for classification process
 "
 
+Create_FieldTraining = function(classes,vegetation_poly,level) 
+{
+  for (cat in classes) { 
+    print(cat)
+    sel_poly <- vegetation_poly[vegetation_poly@data[,level] == cat,]
+    points_inpoly=spsample(sel_poly, n = 75, "random")
+    points_inpoly_df=as.data.frame(points_inpoly)
+    points_inpoly_df$level=cat
+    write.table(points_inpoly_df, file = paste(cat,"_selpolyper",names(vegetation@data)[level],"v2.csv",sep="_"),row.names=FALSE,col.names=FALSE,sep=",")
+  }
+  
+  files <- list.files(pattern = paste("_selpolyper",names(vegetation_poly@data)[level],"v2.csv",sep="_"))
+  
+  allcsv <- lapply(files,function(i){
+    read.csv(i, header=FALSE)
+  })
+  
+  allcsv_df <- do.call(rbind.data.frame, allcsv)
+  
+  coordinates(allcsv_df)=~V1+V2
+  proj4string(allcsv_df)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
+  
+  # Add buffer zone
+  
+  allcsv_df_buff <- gBuffer( allcsv_df, width=2.5, byid=TRUE )
+  
+  # Export shapefile
+  rgdal::writeOGR(allcsv_df_buff, '.', paste("selpolyper",names(vegetation_poly@data)[level],"v5",sep="_"), 'ESRI Shapefile',overwrite_layer = TRUE)
+  
+}
+
 Create_Intersection = function(classes,lidarmetrics)
 {
   library(raster)
