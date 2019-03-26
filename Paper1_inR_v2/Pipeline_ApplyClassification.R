@@ -7,16 +7,16 @@ library(rgdal)
 source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
 
 # Set working dirctory
-workingdirectory="D:/Koma/Paper1_v2/Run1_2019March/Classification/"
+workingdirectory="D:/Koma/Paper1_v2/Run2_2019March/"
 setwd(workingdirectory)
 
 #Skipped: selection of training data from polygon + buffer and recategorization
 
 # Input
 
-classes1 = rgdal::readOGR("selpolyper_level1_v4.shp")
-classes2 = rgdal::readOGR("selpolyper_level2_v4.shp")
-classes3 = rgdal::readOGR("selpolyper_level3_v4.shp")
+classes1 = rgdal::readOGR("selpolyper_level1_v5.shp")
+classes2 = rgdal::readOGR("selpolyper_level2_v5.shp")
+classes3 = rgdal::readOGR("selpolyper_level3_v5.shp")
 
 lidarmetrics_forl1=stack("lidarmetrics_l1_masked.grd")
 lidarmetrics_forl23=stack("lidarmetrics_l2l3_masked_wgr.grd")
@@ -49,7 +49,8 @@ writeRaster(Pred_l2, filename="classified_level2.tif", format="GTiff",overwrite=
 
 # Mask 
 formask2 <- setValues(raster(lidarmetrics_forl23), NA)
-formask2[Pred_l2==4 | Pred_l2==5] <- 1
+#formask2[Pred_l2==4 | Pred_l2==5] <- 1
+formask2[Pred_l2==3] <- 1
 
 lidarmetrics_masked2 <- mask(lidarmetrics_masked1,formask2)
 #writeRaster(lidarmetrics_masked2, filename="lidarmetrics_forlevel3.grd",overwrite=TRUE)

@@ -14,7 +14,7 @@ source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR_v2/Function_Classifica
 
 
 # Set global variables
-setwd("D:/Koma/Paper1_v2/Run1_2019March/Classification/")
+setwd("D:/Koma/Paper1_v2/Run2_2019March/")
 
 level1="featuretable_level1_b2o5.csv"
 level2="featuretable_level2_b2o5.csv"
