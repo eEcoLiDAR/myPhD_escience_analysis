@@ -56,18 +56,18 @@ vegetation@data$level3[vegetation@data$StructDef=='Rwd']="Rw"
 sort(unique(vegetation@data$level3))
 
 # Sampling polygons randomly
-level=25
-vegetation_poly <- vegetation[is.na(vegetation@data[,level]) == FALSE,]
-classes=unique(vegetation_poly@data[,level])
+ext=extent(lidarmetrics_l1[[25]])
+vegetation <- crop(vegetation, ext)
 
-Create_FieldTraining(classes,vegetation_poly,level)
-
+Create_FieldTraining(vegetation,25)
+Create_FieldTraining(vegetation,26)
+Create_FieldTraining(vegetation,27)
 
 ### Create intersection
 
-classes1 = rgdal::readOGR("selpolyper_level1_v4.shp")
-classes2 = rgdal::readOGR("selpolyper_level2_v4.shp")
-classes3 = rgdal::readOGR("selpolyper_level3_v4.shp")
+classes1 = rgdal::readOGR("selpolyper_level1_v5.shp")
+classes2 = rgdal::readOGR("selpolyper_level2_v5.shp")
+classes3 = rgdal::readOGR("selpolyper_level3_v5.shp")
 
 # Finalize of LiDAR metrics
 lidarmetrics_l1=dropLayer(lidarmetrics_l1,c(3,4,29,30))

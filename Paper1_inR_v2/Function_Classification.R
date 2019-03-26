@@ -3,8 +3,12 @@
 Aim: Functions for classification process
 "
 
-Create_FieldTraining = function(classes,vegetation_poly,level) 
+Create_FieldTraining = function(vegetation,level) 
 {
+  
+  vegetation_poly <- vegetation[is.na(vegetation@data[,level]) == FALSE,]
+  classes=unique(vegetation_poly@data[,level])
+  
   for (cat in classes) { 
     print(cat)
     sel_poly <- vegetation_poly[vegetation_poly@data[,level] == cat,]
