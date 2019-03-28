@@ -40,7 +40,7 @@ proportion = function(z, by = 1)
   
   z_norm=z-min(z)
   
-  # Define the number of x meters bins from 0 to 100%
+  # Define the number of x meters bins from 0 to 100 m
   bk = seq(0, ceiling(100/by)*by, by)
   
   # Compute the p for each bin
