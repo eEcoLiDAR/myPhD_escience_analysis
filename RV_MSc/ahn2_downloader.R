@@ -4,8 +4,9 @@ Aim: This script download the required AHN2 data from the pdok website
 "
 
 # Set working directory
-full_path="C:/Koma/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/"
+#full_path="C:/Koma/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/"
 #full_path="D:/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/"
+full_path="D:/Reinier/"
 
 reqahnfile="req_ahn2_for1km.csv"
 
