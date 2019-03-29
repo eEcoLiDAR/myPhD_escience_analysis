@@ -46,3 +46,47 @@ per_ahn2 <- intersect_points_wpoly_df %>%
 # Create shapefile for area of interest selection within tile
 
 intersect_points_wpoly_circles <- gBuffer( intersect_points_wpoly, width=5000, byid=TRUE,capStyle="SQUARE")
+intersect_points_wpoly_circles@data
+
+transectgroups <- intersect_points_wpoly_df %>%
+  group_by(Transect) %>%
+  summarise(nofobs = length(Transect))
+
+boundary_pertransect=data.frame(Transect=integer(nrow(transectgroups)),xmin=double(nrow(transectgroups)),xmax=double(nrow(transectgroups)),ymin=double(nrow(transectgroups)),ymax=double(nrow(transectgroups)))
+
+for (i in seq_len(nrow(transectgroups))) {
+  print(transectgroups$Transect[i])
+  
+  intersect_points_wpoly_circles_sel=intersect_points_wpoly_circles[intersect_points_wpoly_circles@data$Transect==transectgroups$Transect[i],]
+  union=extent(intersect_points_wpoly_circles_sel)
+  
+  boundary_pertransect$Transect[i]<-transectgroups$Transect[i]
+  boundary_pertransect$xmin[i]<-union@xmin
+  boundary_pertransect$xmax[i]<-union@xmax
+  boundary_pertransect$ymin[i]<-union@ymin
+  boundary_pertransect$ymax[i]<-union@ymax
+  
+} 
+
+write.table(boundary_pertransect, file = "boundaries_pertransects.csv",row.names=FALSE,col.names=TRUE,sep=",")
+
+# Create a polygon
+
+forpoly=data.frame(Transect=integer(nrow(boundary_pertransect)),wkt_t=character(nrow(boundary_pertransect)),stringsAsFactors=FALSE)
+
+for (i in seq_len(nrow(boundary_pertransect))) {
+  print(boundary_pertransect$Transect[i])
+  
+  boundary_pertransect_sel=boundary_pertransect[boundary_pertransect$Transect==boundary_pertransect$Transect[i],]
+  
+  wkt_astext=paste("POLYGON((",boundary_pertransect_sel$xmin," ",boundary_pertransect_sel$ymin,",",boundary_pertransect_sel$xmin," ",boundary_pertransect_sel$ymax,",", boundary_pertransect_sel$xmax," ",boundary_pertransect_sel$ymax,",",
+                   boundary_pertransect_sel$xmax," ", boundary_pertransect_sel$ymin,",",boundary_pertransect_sel$xmin," ",boundary_pertransect_sel$ymin,"))",sep="")
+  
+  forpoly$Transect[i]<-boundary_pertransect$Transect[i]
+  forpoly$wkt_t[i]<-as.character(wkt_astext)
+  
+}
+
+write.table(forpoly, file = "boundaries_pertransects_wkt.csv",row.names=FALSE,col.names=TRUE,sep=",")
+
+boundary_pertransect_sel=boundary_pertransect[boundary_pertransect$Transect==boundary_pertransect$Transect[i],]
