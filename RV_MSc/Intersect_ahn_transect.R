@@ -14,8 +14,8 @@ library("ggplot2")
 library("gridExtra")
 
 # Set global variables
-#full_path="C:/Koma/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/"
-full_path="D:/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/"
+full_path="C:/Koma/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/"
+#full_path="D:/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/"
 
 transectfile="Transects_0712_Complete.csv"
 ahnfile="ahn2.shp"
@@ -37,6 +37,8 @@ coordinates(transect_shp)=~X+Y
 proj4string(transect_shp)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
 rgdal::writeOGR(transect_shp, '.', "transects", 'ESRI Shapefile',overwrite_layer = TRUE)
+
+# Transect points within ahn2
 
 intersect_points_wpoly = spatialEco::point.in.poly(transect_shp, ahn2)
 intersect_points_wpoly_df=intersect_points_wpoly@data
@@ -92,3 +94,4 @@ for (i in seq_len(nrow(boundary_pertransect))) {
 }
 
 write.table(forpoly, file = "boundaries_pertransects_wkt_1000.csv",row.names=FALSE,col.names=TRUE,sep=",")
+
