@@ -36,7 +36,7 @@ transect_shp=transect[c("X","Y","x","y","Tr_sec","Transect","Section")]
 coordinates(transect_shp)=~X+Y
 proj4string(transect_shp)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
-rgdal::writeOGR(transect_shp, '.', "transects", 'ESRI Shapefile',overwrite_layer = TRUE)
+#rgdal::writeOGR(transect_shp, '.', "transects", 'ESRI Shapefile',overwrite_layer = TRUE)
 
 # Transect points within ahn2
 
