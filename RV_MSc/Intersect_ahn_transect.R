@@ -25,7 +25,7 @@ setwd(full_path)
 # Import 
 
 ahn2 = readOGR(dsn=ahnfile)
-transect=read.csv(file=transectfile,header=TRUE,sep=";",dec=",")
+transect=read.csv(file=transectfile,header=TRUE,sep=";")
 
 # Convert transect to point shp
 
@@ -36,6 +36,8 @@ transect_shp=transect[c("X","Y","x","y","Tr_sec","Transect","Section")]
 coordinates(transect_shp)=~X+Y
 proj4string(transect_shp)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
+rgdal::writeOGR(transect_shp, '.', "transects", 'ESRI Shapefile',overwrite_layer = TRUE)
+
 intersect_points_wpoly = spatialEco::point.in.poly(transect_shp, ahn2)
 intersect_points_wpoly_df=intersect_points_wpoly@data
 
@@ -43,10 +45,18 @@ per_ahn2 <- intersect_points_wpoly_df %>%
   group_by(bladnr) %>%
   summarise(nofobs = length(bladnr))
 
+transect_pid <- transect %>%
+  group_by(Transect) %>%
+  summarise(nofobs = length(Transect))
+
+## Create one polygon per Transect by extent
+
 # Create shapefile for area of interest selection within tile
 
-intersect_points_wpoly_circles <- gBuffer( intersect_points_wpoly, width=5000, byid=TRUE,capStyle="SQUARE")
-intersect_points_wpoly_circles@data
+intersect_points_wpoly_circles <- gBuffer( transect_shp, width=5000, byid=TRUE,capStyle="SQUARE")
+intersect_points_wpoly_df=intersect_points_wpoly_circles@data
+
+rgdal::writeOGR(intersect_points_wpoly_circles, '.', "squares_aroundpoints", 'ESRI Shapefile',overwrite_layer = TRUE)
 
 transectgroups <- intersect_points_wpoly_df %>%
   group_by(Transect) %>%
@@ -88,5 +98,3 @@ for (i in seq_len(nrow(boundary_pertransect))) {
 }
 
 write.table(forpoly, file = "boundaries_pertransects_wkt.csv",row.names=FALSE,col.names=TRUE,sep=",")
-
-boundary_pertransect_sel=boundary_pertransect[boundary_pertransect$Transect==boundary_pertransect$Transect[i],]
