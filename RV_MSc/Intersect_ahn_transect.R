@@ -45,20 +45,9 @@ per_ahn2 <- intersect_points_wpoly_df %>%
   group_by(bladnr) %>%
   summarise(nofobs = length(bladnr))
 
-transect_pid <- transect %>%
-  group_by(Transect) %>%
-  summarise(nofobs = length(Transect))
-
 ## Create one polygon per Transect by extent
 
-# Create shapefile for area of interest selection within tile
-
-intersect_points_wpoly_circles <- gBuffer( transect_shp, width=5000, byid=TRUE,capStyle="SQUARE")
-intersect_points_wpoly_df=intersect_points_wpoly_circles@data
-
-rgdal::writeOGR(intersect_points_wpoly_circles, '.', "squares_aroundpoints", 'ESRI Shapefile',overwrite_layer = TRUE)
-
-transectgroups <- intersect_points_wpoly_df %>%
+transectgroups <- transect %>%
   group_by(Transect) %>%
   summarise(nofobs = length(Transect))
 
@@ -67,8 +56,8 @@ boundary_pertransect=data.frame(Transect=integer(nrow(transectgroups)),xmin=doub
 for (i in seq_len(nrow(transectgroups))) {
   print(transectgroups$Transect[i])
   
-  intersect_points_wpoly_circles_sel=intersect_points_wpoly_circles[intersect_points_wpoly_circles@data$Transect==transectgroups$Transect[i],]
-  union=extent(intersect_points_wpoly_circles_sel)
+  transect_shp_sel=transect_shp[transect_shp@data$Transect==transectgroups$Transect[i],]
+  union=extent(transect_shp_sel)
   
   boundary_pertransect$Transect[i]<-transectgroups$Transect[i]
   boundary_pertransect$xmin[i]<-union@xmin
@@ -88,6 +77,11 @@ for (i in seq_len(nrow(boundary_pertransect))) {
   print(boundary_pertransect$Transect[i])
   
   boundary_pertransect_sel=boundary_pertransect[boundary_pertransect$Transect==boundary_pertransect$Transect[i],]
+  
+  boundary_pertransect_sel$xmin=boundary_pertransect_sel$xmin-5000
+  boundary_pertransect_sel$xmax=boundary_pertransect_sel$xmax+5000
+  boundary_pertransect_sel$ymin=boundary_pertransect_sel$ymin-5000
+  boundary_pertransect_sel$ymax=boundary_pertransect_sel$ymax+5000
   
   wkt_astext=paste("POLYGON((",boundary_pertransect_sel$xmin," ",boundary_pertransect_sel$ymin,",",boundary_pertransect_sel$xmin," ",boundary_pertransect_sel$ymax,",", boundary_pertransect_sel$xmax," ",boundary_pertransect_sel$ymax,",",
                    boundary_pertransect_sel$xmax," ", boundary_pertransect_sel$ymin,",",boundary_pertransect_sel$xmin," ",boundary_pertransect_sel$ymin,"))",sep="")
