@@ -78,10 +78,10 @@ for (i in seq_len(nrow(boundary_pertransect))) {
   
   boundary_pertransect_sel=boundary_pertransect[boundary_pertransect$Transect==boundary_pertransect$Transect[i],]
   
-  boundary_pertransect_sel$xmin=boundary_pertransect_sel$xmin-5000
-  boundary_pertransect_sel$xmax=boundary_pertransect_sel$xmax+5000
-  boundary_pertransect_sel$ymin=boundary_pertransect_sel$ymin-5000
-  boundary_pertransect_sel$ymax=boundary_pertransect_sel$ymax+5000
+  boundary_pertransect_sel$xmin=boundary_pertransect_sel$xmin-1000
+  boundary_pertransect_sel$xmax=boundary_pertransect_sel$xmax+1000
+  boundary_pertransect_sel$ymin=boundary_pertransect_sel$ymin-1000
+  boundary_pertransect_sel$ymax=boundary_pertransect_sel$ymax+1000
   
   wkt_astext=paste("POLYGON((",boundary_pertransect_sel$xmin," ",boundary_pertransect_sel$ymin,",",boundary_pertransect_sel$xmin," ",boundary_pertransect_sel$ymax,",", boundary_pertransect_sel$xmax," ",boundary_pertransect_sel$ymax,",",
                    boundary_pertransect_sel$xmax," ", boundary_pertransect_sel$ymin,",",boundary_pertransect_sel$xmin," ",boundary_pertransect_sel$ymin,"))",sep="")
@@ -91,4 +91,4 @@ for (i in seq_len(nrow(boundary_pertransect))) {
   
 }
 
-write.table(forpoly, file = "boundaries_pertransects_wkt.csv",row.names=FALSE,col.names=TRUE,sep=",")
+write.table(forpoly, file = "boundaries_pertransects_wkt_1000.csv",row.names=FALSE,col.names=TRUE,sep=",")
