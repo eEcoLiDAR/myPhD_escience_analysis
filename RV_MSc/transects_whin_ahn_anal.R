@@ -43,6 +43,8 @@ proj4string(transect_shp)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.
 intersect_points_wpoly = spatialEco::point.in.poly(transect_shp, ahn2)
 intersect_points_wpoly_df=intersect_points_wpoly@data
 
+write.table(intersect_points_wpoly_df, file = "intersect_points_wpoly_df.csv",row.names=FALSE,col.names=TRUE,sep=",")
+
 per_ahn2 <- intersect_points_wpoly_df %>%
   group_by(bladnr) %>%
   summarise(nofobs = length(bladnr))
