@@ -6,7 +6,7 @@ library("lidR")
 library("rgdal")
 
 # Set working dirctory
-workingdirectory="C:/Koma/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/"
+workingdirectory="D:/Reinier/"
 setwd(workingdirectory)
 
 #Import csv
@@ -14,7 +14,7 @@ bytransect_wcoord=read.csv(file="boundaries_pertransects.csv",header=TRUE,sep=",
 
 ctg = catalog(workingdirectory)
 
-for (i in seq(from=14,to=nrow(bykmsquare_wcoord))){ 
+for (i in seq(from=15,to=nrow(bytransect_wcoord))){ 
   print(bytransect_wcoord$Transect[i])
   
   subset = lasclipRectangle(ctg, bytransect_wcoord$xmin[i]-1000, bytransect_wcoord$ymin[i]-1000, bytransect_wcoord$xmax[i]+1000, bytransect_wcoord$ymax[i]+1000)
