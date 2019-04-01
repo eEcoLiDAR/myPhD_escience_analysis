@@ -7,7 +7,7 @@ library("rgdal")
 
 # Set working dirctory
 #workingdirectory="D:/Reinier/"
-workingdirectory="C:/Koma/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/"
+workingdirectory="D:/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/"
 setwd(workingdirectory)
 
 #Import csv
