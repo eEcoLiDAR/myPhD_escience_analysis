@@ -6,8 +6,8 @@ library("lidR")
 library("rgdal")
 
 # Set working dirctory
-#workingdirectory="D:/Reinier/"
-workingdirectory="D:/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/"
+workingdirectory="D:/Reinier/"
+#workingdirectory="D:/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/"
 setwd(workingdirectory)
 
 #Import csv
@@ -16,7 +16,7 @@ bytransect_wcoord=read.csv(file="boundaries_pertransects.csv",header=TRUE,sep=",
 ctg = catalog(workingdirectory)
 #nrow(bytransect_wcoord
 
-for (i in seq(from=15,to=17)){ 
+for (i in seq(from=17,to=nrow(bytransect_wcoord))){ 
   print(bytransect_wcoord$Transect[i])
   
   subset = lasclipRectangle(ctg, bytransect_wcoord$xmin[i]-1000, bytransect_wcoord$ymin[i]-1000, bytransect_wcoord$xmax[i]+1000, bytransect_wcoord$ymax[i]+1000)
