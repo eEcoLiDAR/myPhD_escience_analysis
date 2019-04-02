@@ -10,13 +10,13 @@ library(ggplot2)
 library(gridExtra)
 library(ggrepel)
 
-#source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
-source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
+source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
+#source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
 
 
 # Set global variables
-#setwd("D:/Koma/Paper1_v2/Run2_2019March/")
-setwd("D:/Koma/Paper1_ReedStructure/Results_26March/")
+setwd("D:/Koma/Paper1_v2/Run3_2019April/")
+#setwd("D:/Koma/Paper1_ReedStructure/Results_26March/")
 
 level1="featuretable_level1_b2o5.csv"
 level2="featuretable_level2_b2o5.csv"

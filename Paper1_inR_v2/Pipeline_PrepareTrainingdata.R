@@ -10,7 +10,7 @@ source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR_v2/Function_Classifica
 #source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
 
 # Set working dirctory
-workingdirectory="D:/Koma/Paper1_v2/Run2_2019March/"
+workingdirectory="D:/Koma/Paper1_v2/Run3_2019April/"
 #workingdirectory="D:/Koma/Paper1_ReedStructure/Results_2019March/"
 setwd(workingdirectory)
 
