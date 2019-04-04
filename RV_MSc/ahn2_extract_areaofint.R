@@ -16,7 +16,7 @@ bytransect_wcoord=read.csv(file="boundaries_pertransects.csv",header=TRUE,sep=",
 ctg = catalog(workingdirectory)
 #nrow(bytransect_wcoord
 
-for (i in seq(from=210,to=nrow(bytransect_wcoord))){ 
+for (i in seq(from=301,to=nrow(bytransect_wcoord))){ 
   print(bytransect_wcoord$Transect[i])
   
   subset = lasclipRectangle(ctg, bytransect_wcoord$xmin[i]-1000, bytransect_wcoord$ymin[i]-1000, bytransect_wcoord$xmax[i]+1000, bytransect_wcoord$ymax[i]+1000)
