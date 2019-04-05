@@ -17,7 +17,6 @@ setwd(workingdirectory)
 # Import
 lidarmetrics_l1=stack("lidarmetrics_l1_masked.grd")
 lidarmetrics_l23=stack("lidarmetrics_l2l3_masked_wgr.grd")
-lidarmetrics_l1_inl12=stack("lidarmetrics_l1_masked_wl12.grd")
 
 vegetation=readOGR(dsn="vlakken_union_structuur.shp")
 
@@ -82,8 +81,19 @@ write.table(featuretable_l3,"featuretable_level3_b2o5.csv",row.names=FALSE,sep="
 
 # Intersection for feature analysis
 
-featuretable_fea_anal=Create_Intersection(classes1,lidarmetrics_l1_inl12)
-write.table(featuretable_fea_anal,"featuretable_level1_b2o5_wgr.csv",row.names=FALSE,sep=",")
+# Create level 1 same extent as level23
+formask <- setValues(raster(lidarmetrics_l1[[21]]), 1)
+formask[is.na(lidarmetrics_l23[[21]])] <- NA
 
-featuretable_fea_anal2=Create_Intersection(classes1,lidarmetrics_l23)
-write.table(featuretable_fea_anal2,"featuretable_level1_b2o5_whgr.csv",row.names=FALSE,sep=",")
+lidarmetrics_masked_wl12 <- mask(lidarmetrics_l1, formask)
+writeRaster(lidarmetrics_masked_wl12,"lidarmetrics_l1_masked_wl12.grd",overwrite=TRUE)
+
+# Intersection
+ex_m=extent(lidarmetrics_l23)
+
+lidarmetrics_masked_wl12_m=crop(lidarmetrics_masked_wl12,ex_m)
+
+foranal=stack(lidarmetrics_l23,lidarmetrics_masked_wl12_m)
+
+featuretable_fea_anal=Create_Intersection(classes1,foranal)
+write.table(featuretable_fea_anal,"featuretable_b2o5_wgr_whgr.csv",row.names=FALSE,sep=",")
