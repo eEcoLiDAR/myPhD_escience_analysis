@@ -77,6 +77,9 @@ lidarmetrics_l23=dropLayer(lidarmetrics_l23,c(3,4,29,30))
 featuretable_l1=Create_Intersection(classes1,lidarmetrics_l1)
 write.table(featuretable_l1,"featuretable_level1_b2o5.csv",row.names=FALSE,sep=",")
 
+featuretable_l1_v2=Create_Intersection(classes1,lidarmetrics_l23)
+write.table(featuretable_l1_v2,"featuretable_level1_b2o5_whgr.csv",row.names=FALSE,sep=",")
+
 featuretable_l2=Create_Intersection(classes2,lidarmetrics_l23)
 write.table(featuretable_l2,"featuretable_level2_b2o5.csv",row.names=FALSE,sep=",")
 
