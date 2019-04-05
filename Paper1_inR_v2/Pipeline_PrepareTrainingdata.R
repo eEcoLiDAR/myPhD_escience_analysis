@@ -10,13 +10,14 @@ source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR_v2/Function_Classifica
 #source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
 
 # Set working dirctory
-workingdirectory="D:/Koma/Paper1_v2/Run3_2019April/"
+workingdirectory="D:/Koma/Paper1_v2/Run4_2019April/"
 #workingdirectory="D:/Koma/Paper1_ReedStructure/Results_2019March/"
 setwd(workingdirectory)
 
 # Import
 lidarmetrics_l1=stack("lidarmetrics_l1_masked.grd")
 lidarmetrics_l23=stack("lidarmetrics_l2l3_masked_wgr.grd")
+lidarmetrics_l1_inl12=stack("lidarmetrics_l1_masked_wl12.grd")
 
 vegetation=readOGR(dsn="vlakken_union_structuur.shp")
 
@@ -69,19 +70,20 @@ classes1 = rgdal::readOGR("selpolyper_level1_v5.shp")
 classes2 = rgdal::readOGR("selpolyper_level2_v5.shp")
 classes3 = rgdal::readOGR("selpolyper_level3_v5.shp")
 
-# Finalize of LiDAR metrics
-lidarmetrics_l1=dropLayer(lidarmetrics_l1,c(3,4,29,30))
-lidarmetrics_l23=dropLayer(lidarmetrics_l23,c(3,4,29,30))
-
-# Intersection
+# Intersection for classification
 featuretable_l1=Create_Intersection(classes1,lidarmetrics_l1)
 write.table(featuretable_l1,"featuretable_level1_b2o5.csv",row.names=FALSE,sep=",")
-
-featuretable_l1_v2=Create_Intersection(classes1,lidarmetrics_l23)
-write.table(featuretable_l1_v2,"featuretable_level1_b2o5_whgr.csv",row.names=FALSE,sep=",")
 
 featuretable_l2=Create_Intersection(classes2,lidarmetrics_l23)
 write.table(featuretable_l2,"featuretable_level2_b2o5.csv",row.names=FALSE,sep=",")
 
 featuretable_l3=Create_Intersection(classes3,lidarmetrics_l23)
 write.table(featuretable_l3,"featuretable_level3_b2o5.csv",row.names=FALSE,sep=",")
+
+# Intersection for feature analysis
+
+featuretable_fea_anal=Create_Intersection(classes1,lidarmetrics_l1_inl12)
+write.table(featuretable_fea_anal,"featuretable_level1_b2o5_wgr.csv",row.names=FALSE,sep=",")
+
+featuretable_fea_anal2=Create_Intersection(classes1,lidarmetrics_l23)
+write.table(featuretable_fea_anal2,"featuretable_level1_b2o5_whgr.csv",row.names=FALSE,sep=",")

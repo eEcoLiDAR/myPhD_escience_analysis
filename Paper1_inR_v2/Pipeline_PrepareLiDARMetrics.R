@@ -69,7 +69,10 @@ formask[is.na(buildmask)] <- NA
 #writeRaster(formask,"building_rast.grd",overwrite=TRUE)
 
 lidarmetrics_masked <- mask(lidarmetrics, formask)
-writeRaster(lidarmetrics_masked,"lidarmetrics_l1_masked.grd",overwrite=TRUE)
+
+lidarmetrics_l1=dropLayer(lidarmetrics_masked,c(3,4,29,30))
+
+writeRaster(lidarmetrics_l1,"lidarmetrics_l1_masked.grd",overwrite=TRUE)
 
 # Read the separate lidarmetrics files into memory (excluding ground points)
 
@@ -102,4 +105,14 @@ formask <- setValues(raster(lidarmetrics_wgr[[1]]), 1)
 formask[is.na(buildmask)] <- NA
 
 lidarmetrics_masked_wgr <- mask(lidarmetrics_wgr, formask)
-writeRaster(lidarmetrics_masked_wgr,"lidarmetrics_l2l3_masked_wgr.grd",overwrite=TRUE)
+
+lidarmetrics_l23=dropLayer(lidarmetrics_masked_wgr,c(3,4,29,30))
+
+writeRaster(lidarmetrics_l23,"lidarmetrics_l2l3_masked_wgr.grd",overwrite=TRUE)
+
+# Create level 1 same extent as level23
+formask <- setValues(raster(lidarmetrics_l1[[1]]), 1)
+formask[is.na(lidarmetrics_l23[[10]])] <- NA
+
+lidarmetrics_masked_wl12 <- mask(lidarmetrics_l1, formask)
+writeRaster(lidarmetrics_masked_wl12,"lidarmetrics_l1_masked_wl12.grd",overwrite=TRUE)
