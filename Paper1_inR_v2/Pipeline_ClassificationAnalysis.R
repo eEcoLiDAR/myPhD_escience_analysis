@@ -30,6 +30,8 @@ featuretable_l1=read.csv(level1)
 featuretable_l2=read.csv(level2)
 featuretable_l3=read.csv(level3)
 
+featuretable_l1_b=read.csv("featuretable_level1_b2o5_whgr.csv")
+
 # Pre-process - rename coloumns, add feature classes
 
 names(featuretable_l1) <- c("C_puls","C_can","3S_curv","3S_lin","S_plan","3S_sph","3S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
@@ -41,11 +43,15 @@ names(featuretable_l2) <- c("C_puls","C_can","3S_curv","3S_lin","S_plan","3S_sph
 names(featuretable_l3) <- c("C_puls","C_can","3S_curv","3S_lin","S_plan","3S_sph","3S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
                             "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p","layer")
 
+names(featuretable_l1_b) <- c("C_puls","C_can","3S_curv","3S_lin","S_plan","3S_sph","3S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
+                            "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p","layer")
+
 # Fig.3. : boxplot ground whout ground
 featuretable_l1_m=featuretable_l1[featuretable_l1$layer==2,]
+featuretable_l1b_m=featuretable_l1_b[featuretable_l1_b$layer==2,]
 
 vegetation_wgr=featuretable_l1_m[ ,c(21:26)]
-vegetation_whgr=featuretable_l2[c(1:230) ,c(21:26)]
+vegetation_whgr=featuretable_l1b_m[,c(21:26)]
 
 vegetation_wgr_f=melt(vegetation_wgr)
 vegetation_whgr_f=melt(vegetation_whgr)
@@ -57,7 +63,28 @@ vegetation_var=rbind(vegetation_wgr_f,vegetation_whgr_f)
 
 colnames(vegetation_var) <- make.unique(names(vegetation_var))
 
-ggplot(data = vegetation_var, aes(x=variable, y=value,fill=factor(class))) + geom_boxplot()
+ggplot(data = vegetation_var, aes(x=variable, y=value,fill=factor(class))) + geom_boxplot()+
+  scale_fill_manual(values = c("1" = "coral1", "2" = "cyan2"),name="Calculation type",labels=c("With ground","Without ground")) +
+  xlab("Feature class: Height") + ylab("Height[m]") +
+  theme_bw(base_size = 17)
+
+vegetation_wgr_h=featuretable_l1_m[ ,c(3:20)]
+vegetation_whgr_h=featuretable_l1b_m[,c(3:20)]
+
+vegetation_wgr_f_h=melt(vegetation_wgr_h)
+vegetation_whgr_f_h=melt(vegetation_whgr_h)
+
+vegetation_wgr_f_h$class <-1
+vegetation_whgr_f_h$class <-2
+
+vegetation_var_h=rbind(vegetation_wgr_f_h,vegetation_whgr_f_h)
+
+colnames(vegetation_var_h) <- make.unique(names(vegetation_var_h))
+
+ggplot(data = vegetation_var_h, aes(x=variable, y=value,fill=factor(class))) + geom_boxplot()+
+  scale_fill_manual(values = c("1" = "coral1", "2" = "cyan2"),name="Calculation type",labels=c("With ground","Without ground")) +
+  xlab("Feature class: Height") + ylab("Height[m]") +
+  theme_bw(base_size = 17)
 
 
 # RF
