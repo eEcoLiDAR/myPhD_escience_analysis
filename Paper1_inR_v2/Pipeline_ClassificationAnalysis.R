@@ -44,11 +44,6 @@ forest_l1 <- randomForest(x=featuretable_l1[ ,c(1:26)], y=factor(featuretable_l1
 forest_l2 <- randomForest(x=featuretable_l2[ ,c(1:26)], y=factor(featuretable_l2$layer),importance = TRUE,ntree = 100)
 forest_l3 <- randomForest(x=featuretable_l3[ ,c(1:26)], y=factor(featuretable_l3$layer),importance = TRUE,ntree = 100)
 
-#Save it
-save(forest_l1,file = "forest_l1.RData")
-save(forest_l2,file = "forest_l2.RData")
-save(forest_l3,file = "forest_l3.RData")
-
 #load("forest_l1.RData")
 #load("forest_l2.RData")
 #load("forest_l3.RData")
@@ -62,10 +57,6 @@ importance_frame_l3=Analysis_FeatureImportance(forest_l3)
 importance_frame_l1_m=add_varclass(importance_frame_l1)
 importance_frame_l2_m=add_varclass(importance_frame_l2)
 importance_frame_l3_m=add_varclass(importance_frame_l3)
-
-write.csv(importance_frame_l1_m, file = "importance_frame_l1.csv",row.names=FALSE)
-write.csv(importance_frame_l2_m, file = "importance_frame_l2.csv",row.names=FALSE)
-write.csv(importance_frame_l3_m, file = "importance_frame_l3.csv",row.names=FALSE)
 
 data_l1 <- importance_frame_l1_m[importance_frame_l1_m$no_of_trees > 0, ]
 data_for_labels_l1 <- importance_frame_l1_m[importance_frame_l1_m$variable %in%
@@ -158,10 +149,6 @@ grid.arrange(
   nrow = 1
 )
 
-save(rfe_l1,file = "rfe_l1.RData")
-save(rfe_l2,file = "rfe_l2.RData")
-save(rfe_l3,file = "rfe_l3.RData")
-
 fig4=grid.arrange(
   p7,
   p1,
@@ -178,3 +165,16 @@ fig4=grid.arrange(
 )
 
 ggsave("Fig4.png",plot = fig4,width = 16, height = 18)
+
+# Export
+save(forest_l1,file = "forest_l1.RData")
+save(forest_l2,file = "forest_l2.RData")
+save(forest_l3,file = "forest_l3.RData")
+
+write.csv(importance_frame_l1_m, file = "importance_frame_l1.csv",row.names=FALSE)
+write.csv(importance_frame_l2_m, file = "importance_frame_l2.csv",row.names=FALSE)
+write.csv(importance_frame_l3_m, file = "importance_frame_l3.csv",row.names=FALSE)
+
+save(rfe_l1,file = "rfe_l1.RData")
+save(rfe_l2,file = "rfe_l2.RData")
+save(rfe_l3,file = "rfe_l3.RData")
