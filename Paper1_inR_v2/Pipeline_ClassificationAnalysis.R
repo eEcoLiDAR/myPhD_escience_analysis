@@ -121,8 +121,9 @@ grid.arrange(
 )
 
 # Fig3: RFE
+
 # level 1
-control <- rfeControl(functions=rfFuncs, method="cv", number=50)
+control <- rfeControl(functions=rfFuncs, method="cv", number=50,saveDetails = TRUE)
 rfe_l1 <- rfe(featuretable_l1[,1:26], factor(featuretable_l1$layer), rfeControl=control,sizes=c(1:26))
 
 # level 2

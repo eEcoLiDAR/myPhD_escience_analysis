@@ -12,6 +12,7 @@ library(ggrepel)
 library(grid)
 
 library(reshape2)
+library(dplyr)
 
 #source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
 source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
@@ -138,3 +139,18 @@ fig4=grid.arrange(
 )
 
 ggsave("Fig4.png",plot = fig4,width = 16, height = 18)
+
+# Fig: every results from RFE
+feaimp_l1=rfe_l1[["variables"]]
+
+feaimp_l1_all=feaimp_l1[feaimp_l1$Variables==26,]
+
+feaimp_l1_all_pfea <- feaimp_l1_all %>%
+  group_by(var) %>%
+  summarise(mean_imp = mean(Overall),sd_imp = sd(Overall))
+
+names(feaimp_l1_all_pfea) <- c("variable","mean_imp","sd_imp" )
+feaimp_l1_all_pfea_clas=add_varclass(feaimp_l1_all_pfea)
+
+ggplot(feaimp_l1_all_pfea_clas, aes(x=reorder(variable,mean_imp),y=mean_imp)) + geom_pointrange(aes(ymin=mean_imp-sd_imp, ymax=mean_imp+sd_imp,color=factor(varclass)),size=1.5) + coord_flip() + theme_bw(base_size = 17) +
+  xlab("LiDAR metrics") + ylab("Feature importance")
