@@ -12,29 +12,19 @@ library(ggrepel)
 
 library(reshape2)
 
-source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
-#source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
+#source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
+source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
 
 
 # Set global variables
-setwd("D:/Koma/Paper1_v2/Run4_2019April/")
-#setwd("D:/Koma/Paper1_ReedStructure/Results_02April/")
-
-level1="featuretable_level1_b2o5.csv"
-level2="featuretable_level2_b2o5.csv"
-level3="featuretable_level3_b2o5.csv"
+#setwd("D:/Koma/Paper1_v2/Run4_2019April/")
+setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Results_05April/")
 
 # Import
 
-featuretable_l1=read.csv(level1)
-featuretable_l2=read.csv(level2)
-featuretable_l3=read.csv(level3)
-
-featuretable_l1_foranal=read.csv("featuretable_b2o5_wgr_whgr.csv")
-featuretable_l1_foranal=featuretable_l1_foranal[featuretable_l1_foranal$layer==2,]
-
-featuretable_l1_a=featuretable_l1_foranal[ ,c(1:26)]
-featuretable_l1_b=featuretable_l1_foranal[ ,c(27:52)]
+featuretable_l1=read.csv("featuretable_level1_b2o5.csv")
+featuretable_l2=read.csv("featuretable_level2_b2o5.csv")
+featuretable_l3=read.csv("featuretable_level3_b2o5.csv")
 
 # Pre-process - rename coloumns, add feature classes
 
@@ -47,58 +37,15 @@ names(featuretable_l2) <- c("C_puls","C_can","3S_curv","3S_lin","S_plan","3S_sph
 names(featuretable_l3) <- c("C_puls","C_can","3S_curv","3S_lin","S_plan","3S_sph","3S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
                             "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p","layer")
 
-names(featuretable_l1_a) <- c("C_puls","C_can","3S_curv","3S_lin","S_plan","3S_sph","3S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
-                            "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p")
-
-names(featuretable_l1_b) <- c("C_puls","C_can","3S_curv","3S_lin","S_plan","3S_sph","3S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
-                              "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p")
-
-# Fig.3. : boxplot ground whout ground
-vegetation_wgr=featuretable_l1_a[ ,c(21:26)]
-vegetation_whgr=featuretable_l1_b[,c(21:26)]
-
-vegetation_wgr_f=melt(vegetation_wgr)
-vegetation_whgr_f=melt(vegetation_whgr)
-
-vegetation_wgr_f$class <-1
-vegetation_whgr_f$class <-2
-
-vegetation_var=rbind(vegetation_wgr_f,vegetation_whgr_f)
-
-colnames(vegetation_var) <- make.unique(names(vegetation_var))
-
-ggplot(data = vegetation_var, aes(x=variable, y=value,fill=factor(class))) + geom_boxplot()+
-  scale_fill_manual(values = c("1" = "coral1", "2" = "cyan2"),name="Calculation type",labels=c("With ground","Without ground")) +
-  xlab("Feature class: Height") + ylab("Height[m]") +
-  theme_bw(base_size = 17)
-
-vegetation_wgr_h=featuretable_l1_a[ ,c(16:20)]
-vegetation_whgr_h=featuretable_l1_b[,c(16:20)]
-
-vegetation_wgr_f_h=melt(vegetation_wgr_h)
-vegetation_whgr_f_h=melt(vegetation_whgr_h)
-
-vegetation_wgr_f_h$class <-1
-vegetation_whgr_f_h$class <-2
-
-vegetation_var_h=rbind(vegetation_wgr_f_h,vegetation_whgr_f_h)
-
-colnames(vegetation_var_h) <- make.unique(names(vegetation_var_h))
-
-ggplot(data = vegetation_var_h, aes(x=variable, y=value,fill=factor(class))) + geom_boxplot()+
-  scale_fill_manual(values = c("1" = "coral1", "2" = "cyan2"),name="Calculation type",labels=c("With ground","Without ground")) +
-  xlab("Feature class: Height") + ylab("Height[m]") +
-  theme_bw(base_size = 17)
-
 
 # RF
-forest_l1 <- randomForest(x=featuretable_l1[ ,c(1:26)], y=factor(featuretable_l1$layer),importance = TRUE,ntree = 100)
-forest_l2 <- randomForest(x=featuretable_l2[ ,c(1:26)], y=factor(featuretable_l2$layer),importance = TRUE,ntree = 100)
-forest_l3 <- randomForest(x=featuretable_l3[ ,c(1:26)], y=factor(featuretable_l3$layer),importance = TRUE,ntree = 100)
+#forest_l1 <- randomForest(x=featuretable_l1[ ,c(1:26)], y=factor(featuretable_l1$layer),importance = TRUE,ntree = 100)
+#forest_l2 <- randomForest(x=featuretable_l2[ ,c(1:26)], y=factor(featuretable_l2$layer),importance = TRUE,ntree = 100)
+#forest_l3 <- randomForest(x=featuretable_l3[ ,c(1:26)], y=factor(featuretable_l3$layer),importance = TRUE,ntree = 100)
 
-#load("forest_l1.RData")
-#load("forest_l2.RData")
-#load("forest_l3.RData")
+load("forest_l1.RData")
+load("forest_l2.RData")
+load("forest_l3.RData")
 
 # Fig.4. : Feature Importance
 
