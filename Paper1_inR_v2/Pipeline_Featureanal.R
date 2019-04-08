@@ -173,6 +173,8 @@ grid.arrange(
 )
 
 # boxplots per classes
+
+# level1
 featuretable_l1_c=featuretable_l1[ ,c(1:2,27)]
 featuretable_l1_c_b=melt(featuretable_l1_c,id.vars="layer")
 
@@ -221,6 +223,15 @@ p16=ggplot(data = featuretable_l1_h_b, aes(x=variable, y=value,fill=factor(layer
   xlab("Feature class: Height") + ylab("Height [m]") +
   theme_bw(base_size = 17)
 
+get_legend<-function(myggplot){
+  tmp <- ggplot_gtable(ggplot_build(myggplot))
+  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+  legend <- tmp$grobs[[leg]]
+  return(legend)
+}
+
+legend <- get_legend(p0)
+
 grid.arrange(
   p11,
   p12,
@@ -232,3 +243,159 @@ grid.arrange(
   nrow=2,
   layout_matrix=rbind(c(1,2,3),c(4,5,6))
 )
+
+# level2
+
+featuretable_l2_c=featuretable_l2[ ,c(1:2,27)]
+featuretable_l2_c_b=melt(featuretable_l2_c,id.vars="layer")
+
+featuretable_l2_3s=featuretable_l2[ ,c(3:7,27)]
+featuretable_l2_3s_b=melt(featuretable_l2_3s,id.vars="layer")
+
+featuretable_l2_vva=featuretable_l2[ ,c(8:11,27)]
+featuretable_l2_vva_b=melt(featuretable_l2_vva,id.vars="layer")
+
+featuretable_l2_vvb=featuretable_l2[ ,c(12:15,27)]
+featuretable_l2_vvb_b=melt(featuretable_l2_vvb,id.vars="layer")
+
+featuretable_l2_hv=featuretable_l2[ ,c(16:20,27)]
+featuretable_l2_hv_b=melt(featuretable_l2_hv,id.vars="layer")
+
+featuretable_l2_h=featuretable_l2[ ,c(21:26,27)]
+featuretable_l2_h_b=melt(featuretable_l2_h,id.vars="layer")
+
+p11=ggplot(data = featuretable_l2_c_b, aes(x=variable, y=value,fill=factor(layer))) + geom_boxplot(show.legend = FALSE)+
+  scale_fill_manual(values = c("1" = "darkgreen", "2" = "chartreuse", "3" = "darkorange3", "4" = "darkolivegreen3"),name="Level 2",labels=c("Forest","Grassland","Reedbed","Shrub")) +
+  xlab("Feature class: Cover") + ylab("Ratio [%]") +
+  theme_bw(base_size = 17)
+
+p12=ggplot(data = featuretable_l2_3s_b, aes(x=variable, y=value,fill=factor(layer))) + geom_boxplot(show.legend = FALSE)+
+  scale_fill_manual(values = c("1" = "darkgreen", "2" = "chartreuse", "3" = "darkorange3", "4" = "darkolivegreen3"),name="Level 2",labels=c("Forest","Grassland","Reedbed","Shrub")) +
+  xlab("Feature class: 3D shape") + ylab("Ratio of eigenvalues") +
+  theme_bw(base_size = 17)
+
+p13=ggplot(data = featuretable_l2_vva_b, aes(x=variable, y=value,fill=factor(layer))) + geom_boxplot(show.legend = FALSE)+
+  scale_fill_manual(values = c("1" = "darkgreen", "2" = "chartreuse", "3" = "darkorange3", "4" = "darkolivegreen3"),name="Level 2",labels=c("Forest","Grassland","Reedbed","Shrub")) +
+  xlab("Feature class: Vertical variability") + ylab("Variability [m]") +
+  theme_bw(base_size = 17)
+
+p14=ggplot(data = featuretable_l2_vvb_b, aes(x=variable, y=value,fill=factor(layer))) + geom_boxplot(show.legend = FALSE)+
+  scale_fill_manual(values = c("1" = "darkgreen", "2" = "chartreuse", "3" = "darkorange3", "4" = "darkolivegreen3"),name="Level 2",labels=c("Forest","Grassland","Reedbed","Shrub")) +
+  xlab("Feature class: Vertical variability") + ylab("Variability [m]") +
+  theme_bw(base_size = 17)
+
+p15=ggplot(data = featuretable_l2_hv_b, aes(x=variable, y=value,fill=factor(layer))) + geom_boxplot(show.legend = FALSE)+
+  scale_fill_manual(values = c("1" = "darkgreen", "2" = "chartreuse", "3" = "darkorange3", "4" = "darkolivegreen3"),name="Level 2",labels=c("Forest","Grassland","Reedbed","Shrub")) +
+  xlab("Feature class: Horizontal variability") + ylab("Variability [m]") +
+  theme_bw(base_size = 17) + ylim(0,10)
+
+p16=ggplot(data = featuretable_l2_h_b, aes(x=variable, y=value,fill=factor(layer))) + geom_boxplot(show.legend = FALSE)+
+  scale_fill_manual(values = c("1" = "darkgreen", "2" = "chartreuse", "3" = "darkorange3", "4" = "darkolivegreen3"),name="Level 2",labels=c("Forest","Grassland","Reedbed","Shrub")) +
+  xlab("Feature class: Height") + ylab("Height [m]") +
+  theme_bw(base_size = 17)
+
+p00=ggplot(data = featuretable_l2_h_b, aes(x=variable, y=value,fill=factor(layer))) + geom_boxplot(show.legend = TRUE)+
+  scale_fill_manual(values = c("1" = "darkgreen", "2" = "chartreuse", "3" = "darkorange3", "4" = "darkolivegreen3"),name="Level 2",labels=c("Forest","Grassland","Reedbed","Shrub")) +
+  xlab("Feature class: Height") + ylab("Height [m]") +
+  theme_bw(base_size = 17)
+
+get_legend<-function(myggplot){
+  tmp <- ggplot_gtable(ggplot_build(myggplot))
+  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+  legend <- tmp$grobs[[leg]]
+  return(legend)
+}
+
+legend <- get_legend(p00)
+
+grid.arrange(
+  p11,
+  p12,
+  p13,
+  p14,
+  p15,
+  p16,
+  legend,
+  ncol=4,
+  nrow=2,
+  layout_matrix=rbind(c(1,2,3,7),c(4,5,6,7))
+)
+
+# level3
+
+featuretable_l3_c=featuretable_l3[ ,c(1:2,27)]
+featuretable_l3_c_b=melt(featuretable_l3_c,id.vars="layer")
+
+featuretable_l3_3s=featuretable_l3[ ,c(3:7,27)]
+featuretable_l3_3s_b=melt(featuretable_l3_3s,id.vars="layer")
+
+featuretable_l3_vva=featuretable_l3[ ,c(8:11,27)]
+featuretable_l3_vva_b=melt(featuretable_l3_vva,id.vars="layer")
+
+featuretable_l3_vvb=featuretable_l3[ ,c(12:15,27)]
+featuretable_l3_vvb_b=melt(featuretable_l3_vvb,id.vars="layer")
+
+featuretable_l3_hv=featuretable_l3[ ,c(16:20,27)]
+featuretable_l3_hv_b=melt(featuretable_l3_hv,id.vars="layer")
+
+featuretable_l3_h=featuretable_l3[ ,c(21:26,27)]
+featuretable_l3_h_b=melt(featuretable_l3_h,id.vars="layer")
+
+p11=ggplot(data = featuretable_l3_c_b, aes(x=variable, y=value,fill=factor(layer))) + geom_boxplot(show.legend = FALSE)+
+  scale_fill_manual(values = c("1" = "darkgoldenrod1", "2" = "darkorange", "3" = "darkorange4"),name="Level 3",labels=c("Landreed structurally poor","Landreed structurally rich","Water reed")) +
+  xlab("Feature class: Cover") + ylab("Ratio [%]") +
+  theme_bw(base_size = 17)
+
+p12=ggplot(data = featuretable_l3_3s_b, aes(x=variable, y=value,fill=factor(layer))) + geom_boxplot(show.legend = FALSE)+
+  scale_fill_manual(values = c("1" = "darkgoldenrod1", "2" = "darkorange", "3" = "darkorange4"),name="Level 3",labels=c("Landreed structurally poor","Landreed structurally rich","Water reed")) +
+  xlab("Feature class: 3D shape") + ylab("Ratio of eigenvalues") +
+  theme_bw(base_size = 17)
+
+p13=ggplot(data = featuretable_l3_vva_b, aes(x=variable, y=value,fill=factor(layer))) + geom_boxplot(show.legend = FALSE)+
+  scale_fill_manual(values = c("1" = "darkgoldenrod1", "2" = "darkorange", "3" = "darkorange4"),name="Level 3",labels=c("Landreed structurally poor","Landreed structurally rich","Water reed")) +
+  xlab("Feature class: Vertical variability") + ylab("Variability [m]") +
+  theme_bw(base_size = 17)
+
+p14=ggplot(data = featuretable_l3_vvb_b, aes(x=variable, y=value,fill=factor(layer))) + geom_boxplot(show.legend = FALSE)+
+  scale_fill_manual(values = c("1" = "darkgoldenrod1", "2" = "darkorange", "3" = "darkorange4"),name="Level 3",labels=c("Landreed structurally poor","Landreed structurally rich","Water reed")) +
+  xlab("Feature class: Vertical variability") + ylab("Variability [m]") +
+  theme_bw(base_size = 17)
+
+p15=ggplot(data = featuretable_l3_hv_b, aes(x=variable, y=value,fill=factor(layer))) + geom_boxplot(show.legend = FALSE)+
+  scale_fill_manual(values = c("1" = "darkgoldenrod1", "2" = "darkorange", "3" = "darkorange4"),name="Level 3",labels=c("Landreed structurally poor","Landreed structurally rich","Water reed")) +
+  xlab("Feature class: Horizontal variability") + ylab("Variability [m]") +
+  theme_bw(base_size = 17) + ylim(0,10)
+
+p16=ggplot(data = featuretable_l3_h_b, aes(x=variable, y=value,fill=factor(layer))) + geom_boxplot(show.legend = FALSE)+
+  scale_fill_manual(values = c("1" = "darkgoldenrod1", "2" = "darkorange", "3" = "darkorange4"),name="Level 3",labels=c("Landreed structurally poor","Landreed structurally rich","Water reed")) +
+  xlab("Feature class: Height") + ylab("Height [m]") +
+  theme_bw(base_size = 17)
+
+p00=ggplot(data = featuretable_l3_h_b, aes(x=variable, y=value,fill=factor(layer))) + geom_boxplot(show.legend = TRUE)+
+  scale_fill_manual(values = c("1" = "darkgoldenrod1", "2" = "darkorange", "3" = "darkorange4"),name="Level 3",labels=c("Landreed structurally poor","Landreed structurally rich","Water reed")) +
+  xlab("Feature class: Height") + ylab("Height [m]") +
+  theme_bw(base_size = 17)
+
+get_legend<-function(myggplot){
+  tmp <- ggplot_gtable(ggplot_build(myggplot))
+  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+  legend <- tmp$grobs[[leg]]
+  return(legend)
+}
+
+legend <- get_legend(p00)
+
+grid.arrange(
+  p11,
+  p12,
+  p13,
+  p14,
+  p15,
+  p16,
+  legend,
+  ncol=4,
+  nrow=2,
+  layout_matrix=rbind(c(1,2,3,7),c(4,5,6,7))
+)
+
+# Partial dependence plots
