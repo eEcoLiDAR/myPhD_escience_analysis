@@ -31,6 +31,7 @@ featuretable_l1=read.csv("featuretable_level1_b2o5.csv")
 featuretable_l2=read.csv("featuretable_level2_b2o5.csv")
 featuretable_l3=read.csv("featuretable_level3_b2o5.csv")
 
+#usdm
 vifcor_l1=vifcor(as.matrix(featuretable_l1[,1:26]),th=0.9)
 vifcor_l2=vifcor(as.matrix(featuretable_l2[,1:26]),th=0.9)
 vifcor_l3=vifcor(as.matrix(featuretable_l3[,1:26]),th=0.9)
@@ -45,9 +46,6 @@ names(featuretable_l2) <- c("C_puls","C_can","3S_curv","3S_lin","S_plan","3S_sph
 
 names(featuretable_l3) <- c("C_puls","C_can","3S_curv","3S_lin","S_plan","3S_sph","3S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
                             "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p","layer")
-
-#usdm
-anal=vifcor(as.matrix(featuretable_l1[,1:26]),th=0.9)
 
 # Corr. anal
 #l1
