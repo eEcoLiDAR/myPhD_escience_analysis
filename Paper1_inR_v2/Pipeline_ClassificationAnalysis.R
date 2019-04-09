@@ -175,16 +175,19 @@ grid.arrange(
 
 # Fig3: RFE
 # level 1
-control <- rfeControl(functions=rfFuncs, method="cv", number=50)
-rfe_l1 <- rfe(featuretable_l1[,1:26], factor(featuretable_l1$layer), rfeControl=control,sizes=c(1:26))
+control <- rfeControl(functions=rfFuncs, method="cv", number=50,returnResamp = "all")
+set.seed(50)
+rfe_l1 <- rfe(featuretable_l1[,1:26], factor(featuretable_l1$layer), rfeControl=control,sizes=c(1:26),ntree=100)
 
 # level 2
-control <- rfeControl(functions=rfFuncs, method="cv", number=50)
-rfe_l2 <- rfe(featuretable_l2[,1:26], factor(featuretable_l2$layer), rfeControl=control,sizes=c(1:26))
+control <- rfeControl(functions=rfFuncs, method="cv", number=50,returnResamp = "all")
+set.seed(50)
+rfe_l2 <- rfe(featuretable_l2[,1:26], factor(featuretable_l2$layer), rfeControl=control,sizes=c(1:26),ntree=100)
 
 # level 3
-control <- rfeControl(functions=rfFuncs, method="cv", number=50)
-rfe_l3 <- rfe(featuretable_l3[,1:26], factor(featuretable_l3$layer), rfeControl=control,sizes=c(1:26))
+control <- rfeControl(functions=rfFuncs, method="cv", number=50,returnResamp = "all")
+set.seed(50)
+rfe_l3 <- rfe(featuretable_l3[,1:26], factor(featuretable_l3$layer), rfeControl=control,sizes=c(1:26),ntree=100)
 
 rfe_l1_df=data.frame(rfe_l1$results$Variables, rfe_l1$results$Accuracy, rfe_l1$results$AccuracySD)
 rfe_l2_df=data.frame(rfe_l2$results$Variables, rfe_l2$results$Accuracy, rfe_l2$results$AccuracySD)
