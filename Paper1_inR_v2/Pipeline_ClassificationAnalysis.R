@@ -11,6 +11,7 @@ library(gridExtra)
 library(ggrepel)
 
 library(reshape2)
+library(corrplot)
 
 #source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
 source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
@@ -37,31 +38,67 @@ names(featuretable_l2) <- c("C_puls","C_can","3S_curv","3S_lin","S_plan","3S_sph
 names(featuretable_l3) <- c("C_puls","C_can","3S_curv","3S_lin","S_plan","3S_sph","3S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
                             "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p","layer")
 
+# Corr. anal
+#l1
+correlationMatrix <- cor(featuretable_l1[,1:26])
+corrplot(correlationMatrix, method="color")
+
+highlyCorrelated <- findCorrelation(correlationMatrix, cutoff=0.9)
+
+featuretable_l1_ncorr=featuretable_l1[,-sort(highlyCorrelated)]
+
+#l2
+correlationMatrix_l2 <- cor(featuretable_l2[,1:26])
+corrplot(correlationMatrix_l2, method="color")
+
+highlyCorrelated_l2 <- findCorrelation(correlationMatrix_l2, cutoff=0.9)
+
+featuretable_l2_ncorr=featuretable_l2[,-sort(highlyCorrelated_l2)]
+
+#l3
+correlationMatrix_l3 <- cor(featuretable_l3[,1:26])
+corrplot(correlationMatrix_l3, method="color")
+
+highlyCorrelated <- findCorrelation(correlationMatrix_l3, cutoff=0.9)
+
+featuretable_l3_ncorr=featuretable_l3[,-sort(highlyCorrelated)]
+
 # RFE
 
 # level 1
 control <- rfeControl(functions=rfFuncs, method="cv", number=50,returnResamp = "all")
 set.seed(50)
-rfe_l1 <- rfe(featuretable_l1[,1:26], factor(featuretable_l1$layer), rfeControl=control,sizes=c(1:26),ntree=100)
-
+rfe_l1 <- rfe(featuretable_l1[,1:26], factor(featuretable_l1$layer), rfeControl=control,sizes=c(1:26),ntree=100,maximize = TRUE)
+rfe_l1_ncorr <- rfe(featuretable_l1_ncorr[,1:12], factor(featuretable_l1_ncorr$layer), rfeControl=control,sizes=c(1:26),ntree=100,maximize = TRUE)
 
 # level 2
 control <- rfeControl(functions=rfFuncs, method="cv", number=50,returnResamp = "all")
 set.seed(50)
-rfe_l2 <- rfe(featuretable_l2[,1:26], factor(featuretable_l2$layer), rfeControl=control,sizes=c(1:26),ntree=100)
+rfe_l2 <- rfe(featuretable_l2[,1:26], factor(featuretable_l2$layer), rfeControl=control,sizes=c(1:26),ntree=100,maximize = TRUE)
+rfe_l2_ncorr <- rfe(featuretable_l2_ncorr[,1:15], factor(featuretable_l2_ncorr$layer), rfeControl=control,sizes=c(1:26),ntree=100,maximize = TRUE)
 
 # level 3
 control <- rfeControl(functions=rfFuncs, method="cv", number=50,returnResamp = "all")
 set.seed(50)
-rfe_l3 <- rfe(featuretable_l3[,1:26], factor(featuretable_l3$layer), rfeControl=control,sizes=c(1:26),ntree=100)
+rfe_l3 <- rfe(featuretable_l3[,1:26], factor(featuretable_l3$layer), rfeControl=control,sizes=c(1:26),ntree=100,maximize = TRUE)
+rfe_l3_ncorr <- rfe(featuretable_l3_ncorr[,1:17], factor(featuretable_l3_ncorr$layer), rfeControl=control,sizes=c(1:26),ntree=100,maximize = TRUE)
 
-rfe_l1_df=data.frame(rfe_l1$results$Variables, rfe_l1$results$Accuracy, rfe_l1$results$AccuracySD)
-rfe_l2_df=data.frame(rfe_l2$results$Variables, rfe_l2$results$Accuracy, rfe_l2$results$AccuracySD)
-rfe_l3_df=data.frame(rfe_l3$results$Variables, rfe_l3$results$Accuracy, rfe_l3$results$AccuracySD)
+absoluteBest <- pickSizeBest(rfe_l1_ncorr$results, metric = "Accuracy", maximize = TRUE)
+within5Pct <- pickSizeTolerance(rfe_l1_ncorr$results, metric = "Accuracy", maximize = TRUE,tol = 1.5)
 
-p7=ggplot(rfe_l1_df,aes(x=rfe_l1$results$Variables,y=rfe_l1$results$Accuracy))+geom_point(color="black",size=3) + geom_line(color="black",size=2) + geom_ribbon(aes(ymin=rfe_l1$results$Accuracy-rfe_l1$results$AccuracySD, ymax=rfe_l1$results$Accuracy+rfe_l1$results$AccuracySD), linetype=2, alpha=0.1) + xlab("Number of LiDAR metrics") + ylab("Accuracy") + ylim(0, 1) + ggtitle("Level 1: Vegetation") + theme_bw(base_size = 17) + theme(plot.title = element_text(size=17))
-p8=ggplot(rfe_l2_df,aes(x=rfe_l2$results$Variables,y=rfe_l2$results$Accuracy))+geom_point(color="black",size=3) + geom_line(color="black",size=2)+ geom_ribbon(aes(ymin=rfe_l2$results$Accuracy-rfe_l2$results$AccuracySD, ymax=rfe_l2$results$Accuracy+rfe_l2$results$AccuracySD), linetype=2, alpha=0.1) + xlab("Number of LiDAR metrics") + ylab("Accuracy") + ylim(0, 1) + ggtitle("Level 2: Wetland habitat") + theme_bw(base_size = 17) + theme(plot.title = element_text(size=17))
-p9=ggplot(rfe_l3_df,aes(x=rfe_l3$results$Variables,y=rfe_l3$results$Accuracy))+geom_point(color="black",size=3) + geom_line(color="black",size=2)+ geom_ribbon(aes(ymin=rfe_l3$results$Accuracy-rfe_l3$results$AccuracySD, ymax=rfe_l3$results$Accuracy+rfe_l3$results$AccuracySD), linetype=2, alpha=0.1) + xlab("Number of LiDAR metrics") + ylab("Accuracy") + ylim(0, 1) + ggtitle("Level 3: Reedbed habitat") + theme_bw(base_size = 17) + theme(plot.title = element_text(size=17))
+absoluteBest <- pickSizeBest(rfe_l2_ncorr$results, metric = "Accuracy", maximize = TRUE)
+within5Pct <- pickSizeTolerance(rfe_l2_ncorr$results, metric = "Accuracy", maximize = TRUE,tol = 1.5)
+
+absoluteBest <- pickSizeBest(rfe_l3_ncorr$results, metric = "Accuracy", maximize = TRUE)
+within5Pct <- pickSizeTolerance(rfe_l3_ncorr$results, metric = "Accuracy", maximize = TRUE,tol = 1.5)
+
+rfe_l1_df=data.frame(rfe_l1_ncorr$results$Variables, rfe_l1_ncorr$results$Accuracy, rfe_l1_ncorr$results$AccuracySD)
+rfe_l2_df=data.frame(rfe_l2_ncorr$results$Variables, rfe_l2_ncorr$results$Accuracy, rfe_l2_ncorr$results$AccuracySD)
+rfe_l3_df=data.frame(rfe_l3_ncorr$results$Variables, rfe_l3_ncorr$results$Accuracy, rfe_l3_ncorr$results$AccuracySD)
+
+p7=ggplot(rfe_l1_df,aes(x=rfe_l1_ncorr$results$Variables,y=rfe_l1_ncorr$results$Accuracy))+geom_point(color="black",size=3) + geom_line(color="black",size=2) + geom_ribbon(aes(ymin=rfe_l1_ncorr$results$Accuracy-rfe_l1_ncorr$results$AccuracySD, ymax=rfe_l1_ncorr$results$Accuracy+rfe_l1_ncorr$results$AccuracySD), linetype=2, alpha=0.1) + xlab("Number of LiDAR metrics") + ylab("Accuracy") + ylim(0, 1) + ggtitle("Level 1: Vegetation") + theme_bw(base_size = 17) + theme(plot.title = element_text(size=17))
+p8=ggplot(rfe_l2_df,aes(x=rfe_l2_ncorr$results$Variables,y=rfe_l2_ncorr$results$Accuracy))+geom_point(color="black",size=3) + geom_line(color="black",size=2)+ geom_ribbon(aes(ymin=rfe_l2_ncorr$results$Accuracy-rfe_l2_ncorr$results$AccuracySD, ymax=rfe_l2_ncorr$results$Accuracy+rfe_l2_ncorr$results$AccuracySD), linetype=2, alpha=0.1) + xlab("Number of LiDAR metrics") + ylab("Accuracy") + ylim(0, 1) + ggtitle("Level 2: Wetland habitat") + theme_bw(base_size = 17) + theme(plot.title = element_text(size=17))
+p9=ggplot(rfe_l3_df,aes(x=rfe_l3_ncorr$results$Variables,y=rfe_l3_ncorr$results$Accuracy))+geom_point(color="black",size=3) + geom_line(color="black",size=2)+ geom_ribbon(aes(ymin=rfe_l3_ncorr$results$Accuracy-rfe_l3_ncorr$results$AccuracySD, ymax=rfe_l3_ncorr$results$Accuracy+rfe_l3_ncorr$results$AccuracySD), linetype=2, alpha=0.1) + xlab("Number of LiDAR metrics") + ylab("Accuracy") + ylim(0, 1) + ggtitle("Level 3: Reedbed habitat") + theme_bw(base_size = 17) + theme(plot.title = element_text(size=17))
 
 grid.arrange(
   p7,
