@@ -34,7 +34,7 @@ Create_FieldTraining = function(vegetation,level)
   allcsv_df_buff <- gBuffer( allcsv_df, width=2.5, byid=TRUE )
   
   # Export shapefile
-  rgdal::writeOGR(allcsv_df_buff, '.', paste("selpolyper",names(vegetation_poly@data)[level],"v5",sep="_"), 'ESRI Shapefile',overwrite_layer = TRUE)
+  rgdal::writeOGR(allcsv_df_buff, '.', paste("selpolyper",names(vegetation_poly@data)[level],"vtest",sep="_"), 'ESRI Shapefile',overwrite_layer = TRUE)
   
 }
 

@@ -65,21 +65,21 @@ Create_FieldTraining(vegetation,27)
 
 ### Create intersection
 
-classes1 = rgdal::readOGR("selpolyper_level1_v5.shp")
-classes2 = rgdal::readOGR("selpolyper_level2_v5.shp")
-classes3 = rgdal::readOGR("selpolyper_level3_v5.shp")
+classes1 = rgdal::readOGR("selpolyper_level1_vtest.shp")
+classes2 = rgdal::readOGR("selpolyper_level2_vtest.shp")
+classes3 = rgdal::readOGR("selpolyper_level3_vtest.shp")
 
 # Intersection for classification
 featuretable_l1=Create_Intersection(classes1,lidarmetrics_l1)
-write.table(featuretable_l1,"featuretable_level1_b2o5.csv",row.names=FALSE,sep=",")
+write.table(featuretable_l1,"featuretable_level1_b2o5_test.csv",row.names=FALSE,sep=",")
 
 featuretable_l2=Create_Intersection(classes2,lidarmetrics_l23)
-write.table(featuretable_l2,"featuretable_level2_b2o5.csv",row.names=FALSE,sep=",")
+write.table(featuretable_l2,"featuretable_level2_b2o5_test.csv",row.names=FALSE,sep=",")
 
 featuretable_l3=Create_Intersection(classes3,lidarmetrics_l23)
-write.table(featuretable_l3,"featuretable_level3_b2o5.csv",row.names=FALSE,sep=",")
+write.table(featuretable_l3,"featuretable_level3_b2o5_test.csv",row.names=FALSE,sep=",")
 
-# Intersection for feature analysis
+# Intersection for feature analysis gr and wgr
 
 # Create level 1 same extent as level23
 formask <- setValues(raster(lidarmetrics_l1[[21]]), 1)

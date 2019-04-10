@@ -14,10 +14,6 @@ setwd(workingdirectory)
 
 # Input
 
-classes1 = rgdal::readOGR("selpolyper_level1_v5.shp")
-classes2 = rgdal::readOGR("selpolyper_level2_v5.shp")
-classes3 = rgdal::readOGR("selpolyper_level3_v5.shp")
-
 lidarmetrics_forl1=stack("lidarmetrics_l1_masked.grd")
 names(lidarmetrics_forl1) <- c("C_puls","C_can","S_curv","S_lin","S_plan","S_sph","S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
                                "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p")
@@ -25,9 +21,9 @@ lidarmetrics_forl23=stack("lidarmetrics_l2l3_masked_wgr.grd")
 names(lidarmetrics_forl23) <- c("C_puls","C_can","S_curv","S_lin","S_plan","S_sph","S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
                                "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p")
 
-featuretable_l1=read.csv("featuretable_level1_b2o5.csv")
-featuretable_l2=read.csv("featuretable_level2_b2o5.csv")
-featuretable_l3=read.csv("featuretable_level3_b2o5.csv")
+featuretable_l1=read.csv("featuretable_level1_b2o5_test.csv")
+featuretable_l2=read.csv("featuretable_level2_b2o5_test.csv")
+featuretable_l3=read.csv("featuretable_level3_b2o5_test.csv")
 
 names(featuretable_l1) <- c("C_puls","C_can","S_curv","S_lin","S_plan","S_sph","S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
                             "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p","layer")
