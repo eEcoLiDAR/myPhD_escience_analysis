@@ -7,7 +7,7 @@ library(rgdal)
 source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
 
 # Set working dirctory
-workingdirectory="D:/Koma/Paper1_v2/Run3_2019April/"
+workingdirectory="D:/Koma/Paper1_v2/Run4_2019April/"
 setwd(workingdirectory)
 
 #Skipped: selection of training data from polygon + buffer and recategorization
@@ -25,11 +25,15 @@ featuretable_l1=read.csv("featuretable_level1_b2o5.csv")
 featuretable_l2=read.csv("featuretable_level2_b2o5.csv")
 featuretable_l3=read.csv("featuretable_level3_b2o5.csv")
 
+load("rfe_l1.RData")
+load("rfe_l2.RData")
+load("rfe_l3.RData")
+
 ### Level1 ###
 
 # Classification
 level1="level1"
-Pred_l1=Classification_werrorass(featuretable_l1,lidarmetrics_forl1,level1)
+#Pred_l1=Classification_werrorass(featuretable_l1,lidarmetrics_forl1,level1)
 writeRaster(Pred_l1, filename="classified_level1.tif", format="GTiff",overwrite=TRUE)
 
 # Mask 
@@ -43,7 +47,7 @@ lidarmetrics_masked1 <- mask(lidarmetrics_forl23,formask)
 
 # Classification
 level2="level2"
-Pred_l2=Classification_werrorass(featuretable_l2,lidarmetrics_masked1,level2)
+#Pred_l2=Classification_werrorass(featuretable_l2,lidarmetrics_masked1,level2)
 writeRaster(Pred_l2, filename="classified_level2.tif", format="GTiff",overwrite=TRUE)
 
 # Mask 
@@ -58,5 +62,5 @@ lidarmetrics_masked2 <- mask(lidarmetrics_masked1,formask2)
 
 # Classification
 level3="level3"
-Pred_l3=Classification_werrorass(featuretable_l3,lidarmetrics_masked2,level3)
+#Pred_l3=Classification_werrorass(featuretable_l3,lidarmetrics_masked2,level3)
 writeRaster(Pred_l3, filename="classified_level3.tif", format="GTiff",overwrite=TRUE)
