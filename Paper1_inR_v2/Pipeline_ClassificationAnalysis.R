@@ -31,38 +31,23 @@ featuretable_l1=read.csv("featuretable_level1_b2o5.csv")
 featuretable_l2=read.csv("featuretable_level2_b2o5.csv")
 featuretable_l3=read.csv("featuretable_level3_b2o5.csv")
 
+# Pre-process - rename coloumns, add feature classes
+
+names(featuretable_l1) <- c("C_puls","C_can","S_curv","S_lin","S_plan","S_sph","S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
+                            "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p","layer")
+
+names(featuretable_l2) <- c("C_puls","C_can","S_curv","S_lin","S_plan","S_sph","S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
+                            "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p","layer")
+
+names(featuretable_l3) <- c("C_puls","C_can","S_curv","S_lin","S_plan","S_sph","S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
+                            "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p","layer")
+
 #usdm
 vifcor_l1=vifcor(as.matrix(featuretable_l1[,1:26]),th=0.9)
 vifcor_l2=vifcor(as.matrix(featuretable_l2[,1:26]),th=0.9)
 vifcor_l3=vifcor(as.matrix(featuretable_l3[,1:26]),th=0.9)
 
-# Pre-process - rename coloumns, add feature classes
-
-names(featuretable_l1) <- c("C_puls","C_can","3S_curv","3S_lin","S_plan","3S_sph","3S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
-                            "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p","layer")
-
-names(featuretable_l2) <- c("C_puls","C_can","3S_curv","3S_lin","S_plan","3S_sph","3S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
-                            "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p","layer")
-
-names(featuretable_l3) <- c("C_puls","C_can","3S_curv","3S_lin","S_plan","3S_sph","3S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
-                            "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p","layer")
-
 # Corr. anal
-
-cor.mtest <- function(mat, ...) {
-  mat <- as.matrix(mat)
-  n <- ncol(mat)
-  p.mat<- matrix(NA, n, n)
-  diag(p.mat) <- 0
-  for (i in 1:(n - 1)) {
-    for (j in (i + 1):n) {
-      tmp <- cor.test(mat[, i], mat[, j], ...)
-      p.mat[i, j] <- p.mat[j, i] <- tmp$p.value
-    }
-  }
-  colnames(p.mat) <- rownames(p.mat) <- colnames(mat)
-  p.mat
-}
 
 #l1
 correlationMatrix <- cor(featuretable_l1[,1:26])
@@ -122,7 +107,7 @@ featuretable_l3_ncorr=featuretable_l3[,-sort(highlyCorrelated)]
 
 # level 1
 control <- rfeControl(functions=rfFuncs, method="cv", number=50,returnResamp = "all")
-set.seed(50)
+#set.seed(50)
 rfe_l1 <- rfe(featuretable_l1[,1:26], factor(featuretable_l1$layer), rfeControl=control,sizes=c(1:26),ntree=100,maximize = TRUE)
 rfe_l1_ncorr <- rfe(featuretable_l1_ncorr[,1:12], factor(featuretable_l1_ncorr$layer), rfeControl=control,sizes=c(1:26),ntree=100,maximize = TRUE)
 
@@ -199,3 +184,7 @@ save(rfe_l3,file = "rfe_l3.RData")
 save(rfe_l1_ncorr,file = "rfe_l1_ncorr.RData")
 save(rfe_l2_ncorr,file = "rfe_l2_ncorr.RData")
 save(rfe_l3_ncorr,file = "rfe_l3_ncorr.RData")
+
+save(vifcor_l1,file = "vifcor_l1.RData")
+save(vifcor_l2,file = "vifcor_l2.RData")
+save(vifcor_l3,file = "vifcor_l3.RData")

@@ -59,7 +59,7 @@ Create_Intersection = function(classes,lidarmetrics)
   return(featuretable)
 }
 
-Classification_werrorass = function(featuretable_level1,lidarmetrics,level_id) 
+Classification_werrorass = function(featuretable_level1,level_id,modelFit) 
 {
   library(randomForest)
   library(caret)
@@ -68,7 +68,6 @@ Classification_werrorass = function(featuretable_level1,lidarmetrics,level_id)
   trainingSet<- featuretable_level1[trainIndex,]
   testingSet<- featuretable_level1[-trainIndex,]
   
-  modelFit <- randomForest(factor(layer)~.,data=trainingSet)
   prediction <- predict(modelFit,testingSet[ ,c(1:26)])
   
   conf_m=confusionMatrix(factor(prediction), factor(testingSet$layer),mode = "everything")
@@ -76,10 +75,6 @@ Classification_werrorass = function(featuretable_level1,lidarmetrics,level_id)
   sink(paste(level_id,"acc.txt",sep=""))
   print(conf_m)
   sink()
-  
-  predLC <- predict(lidarmetrics, model=modelFit, na.rm=TRUE)
-  
-  return(predLC)
 }
 
 Analysis_FeatureImportance = function(forest)
@@ -188,4 +183,19 @@ add_varclass = function(importance_frame) {
   
   return(importance_frame)
   
+}
+
+cor.mtest <- function(mat, ...) {
+  mat <- as.matrix(mat)
+  n <- ncol(mat)
+  p.mat<- matrix(NA, n, n)
+  diag(p.mat) <- 0
+  for (i in 1:(n - 1)) {
+    for (j in (i + 1):n) {
+      tmp <- cor.test(mat[, i], mat[, j], ...)
+      p.mat[i, j] <- p.mat[j, i] <- tmp$p.value
+    }
+  }
+  colnames(p.mat) <- rownames(p.mat) <- colnames(mat)
+  p.mat
 }
