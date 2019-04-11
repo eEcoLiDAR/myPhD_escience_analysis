@@ -174,7 +174,7 @@ add_varclass = function(importance_frame) {
   
   importance_frame$varclass <- NA
   importance_frame$varclass[importance_frame$variable=="C_can" | importance_frame$variable=="C_puls"] <- 1
-  importance_frame$varclass[importance_frame$variable=="3S_curv" | importance_frame$variable == "3S_lin" | importance_frame$variable == "S_plan" | importance_frame$variable == "3S_sph" | importance_frame$variable == "3S_ani"] <-2
+  importance_frame$varclass[importance_frame$variable=="S_curv" | importance_frame$variable == "S_lin" | importance_frame$variable == "S_plan" | importance_frame$variable == "S_sph" | importance_frame$variable == "S_ani"] <-2
   importance_frame$varclass[importance_frame$variable == "VV_sd" | importance_frame$variable == "VV_var" | importance_frame$variable=="VV_skew" | importance_frame$variable == "VV_kurt" | importance_frame$variable == "VV_cr" | importance_frame$variable == "VV_vdr"
                             | importance_frame$variable == "VV_simp" | importance_frame$variable == "VV_shan"] <- 3
   importance_frame$varclass[importance_frame$variable=="H_max" | importance_frame$variable=="H_mean" | importance_frame$variable == "H_med" | importance_frame$variable == "H_25p" | importance_frame$variable == "H_75p"
