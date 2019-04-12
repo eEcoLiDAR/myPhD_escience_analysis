@@ -15,13 +15,13 @@ library(reshape2)
 library(dplyr)
 
 #source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
-source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
-#source("C:/Koma/Github/komazsofi/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
+#source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
+source("C:/Koma/Github/komazsofi/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
 
 # Set global variables
 #setwd("D:/Koma/Paper1_v2/Run4_2019April/")
-setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Results_09April/")
-#setwd("C:/Koma/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Results_05April/")
+#setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Results_09April/")
+setwd("C:/Koma/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Results_09April/")
 
 # Import
 
@@ -134,3 +134,18 @@ fig4=grid.arrange(
 )
 
 ggsave("Fig4.png",plot = fig4,width = 16, height = 18)
+
+# Distribution of importance
+
+feaimp_l1_all_pfea_clas_bar <- feaimp_l1_all_pfea_clas %>%
+  group_by(varclass) %>%
+  summarise(sum_imp = sum(mean_imp))
+
+ggplot(data=feaimp_l1_all_pfea_clas_bar, aes(x=1, y=sum_imp,fill=factor(varclass))) +
+  geom_bar(stat="identity")
+
+feaimp_l1_all_26=feaimp_l1_all[feaimp_l1_all$Variables==26,]
+
+feaimp_l1_fold <- feaimp_l1_all_26 %>%
+  group_by(Resample) %>%
+  summarise(sum_imp = sum(Overall))
