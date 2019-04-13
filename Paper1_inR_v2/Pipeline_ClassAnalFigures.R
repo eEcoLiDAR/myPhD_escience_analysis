@@ -29,6 +29,11 @@ load("rfe_l1_rerank.RData")
 load("rfe_l2_rerank.RData")
 load("rfe_l3_rerank.RData")
 
+# Conf matrix
+conf_m_l1=confusionMatrix(rfe_l1$fit$predicted, rfe_l1[["fit"]][["y"]],mode = "everything")
+conf_m_l2=confusionMatrix(rfe_l2$fit$predicted, rfe_l2[["fit"]][["y"]],mode = "everything")
+conf_m_l3=confusionMatrix(rfe_l3$fit$predicted, rfe_l3[["fit"]][["y"]],mode = "everything")
+
 # Fig3: RFE
 
 rfe_l1_df=data.frame(rfe_l1$results$Variables, rfe_l1$results$Accuracy, rfe_l1$results$AccuracySD)
