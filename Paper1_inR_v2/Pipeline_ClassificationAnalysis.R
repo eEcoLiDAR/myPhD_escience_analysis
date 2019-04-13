@@ -210,3 +210,7 @@ sink()
 save(modelFit_l1,file = "modelFit_l1.RData")
 save(modelFit_l2,file = "modelFit_l2.RData")
 save(modelFit_l3,file = "modelFit_l3.RData")
+
+save(conf_m_l1,file = "conf_m_l1.RData")
+save(conf_m_l2,file = "conf_m_l2.RData")
+save(conf_m_l3,file = "conf_m_l3.RData")

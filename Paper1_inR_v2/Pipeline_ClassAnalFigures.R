@@ -14,6 +14,8 @@ library(grid)
 library(reshape2)
 library(dplyr)
 
+library(sjPlot)
+
 #source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
 #source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
 source("C:/Koma/Github/komazsofi/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
@@ -30,9 +32,9 @@ load("rfe_l2_rerank.RData")
 load("rfe_l3_rerank.RData")
 
 # Conf matrix
-conf_m_l1=confusionMatrix(rfe_l1$fit$predicted, rfe_l1[["fit"]][["y"]],mode = "everything")
-conf_m_l2=confusionMatrix(rfe_l2$fit$predicted, rfe_l2[["fit"]][["y"]],mode = "everything")
-conf_m_l3=confusionMatrix(rfe_l3$fit$predicted, rfe_l3[["fit"]][["y"]],mode = "everything")
+load("conf_m_l1.RData")
+load("conf_m_l2.RData")
+load("conf_m_l3.RData")
 
 # Fig3: RFE
 
@@ -154,3 +156,7 @@ feaimp_l1_all_26=feaimp_l1_all[feaimp_l1_all$Variables==26,]
 feaimp_l1_fold <- feaimp_l1_all_26 %>%
   group_by(Resample) %>%
   summarise(sum_imp = sum(Overall))
+
+# Export conf matrix to word
+
+sjPlot::tab_df(conf_m_l1$table,file="ex.doc")
