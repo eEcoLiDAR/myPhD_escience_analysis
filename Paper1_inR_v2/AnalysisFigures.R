@@ -15,6 +15,7 @@ library(reshape2)
 library(dplyr)
 
 library(sjPlot)
+library(corrplot)
 
 #source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
 #source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
@@ -41,6 +42,18 @@ names(featuretable_l2) <- c("C_puls","C_can","3S_curv","3S_lin","S_plan","3S_sph
 names(featuretable_l3) <- c("C_puls","C_can","3S_curv","3S_lin","S_plan","3S_sph","3S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
                             "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p","layer")
 
+featuretable_l1_foranal=read.csv("featuretable_b2o5_wgr_whgr.csv")
+featuretable_l1_foranal=featuretable_l1_foranal[featuretable_l1_foranal$layer==2,]
+
+featuretable_l1_a=featuretable_l1_foranal[ ,c(1:26)]
+featuretable_l1_b=featuretable_l1_foranal[ ,c(27:52)]
+
+names(featuretable_l1_a) <- c("C_puls_g","C_can_g","3S_curv_g","3S_lin_g","S_plan_g","3S_sph_g","3S_ani_g","VV_sd_g","VV_var_g","VV_skew_g","VV_kurt_g","VV_cr_g","VV_vdr_g","VV_simp_g","VV_shan_g","HV_rough_g","HV_tpi_g","HV_tri_g",
+                              "HV_sd_g","HV_var_g","H_max_g","H_mean_g","H_med_g","H_25p_g","H_75p_g","H_90p_g")
+
+names(featuretable_l1_b) <- c("C_puls_v","C_can_v","3S_curv_v","3S_lin_v","S_plan_v","3S_sph_v","3S_ani_v","VV_sd_v","VV_var_v","VV_skew_v","VV_kurt_v","VV_cr_v","VV_vdr_v","VV_simp_v","VV_shan_v","HV_rough_v","HV_tpi_v","HV_tri_v",
+                              "HV_sd_v","HV_var_v","H_max_v","H_mean_v","H_med_v","H_25p_v","H_75p_v","H_90p_v")
+
 #RFE
 load("rfe_l1_rerank.RData")
 load("rfe_l2_rerank.RData")
@@ -59,6 +72,76 @@ load("modelFit_l3.RData")
 # Way of calculating lidar metrics (boxplots)
 
 # Correlations
+corr_gr_wgr = round(cor(featuretable_l1_a,featuretable_l1_b), 2)
+
+diag_gr_wgr=data.frame("variables"=c("C_puls","C_can","3S_curv","3S_lin","S_plan","3S_sph","3S_ani","VV_sd","VV_var",
+                                     "VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi",
+                                     "HV_tri","HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p"),
+                       "correlation"=diag(corr_gr_wgr))
+
+diag_gr_wgr=diag_gr_wgr[order(-diag_gr_wgr$correlation),]
+tab_df(diag_gr_wgr,file="ex.doc")
+
+# Corr. features
+correlationMatrix <- cor(featuretable_l1[,1:26])
+p.mat <- cor.mtest(featuretable_l1[,1:26])
+
+col <- colorRampPalette(c("#77AADD", "#4477AA", "#FFFFFF", "#EE9988","#BB4444"))
+
+highlyCorrelated <- findCorrelation(correlationMatrix, cutoff=0.9)
+
+featuretable_l1_ncorr=featuretable_l1[,-sort(highlyCorrelated)]
+
+#l2
+correlationMatrix_l2 <- cor(featuretable_l2[,1:26])
+p.mat_l2 <- cor.mtest(featuretable_l2[,1:26])
+
+col <- colorRampPalette(c("#77AADD", "#4477AA", "#FFFFFF", "#EE9988","#BB4444"))
+
+highlyCorrelated_l2 <- findCorrelation(correlationMatrix_l2, cutoff=0.9)
+
+featuretable_l2_ncorr=featuretable_l2[,-sort(highlyCorrelated_l2)]
+
+#l3
+correlationMatrix_l3 <- cor(featuretable_l3[,1:26])
+p.mat_l3 <- cor.mtest(featuretable_l3[,1:26])
+
+col <- colorRampPalette(c("#77AADD", "#4477AA", "#FFFFFF", "#EE9988","#BB4444"))
+
+highlyCorrelated <- findCorrelation(correlationMatrix_l3, cutoff=0.9)
+
+featuretable_l3_ncorr=featuretable_l3[,-sort(highlyCorrelated)]
+
+par(mfrow=c(1,1))
+
+corrplot(correlationMatrix, method="color", col=col(200),  
+         type="upper", 
+         addCoef.col = "black", # Add coefficient of correlation
+         tl.col="black", tl.srt=45, #Text label color and rotation
+         # Combine with significance
+         p.mat = p.mat, sig.level = 0.01, insig = "blank", 
+         # hide correlation coefficient on the principal diagonal
+         diag=TRUE)
+
+corrplot(correlationMatrix_l2, method="color", col=col(200),  
+         type="upper", 
+         addCoef.col = "black", # Add coefficient of correlation
+         tl.col="black", tl.srt=45, #Text label color and rotation
+         # Combine with significance
+         p.mat = p.mat_l2, sig.level = 0.01, insig = "blank", 
+         # hide correlation coefficient on the principal diagonal
+         diag=TRUE)
+
+corrplot(correlationMatrix_l3, method="color", col=col(200),  
+         type="upper", 
+         addCoef.col = "black", # Add coefficient of correlation
+         tl.col="black", tl.srt=45, #Text label color and rotation
+         # Combine with significance
+         p.mat = p.mat_l3, sig.level = 0.01, insig = "blank", 
+         # hide correlation coefficient on the principal diagonal
+         diag=TRUE)
+
+
 
 # RFE results with feature importance + all ranked feature importance
 rfe_l1_df=data.frame(rfe_l1$results$Variables, rfe_l1$results$Accuracy, rfe_l1$results$AccuracySD)
