@@ -88,9 +88,8 @@ p.mat <- cor.mtest(featuretable_l1[,1:26])
 
 col <- colorRampPalette(c("#77AADD", "#4477AA", "#FFFFFF", "#EE9988","#BB4444"))
 
-highlyCorrelated <- findCorrelation(correlationMatrix, cutoff=0.9)
-
-featuretable_l1_ncorr=featuretable_l1[,-sort(highlyCorrelated)]
+highlyCorrelated <- findCorrelation(correlationMatrix, cutoff=0.8)
+featuretable_l1_ncorr=featuretable_l1[,sort(highlyCorrelated)]
 
 #l2
 correlationMatrix_l2 <- cor(featuretable_l2[,1:26])
@@ -98,9 +97,8 @@ p.mat_l2 <- cor.mtest(featuretable_l2[,1:26])
 
 col <- colorRampPalette(c("#77AADD", "#4477AA", "#FFFFFF", "#EE9988","#BB4444"))
 
-highlyCorrelated_l2 <- findCorrelation(correlationMatrix_l2, cutoff=0.9)
-
-featuretable_l2_ncorr=featuretable_l2[,-sort(highlyCorrelated_l2)]
+highlyCorrelated_l2 <- findCorrelation(correlationMatrix_l2, cutoff=0.8)
+featuretable_l2_ncorr=featuretable_l2[,sort(highlyCorrelated_l2)]
 
 #l3
 correlationMatrix_l3 <- cor(featuretable_l3[,1:26])
@@ -108,9 +106,8 @@ p.mat_l3 <- cor.mtest(featuretable_l3[,1:26])
 
 col <- colorRampPalette(c("#77AADD", "#4477AA", "#FFFFFF", "#EE9988","#BB4444"))
 
-highlyCorrelated <- findCorrelation(correlationMatrix_l3, cutoff=0.9)
-
-featuretable_l3_ncorr=featuretable_l3[,-sort(highlyCorrelated)]
+highlyCorrelated <- findCorrelation(correlationMatrix_l3, cutoff=0.8)
+featuretable_l3_ncorr=featuretable_l3[,sort(highlyCorrelated)]
 
 par(mfrow=c(1,1))
 
@@ -140,8 +137,6 @@ corrplot(correlationMatrix_l3, method="color", col=col(200),
          p.mat = p.mat_l3, sig.level = 0.01, insig = "blank", 
          # hide correlation coefficient on the principal diagonal
          diag=TRUE)
-
-
 
 # RFE results with feature importance + all ranked feature importance
 rfe_l1_df=data.frame(rfe_l1$results$Variables, rfe_l1$results$Accuracy, rfe_l1$results$AccuracySD)
