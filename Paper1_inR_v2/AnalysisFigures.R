@@ -209,13 +209,6 @@ p0=ggplot(fea_imp_l3_clas, aes(x=reorder(variable,meandecacc),y=meandecacc)) +
   theme(axis.text.y=element_text(angle=0,colour = c(rep("black",22), rep("red",4)))) +
   scale_color_manual(values = c("1" = "deeppink", "2" = "chocolate4", "3" = "blueviolet","4"="darkolivegreen3", "5"="blue"),name="Feature class",labels=c("Coverage (C_*)","3D shape (S_*)", "Vertical variability (VV_*)","Height (H_*)","Horizontal variability (HV_*)"))
 
-get_legend<-function(myggplot){
-  tmp <- ggplot_gtable(ggplot_build(myggplot))
-  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
-  legend <- tmp$grobs[[leg]]
-  return(legend)
-}
-
 legend <- get_legend(p0)
 
 fig4=grid.arrange(
@@ -305,6 +298,10 @@ grid.arrange(
   nrow = 1
 )
 
+
+p00=ggplot(response_l1_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = TRUE) + xlab(impvar[3]) + ylab("Partial dependence") + scale_color_manual(values = c("1" = "gray", "2" = "green"),name="Vegetation",labels=c("Planar surface", "Vegetation")) + theme_bw(base_size = 20)
+legend_00 <- get_legend(p00)
+
 # level 2
 imp <- importance(modelFit_l2)
 impvar <- rownames(imp)[order(imp[, 3], decreasing=TRUE)]
@@ -330,6 +327,10 @@ grid.arrange(
   nrow = 1
 )
 
+p02=ggplot(response_l2_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = TRUE) + xlab(impvar[2]) + ylab("Partial dependence")+ scale_color_manual(values = c("1" = "darkgreen", "2" = "green1", "3" = "gold","4"="darkolivegreen4"),
+                                                                                                                                                                                          name="Wetland",labels=c("Forest", "Grassland","Reedbed","Shrub")) + theme_bw(base_size = 20)
+legend_02 <- get_legend(p02)
+
 #level 3
 imp <- importance(modelFit_l3)
 impvar <- rownames(imp)[order(imp[, 3], decreasing=TRUE)]
@@ -350,4 +351,25 @@ grid.arrange(
   p17,
   p18,
   nrow = 1
+)
+
+p03=ggplot(response_l3_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = TRUE) + xlab(impvar[6]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
+legend_03 <- get_legend(p03)
+
+grid.arrange(
+  p10,
+  p11,
+  p12,
+  legend_00,
+  p13,
+  p14,
+  p15,
+  legend_02,
+  p16,
+  p17,
+  p18,
+  legend_03,
+  ncol=4,
+  nrow=3,
+  layout_matrix=rbind(c(1,2,3,4), c(5,6,7,8),c(9,10,11,12))
 )
