@@ -18,13 +18,13 @@ library(sjPlot)
 library(corrplot)
 
 #source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
-#source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
-source("C:/Koma/Github/komazsofi/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
+source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
+#source("C:/Koma/Github/komazsofi/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
 
 # Set global variables
 #setwd("D:/Koma/Paper1_v2/Run4_2019April/")
-#setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Results_09April/")
-setwd("C:/Koma/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Results_09April/")
+setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Results_09April/")
+#setwd("C:/Koma/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Results_09April/")
 
 # Import
 
@@ -33,13 +33,13 @@ featuretable_l1=read.csv("featuretable_level1_b2o5.csv")
 featuretable_l2=read.csv("featuretable_level2_b2o5.csv")
 featuretable_l3=read.csv("featuretable_level3_b2o5.csv")
 
-names(featuretable_l1) <- c("C_puls","C_can","3S_curv","3S_lin","S_plan","3S_sph","3S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
+names(featuretable_l1) <- c("C_puls","C_can","S_curv","S_lin","S_plan","S_sph","S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
                             "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p","layer")
 
-names(featuretable_l2) <- c("C_puls","C_can","3S_curv","3S_lin","S_plan","3S_sph","3S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
+names(featuretable_l2) <- c("C_puls","C_can","S_curv","S_lin","S_plan","S_sph","S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
                             "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p","layer")
 
-names(featuretable_l3) <- c("C_puls","C_can","3S_curv","3S_lin","S_plan","3S_sph","3S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
+names(featuretable_l3) <- c("C_puls","C_can","S_curv","3S_lin","S_plan","S_sph","S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
                             "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p","layer")
 
 featuretable_l1_foranal=read.csv("featuretable_b2o5_wgr_whgr.csv")
@@ -281,3 +281,73 @@ fig4b=grid.arrange(
 ggsave("Fig4b.png",plot = fig4b,width = 18, height = 18)
   
 # Confusion matrices
+
+# Response curves - partial dependence plot
+# level 1
+imp <- importance(modelFit_l1)
+impvar <- rownames(imp)[order(imp[, 3], decreasing=TRUE)]
+
+id=1
+response_l1_imp1 <- Response_l1(modelFit_l1,featuretable_l1,id)
+id=2
+response_l1_imp2 <- Response_l1(modelFit_l1,featuretable_l1,id)
+id=3
+response_l1_imp3 <- Response_l1(modelFit_l1,featuretable_l1,id)
+
+p10=ggplot(response_l1_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab(impvar[1]) + ylab("Partial dependence") + scale_color_manual(values = c("1" = "gray", "2" = "green"),name="General classes",labels=c("Planar surface", "Vegetation")) + theme_bw(base_size = 20)
+p11=ggplot(response_l1_imp2,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab(impvar[2]) + ylab("Partial dependence") + scale_color_manual(values = c("1" = "gray", "2" = "green"),name="General classes",labels=c("Planar surface", "Vegetation")) + theme_bw(base_size = 20)
+p12=ggplot(response_l1_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab(impvar[3]) + ylab("Partial dependence") + scale_color_manual(values = c("1" = "gray", "2" = "green"),name="General classes",labels=c("Planar surface", "Vegetation")) + theme_bw(base_size = 20)
+
+grid.arrange(
+  p10,
+  p11,
+  p12,
+  nrow = 1
+)
+
+# level 2
+imp_l2 <- importance(modelFit_l2)
+impvar_l2 <- rownames(imp)[order(imp[, 3], decreasing=TRUE)]
+
+id=1
+response_l2_imp1 <- Response_l2(modelFit_l2,featuretable_l2,id)
+id=2
+response_l2_imp2 <- Response_l2(modelFit_l2,featuretable_l2,id)
+id=3
+response_l2_imp3 <- Response_l2(modelFit_l2,featuretable_l2,id)
+
+p13=ggplot(response_l2_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[1]) + ylab("Partial dependence")+ scale_color_manual(values = c("1" = "darkgreen", "2" = "green1", "3" = "gold","4"="darkolivegreen4"),
+                                                                                                                                                                    name="Wetland",labels=c("Forest", "Grassland","Reedbed","Shrub")) + theme_bw(base_size = 20)
+p14=ggplot(response_l2_imp2,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[2]) + ylab("Partial dependence")+ scale_color_manual(values = c("1" = "darkgreen", "2" = "green1", "3" = "gold","4"="darkolivegreen4"),
+                                                                                                                                                                     name="Wetland",labels=c("Forest", "Grassland","Reedbed","Shrub")) + theme_bw(base_size = 20)
+p15=ggplot(response_l2_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[3]) + ylab("Partial dependence")+ scale_color_manual(values = c("1" = "darkgreen", "2" = "green1", "3" = "gold","4"="darkolivegreen4"),
+                                                                                                                                                                     name="Wetland",labels=c("Forest", "Grassland","Reedbed","Shrub")) + theme_bw(base_size = 20)
+
+grid.arrange(
+  p13,
+  p14,
+  p15,
+  nrow = 1
+)
+
+#level 3
+imp <- importance(modelFit_l3)
+impvar <- rownames(imp)[order(imp[, 3], decreasing=TRUE)]
+
+id=1
+response_l3_imp1 <- Response_l3(modelFit_l3,featuretable_l3,id)
+id=2
+response_l3_imp2 <- Response_l3(modelFit_l3,featuretable_l3,id)
+id=3
+response_l3_imp3 <- Response_l3(modelFit_l3,featuretable_l3,id)
+
+p16=ggplot(response_l3_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[1]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="gold","2"="tan2","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
+p17=ggplot(response_l3_imp2,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[2]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="gold","2"="tan2","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
+p18=ggplot(response_l3_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2) + xlab(impvar[3]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="gold","2"="tan2","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
+
+grid.arrange(
+  p16,
+  p17,
+  p18,
+  nrow = 1
+)
