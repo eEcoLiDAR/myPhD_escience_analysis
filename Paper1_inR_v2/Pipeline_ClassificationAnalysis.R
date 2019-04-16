@@ -22,7 +22,7 @@ source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Class
 
 # Set global variables
 #setwd("D:/Koma/Paper1_v2/Run4_2019April/")
-setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Results_05April/")
+setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Results_09April/")
 #setwd("C:/Koma/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Results_09April/")
 
 # Import
@@ -150,6 +150,10 @@ grid.arrange(
 load("rfe_l1_rerank.RData")
 load("rfe_l2_rerank.RData")
 load("rfe_l3_rerank.RData")
+
+within5Pct_l1 <- pickSizeTolerance(rfe_l1$results, metric = "Accuracy", maximize = TRUE,tol=2.5)
+within5Pct_l2 <- pickSizeTolerance(rfe_l2$results, metric = "Accuracy", maximize = TRUE,tol=2.5)
+within5Pct_l3 <- pickSizeTolerance(rfe_l3$results, metric = "Accuracy", maximize = TRUE,tol=2.5)
 
 # level 1
 trainIndex_l1 <- caret::createDataPartition(y=featuretable_l1$layer, p=0.75, list=FALSE)
