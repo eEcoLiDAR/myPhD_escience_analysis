@@ -23,7 +23,7 @@ source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Class
 
 # Set global variables
 #setwd("D:/Koma/Paper1_v2/Run4_2019April/")
-setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Results_09April/")
+setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Results_17April/")
 #setwd("C:/Koma/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Results_09April/")
 
 # Import
@@ -55,9 +55,9 @@ names(featuretable_l1_b) <- c("C_puls_v","C_can_v","3S_curv_v","3S_lin_v","S_pla
                               "HV_sd_v","HV_var_v","H_max_v","H_mean_v","H_med_v","H_25p_v","H_75p_v","H_90p_v")
 
 #RFE
-load("rfe_l1_rerank.RData")
-load("rfe_l2_rerank.RData")
-load("rfe_l3_rerank.RData")
+load("rfe_l1.RData")
+load("rfe_l2.RData")
+load("rfe_l3.RData")
 
 # Conf matrix
 load("conf_m_l1.RData")
@@ -166,112 +166,9 @@ grid.arrange(
   nrow = 1
 )
 
-fea_imp_l1=data.frame("meandecacc"=modelFit_l1$importance[,3],"meandecacc_sd"=modelFit_l1$importanceSD[,3])
-fea_imp_l1$variable=rfe_l1$optVariables[1:within5Pct_l1]
-fea_imp_l1_clas=add_varclass(fea_imp_l1)
-
-fea_imp_l2=data.frame("meandecacc"=modelFit_l2$importance[,3],"meandecacc_sd"=modelFit_l2$importanceSD[,3])
-fea_imp_l2$variable=rfe_l2$optVariables[1:within5Pct_l2]
-fea_imp_l2_clas=add_varclass(fea_imp_l2)
-
-fea_imp_l3=data.frame("meandecacc"=modelFit_l3$importance[,3],"meandecacc_sd"=modelFit_l3$importanceSD[,3])
-fea_imp_l3$variable=rfe_l3$optVariables[1:within5Pct_l3]
-fea_imp_l3_clas=add_varclass(fea_imp_l3)
-
-p4=ggplot(fea_imp_l1_clas, aes(x=reorder(variable,meandecacc),y=meandecacc)) + 
-  geom_pointrange(aes(ymin=meandecacc-meandecacc_sd, ymax=meandecacc+meandecacc_sd,color=factor(varclass)),size=1,show.legend = FALSE) + 
-  coord_flip() + theme_bw(base_size = 17) +
-  xlab("LiDAR metrics") + ylab("Mean Decrease in Accuracy") + 
-  theme(axis.text.y=element_text(angle=0,colour = c(rep("black",22), rep("red",4)))) +
-  scale_color_manual(values = c("1" = "deeppink", "2" = "chocolate4", "3" = "blueviolet","4"="darkolivegreen3", "5"="blue"),name="Feature class",labels=c("Coverage (C_*)","3D shape (3S_*)", "Vertical variability (VV_*)","Height (H_*)","Horizontal variability (HV_*)")) +
-  ggtitle("Feature importance")
-
-p5=ggplot(fea_imp_l2_clas, aes(x=reorder(variable,meandecacc),y=meandecacc)) + 
-  geom_pointrange(aes(ymin=meandecacc-meandecacc_sd, ymax=meandecacc+meandecacc_sd,color=factor(varclass)),size=1,show.legend = FALSE) + 
-  coord_flip() + theme_bw(base_size = 17) +
-  xlab("LiDAR metrics") + ylab("Mean Decrease in Accuracy") + 
-  theme(axis.text.y=element_text(angle=0,colour = c(rep("black",22), rep("red",4)))) +
-  scale_color_manual(values = c("1" = "deeppink", "2" = "chocolate4", "3" = "blueviolet","4"="darkolivegreen3", "5"="blue"),name="Feature class",labels=c("Coverage (C_*)","3D shape (3S_*)", "Vertical variability (VV_*)","Height (H_*)","Horizontal variability (HV_*)")) +
-  ggtitle("Feature importance")
-
-p6=ggplot(fea_imp_l3_clas, aes(x=reorder(variable,meandecacc),y=meandecacc)) + 
-  geom_pointrange(aes(ymin=meandecacc-meandecacc_sd, ymax=meandecacc+meandecacc_sd,color=factor(varclass)),size=1,show.legend = FALSE) + 
-  coord_flip() + theme_bw(base_size = 17) +
-  xlab("LiDAR metrics") + ylab("Mean Decrease in Accuracy") + 
-  theme(axis.text.y=element_text(angle=0,colour = c(rep("black",22), rep("red",4)))) +
-  scale_color_manual(values = c("1" = "deeppink", "2" = "chocolate4", "3" = "blueviolet","4"="darkolivegreen3", "5"="blue"),name="Feature class",labels=c("Coverage (C_*)","3D shape (3S_*)", "Vertical variability (VV_*)","Height (H_*)","Horizontal variability (HV_*)")) +
-  ggtitle("Feature importance")
-
-p0=ggplot(fea_imp_l3_clas, aes(x=reorder(variable,meandecacc),y=meandecacc)) + 
-  geom_pointrange(aes(ymin=meandecacc-meandecacc_sd, ymax=meandecacc+meandecacc_sd,color=factor(varclass)),size=1,show.legend = TRUE) + 
-  coord_flip() + theme_bw(base_size = 20) +
-  xlab("LiDAR metrics") + ylab("Mean Decrease in Accuracy") + 
-  theme(axis.text.y=element_text(angle=0,colour = c(rep("black",22), rep("red",4)))) +
-  scale_color_manual(values = c("1" = "deeppink", "2" = "chocolate4", "3" = "blueviolet","4"="darkolivegreen3", "5"="blue"),name="Feature class",labels=c("Coverage (C_*)","3D shape (S_*)", "Vertical variability (VV_*)","Height (H_*)","Horizontal variability (HV_*)"))
-
-legend <- get_legend(p0)
-
-fig4=grid.arrange(
-  p1,
-  p4,
-  p2,
-  p5,
-  p3,
-  p6,
-  legend,
-  ncol=3,
-  nrow=3,
-  layout_matrix=rbind(c(1,2,8), c(3,4,8),c(5,6,8)),
-  widths = c(1.25,2,0.8),
-  heights = c(3,3,3)
-)
-
-
-fea_bar_l1 <- data.frame(cat=c("C_*", "S_*", "VV_*","H_*","HV_*"),len=c(0,1,0,0,3))
-fea_bar_l2 <- data.frame(cat=c("C_*", "S_*", "VV_*","H_*","HV_*"),len=c(1,0,4,6,4))
-fea_bar_l3 <- data.frame(cat=c("C_*", "S_*", "VV_*","H_*","HV_*"),len=c(2,1,3,6,3))
-
-p7 = ggplot(fea_bar_l1, aes(x=cat, y=len, fill=cat)) + geom_bar(stat="identity",show.legend = FALSE)+
-  theme_bw(base_size = 17) + xlab("Feature class") + ylab("Frequency") +
-  scale_fill_manual(values = c("C_*" = "deeppink", "S_*" = "chocolate4", "VV_*" = "blueviolet","H_*"="darkolivegreen3", "HV_*"="blue")) +
-  ggtitle("")
-
-p8 = ggplot(fea_bar_l2, aes(x=cat, y=len, fill=cat)) + geom_bar(stat="identity",show.legend = FALSE)+
-  theme_bw(base_size = 17) + xlab("Feature class") + ylab("Frequency") +
-  scale_fill_manual(values = c("C_*" = "deeppink", "S_*" = "chocolate4", "VV_*" = "blueviolet","H_*"="darkolivegreen3", "HV_*"="blue")) +
-  ggtitle("")
-
-p9 = ggplot(fea_bar_l3, aes(x=cat, y=len, fill=cat)) + geom_bar(stat="identity",show.legend = FALSE)+
-  theme_bw(base_size = 17) + xlab("Feature class") + ylab("Frequency") +
-  scale_fill_manual(values = c("C_*" = "deeppink", "S_*" = "chocolate4", "VV_*" = "blueviolet","H_*"="darkolivegreen3", "HV_*"="blue")) +
-  ggtitle("")
-
 t_l1 <- textGrob("Level 1: Vegetation",gp=gpar(fontsize=20, col="black", fontface="bold.italic"))
 t_l2 <- textGrob("Level 2: Wetland habitat",gp=gpar(fontsize=20, col="black", fontface="bold.italic"))
 t_l3 <- textGrob("Level 3: Reedbed habitat",gp=gpar(fontsize=20, col="black", fontface="bold.italic"))
-
-fig4b=grid.arrange(
-  p1,
-  p4,
-  p2,
-  p5,
-  p3,
-  p6,
-  p7,
-  p8,
-  p9,
-  legend,
-  t_l1,
-  t_l2,
-  t_l3,
-  ncol=4,
-  nrow=6,
-  layout_matrix=rbind(c(NA,11,NA,NA),c(1,2,7,10),c(NA,12,NA,NA), c(3,4,8,10),c(NA,13,NA,NA),c(5,6,9,10)),
-  widths = c(1.25,2,1,1),
-  heights = c(0.2,3,0.2,3,0.2,3)
-)
-
-ggsave("Fig4b.png",plot = fig4b,width = 18, height = 18)
 
 # Fig: every results from RFE
 #l1
@@ -311,18 +208,18 @@ names(feaimp_l3_all_pfea) <- c("variable","mean_imp","sd_imp" )
 feaimp_l3_all_pfea_clas=add_varclass(feaimp_l3_all_pfea)
 
 p10=ggplot(feaimp_l1_all_pfea_clas, aes(x=reorder(variable,mean_imp),y=mean_imp)) + geom_pointrange(aes(ymin=mean_imp-sd_imp, ymax=mean_imp+sd_imp,color=factor(varclass)),size=1,show.legend = FALSE) + coord_flip() + theme_bw(base_size = 17) +
-  geom_hline(yintercept = feaimp_l1_all_pfea_clas$mean_imp[feaimp_l1_all_pfea_clas$variable=="HV_rough"], color="red", size=1.5) + ggtitle("b.)") +
-  xlab("LiDAR metrics") + ylab("Feature importance") + ylim(-0.5,6.5) + theme(axis.text.y=element_text(angle=0,colour = c(rep("black",26-within5Pct_l1), rep("red",within5Pct_l1)))) +
+  geom_hline(yintercept = feaimp_l1_all_pfea_clas$mean_imp[feaimp_l1_all_pfea_clas$variable=="C_can"], color="red", size=1.5) + ggtitle("b.)") +
+  xlab("LiDAR metrics") + ylab("Feature importance") + ylim(-0.5,7) + theme(axis.text.y=element_text(angle=0,colour = c(rep("black",26-within5Pct_l1), rep("red",within5Pct_l1)))) +
   scale_color_manual(values = c("1" = "deeppink", "2" = "chocolate4", "3" = "blueviolet","4"="darkolivegreen3", "5"="blue"),name="Feature class",labels=c("Coverage (C_*)","3D shape (3S_*)", "Vertical variability (VV_*)","Height (H_*)","Horizontal variability (HV_*)"))
 
 p11=ggplot(feaimp_l2_all_pfea_clas, aes(x=reorder(variable,mean_imp),y=mean_imp)) + geom_pointrange(aes(ymin=mean_imp-sd_imp, ymax=mean_imp+sd_imp,color=factor(varclass)),size=1,show.legend = FALSE) + coord_flip() + theme_bw(base_size = 17) +
-  geom_hline(yintercept = feaimp_l2_all_pfea_clas$mean_imp[feaimp_l2_all_pfea_clas$variable=="HV_var"], color="red", size=1.5) + ggtitle("d.)") +
-  xlab("LiDAR metrics") + ylab("Feature importance") + ylim(-0.5,6.5) + theme(axis.text.y=element_text(angle=0,colour = c(rep("black",26-within5Pct_l2), rep("red",within5Pct_l2)))) +
+  geom_hline(yintercept = feaimp_l2_all_pfea_clas$mean_imp[feaimp_l2_all_pfea_clas$variable=="VV_var"], color="red", size=1.5) + ggtitle("d.)") +
+  xlab("LiDAR metrics") + ylab("Feature importance") + ylim(-0.5,7) + theme(axis.text.y=element_text(angle=0,colour = c(rep("black",26-within5Pct_l2), rep("red",within5Pct_l2)))) +
   scale_color_manual(values = c("1" = "deeppink", "2" = "chocolate4", "3" = "blueviolet","4"="darkolivegreen3", "5"="blue"),name="Feature class",labels=c("Coverage (C_*)","3D shape (3S_*)", "Vertical variability (VV_*)","Height (H_*)","Horizontal variability (HV_*)"))
 
 p12=ggplot(feaimp_l3_all_pfea_clas, aes(x=reorder(variable,mean_imp),y=mean_imp)) + geom_pointrange(aes(ymin=mean_imp-sd_imp, ymax=mean_imp+sd_imp,color=factor(varclass)),size=1,show.legend = FALSE) + coord_flip() + theme_bw(base_size = 17) +
-  geom_hline(yintercept = feaimp_l3_all_pfea_clas$mean_imp[feaimp_l3_all_pfea_clas$variable=="S_ani"], color="red", size=1.5) + ggtitle("f.)") +
-  xlab("LiDAR metrics") + ylab("Feature importance") + ylim(-0.5,6.5) + theme(axis.text.y=element_text(angle=0,colour = c(rep("black",26-within5Pct_l3), rep("red",within5Pct_l3)))) +
+  geom_hline(yintercept = feaimp_l3_all_pfea_clas$mean_imp[feaimp_l3_all_pfea_clas$variable=="HV_rough"], color="red", size=1.5) + ggtitle("f.)") +
+  xlab("LiDAR metrics") + ylab("Feature importance") + ylim(-0.5,7) + theme(axis.text.y=element_text(angle=0,colour = c(rep("black",26-within5Pct_l3), rep("red",within5Pct_l3)))) +
   scale_color_manual(values = c("1" = "deeppink", "2" = "chocolate4", "3" = "blueviolet","4"="darkolivegreen3", "5"="blue"),name="Feature class",labels=c("Coverage (C_*)","3D shape (3S_*)", "Vertical variability (VV_*)","Height (H_*)","Horizontal variability (HV_*)"))
 
 p00=ggplot(feaimp_l1_all_pfea_clas, aes(x=reorder(variable,mean_imp),y=mean_imp)) + geom_pointrange(aes(ymin=mean_imp-sd_imp, ymax=mean_imp+sd_imp,color=factor(varclass)),size=1,show.legend = TRUE) + coord_flip() + theme_bw(base_size = 25) +
