@@ -13,8 +13,6 @@ library(ggrepel)
 library(reshape2)
 library(corrplot)
 
-library(usdm)
-
 #source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
 source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
 #source("C:/Koma/Github/komazsofi/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
@@ -42,66 +40,6 @@ names(featuretable_l2) <- c("C_puls","C_can","S_curv","S_lin","S_plan","S_sph","
 names(featuretable_l3) <- c("C_puls","C_can","S_curv","S_lin","S_plan","S_sph","S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
                             "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p","layer")
 
-#usdm
-vifcor_l1=vifcor(as.matrix(featuretable_l1[,1:26]),th=0.9)
-vifcor_l2=vifcor(as.matrix(featuretable_l2[,1:26]),th=0.9)
-vifcor_l3=vifcor(as.matrix(featuretable_l3[,1:26]),th=0.9)
-
-# Corr. anal
-
-#l1
-correlationMatrix <- cor(featuretable_l1[,1:26])
-p.mat <- cor.mtest(featuretable_l1[,1:26])
-
-col <- colorRampPalette(c("#77AADD", "#4477AA", "#FFFFFF", "#EE9988","#BB4444"))
-corrplot(correlationMatrix, method="color", col=col(200),  
-         type="upper", order="hclust", 
-         addCoef.col = "black", # Add coefficient of correlation
-         tl.col="black", tl.srt=45, #Text label color and rotation
-         # Combine with significance
-         p.mat = p.mat, sig.level = 0.01, insig = "blank", 
-         # hide correlation coefficient on the principal diagonal
-         diag=FALSE)
-
-highlyCorrelated <- findCorrelation(correlationMatrix, cutoff=0.9)
-
-featuretable_l1_ncorr=featuretable_l1[,-sort(highlyCorrelated)]
-
-#l2
-correlationMatrix_l2 <- cor(featuretable_l2[,1:26])
-p.mat_l2 <- cor.mtest(featuretable_l2[,1:26])
-
-col <- colorRampPalette(c("#77AADD", "#4477AA", "#FFFFFF", "#EE9988","#BB4444"))
-corrplot(correlationMatrix_l2, method="color", col=col(200),  
-         type="upper", order="hclust", 
-         addCoef.col = "black", # Add coefficient of correlation
-         tl.col="black", tl.srt=45, #Text label color and rotation
-         # Combine with significance
-         p.mat = p.mat_l2, sig.level = 0.01, insig = "blank", 
-         # hide correlation coefficient on the principal diagonal
-         diag=FALSE)
-
-highlyCorrelated_l2 <- findCorrelation(correlationMatrix_l2, cutoff=0.9)
-
-featuretable_l2_ncorr=featuretable_l2[,-sort(highlyCorrelated_l2)]
-
-#l3
-correlationMatrix_l3 <- cor(featuretable_l3[,1:26])
-p.mat_l3 <- cor.mtest(featuretable_l3[,1:26])
-
-col <- colorRampPalette(c("#77AADD", "#4477AA", "#FFFFFF", "#EE9988","#BB4444"))
-corrplot(correlationMatrix_l3, method="color", col=col(200),  
-         type="upper", order="hclust", 
-         addCoef.col = "black", # Add coefficient of correlation
-         tl.col="black", tl.srt=45, #Text label color and rotation
-         # Combine with significance
-         p.mat = p.mat_l3, sig.level = 0.01, insig = "blank", 
-         # hide correlation coefficient on the principal diagonal
-         diag=FALSE)
-
-highlyCorrelated <- findCorrelation(correlationMatrix_l3, cutoff=0.9)
-
-featuretable_l3_ncorr=featuretable_l3[,-sort(highlyCorrelated)]
 
 # RFE
 
@@ -122,38 +60,24 @@ rfe_l3 <- rfe(featuretable_l3[,1:26], factor(featuretable_l3$layer), rfeControl=
 
 
 absoluteBest_l1 <- pickSizeBest(rfe_l1$results, metric = "Accuracy", maximize = TRUE)
-within5Pct_l1 <- pickSizeTolerance(rfe_l1$results, metric = "Accuracy", maximize = TRUE,tol = 1.5)
+within5Pct_l1 <- pickSizeTolerance(rfe_l1$results, metric = "Accuracy", maximize = TRUE,tol = 2.5)
 
 absoluteBest_l2 <- pickSizeBest(rfe_l2$results, metric = "Accuracy", maximize = TRUE)
-within5Pct_l2 <- pickSizeTolerance(rfe_l2$results, metric = "Accuracy", maximize = TRUE,tol = 1.5)
+within5Pct_l2 <- pickSizeTolerance(rfe_l2$results, metric = "Accuracy", maximize = TRUE,tol = 2.5)
 
 absoluteBest_l3 <- pickSizeBest(rfe_l3$results, metric = "Accuracy", maximize = TRUE)
-within5Pct_l3 <- pickSizeTolerance(rfe_l3$results, metric = "Accuracy", maximize = TRUE,tol = 1.5)
+within5Pct_l3 <- pickSizeTolerance(rfe_l3$results, metric = "Accuracy", maximize = TRUE,tol = 2.5)
 
 rfe_l1_df=data.frame(rfe_l1$results$Variables, rfe_l1$results$Accuracy, rfe_l1$results$AccuracySD)
 rfe_l2_df=data.frame(rfe_l2$results$Variables, rfe_l2$results$Accuracy, rfe_l2$results$AccuracySD)
 rfe_l3_df=data.frame(rfe_l3$results$Variables, rfe_l3$results$Accuracy, rfe_l3$results$AccuracySD)
 
-p7=ggplot(rfe_l1_df,aes(x=rfe_l1$results$Variables,y=rfe_l1$results$Accuracy))+geom_point(color="black",size=3) + geom_line(color="black",size=2) + geom_ribbon(aes(ymin=rfe_l1$results$Accuracy-rfe_l1$results$AccuracySD, ymax=rfe_l1$results$Accuracy+rfe_l1$results$AccuracySD), linetype=2, alpha=0.1) + xlab("Number of LiDAR metrics") + ylab("Accuracy") + ylim(0, 1) + ggtitle("Level 1: Vegetation") + theme_bw(base_size = 17) + theme(plot.title = element_text(size=17))
-p8=ggplot(rfe_l2_df,aes(x=rfe_l2$results$Variables,y=rfe_l2$results$Accuracy))+geom_point(color="black",size=3) + geom_line(color="black",size=2)+ geom_ribbon(aes(ymin=rfe_l2$results$Accuracy-rfe_l2$results$AccuracySD, ymax=rfe_l2$results$Accuracy+rfe_l2$results$AccuracySD), linetype=2, alpha=0.1) + xlab("Number of LiDAR metrics") + ylab("Accuracy") + ylim(0, 1) + ggtitle("Level 2: Wetland habitat") + theme_bw(base_size = 17) + theme(plot.title = element_text(size=17))
-p9=ggplot(rfe_l3_df,aes(x=rfe_l3$results$Variables,y=rfe_l3$results$Accuracy))+geom_point(color="black",size=3) + geom_line(color="black",size=2)+ geom_ribbon(aes(ymin=rfe_l3$results$Accuracy-rfe_l3$results$AccuracySD, ymax=rfe_l3$results$Accuracy+rfe_l3$results$AccuracySD), linetype=2, alpha=0.1) + xlab("Number of LiDAR metrics") + ylab("Accuracy") + ylim(0, 1) + ggtitle("Level 3: Reedbed habitat") + theme_bw(base_size = 17) + theme(plot.title = element_text(size=17))
-
-grid.arrange(
-  p7,
-  p8,
-  p9,
-  nrow = 1
-)
 
 # Get RF with min number of features
 
-load("rfe_l1_rerank.RData")
-load("rfe_l2_rerank.RData")
-load("rfe_l3_rerank.RData")
-
-within5Pct_l1 <- pickSizeTolerance(rfe_l1$results, metric = "Accuracy", maximize = TRUE,tol=2.5)
-within5Pct_l2 <- pickSizeTolerance(rfe_l2$results, metric = "Accuracy", maximize = TRUE,tol=2.5)
-within5Pct_l3 <- pickSizeTolerance(rfe_l3$results, metric = "Accuracy", maximize = TRUE,tol=2.5)
+load("rfe_l1.RData")
+load("rfe_l2.RData")
+load("rfe_l3.RData")
 
 # level 1
 trainIndex_l1 <- caret::createDataPartition(y=featuretable_l1$layer, p=0.75, list=FALSE)
@@ -190,14 +114,6 @@ conf_m_l3=confusionMatrix(factor(prediction_l3), factor(testingSet_l3$layer),mod
 save(rfe_l1,file = "rfe_l1.RData")
 save(rfe_l2,file = "rfe_l2.RData")
 save(rfe_l3,file = "rfe_l3.RData")
-
-save(rfe_l1_ncorr,file = "rfe_l1_ncorr.RData")
-save(rfe_l2_ncorr,file = "rfe_l2_ncorr.RData")
-save(rfe_l3_ncorr,file = "rfe_l3_ncorr.RData")
-
-save(vifcor_l1,file = "vifcor_l1.RData")
-save(vifcor_l2,file = "vifcor_l2.RData")
-save(vifcor_l3,file = "vifcor_l3.RData")
 
 sink(paste("acc_l1.txt",sep=""))
 print(conf_m_l1)
