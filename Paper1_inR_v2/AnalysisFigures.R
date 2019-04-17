@@ -370,16 +370,21 @@ p10=ggplot(response_l1_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + 
 p11=ggplot(response_l1_imp2,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab(impvar[3]) + ylab("Partial dependence") + scale_color_manual(values = c("1" = "gray", "2" = "green"),name="General classes",labels=c("Planar surface", "Vegetation")) + theme_bw(base_size = 20)
 p12=ggplot(response_l1_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab(impvar[2]) + ylab("Partial dependence") + scale_color_manual(values = c("1" = "gray", "2" = "green"),name="General classes",labels=c("Planar surface", "Vegetation")) + theme_bw(base_size = 20)
 
-grid.arrange(
+p00=ggplot(response_l1_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = TRUE) + xlab(impvar[3]) + ylab("Partial dependence") + scale_color_manual(values = c("1" = "gray", "2" = "green"),name="Vegetation",labels=c("Planar surface", "Vegetation")) + theme_bw(base_size = 20)
+legend_00 <- get_legend(p00)
+
+p00_b=ggplot(response_l1_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = TRUE) + xlab(impvar[3]) + ylab("Partial dependence") + scale_color_manual(values = c("1" = "gray", "2" = "green"),name="Vegetation",labels=c("Planar surface", "Vegetation")) + theme_bw(base_size = 20) + theme(legend.position="bottom")
+legend_00_b <- get_legend(p00_b)
+
+parc_dep_l1=grid.arrange(
   p10,
   p11,
   p12,
+  legend_00,
   nrow = 1
 )
 
-
-p00=ggplot(response_l1_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = TRUE) + xlab(impvar[3]) + ylab("Partial dependence") + scale_color_manual(values = c("1" = "gray", "2" = "green"),name="Vegetation",labels=c("Planar surface", "Vegetation")) + theme_bw(base_size = 20)
-legend_00 <- get_legend(p00)
+ggsave("parc_dep_l1.png",plot = parc_dep_l1,width = 12, height = 10)
 
 # level 2
 imp <- importance(modelFit_l2)
@@ -391,6 +396,10 @@ id=5
 response_l2_imp2 <- Response_l2(modelFit_l2,featuretable_l2,id)
 id=4
 response_l2_imp3 <- Response_l2(modelFit_l2,featuretable_l2,id)
+id=3
+response_l2_imp4 <- Response_l2(modelFit_l2,featuretable_l2,id)
+id=2
+response_l2_imp5 <- Response_l2(modelFit_l2,featuretable_l2,id)
 
 p13=ggplot(response_l2_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab(impvar[1]) + ylab("Partial dependence")+ scale_color_manual(values = c("1" = "darkgreen", "2" = "green1", "3" = "gold","4"="darkolivegreen4"),
                                                                                                                                                                     name="Wetland",labels=c("Forest", "Grassland","Reedbed","Shrub")) + theme_bw(base_size = 20)
@@ -398,17 +407,29 @@ p14=ggplot(response_l2_imp2,aes(x=class_1_x,y=class_1_y,color=factor(class))) + 
                                                                                                                                                                      name="Wetland",labels=c("Forest", "Grassland","Reedbed","Shrub")) + theme_bw(base_size = 20)
 p15=ggplot(response_l2_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab(impvar[4]) + ylab("Partial dependence")+ scale_color_manual(values = c("1" = "darkgreen", "2" = "green1", "3" = "gold","4"="darkolivegreen4"),
                                                                                                                                                                      name="Wetland",labels=c("Forest", "Grassland","Reedbed","Shrub")) + theme_bw(base_size = 20)
+p16=ggplot(response_l2_imp4,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab(impvar[3]) + ylab("Partial dependence")+ scale_color_manual(values = c("1" = "darkgreen", "2" = "green1", "3" = "gold","4"="darkolivegreen4"),
+                                                                                                                                                                                         name="Wetland",labels=c("Forest", "Grassland","Reedbed","Shrub")) + theme_bw(base_size = 20)
+p17=ggplot(response_l2_imp5,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab(impvar[2]) + ylab("Partial dependence")+ scale_color_manual(values = c("1" = "darkgreen", "2" = "green1", "3" = "gold","4"="darkolivegreen4"),
+                                                                                                                                                                                         name="Wetland",labels=c("Forest", "Grassland","Reedbed","Shrub")) + theme_bw(base_size = 20)
 
-grid.arrange(
+p02=ggplot(response_l2_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = TRUE) + xlab(impvar[2]) + ylab("Partial dependence")+ scale_color_manual(values = c("1" = "darkgreen", "2" = "green1", "3" = "gold","4"="darkolivegreen4"),name="Wetland",labels=c("Forest", "Grassland","Reedbed","Shrub")) + theme_bw(base_size = 20)
+legend_02 <- get_legend(p02)
+
+p02_b=ggplot(response_l2_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = TRUE) + xlab(impvar[2]) + ylab("Partial dependence")+ scale_color_manual(values = c("1" = "darkgreen", "2" = "green1", "3" = "gold","4"="darkolivegreen4"),name="Wetland",labels=c("Forest", "Grassland","Reedbed","Shrub")) + theme_bw(base_size = 20) + theme(legend.position="bottom")
+legend_02_b <- get_legend(p02_b)
+
+parc_dep_l2=grid.arrange(
   p13,
   p14,
   p15,
-  nrow = 1
+  p16,
+  p17,
+  legend_02,
+  nrow = 2,
+  ncol=3
 )
 
-p02=ggplot(response_l2_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = TRUE) + xlab(impvar[2]) + ylab("Partial dependence")+ scale_color_manual(values = c("1" = "darkgreen", "2" = "green1", "3" = "gold","4"="darkolivegreen4"),
-                                                                                                                                                                                          name="Wetland",labels=c("Forest", "Grassland","Reedbed","Shrub")) + theme_bw(base_size = 20)
-legend_02 <- get_legend(p02)
+ggsave("parc_dep_l2.png",plot = parc_dep_l2,width = 12, height = 10)
 
 #level 3
 imp <- importance(modelFit_l3)
@@ -420,35 +441,115 @@ id=2
 response_l3_imp2 <- Response_l3(modelFit_l3,featuretable_l3,id)
 id=6
 response_l3_imp3 <- Response_l3(modelFit_l3,featuretable_l3,id)
+id=1
+response_l3_imp4 <- Response_l3(modelFit_l3,featuretable_l3,id)
+id=5
+response_l3_imp5 <- Response_l3(modelFit_l3,featuretable_l3,id)
 
-p16=ggplot(response_l3_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab(impvar[3]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
-p17=ggplot(response_l3_imp2,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab(impvar[2]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
-p18=ggplot(response_l3_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab(impvar[6]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
+id=14
+response_l3_imp6 <- Response_l3(modelFit_l3,featuretable_l3,id)
+id=13
+response_l3_imp7 <- Response_l3(modelFit_l3,featuretable_l3,id)
+id=8
+response_l3_imp8 <- Response_l3(modelFit_l3,featuretable_l3,id)
+id=9
+response_l3_imp9 <- Response_l3(modelFit_l3,featuretable_l3,id)
+id=12
+response_l3_imp10 <- Response_l3(modelFit_l3,featuretable_l3,id)
 
-grid.arrange(
-  p16,
-  p17,
-  p18,
-  nrow = 1
-)
+id=10
+response_l3_imp11 <- Response_l3(modelFit_l3,featuretable_l3,id)
+id=7
+response_l3_imp12 <- Response_l3(modelFit_l3,featuretable_l3,id)
+id=11
+response_l3_imp13 <- Response_l3(modelFit_l3,featuretable_l3,id)
+id=15
+response_l3_imp14 <- Response_l3(modelFit_l3,featuretable_l3,id)
+id=4
+response_l3_imp15 <- Response_l3(modelFit_l3,featuretable_l3,id)
+
+p18=ggplot(response_l3_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab(impvar[3]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
+p19=ggplot(response_l3_imp2,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab(impvar[2]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
+p20=ggplot(response_l3_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab(impvar[6]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
+p21=ggplot(response_l3_imp4,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab(impvar[1]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
+p22=ggplot(response_l3_imp5,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab(impvar[5]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
+
+p23=ggplot(response_l3_imp6,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab(impvar[14]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
+p24=ggplot(response_l3_imp7,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab(impvar[13]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
+p25=ggplot(response_l3_imp8,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab(impvar[8]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
+p26=ggplot(response_l3_imp9,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab(impvar[9]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
+p27=ggplot(response_l3_imp10,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab(impvar[12]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
+
+p28=ggplot(response_l3_imp11,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab(impvar[10]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
+p29=ggplot(response_l3_imp12,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab(impvar[7]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
+p30=ggplot(response_l3_imp13,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab(impvar[11]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
+p31=ggplot(response_l3_imp14,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab(impvar[15]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
+p32=ggplot(response_l3_imp15,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab(impvar[4]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
 
 p03=ggplot(response_l3_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = TRUE) + xlab(impvar[6]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)
 legend_03 <- get_legend(p03)
 
+p03_b=ggplot(response_l3_imp3,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = TRUE) + xlab(impvar[6]) + ylab("Partial dependence")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20) + theme(legend.position="bottom")
+legend_03_b <- get_legend(p03_b)
+
+parc_dep_l3a=grid.arrange(
+  p18,
+  p19,
+  p20,
+  p21,
+  p22,
+  legend_03,
+  nrow = 2,
+  ncol=3
+)
+
+ggsave("parc_dep_l3a.png",plot = parc_dep_l3a,width = 12, height = 10)
+
+
+parc_dep_l3b=grid.arrange(
+  p23,
+  p24,
+  p25,
+  p26,
+  p27,
+  legend_03,
+  nrow = 2,
+  ncol=3
+)
+
+ggsave("parc_dep_l3b.png",plot = parc_dep_l3b,width = 12, height = 10)
+
+parc_dep_l3c=grid.arrange(
+  p28,
+  p29,
+  p30,
+  p31,
+  p32,
+  legend_03,
+  nrow = 2,
+  ncol=3
+)
+
+ggsave("parc_dep_l3c.png",plot = parc_dep_l3c,width = 12, height = 10)
+
+#selected parc.dep.
+
 grid.arrange(
   p10,
-  p11,
-  p12,
-  legend_00,
   p13,
-  p14,
   p15,
-  legend_02,
-  p16,
-  p17,
   p18,
-  legend_03,
-  ncol=4,
-  nrow=3,
-  layout_matrix=rbind(c(1,2,3,4), c(5,6,7,8),c(9,10,11,12))
+  p21,
+  p29,
+  legend_00_b,
+  legend_02_b,
+  legend_03_b,
+  t_l1,
+  t_l2,
+  t_l3,
+  ncol=3,
+  nrow=6,
+  layout_matrix=rbind(c(10,11,11),c(1,2,3),c(7,8,8),c(12,12,12),c(4,5,6),c(9,9,9)),
+  widths = c(1,1,1),
+  heights = c(0.2,3,0.2,0.2,3,0.2)
 )
