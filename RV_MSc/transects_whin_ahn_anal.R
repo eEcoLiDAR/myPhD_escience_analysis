@@ -14,8 +14,8 @@ library("ggplot2")
 library("gridExtra")
 
 # Set global variables
-full_path="C:/Koma/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/"
-#full_path="D:/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/"
+#full_path="C:/Koma/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/"
+full_path="D:/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/"
 
 transectfile="Transects_0712_Complete.csv"
 ahnfile="ahn2.shp"
