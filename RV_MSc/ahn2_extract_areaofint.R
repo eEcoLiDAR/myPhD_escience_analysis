@@ -6,8 +6,8 @@ library("lidR")
 library("rgdal")
 
 # Set working dirctory
-#workingdirectory="D:/Reinier/"
-workingdirectory="D:/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/"
+workingdirectory="D:/Reinier/"
+#workingdirectory="D:/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/"
 setwd(workingdirectory)
 
 #Import shapefile for intersecting lidar
