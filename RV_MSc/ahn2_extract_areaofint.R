@@ -6,23 +6,27 @@ library("lidR")
 library("rgdal")
 
 # Set working dirctory
-workingdirectory="D:/Reinier/"
-#workingdirectory="D:/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/"
+#workingdirectory="D:/Reinier/"
+workingdirectory="D:/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/"
 setwd(workingdirectory)
 
-#Import csv
-bytransect_wcoord=read.csv(file="boundaries_pertransects.csv",header=TRUE,sep=",")
+#Import shapefile for intersecting lidar
+areaofintfile="transect_poly_union.shp"
+areaofint=readOGR(dsn=areaofintfile)
 
 ctg = catalog(workingdirectory)
-#nrow(bytransect_wcoord
 
-for (i in seq(from=301,to=nrow(bytransect_wcoord))){ 
-  print(bytransect_wcoord$Transect[i])
+#lake = areaofint[areaofint$gen_id==163,]
+#subset = lasclip(ctg, lake)
+
+
+for (i in seq(from=1,to=max(areaofint$gen_id))){ 
+  print(i)
   
-  subset = lasclipRectangle(ctg, bytransect_wcoord$xmin[i]-1000, bytransect_wcoord$ymin[i]-1000, bytransect_wcoord$xmax[i]+1000, bytransect_wcoord$ymax[i]+1000)
+  subset = lasclip(ctg, areaofint[areaofint$gen_id==i,])
   
   if (subset@header@PHB[["Number of point records"]]>0) {
-    writeLAS(subset,paste("Transect_",bytransect_wcoord$Transect[i],"_x_",round(bytransect_wcoord$xmin[i]-1000,digit=0),"_y_",round(bytransect_wcoord$ymin[i]-1000,digit=0),".laz",sep=""))
+    writeLAS(subset,paste("GenID_",i,".laz",sep=""))
   }
   
 }
