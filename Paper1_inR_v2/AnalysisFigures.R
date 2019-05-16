@@ -364,7 +364,7 @@ fig4=grid.arrange(
   nrow=4,
   layout_matrix=rbind(c(8,9,10),c(1,2,3),c(4,5,6), c(7,7,7)),
   widths = c(2,2,2),
-  heights = c(0.2,4,4,0.2)
+  heights = c(0.2,4,4,1)
 )
 
 ggsave("Fig3.png",plot = fig4,width = 18, height = 22)
