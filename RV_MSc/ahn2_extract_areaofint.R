@@ -20,7 +20,7 @@ ctg = catalog(workingdirectory)
 #subset = lasclip(ctg, lake)
 
 
-for (i in seq(from=1,to=max(areaofint$gen_id))){ 
+for (i in seq(from=174,to=max(areaofint$gen_id))){ 
   print(i)
   
   subset = lasclip(ctg, areaofint[areaofint$gen_id==i,])
