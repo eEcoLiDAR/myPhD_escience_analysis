@@ -9,6 +9,8 @@ library(dismo)
 library(rgeos)
 library(rgbif)
 
+# Download required datasets (worldclim, records from gbif)
+
 ibm <- occ_search(scientificName = "Iberolacerta monticola",limit=1500)
 
 ibm$data
@@ -33,7 +35,7 @@ points(ibm[,c("long","lat")],pch=16)
 ibm.bc <- bioclim(spain.worldclim,ibm[,c("long","lat")]) 
 plot(ibm.bc)
 
-library(ENMTools)
+# Set up presence-absence
 
 monticola <- enmtools.species()
 monticola
@@ -45,6 +47,8 @@ monticola <- check.species(monticola)
 interactive.plot.enmtools.species(monticola)
 
 monticola$range <- background.raster.buffer(monticola$presence.points,50000,mask=spain.worldclim)
+
+# Build SDM
 
 monticola.bc <- enmtools.bc(monticola,env=spain.worldclim)
 plot(monticola.bc)
@@ -97,6 +101,7 @@ rando <- check.species(rando)
 
 #get maxent work
 
+#Sys.setenv(JAVA_HOME="C:/Program Files/Java/jre1.8.0_211/")
 Sys.setenv(JAVA_HOME="C:/Program Files/Java/jre1.8.0_211/")
 library(rJava)
 
