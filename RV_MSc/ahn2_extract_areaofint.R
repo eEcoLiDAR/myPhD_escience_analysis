@@ -10,17 +10,14 @@ workingdirectory="D:/Reinier/"
 #workingdirectory="D:/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/"
 setwd(workingdirectory)
 
-#Import shapefile for intersecting lidar
+#Import 
 areaofintfile="transect_poly_union.shp"
 areaofint=readOGR(dsn=areaofintfile)
 
+# Clipping
 ctg = catalog(workingdirectory)
 
-#lake = areaofint[areaofint$gen_id==163,]
-#subset = lasclip(ctg, lake)
-
-
-for (i in seq(from=174,to=max(areaofint$gen_id))){ 
+for (i in seq(from=1,to=max(areaofint$gen_id))){ 
   print(i)
   
   subset = lasclip(ctg, areaofint[areaofint$gen_id==i,])
