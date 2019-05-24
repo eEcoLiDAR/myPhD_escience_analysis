@@ -8,7 +8,7 @@ Aim: This script download the required AHN2 data from the pdok website
 #full_path="D:/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/"
 full_path="D:/Reinier/"
 
-reqahnfile="req_ahn2_for1km.csv"
+reqahnfile="req_ahn2_for1km_v2.csv"
 
 setwd(full_path)
 
