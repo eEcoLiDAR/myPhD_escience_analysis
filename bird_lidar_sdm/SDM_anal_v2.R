@@ -160,7 +160,7 @@ Baardman_ens1 <- ensemble(Baardman_model1, newdata=lidarmetrics, filename="",set
 
 #niche(x=lidarmetrics,h=Baardman_data_forsdm,n=c("roughness.1","max_z__nonground","occurrence"))
 
-niche(x=lidarmetrics,h=Baardman_ens1,n=c("roughness.1","max_z__nonground"),xlab="Canopy roughness [m]",ylab="Vegetation height [m]",main="Bearded Reedling")
+niche(x=lidarmetrics,h=Baardman_ens1,n=c("roughness.1","max_z__nonground"))
 niche(x=lidarmetrics,h=Baardman_ens1,n=c("pulse_pen_ratio_all","max_z__nonground"))
 niche(x=lidarmetrics,h=Baardman_ens1,n=c("pulse_pen_ratio_all","roughness.1"))
 
@@ -168,15 +168,53 @@ Snor_data_forsdm <- sdmData(formula=occurrence~., train=Snor, predictors=lidarme
 Snor_model1 <- sdm(occurrence~.,data=Snor_data_forsdm,methods=c('glm','gam','brt','rf','svm','mars'),replication=c('boot'),n=2)
 Snor_ens1 <- ensemble(Snor_model1, newdata=lidarmetrics, filename="",setting=list(method='weighted',stat='AUC',opt=2))
 
-niche(x=lidarmetrics,h=Snor_data_forsdm,n=c("roughness.1","max_z__nonground","occurrence"))
+#niche(x=lidarmetrics,h=Snor_data_forsdm,n=c("roughness.1","max_z__nonground","occurrence"))
 
-niche(x=lidarmetrics,h=Snor_ens1,n=c("roughness.1","max_z__nonground"),xlab="Canopy roughness [m]",ylab="Vegetation height [m]",main="Savi's Warbler")
+niche(x=lidarmetrics,h=Snor_ens1,n=c("roughness.1","max_z__nonground"))
 niche(x=lidarmetrics,h=Snor_ens1,n=c("pulse_pen_ratio_all","max_z__nonground"))
 niche(x=lidarmetrics,h=Snor_ens1,n=c("pulse_pen_ratio_all","roughness.1"))
 
-#
-nraster <- as(np1@nicheRaster, "SpatialPixelsDataFrame")
-nraster.df <- as.data.frame(nraster)
-head(nraster.df)
+# make nicer niche plot
 
-ggplot(nraster.df, aes(x=x, y=y)) + geom_tile(aes(fill = niche)) + coord_equal() + scale_colour_gradient2(low="blue",high="red",mid = "white",aesthetics = "fill",midpoint = 0.5)
+np_baardman=niche(x=lidarmetrics,h=Baardman_ens1,n=c("roughness.1","max_z__nonground"),plot=FALSE)
+
+np_baardman_raster <- as(np_baardman@nicheRaster, "SpatialPixelsDataFrame")
+np_baardman_raster.df <- as.data.frame(np_baardman_raster)
+
+p4=ggplot(np_baardman_raster.df, aes(x=x, y=y)) + geom_tile(aes(fill = niche),show.legend=FALSE) + coord_equal() + 
+  scale_colour_gradient2(name="Suitability",low="blue",high="red",mid = "white",aesthetics = "fill",midpoint = 0.5,limits=c(0,1)) +
+  theme_bw(base_size = 20) + xlab("Canopy roughness [m]") + ylab("Vegetation height [m]") +
+  scale_x_continuous(labels =c(-0.3,142.6*0.25,142.6*0.5,142.6*0.75,142.6)) + scale_y_continuous(labels =c(0,119.6*0.25,119.6*0.5,119.6*0.75,119.6))
+
+np_snor=niche(x=lidarmetrics,h=Snor_ens1,n=c("roughness.1","max_z__nonground"),plot=FALSE)
+
+np_snor_raster <- as(np_snor@nicheRaster, "SpatialPixelsDataFrame")
+np_snor_raster.df <- as.data.frame(np_snor_raster)
+
+p5=ggplot(np_snor_raster.df, aes(x=x, y=y)) + geom_tile(aes(fill = niche),show.legend=FALSE) + coord_equal() + 
+  scale_colour_gradient2(name="Suitability",low="blue",high="red",mid = "white",aesthetics = "fill",midpoint = 0.5,limits=c(0,1)) +
+  theme_bw(base_size = 20) + xlab("Canopy roughness [m]") + ylab("Vegetation height [m]") +
+  scale_x_continuous(labels =c(-0.3,142.6*0.25,142.6*0.5,142.6*0.75,142.6)) + scale_y_continuous(labels =c(0,119.6*0.25,119.6*0.5,119.6*0.75,119.6))
+
+get_legend<-function(myggplot){
+  tmp <- ggplot_gtable(ggplot_build(myggplot))
+  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+  legend <- tmp$grobs[[leg]]
+  return(legend)
+}
+
+p0=ggplot(np_snor_raster.df, aes(x=x, y=y)) + geom_tile(aes(fill = niche)) + coord_equal() + 
+  scale_colour_gradient2(name="Suitability",low="blue",high="red",mid = "white",aesthetics = "fill",midpoint = 0.5,limits=c(0,1)) +
+  theme_bw(base_size = 20) + xlab("Canopy roughness [m]") + ylab("Vegetation height [m]") + 
+  scale_x_continuous(labels =c(-0.3,142.6*0.25,142.6*0.5,142.6*0.75,142.6)) + scale_y_continuous(labels =c(0,119.6*0.25,119.6*0.5,119.6*0.75,119.6))
+
+legend <- get_legend(p0)
+
+grid.arrange(
+  p5,
+  p4,
+  legend,
+  nrow = 1,
+  layout_matrix=rbind(c(1,2,3)),
+  widths = c(1,1,0.2)
+)
