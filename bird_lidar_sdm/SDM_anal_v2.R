@@ -170,7 +170,7 @@ Snor_ens1 <- ensemble(Snor_model1, newdata=lidarmetrics, filename="",setting=lis
 
 niche(x=lidarmetrics,h=Snor_data_forsdm,n=c("roughness.1","max_z__nonground","occurrence"))
 
-niche(x=lidarmetrics,h=Snor_ens1,n=c("roughness.1","max_z__nonground"))
+niche(x=lidarmetrics,h=Snor_ens1,n=c("roughness.1","max_z__nonground"),xlab="Canopy roughness [m]",ylab="Vegetation height [m]",main="Savi's Warbler")
 niche(x=lidarmetrics,h=Snor_ens1,n=c("pulse_pen_ratio_all","max_z__nonground"))
 niche(x=lidarmetrics,h=Snor_ens1,n=c("pulse_pen_ratio_all","roughness.1"))
 
