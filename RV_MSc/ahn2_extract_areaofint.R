@@ -11,19 +11,28 @@ workingdirectory="D:/Reinier/"
 setwd(workingdirectory)
 
 #Import 
-areaofintfile="transect_poly_union.shp"
+areaofintfile="transect_poly_union_1kmsquares.shp"
 areaofint=readOGR(dsn=areaofintfile)
 
-# Clipping
 ctg = catalog(workingdirectory)
 
-for (i in seq(from=1,to=max(areaofint$gen_id))){ 
-  print(i)
-  
+for (i in areaofint@data[["id"]]){ 
+  print(i) 
   subset = lasclip(ctg, areaofint[areaofint$gen_id==i,])
   
   if (subset@header@PHB[["Number of point records"]]>0) {
     writeLAS(subset,paste("GenID_",i,".laz",sep=""))
   }
-  
 }
+
+# Clipping
+#for (i in seq(from=1,to=max(areaofint$gen_id))){ 
+  #print(i)
+  
+  #subset = lasclip(ctg, areaofint[areaofint$gen_id==i,])
+  
+  #if (subset@header@PHB[["Number of point records"]]>0) {
+    #writeLAS(subset,paste("GenID_",i,".laz",sep=""))
+  #}
+  
+#}
