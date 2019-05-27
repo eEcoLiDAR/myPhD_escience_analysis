@@ -36,7 +36,7 @@ baardman$presence.points <- bird_baardman.df[ which(bird_baardman.df$occurrence=
 baardman$background.points <- bird_baardman.df[ which(bird_baardman.df$occurrence==0),2:3]
 
 #Corr
-raster.cor.matrix(lidarmetrics)
+#raster.cor.matrix(lidarmetrics)
 raster.cor.plot(lidarmetrics)
 
 #GLM
