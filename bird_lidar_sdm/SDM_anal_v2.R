@@ -11,7 +11,8 @@ library(gridExtra)
 library(ggplot2)
 
 # Set global variables
-full_path="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_4/"
+#full_path="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_4/"
+full_path="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_4/"
 
 snorfile="Snor_bird_data_forSDM.shp"
 baardmanfile="Baardman_bird_data_forSDM.shp"
@@ -184,7 +185,7 @@ np_baardman_raster.df <- as.data.frame(np_baardman_raster)
 p4=ggplot(np_baardman_raster.df, aes(x=x, y=y)) + geom_tile(aes(fill = niche),show.legend=FALSE) + coord_equal() + 
   scale_colour_gradient2(name="Suitability",low="blue",high="red",mid = "white",aesthetics = "fill",midpoint = 0.5,limits=c(0,1)) +
   theme_bw(base_size = 20) + xlab("Canopy roughness [m]") + ylab("Vegetation height [m]") +
-  scale_x_continuous(labels =c(-0.3,142.6*0.25,142.6*0.5,142.6*0.75,142.6)) + scale_y_continuous(labels =c(0,119.6*0.25,119.6*0.5,119.6*0.75,119.6))
+  scale_x_continuous(labels =c(0,119.6*0.25,119.6*0.5,119.6*0.75,119.6)) + scale_y_continuous(labels =c(-0.3,142.6*0.25,142.6*0.5,142.6*0.75,142.6))
 
 np_snor=niche(x=lidarmetrics,h=Snor_ens1,n=c("roughness.1","max_z__nonground"),plot=FALSE)
 
@@ -194,7 +195,7 @@ np_snor_raster.df <- as.data.frame(np_snor_raster)
 p5=ggplot(np_snor_raster.df, aes(x=x, y=y)) + geom_tile(aes(fill = niche),show.legend=FALSE) + coord_equal() + 
   scale_colour_gradient2(name="Suitability",low="blue",high="red",mid = "white",aesthetics = "fill",midpoint = 0.5,limits=c(0,1)) +
   theme_bw(base_size = 20) + xlab("Canopy roughness [m]") + ylab("Vegetation height [m]") +
-  scale_x_continuous(labels =c(-0.3,142.6*0.25,142.6*0.5,142.6*0.75,142.6)) + scale_y_continuous(labels =c(0,119.6*0.25,119.6*0.5,119.6*0.75,119.6))
+  scale_x_continuous(labels =c(0,119.6*0.25,119.6*0.5,119.6*0.75,119.6)) + scale_y_continuous(labels =c(-0.3,142.6*0.25,142.6*0.5,142.6*0.75,142.6))
 
 get_legend<-function(myggplot){
   tmp <- ggplot_gtable(ggplot_build(myggplot))
