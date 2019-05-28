@@ -161,7 +161,10 @@ Baardman_ens1 <- ensemble(Baardman_model1, newdata=lidarmetrics, filename="",set
 
 #niche(x=lidarmetrics,h=Baardman_data_forsdm,n=c("roughness.1","max_z__nonground","occurrence"))
 
-niche(x=lidarmetrics,h=Baardman_ens1,n=c("roughness.1","max_z__nonground"))
+eval(scale_colour_gradient2(name="Suitability",low="blue",high="red",mid = "white",aesthetics = "fill",midpoint = 0.5,limits=c(0,1)))
+.col <- colorRampPalette(c('lightblue','blue','red'))(100)
+
+niche(x=lidarmetrics,h=Baardman_ens1,n=c("roughness.1","max_z__nonground"),col=.col,xlab='max_z__nonground',ylab='roughness')
 niche(x=lidarmetrics,h=Baardman_ens1,n=c("pulse_pen_ratio_all","max_z__nonground"))
 niche(x=lidarmetrics,h=Baardman_ens1,n=c("pulse_pen_ratio_all","roughness.1"))
 
@@ -176,7 +179,6 @@ niche(x=lidarmetrics,h=Snor_ens1,n=c("pulse_pen_ratio_all","max_z__nonground"))
 niche(x=lidarmetrics,h=Snor_ens1,n=c("pulse_pen_ratio_all","roughness.1"))
 
 # make nicer niche plot
-
 np_baardman=niche(x=lidarmetrics,h=Baardman_ens1,n=c("roughness.1","max_z__nonground"),plot=FALSE)
 
 np_baardman_raster <- as(np_baardman@nicheRaster, "SpatialPixelsDataFrame")
