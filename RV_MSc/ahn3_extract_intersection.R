@@ -1,13 +1,13 @@
 "
 @author: Zsofia Koma, UvA
-Aim: Extract area of interest from AHN2 data
+Aim: Extract area of interest from AHN3 data
 "
 library("lidR")
 library("rgdal")
 
 # Set working dirctory
-#workingdirectory="D:/Reinier/"
-workingdirectory="C:/Koma/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/ahn3/"
+workingdirectory="D:/Reinier/"
+#workingdirectory="C:/Koma/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/ahn3/"
 setwd(workingdirectory)
 
 #Import 
@@ -22,6 +22,6 @@ for (i in areaofint@data[["Transect"]]){
   subset = lasclip(ctg, areaofint[areaofint$Transect==i,])
   
   if (subset@header@PHB[["Number of point records"]]>0) {
-    writeLAS(subset,paste("C:/Koma/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/Transect_",i,".laz",sep=""))
+    writeLAS(subset,paste("C:/Reinier_output/Transect_",i,".laz",sep=""))
   }
 }
