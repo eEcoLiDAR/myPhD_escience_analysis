@@ -61,3 +61,5 @@ lsm_p_enn(maxh_class)
 lsm_l_ta(maxh_class)
 lsm_c_te(maxh_class)
 
+ClassStat(maxh_class, cellsize = 10)
+
