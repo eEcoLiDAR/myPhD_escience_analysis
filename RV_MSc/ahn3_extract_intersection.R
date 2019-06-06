@@ -17,7 +17,7 @@ areaofint=readOGR(dsn=areaofintfile)
 # Extract
 ctg = catalog(workingdirectory)
 
-for (i in seq(44,length(areaofint$Transect),1)){ 
+for (i in seq(1,length(areaofint$Transect),1)){ 
   print(areaofint$Transect[i]) 
   subset = lasclip(ctg, areaofint[areaofint$Transect==areaofint$Transect[i],])
   
