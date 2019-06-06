@@ -14,7 +14,7 @@ col = c("gray", "gray", "blue", "darkgreen", "darkgreen", "darkgreen", "red", "g
 las_ngr=lasfilter(las,Classification != 2L)
 
 # Perform approximate colinear test on non ground point
-las_plan = lascoplanar(las_ngr, k = 50, th1 = 10, th2 = 0)
+las_plan = lascoplanar(las_ngr, k = 10, th1 = 5, th2 = 0)
 
 # Reclassify colinear points as wire if not already classified as building
 las_plan@data[Colinear == TRUE & Classification != 6L, Classification := 14L]

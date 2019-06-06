@@ -16,8 +16,8 @@ library(spdep)
 library(sp)
 
 # Set global variables
-full_path="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_4/"
-#full_path="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_4/"
+#full_path="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_4/"
+full_path="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_4/"
 
 snorfile="Snor_bird_data_forSDM.shp"
 baardmanfile="Baardman_bird_data_forSDM.shp"
