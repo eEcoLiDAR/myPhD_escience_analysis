@@ -4,7 +4,7 @@ import pandas as pd
 
 import matplotlib.pyplot as plt
 
-inFile = laspy.file.File("D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/Dataprocess_preprocess/Transect_1495.las", mode = "r")
+inFile = laspy.file.File("C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/Dataprocess_preprocess/Transect_1495.las", mode = "r")
 
 inFile_df=np.vstack((inFile.x, inFile.y, inFile.z,inFile.pt_src_id,inFile.gps_time,inFile.raw_classification,inFile.edge_flight_line)).transpose()
 
@@ -32,4 +32,4 @@ bigdiff=inFile_df_oneline_ord_df[inFile_df_oneline_ord_df[7] > np.mean(inFile_df
 
 bigdiff.plot.scatter(x=0,y=1,c=6)
 
-bigdiff.to_csv("D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/Dataprocess_preprocess/Transect_1495_drop.csv",index=False)
+bigdiff.to_csv("C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/Dataprocess_preprocess/Transect_1495_drop.csv",index=False)
