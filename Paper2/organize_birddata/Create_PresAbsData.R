@@ -6,6 +6,8 @@ Aim: create presence-absence data from observation + aggregated kmsquare data
 library(rgdal)
 library(raster)
 
+library(ggplot2)
+
 # Set global variables
 full_path="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/"
 
@@ -48,4 +50,15 @@ raster::shapefile(bird_presonly_shp, "bird_presonly.shp",overwrite=TRUE)
 lgn7_birdprs_intersect=extract(landcover,bird_presonly_shp)
 
 bird_onlypresence$landcover_lgn7=lgn7_birdprs_intersect
-intersected=unique(bird_onlypresence$landcover_lgn7)
+
+p1<-ggplot(bird_onlypresence, aes(x=landcover_lgn7,fill=factor(landcover_lgn7)))+
+  geom_histogram(bins=62)+
+  facet_grid(species ~ .) +
+  scale_x_continuous(breaks=seq(1,62,1))
+p1
+
+# Mask for area of interest
+formask <- setValues(raster(landcover), NA)
+formask[landcover==16 |landcover==30 | landcover==41 | landcover==42 | landcover==43 | landcover==45] <- 1
+
+proj4string(formask)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
