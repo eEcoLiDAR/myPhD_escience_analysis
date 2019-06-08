@@ -8,12 +8,16 @@ library("rgdal")
 library(dplyr)
 
 # Set working dirctory
-workingdirectory="C:/Koma/Paper2/Test/"
+workingdirectory="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/Dataprocess_preprocess/"
 
 setwd(workingdirectory)
 
 #Import 
-las=readLAS("tile_5.las")
+las=readLAS("Transect_1495.las")
+
+options(digits = 20)
+head(las$gpstime)
+
 las_oneline=lasfilter(las,PointSourceID==17148)
 las_oneline_onetime=lasfilter(las,PointSourceID==17148 & gpstime<121805.5)
 
