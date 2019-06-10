@@ -14,13 +14,15 @@ full_path="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1
 birdobsfile="Breeding_bird_atlas_individual_observations.csv"
 birdkmfile="Breeding_bird_atlas_aggregated_data_kmsquares.csv"
 
-ahn3="ahn3.shp"
+ahn3="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/lidar/ahn3.shp"
 
 landcoverfile="LGN7.tif"
 
 setwd(full_path)
 
 # Import
+ahn3_poly = readOGR(dsn=ahn3)
+
 bird_data_obs=read.csv(file=paste(full_path,"bird_data/",birdobsfile,sep=""),header=TRUE,sep=";")
 bird_data_obs<-bird_data_obs[!(bird_data_obs$species=="Roerdomp"),] #delete Roerdomp because it is not needed
 
@@ -62,3 +64,7 @@ formask <- setValues(raster(landcover), NA)
 formask[landcover==16 |landcover==30 | landcover==41 | landcover==42 | landcover==43 | landcover==45] <- 1
 
 proj4string(formask)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
+writeRaster(formask,"req_lgn7_classes.grd",overwrite=TRUE)
+
+# Create a required AHN3 tile list
+
