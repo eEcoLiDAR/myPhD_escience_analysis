@@ -31,3 +31,5 @@ for (i in seq(1,length(areaofint$id_2),1)){
     writeLAS(subset,paste("tile_",areaofint$id_2[i],".laz",sep=""))
   }
 }
+
+raster::shapefile(areaofint, "selwetland_areaofint.shp",overwrite=TRUE)
