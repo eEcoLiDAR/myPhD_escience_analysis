@@ -16,7 +16,7 @@ library("ggplot2")
 # Set global variables
 full_path="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/"
 
-#birdpresfile="bird_presonly.shp"
+birdpresfile="bird_presonly.shp"
 ahn3="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/lidar/ahn3.shp"
 maskfile="req_lgn7_classes.grd"
 selwetlandfile="sel_wetlands.shp"
@@ -27,6 +27,7 @@ setwd(full_path)
 # Import
 ahn3_poly = readOGR(dsn=ahn3)
 selwetlandfile_poly = readOGR(dsn=selwetlandfile)
+birdpres = readOGR(dsn=birdpresfile)
 
 landcovermask=stack(maskfile)
 
@@ -64,7 +65,7 @@ raster::shapefile(selwetland_grid, "selwetland_grid.shp",overwrite=TRUE)
 
 # Mask with lgn7 mask - within and I do not know how to expand to include one more cellsaround the edges
 landcovermask_red=crop(landcovermask,extent(selwetland_grid))
-landcovermask_red_1km<-aggregate(landcovermask_red, fact=25, fun=mean)
+landcovermask_red_1km<-aggregate(landcovermask_red, fact=10, fun=mean)
 
 beginCluster()
 selwetland_grid_masked <- extract(landcovermask_red_1km, selwetland_grid, fun = max, na.rm = TRUE, sp = TRUE)
@@ -72,3 +73,7 @@ endCluster()
 
 selwetland_grid_masked_true <- subset(selwetland_grid_masked, layer==1) 
 raster::shapefile(selwetland_grid_masked_true, "selwetland_grid_masked_true.shp",overwrite=TRUE)
+
+# Get only the cells where we have presence data
+selwetland_grid_birdpres=raster::intersect(selwetland_grid,birdpres)
+raster::shapefile(selwetland_grid_birdpres, "selwetland_grid_birdpres.shp",overwrite=TRUE)
