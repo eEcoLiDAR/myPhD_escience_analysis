@@ -6,8 +6,8 @@ library("lidR")
 library("rgdal")
 
 # Set working dirctory
-workingdirectory="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/"
-#workingdirectory="C:/Koma/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/ahn3/"
+#workingdirectory="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/"
+workingdirectory="D:/Koma/SelectedWetlands/"
 setwd(workingdirectory)
 
 #Import 
