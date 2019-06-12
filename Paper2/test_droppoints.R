@@ -5,28 +5,40 @@ Aim: Modelling drop out points
 library("lidR")
 library("rgdal")
 
-library(dplyr)
+library("dplyr")
 
 # Set working dirctory
-workingdirectory="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/Dataprocess_preprocess/"
+workingdirectory="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/"
 
 setwd(workingdirectory)
 
 #Import 
-las=readLAS("Transect_1495.las")
+las=readLAS("tile_61.laz")
 
 options(digits = 20)
 head(las$gpstime)
 
-las_oneline=lasfilter(las,PointSourceID==17148)
-las_oneline_onetime=lasfilter(las,PointSourceID==17148 & gpstime<121805.5)
+#Get one flight line
+get_flightlines=unique(las@data$PointSourceID)
+las_oneline=lasfilter(las,PointSourceID==get_flightlines[1])
+writeLAS(las_oneline,"las_oneline.laz")
 
-lasdata=las_oneline_onetime@data
+# Order by GPStime and get the difference - it is slow switch to data.table?
+las_oneline_ord=las_oneline@data[order(las_oneline@data$gpstime),]
 
-sel_las=select(lasdata, X, Y)
+las_oneline_ord_gpsdiff=transform(las_oneline_ord, diff_gpstime = c(NA, diff(gpstime)))
 
-for (i in seq(1,13603)){ 
-  print(mean(sqrt((sel_las$X[i]-sel_las$X[i+1])^2+(sel_las$Y[i]-sel_las$Y[i+1])^2)))
-  
-  }
-dist=sqrt((sel_las$X[1]-sel_las$X[2])^2+(sel_las$Y[1]-sel_las$Y[2])^2)
+# Get attributes where the difference is bigger then 0.00001 10^-5
+sel_las_oneline=las_oneline_ord_gpsdiff[las_oneline_ord_gpsdiff$diff_gpstime>0.00001,]
+write.csv(sel_las_oneline,"test_dropout1.txt")
+
+las_oneline_ord_gpsdiff$isdrop <- 0
+las_oneline_ord_gpsdiff$isdrop[las_oneline_ord_gpsdiff$diff_gpstime>0.00001] <- 1
+
+index <- las_oneline_ord_gpsdiff$isdrop == 1
+las_oneline_ord_gpsdiff$isdrop[which(las_oneline_ord_gpsdiff$isdrop==TRUE)-1] <- 1
+
+sel_las_oneline_beaft=las_oneline_ord_gpsdiff[las_oneline_ord_gpsdiff$isdrop==1,]
+write.csv(sel_las_oneline_beaft,"test_dropout2.txt")
+
+#Fill water points
