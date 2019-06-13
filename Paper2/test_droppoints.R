@@ -41,4 +41,10 @@ las_oneline_ord_gpsdiff$isdrop[which(las_oneline_ord_gpsdiff$isdrop==TRUE)-1] <-
 sel_las_oneline_beaft=las_oneline_ord_gpsdiff[las_oneline_ord_gpsdiff$isdrop==1,]
 write.csv(sel_las_oneline_beaft,"test_dropout2.txt")
 
+# Put NaN where we would like to interpolate values
+
+
 #Fill water points
+
+#df2 <- sel_las_oneline_beaft %>% 
+  #mutate_at(vars(Fuel, Dist), na.approx) 
