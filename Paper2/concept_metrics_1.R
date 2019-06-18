@@ -25,12 +25,14 @@ birdfile="bird_presonly.shp"
 las=readLAS(lasfile)
 birds=readOGR(dsn=birdfile)
 
+birds@data$id <- seq(1,length(birds$X),1)
+
 #Visualize point cloud
 
 col = c("gray", "gray", "blue", "darkgreen", "darkgreen", "darkgreen", "red", "gray", "cyan", "darkgray", "gray", "pink", "pink", "purple", "pink")
 plot(las,color="Classification",colorPalette = col)
 
-# raster with classification 1 m resolution
+# raster with 1 m resolution
 
 las_dsm=grid_metrics(las,max(Z),res=1)
 plot(las_dsm)
@@ -85,13 +87,21 @@ plot(x = las_cross_ver@data$X_cross, y = las_cross_ver@data$Z, col = c("green", 
 
 #put all together
 
-par(mfrow=c(3,1)) 
+dev.copy(png,'myplot_above.png',width = 1080,height = 1080)
+
+par(mfrow=c(1,1)) 
 
 plot(dsm_shd, col=grey(0:100/100), legend=FALSE, main='Snor')
-plot(las_dsm, col=rainbow(25, alpha=0.35), add=TRUE)
+plot(las_dsm, col=rainbow(25, alpha=0.35), add=TRUE,legend.args=list(text='Height [m]', side=4, font=2, line=2.5, cex=1.5))
 plot(birds,pch=1,add=TRUE,cex=3,lwd = 3)
 plot(line_cr, lwd=3,add=TRUE)
 plot(line_cr2, lwd=3,add=TRUE)
+
+dev.off()
+
+dev.copy(png,'myplot_cross.png',width = 1300,height = 1080)
+
+par(mfrow=c(2,1)) 
 
 plot(x = las_cross_hor@data$Y_cross, y = las_cross_hor@data$Z, col = c("green", "orange", "blue","blue","blue","blue","blue","blue","blue","blue")[las_cross_hor@data$Classification], frame = FALSE, xlab = "Disctance[m]", ylab = "Height[m]",pch=19,ylim=c(-5,20),main="Observation point [vertical crossplot]")
 abline(v=100,lty=3)
@@ -100,5 +110,7 @@ legend("topright",legend=c("Vegetation","Ground","Water"),xpd=TRUE,pch=19,col = 
 plot(x = las_cross_ver@data$X_cross, y = las_cross_ver@data$Z, col = c("green", "orange", "blue","blue","blue","blue","blue","blue","blue","blue")[las_cross_ver@data$Classification], frame = FALSE, xlab = "Distance[m]", ylab = "Height[m]",pch=19,ylim=c(-5,20),main="Observation point [horizontal crossplot]")
 abline(v=100,lty=3)
 legend("topright",legend=c("Vegetation","Ground","Water"),xpd=TRUE,pch=19,col = c("orange", "green","blue"))
+
+dev.off()
 
 
