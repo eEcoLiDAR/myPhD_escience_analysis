@@ -6,8 +6,8 @@ library("lidR")
 library("rgdal")
 
 # Set working dirctory
-#workingdirectory="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/"
-workingdirectory="D:/Koma/SelectedWetlands/"
+workingdirectory="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/"
+#workingdirectory="D:/Koma/SelectedWetlands/"
 setwd(workingdirectory)
 
 #Import 
@@ -20,7 +20,18 @@ for (i in seq(1,length(areaofint$id_2),1)){
   print(areaofint$id_2[i]) 
 }
 
-# Extract
+birdfile="bird_presonly.shp"
+birds=readOGR(dsn=birdfile)
+
+birds@data$id <- seq(1,length(birds$X),1)
+
+for (i in seq(1,length(birds$id),1)){ 
+  print(birds@data$id[i]) 
+  print(birds@data$X[i])
+  print(birds@data$Y[i])
+}
+
+# Extract 1km squares
 ctg = catalog(workingdirectory)
 
 for (i in seq(1,length(areaofint$id_2),1)){ 
@@ -33,3 +44,15 @@ for (i in seq(1,length(areaofint$id_2),1)){
 }
 
 raster::shapefile(areaofint, "selwetland_areaofint.shp",overwrite=TRUE)
+
+# Extract pcloud around the bird observation
+
+for (i in seq(1,length(birds$id),1)){ 
+  print(birds@data$id[i]) 
+  
+  subset = lasclipCircle(ctg,birds@data$X[i],birds@data$Y[i],250)
+  
+  if (subset@header@PHB[["Number of point records"]]>0) {
+    writeLAS(subset,paste(birds@data$species[i],"_",birds@data$id[i],"_",birds@data$kmsquare[i],".laz",sep=""))
+  }
+}
