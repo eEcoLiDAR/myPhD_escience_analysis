@@ -7,8 +7,8 @@ library("rgdal")
 library("sp")
 
 # Set working dirctory
-workingdirectory="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/"
-#workingdirectory="D:/Koma/SelectedWetlands/"
+#workingdirectory="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/"
+workingdirectory="D:/Koma/SelectedWetlands/"
 setwd(workingdirectory)
 
 #Import 
