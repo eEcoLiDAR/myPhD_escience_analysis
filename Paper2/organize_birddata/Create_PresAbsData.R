@@ -9,12 +9,12 @@ library(raster)
 library(ggplot2)
 
 # Set global variables
-full_path="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/"
+full_path="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/"
 
 birdobsfile="Breeding_bird_atlas_individual_observations.csv"
 birdkmfile="Breeding_bird_atlas_aggregated_data_kmsquares.csv"
 
-ahn3="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/lidar/ahn3.shp"
+ahn3="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/lidar/ahn3.shp"
 
 landcoverfile="LGN7.tif"
 
