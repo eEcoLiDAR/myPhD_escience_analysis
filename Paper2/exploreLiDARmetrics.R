@@ -152,3 +152,8 @@ fviz_pca_ind(fit, label="none", habillage=height_int$species,
 
 fviz_pca_biplot(fit, label="var", habillage=height_int$species,
                 addEllipses=TRUE, ellipse.level=0.95)
+
+# Crossplot
+ggplot(height_int, aes(x=zmean, y=cancov,color=species)) + geom_point()
+ggplot(height_int, aes(x=simpson, y=roughness.1,color=species)) + geom_point()
+ggplot(height_int, aes(x=zmedian, y=nofech,color=species)) + geom_point()
