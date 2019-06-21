@@ -101,7 +101,7 @@ rl <- lapply(f, stack)
 
 height_r=do.call(merge, c(rl, tolerance = 1))
 plot(height_r)
-names(height_r) <- c("cancov","dens_perc_b2","dens_perc_b5","zmean","zmedian","z025quantile","z075quantile","z095quantile","zstd","zkurto")
+names(height_r) <- c("cancov","dens_perc_b2","dens_perc_b5","zmean","zmedian","z025quantile","z075quantile","z095quantile","zstd","zkurto","simpson","shannon","istd","nofech")
 
 # Horizontal
 
@@ -109,20 +109,20 @@ rough_dsm=terrain(height_r$z095quantile,opt="roughness",neighbors=4)
 rough_dsm_nei8=terrain(height_r$z095quantile,opt="roughness",neighbors=8)
 
 # Merge metrics together
+metrics_all=stack(height_r,rough_dsm,rough_dsm_nei8)
 
 # Intersect
-height_int <- sdmData(formula=occurrence~species+X+Y+cancov+dens_perc_b2+dens_perc_b5+dens_perc_b10+dens_perc_a10+zmean+zmedian+z025quantile+z075quantile+z095quantile+zstd+zkurto, train=birds, predictors=height_r)
+height_int <- sdmData(formula=occurrence~species+X+Y+cancov+dens_perc_b2+dens_perc_b5+zmean+zmedian+z025quantile+z075quantile+z095quantile+zstd+zkurto+
+                        simpson+shannon+istd+nofech+roughness.1+roughness.2, train=birds, predictors=metrics_all)
 
 height_int <- height_int@features
 
-onlyfea=height_int[c("cancov","dens_perc_b2","dens_perc_b5","zmean","zmedian","z025quantile","z075quantile","z095quantile","zstd","zkurto")]
+onlyfea=height_int[c("cancov","dens_perc_b2","dens_perc_b5","zmean","zmedian","z025quantile","z075quantile","z095quantile","zstd","zkurto","simpson","shannon","istd","nofech","roughness.1","roughness.2")]
 
 # Boxplot
 ggplot(height_int, aes(x=species, y=cancov,fill=species)) + geom_boxplot()
 ggplot(height_int, aes(x=species, y=dens_perc_b2,fill=species)) + geom_boxplot()
 ggplot(height_int, aes(x=species, y=dens_perc_b5,fill=species)) + geom_boxplot()
-ggplot(height_int, aes(x=species, y=dens_perc_b10,fill=species)) + geom_boxplot()
-ggplot(height_int, aes(x=species, y=dens_perc_a10,fill=species)) + geom_boxplot()
 ggplot(height_int, aes(x=species, y=zmean,fill=species)) + geom_boxplot()
 ggplot(height_int, aes(x=species, y=zmedian,fill=species)) + geom_boxplot()
 ggplot(height_int, aes(x=species, y=z025quantile,fill=species)) + geom_boxplot()
@@ -130,6 +130,11 @@ ggplot(height_int, aes(x=species, y=z075quantile,fill=species)) + geom_boxplot()
 ggplot(height_int, aes(x=species, y=z095quantile,fill=species)) + geom_boxplot()
 ggplot(height_int, aes(x=species, y=zstd,fill=species)) + geom_boxplot()
 ggplot(height_int, aes(x=species, y=zkurto,fill=species)) + geom_boxplot()
+ggplot(height_int, aes(x=species, y=simpson,fill=species)) + geom_boxplot()
+ggplot(height_int, aes(x=species, y=shannon,fill=species)) + geom_boxplot()
+ggplot(height_int, aes(x=species, y=istd,fill=species)) + geom_boxplot()
+ggplot(height_int, aes(x=species, y=nofech,fill=species)) + geom_boxplot()
+ggplot(height_int, aes(x=species, y=roughness.1,fill=species)) + geom_boxplot()
 
 #PCA
 fit <- prcomp(x = onlyfea, 
