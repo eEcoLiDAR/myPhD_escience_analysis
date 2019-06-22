@@ -11,6 +11,7 @@ library("e1071")
 library("factoextra")
 
 library("ggplot2")
+library("corrplot")
 
 # Feature calc. function
 proportion = function(z, by = 1)
@@ -97,7 +98,7 @@ opt_output_files(ctg)=""
 dws = grid_metrics(ctg,mean(Z),res=resolution)
 crs(dws) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
 
-birds_propdws <- extract(dws,birds,buffer = 150,fun=length, df=TRUE)   
+birds_propdws <- extract(dws,birds,buffer = 50,fun=length, df=TRUE)   
 birds@data$propdws <- birds_propdws$V1
 birds@data$propdws[is.na(birds@data$propdws)]<-0
 
@@ -177,3 +178,9 @@ fviz_pca_biplot(fit, label="var", habillage=metrics_int$species,
 ggplot(metrics_int, aes(x=zmean, y=cancov,color=species)) + geom_point()
 ggplot(metrics_int, aes(x=simpson, y=roughness.1,color=species)) + geom_point()
 ggplot(metrics_int, aes(x=zmedian, y=nofech,color=species)) + geom_point()
+
+# Correlation
+onlyfea_corr=cor(onlyfea,method="s")
+corrplot(onlyfea_corr,title = "Correlation Plot", method = "square", outline = T, addgrid.col = "darkgray", 
+         order="hclust", mar = c(4,0,4,0), addrect = 4, rect.col = "black", rect.lwd = 5,cl.pos = "b", 
+         tl.col = "indianred4", tl.cex = 1.5, cl.cex = 1.5)
