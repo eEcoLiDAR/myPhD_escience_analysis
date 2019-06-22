@@ -90,6 +90,16 @@ slope=terrain(dtm, opt='slope',neighbors=4)
 aspect=terrain(dtm, opt='aspect',neighbors=4)
 rough_dtm=terrain(dtm,opt="roughness",neighbors=4)
 
+# Water
+ctg@input_options$filter <- "-keep_class 9"
+opt_output_files(ctg)=""
+
+dws = grid_metrics(ctg,mean(Z),res=resolution)
+crs(dws) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
+
+birds_propdws <- extract(dws,birds,buffer = 150,fun=length, df=TRUE)   
+birds@data$propdws <- birds_propdws$V1
+birds@data$propdws[is.na(birds@data$propdws)]<-0
 
 # Vegetation metrics
 normalizedctg=catalog("C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/aroundbirds/normalized")
@@ -104,17 +114,25 @@ crs(vegmetrics) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.3876388888888
 
 rough_dsm=terrain(vegmetrics$z095quantile,opt="roughness",neighbors=4)
 
+# Proportion metrics
+height_class=reclassify(vegmetrics$z095quantile, c(-Inf,5,1, 5,Inf,2))
+height_class[height_class == 1] <- NA
+
+birds_freqhighveg <- extract(height_class,birds,buffer = 150,fun=length, df=TRUE)   
+birds@data$freqhighveg <- birds_freqhighveg$layer
+birds@data$freqhighveg[is.na(birds@data$freqhighveg)]<-0
+
 # Merge metrics together
 metrics_all=stack(vegmetrics,rough_dsm,slope,aspect,rough_dtm)
 
 # Intersect
 metrics_int <- sdmData(formula=occurrence~species+X+Y+cancov+dens_perc_b2+dens_perc_b5+zmean+zmedian+z025quantile+z075quantile+z095quantile+zstd+zkurto+
-                        simpson+shannon+istd+nofret_std+roughness.1+slope+aspect+roughness.2, train=birds, predictors=metrics_all)
+                        simpson+shannon+istd+nofret_std+roughness.1+slope+aspect+roughness.2+freqhighveg+propdws, train=birds, predictors=metrics_all)
 
 metrics_int <- metrics_int@features
 
 onlyfea=metrics_int[c("cancov","dens_perc_b2","dens_perc_b5","zmean","zmedian","z025quantile","z075quantile","z095quantile","zstd","zkurto","simpson","shannon","istd","nofret_std","roughness.1",
-                      "slope","aspect","roughness.2")]
+                      "slope","aspect","roughness.2","freqhighveg","propdws")]
 
 # Boxplot
 ggplot(metrics_int, aes(x=species, y=cancov,fill=species)) + geom_boxplot()
@@ -135,6 +153,8 @@ ggplot(metrics_int, aes(x=species, y=roughness.1,fill=species)) + geom_boxplot()
 ggplot(metrics_int, aes(x=species, y=slope,fill=species)) + geom_boxplot()
 ggplot(metrics_int, aes(x=species, y=aspect,fill=species)) + geom_boxplot()
 ggplot(metrics_int, aes(x=species, y=roughness.2,fill=species)) + geom_boxplot()
+ggplot(metrics_int, aes(x=species, y=freqhighveg,fill=species)) + geom_boxplot()
+ggplot(metrics_int, aes(x=species, y=propdws,fill=species)) + geom_boxplot()
 
 #PCA
 fit <- prcomp(x = onlyfea, 
