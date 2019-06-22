@@ -15,17 +15,9 @@ library("ggplot2")
 # Feature calc. function
 proportion = function(z, by = 1)
 {
-  # Normalize
-  
   z_norm=z-min(z)
-  
-  # Define the number of x meters bins from 0 to 100 m
   bk = seq(0, ceiling(50/by)*by, by)
-  
-  # Compute the p for each bin
   hist = hist(z_norm,bk,plot=FALSE)
-  
-  # Proportion
   p=(hist$counts/length(z_norm))
   
   return(p)
@@ -57,8 +49,8 @@ FeaCalc = function(z,i,e)
 }
 
 # Set working dirctory
-workingdirectory="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/aroundbirds/"
-#workingdirectory="D:/Koma/SelectedWetlands/"
+#workingdirectory="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/aroundbirds/"
+workingdirectory="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/aroundbirds/"
 setwd(workingdirectory)
 
 birdfile="bird_presonly.shp"
@@ -87,54 +79,62 @@ normalizedctg = lasnormalize(ctg, knnidw(k=20,p=2))
 
 # Calc metrics
 
-normalizedctg=catalog("D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/aroundbirds/normalized")
+# Topography
+ctg@input_options$filter <- "-keep_class 2"
+opt_output_files(ctg)=""
 
-opt_output_files(normalizedctg) <- paste(workingdirectory,"/normalized/{XLEFT}_{YBOTTOM}_height",sep="")
+dtm = grid_metrics(ctg,min(Z),res=resolution)
+crs(dtm) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
+
+slope=terrain(dtm, opt='slope',neighbors=4)
+aspect=terrain(dtm, opt='aspect',neighbors=4)
+rough_dtm=terrain(dtm,opt="roughness",neighbors=4)
+
+
+# Vegetation metrics
+normalizedctg=catalog("C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/aroundbirds/normalized")
+
+opt_output_files(normalizedctg)=""
 opt_filter(normalizedctg) <- "-keep_class 1"
-normalizedctg@output_options$drivers$Raster$param$overwrite <- TRUE
 
-height = grid_metrics(normalizedctg, FeaCalc(Z,Intensity,NumberOfReturns),res = resolution)
-
-# Read back #merge outside: 
-f <- list.files(path = paste(workingdirectory,"/normalized",sep=""), pattern = ".tif$", full.names = TRUE)
-rl <- lapply(f, stack)
-
-height_r=do.call(merge, c(rl, tolerance = 1))
-plot(height_r)
-names(height_r) <- c("cancov","dens_perc_b2","dens_perc_b5","zmean","zmedian","z025quantile","z075quantile","z095quantile","zstd","zkurto","simpson","shannon","istd","nofech")
+vegmetrics = grid_metrics(normalizedctg, FeaCalc(Z,Intensity,NumberOfReturns),res = resolution)
+crs(vegmetrics) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
 
 # Horizontal
 
-rough_dsm=terrain(height_r$z095quantile,opt="roughness",neighbors=4)
-rough_dsm_nei8=terrain(height_r$z095quantile,opt="roughness",neighbors=8)
+rough_dsm=terrain(vegmetrics$z095quantile,opt="roughness",neighbors=4)
 
 # Merge metrics together
-metrics_all=stack(height_r,rough_dsm,rough_dsm_nei8)
+metrics_all=stack(vegmetrics,rough_dsm,slope,aspect,rough_dtm)
 
 # Intersect
-height_int <- sdmData(formula=occurrence~species+X+Y+cancov+dens_perc_b2+dens_perc_b5+zmean+zmedian+z025quantile+z075quantile+z095quantile+zstd+zkurto+
-                        simpson+shannon+istd+nofech+roughness.1+roughness.2, train=birds, predictors=metrics_all)
+metrics_int <- sdmData(formula=occurrence~species+X+Y+cancov+dens_perc_b2+dens_perc_b5+zmean+zmedian+z025quantile+z075quantile+z095quantile+zstd+zkurto+
+                        simpson+shannon+istd+nofret_std+roughness.1+slope+aspect+roughness.2, train=birds, predictors=metrics_all)
 
-height_int <- height_int@features
+metrics_int <- metrics_int@features
 
-onlyfea=height_int[c("cancov","dens_perc_b2","dens_perc_b5","zmean","zmedian","z025quantile","z075quantile","z095quantile","zstd","zkurto","simpson","shannon","istd","nofech","roughness.1","roughness.2")]
+onlyfea=metrics_int[c("cancov","dens_perc_b2","dens_perc_b5","zmean","zmedian","z025quantile","z075quantile","z095quantile","zstd","zkurto","simpson","shannon","istd","nofret_std","roughness.1",
+                      "slope","aspect","roughness.2")]
 
 # Boxplot
-ggplot(height_int, aes(x=species, y=cancov,fill=species)) + geom_boxplot()
-ggplot(height_int, aes(x=species, y=dens_perc_b2,fill=species)) + geom_boxplot()
-ggplot(height_int, aes(x=species, y=dens_perc_b5,fill=species)) + geom_boxplot()
-ggplot(height_int, aes(x=species, y=zmean,fill=species)) + geom_boxplot()
-ggplot(height_int, aes(x=species, y=zmedian,fill=species)) + geom_boxplot()
-ggplot(height_int, aes(x=species, y=z025quantile,fill=species)) + geom_boxplot()
-ggplot(height_int, aes(x=species, y=z075quantile,fill=species)) + geom_boxplot()
-ggplot(height_int, aes(x=species, y=z095quantile,fill=species)) + geom_boxplot()
-ggplot(height_int, aes(x=species, y=zstd,fill=species)) + geom_boxplot()
-ggplot(height_int, aes(x=species, y=zkurto,fill=species)) + geom_boxplot()
-ggplot(height_int, aes(x=species, y=simpson,fill=species)) + geom_boxplot()
-ggplot(height_int, aes(x=species, y=shannon,fill=species)) + geom_boxplot()
-ggplot(height_int, aes(x=species, y=istd,fill=species)) + geom_boxplot()
-ggplot(height_int, aes(x=species, y=nofech,fill=species)) + geom_boxplot()
-ggplot(height_int, aes(x=species, y=roughness.1,fill=species)) + geom_boxplot()
+ggplot(metrics_int, aes(x=species, y=cancov,fill=species)) + geom_boxplot()
+ggplot(metrics_int, aes(x=species, y=dens_perc_b2,fill=species)) + geom_boxplot()
+ggplot(metrics_int, aes(x=species, y=dens_perc_b5,fill=species)) + geom_boxplot()
+ggplot(metrics_int, aes(x=species, y=zmean,fill=species)) + geom_boxplot()
+ggplot(metrics_int, aes(x=species, y=zmedian,fill=species)) + geom_boxplot()
+ggplot(metrics_int, aes(x=species, y=z025quantile,fill=species)) + geom_boxplot()
+ggplot(metrics_int, aes(x=species, y=z075quantile,fill=species)) + geom_boxplot()
+ggplot(metrics_int, aes(x=species, y=z095quantile,fill=species)) + geom_boxplot()
+ggplot(metrics_int, aes(x=species, y=zstd,fill=species)) + geom_boxplot()
+ggplot(metrics_int, aes(x=species, y=zkurto,fill=species)) + geom_boxplot()
+ggplot(metrics_int, aes(x=species, y=simpson,fill=species)) + geom_boxplot()
+ggplot(metrics_int, aes(x=species, y=shannon,fill=species)) + geom_boxplot()
+ggplot(metrics_int, aes(x=species, y=istd,fill=species)) + geom_boxplot()
+ggplot(metrics_int, aes(x=species, y=nofret_std,fill=species)) + geom_boxplot()
+ggplot(metrics_int, aes(x=species, y=roughness.1,fill=species)) + geom_boxplot()
+ggplot(metrics_int, aes(x=species, y=slope,fill=species)) + geom_boxplot()
+ggplot(metrics_int, aes(x=species, y=aspect,fill=species)) + geom_boxplot()
+ggplot(metrics_int, aes(x=species, y=roughness.2,fill=species)) + geom_boxplot()
 
 #PCA
 fit <- prcomp(x = onlyfea, 
@@ -144,16 +144,16 @@ fit <- prcomp(x = onlyfea,
 fviz_pca(fit, 
          repel = TRUE,
          labelsize = 3,
-         habillage=height_int$species) + 
+         habillage=metrics_int$species) + 
   theme_bw()
 
-fviz_pca_ind(fit, label="none", habillage=height_int$species,
+fviz_pca_ind(fit, label="none", habillage=metrics_int$species,
              addEllipses=TRUE, ellipse.level=0.95)
 
-fviz_pca_biplot(fit, label="var", habillage=height_int$species,
+fviz_pca_biplot(fit, label="var", habillage=metrics_int$species,
                 addEllipses=TRUE, ellipse.level=0.95)
 
 # Crossplot
-ggplot(height_int, aes(x=zmean, y=cancov,color=species)) + geom_point()
-ggplot(height_int, aes(x=simpson, y=roughness.1,color=species)) + geom_point()
-ggplot(height_int, aes(x=zmedian, y=nofech,color=species)) + geom_point()
+ggplot(metrics_int, aes(x=zmean, y=cancov,color=species)) + geom_point()
+ggplot(metrics_int, aes(x=simpson, y=roughness.1,color=species)) + geom_point()
+ggplot(metrics_int, aes(x=zmedian, y=nofech,color=species)) + geom_point()
