@@ -125,12 +125,15 @@ birds@data$freqhighveg[is.na(birds@data$freqhighveg)]<-0
 
 # Merge metrics together
 metrics_all=stack(vegmetrics,rough_dsm,slope,aspect,rough_dtm)
+crs(metrics_all) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
+writeRaster(metrics_all,"metricsall.grd",overwrite=TRUE)
 
 # Intersect
 metrics_int <- sdmData(formula=occurrence~species+X+Y+cancov+dens_perc_b2+dens_perc_b5+zmean+zmedian+z025quantile+z075quantile+z095quantile+zstd+zkurto+
                         simpson+shannon+istd+nofret_std+roughness.1+slope+aspect+roughness.2+freqhighveg+propdws, train=birds, predictors=metrics_all)
 
 metrics_int <- metrics_int@features
+write.csv(metrics_int,"metrics_intersected.csv")
 
 onlyfea=metrics_int[c("cancov","dens_perc_b2","dens_perc_b5","zmean","zmedian","z025quantile","z075quantile","z095quantile","zstd","zkurto","simpson","shannon","istd","nofret_std","roughness.1",
                       "slope","aspect","roughness.2","freqhighveg","propdws")]
@@ -178,6 +181,7 @@ fviz_pca_biplot(fit, label="var", habillage=metrics_int$species,
 ggplot(metrics_int, aes(x=zmean, y=cancov,color=species)) + geom_point()
 ggplot(metrics_int, aes(x=simpson, y=roughness.1,color=species)) + geom_point()
 ggplot(metrics_int, aes(x=zmedian, y=nofech,color=species)) + geom_point()
+ggplot(metrics_int, aes(x=z095quantile, y=freqhighveg,color=species)) + geom_point()
 
 # Correlation
 onlyfea_corr=cor(onlyfea,method="s")
