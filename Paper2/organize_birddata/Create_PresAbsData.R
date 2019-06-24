@@ -53,10 +53,15 @@ lgn7_birdprs_intersect=extract(landcover,bird_presonly_shp)
 
 bird_onlypresence$landcover_lgn7=lgn7_birdprs_intersect
 
+cols <- rainbow(unique(bird_onlypresence$landcover_lgn7))
+
 p1<-ggplot(bird_onlypresence, aes(x=landcover_lgn7,fill=factor(landcover_lgn7)))+
   geom_histogram(bins=62)+
   facet_grid(species ~ .) +
-  scale_x_continuous(breaks=seq(1,62,1))
+  scale_x_continuous(breaks=seq(1,62,1))+
+  scale_fill_manual(values=cols,name="LGN7",labels=c("1-Agrarisch gras","2-Mais", "3-Aardappelen","4-Bieten","5-Granen","6-Overige landbouwgewassen","9-Boomgaard","10-Bollen","11-Loofbos","12-Naaldbos","16-Zoet water","17-Zout water",
+                                         "18-Bebouwing in primair","19-Bebouwing in secundair","20-Bos in primair bebouwd","22-Bos in secundair bebouwd","23-Gras in primair bebouwd","24-Kale grond in bebouwd","25-Hoofdwegen & spoorwegen","26-Bebouwing in buitengebied",
+                                         "28-Gras in secundair bebouwd","30-Kwelders","32-Duinen met lage","36-Heide","41-Moerasvegetatie","42-Rietvegetatie","43-Bos in moerasgebied","45-Natuurgraslanden","61-Boomkwekerijen","62-Fruitkwekerijen"))
 p1
 
 # Mask for area of interest
