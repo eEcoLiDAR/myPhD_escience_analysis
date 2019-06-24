@@ -183,7 +183,7 @@ fviz_pca_biplot(fit, label="var", habillage=metrics_int$species,
 ggplot(metrics_int, aes(x=zmean, y=cancov,color=species)) + geom_point()
 ggplot(metrics_int, aes(x=simpson, y=roughness.1,color=species)) + geom_point()
 ggplot(metrics_int, aes(x=zmedian, y=nofech,color=species)) + geom_point()
-ggplot(metrics_int, aes(x=z095quantile, y=freqhighveg,color=species)) + geom_point()
+ggplot(metrics_int, aes(x=z095quantile, y=shannon,color=species)) + geom_point()
 
 # Correlation
 onlyfea_corr=cor(onlyfea,method="s")
