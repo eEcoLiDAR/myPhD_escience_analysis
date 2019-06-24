@@ -51,8 +51,8 @@ FeaCalc = function(z,i,e)
 }
 
 # Set working dirctory
-workingdirectory="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/aroundbirds/"
-#workingdirectory="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/aroundbirds/"
+#workingdirectory="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/aroundbirds/"
+workingdirectory="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/aroundbirds/"
 setwd(workingdirectory)
 
 birdfile="bird_presonly.shp"
@@ -104,7 +104,7 @@ birds@data$propdws <- birds_propdws$V1
 birds@data$propdws[is.na(birds@data$propdws)]<-0
 
 # Vegetation metrics
-normalizedctg=catalog("D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/aroundbirds/normalized")
+normalizedctg=catalog("C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/aroundbirds/normalized")
 
 opt_output_files(normalizedctg)=""
 opt_filter(normalizedctg) <- "-keep_class 1"
