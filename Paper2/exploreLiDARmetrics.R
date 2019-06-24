@@ -44,14 +44,15 @@ FeaCalc = function(z,i,e)
     simpson = 1/sum(sqrt(p)),
     shannon = -sum(p_whnull*log(p_whnull)),
     istd = sd(i),
-    nofret_std=sd(e)
+    nofret_std=sd(e),
+    zmax=max(z)
   )
   return(metrics)
 }
 
 # Set working dirctory
-#workingdirectory="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/aroundbirds/"
-workingdirectory="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/aroundbirds/"
+workingdirectory="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/aroundbirds/"
+#workingdirectory="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/aroundbirds/"
 setwd(workingdirectory)
 
 birdfile="bird_presonly.shp"
@@ -103,7 +104,7 @@ birds@data$propdws <- birds_propdws$V1
 birds@data$propdws[is.na(birds@data$propdws)]<-0
 
 # Vegetation metrics
-normalizedctg=catalog("C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/aroundbirds/normalized")
+normalizedctg=catalog("D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/aroundbirds/normalized")
 
 opt_output_files(normalizedctg)=""
 opt_filter(normalizedctg) <- "-keep_class 1"
@@ -130,7 +131,7 @@ writeRaster(metrics_all,"metricsall.grd",overwrite=TRUE)
 
 # Intersect
 metrics_int <- sdmData(formula=occurrence~species+X+Y+cancov+dens_perc_b2+dens_perc_b5+zmean+zmedian+z025quantile+z075quantile+z095quantile+zstd+zkurto+
-                        simpson+shannon+istd+nofret_std+roughness.1+slope+aspect+roughness.2+freqhighveg+propdws, train=birds, predictors=metrics_all)
+                        simpson+shannon+istd+nofret_std+roughness.1+slope+aspect+roughness.2+freqhighveg+propdws+zmax, train=birds, predictors=metrics_all)
 
 metrics_int <- metrics_int@features
 write.csv(metrics_int,"metrics_intersected.csv")
@@ -159,6 +160,7 @@ ggplot(metrics_int, aes(x=species, y=aspect,fill=species)) + geom_boxplot()
 ggplot(metrics_int, aes(x=species, y=roughness.2,fill=species)) + geom_boxplot()
 ggplot(metrics_int, aes(x=species, y=freqhighveg,fill=species)) + geom_boxplot()
 ggplot(metrics_int, aes(x=species, y=propdws,fill=species)) + geom_boxplot()
+ggplot(metrics_int, aes(x=species, y=zmax,fill=species)) + geom_boxplot()
 
 #PCA
 fit <- prcomp(x = onlyfea, 
