@@ -15,8 +15,8 @@ library(usdm)
 library(sdm)
 
 ###  Set global variables
-#full_path="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_4/"
-full_path="C:/Koma/Sync/_Amsterdam/00_PhD/Teaching/SDM/"
+full_path="D:/Sync/_Amsterdam/00_PhD/Teaching/SDM/"
+#full_path="C:/Koma/Sync/_Amsterdam/00_PhD/Teaching/SDM/"
 
 birdfile_baardman="Baardman_bird_data_forSDM.shp"
 birdfile_snor="Snor_bird_data_forSDM.shp"
