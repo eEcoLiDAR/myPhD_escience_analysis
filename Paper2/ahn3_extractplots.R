@@ -8,12 +8,12 @@ library("sp")
 
 # Set working dirctory
 #workingdirectory="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/"
-workingdirectory="D:/Koma/SelectedWetlands/"
+workingdirectory="D:/Koma/SelectedWetlands/greatwarbler/"
 setwd(workingdirectory)
 
 #Import 
 
-birdfile="bird_presonly.shp"
+birdfile="greatwarbler.shp"
 birds=readOGR(dsn=birdfile)
 
 birds@data$id <- seq(1,length(birds$X),1)
