@@ -5,16 +5,19 @@ Aim: create presence-absence data from observation + aggregated kmsquare data
 
 library(rgdal)
 library(raster)
+library(dplyr)
 
 library(ggplot2)
 
 # Set global variables
-full_path="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/"
+#full_path="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/"
+full_path="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/"
 
 birdobsfile="Breeding_bird_atlas_individual_observations.csv"
 birdkmfile="Breeding_bird_atlas_aggregated_data_kmsquares.csv"
 
 ahn3="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/lidar/ahn3.shp"
+ahn3="C:/Koma/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/lidar/ahn3.shp"
 
 landcoverfile="LGN7.tif"
 
@@ -48,6 +51,12 @@ proj4string(bird_presonly_shp)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon
 
 raster::shapefile(bird_presonly_shp, "bird_presonly.shp",overwrite=TRUE)
 
+# Select one species
+
+greatwarbler.only <- subset(bird_presonly_shp, species %in% c('Grote Karekiet'))
+raster::shapefile(greatwarbler.only, "greatwarbler.shp",overwrite=TRUE)
+
+
 # Check intersection with LGN7
 lgn7_birdprs_intersect=extract(landcover,bird_presonly_shp)
 
@@ -73,3 +82,17 @@ writeRaster(formask,"req_lgn7_classes.grd",overwrite=TRUE)
 
 # Create a required AHN3 tile list
 
+intersected=raster::intersect(ahn3_poly,greatwarbler.only)
+intersected_df=intersected@data
+
+req_ahn3 <- intersected_df %>%
+  group_by(bladnr) %>%
+  summarise(nofobs = length(bladnr))
+
+req_ahn3$bladnr_up=toupper(req_ahn3$bladnr)
+
+req_ahn3$list=paste("https://geodata.nationaalgeoregister.nl/ahn3/extract/ahn3_laz/C_",req_ahn3$bladnr_up,".LAZ",sep="")
+
+write.table(req_ahn3$list, file = "greatwarbler_ahn3list.txt", append = FALSE, quote = FALSE, sep = "", 
+            eol = "\n", na = "NA", dec = ".", row.names = FALSE, 
+            col.names = FALSE, qmethod = c("escape", "double")) 
