@@ -240,7 +240,7 @@ conf_m_l2=confusionMatrix(factor(prediction_l2), factor(testingSet_l2$layer),mod
 # level 3
 
 # multiple run
-first_seed <- 5
+first_seed <- 50
 accuracies_l3 <-c()
 kappa_l3 <-c()
 usersacc_c1_l3 <-c()
