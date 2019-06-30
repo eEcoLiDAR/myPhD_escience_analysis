@@ -75,8 +75,15 @@ load("rfe_l1.RData")
 load("rfe_l2.RData")
 load("rfe_l3.RData")
 
-conf_m_fromrfe_l1_cl1=confusionMatrix(rfe_l1[["fit"]][["predicted"]], rfe_l1[["fit"]][["y"]],mode = "everything",positive = "1")
-conf_m_fromrfe_l1_cl2=confusionMatrix(rfe_l1[["fit"]][["predicted"]], rfe_l1[["fit"]][["y"]],mode = "everything",positive = "2")
+# RFE with opt. nof fea -- create valid confusion matrix
+
+# level 1
+control <- rfeControl(functions=rfFuncs, method="cv", number=50,returnResamp = "all")
+#set.seed(50)
+rfe_l1_facc <- rfe(featuretable_l1[,rfe_l1$optVariables[1:5]],factor(featuretable_l1$layer), rfeControl=control,sizes=c(1:5),ntree=100,maximize = TRUE)
+
+conf_m_fromrfe_l1_cl1=confusionMatrix(rfe_l1_facc[["fit"]][["predicted"]], rfe_l1_facc[["fit"]][["y"]],mode = "everything",positive = "1")
+conf_m_fromrfe_l1_cl2=confusionMatrix(rfe_l1_facc[["fit"]][["predicted"]], rfe_l1_facc[["fit"]][["y"]],mode = "everything",positive = "2")
 
 sink(paste("acc_l1_rfe.txt",sep=""))
 print("pos class 1")
@@ -85,19 +92,27 @@ print("pos class 2")
 print(conf_m_fromrfe_l1_cl2)
 sink()
 
-conf_m_fromrfe_l2=confusionMatrix(rfe_l2[["fit"]][["predicted"]], rfe_l2[["fit"]][["y"]],mode = "everything")
+# level 2
+control <- rfeControl(functions=rfFuncs, method="cv", number=50,returnResamp = "all")
+set.seed(50)
+rfe_l2_facc <- rfe(featuretable_l2[,rfe_l2$optVariables[1:10]],factor(featuretable_l2$layer), rfeControl=control,sizes=c(1,10),ntree=100,maximize = TRUE)
+
+conf_m_fromrfe_l2=confusionMatrix(rfe_l2_facc[["fit"]][["predicted"]], rfe_l2_facc[["fit"]][["y"]],mode = "everything")
 
 sink(paste("acc_l2_rfe.txt",sep=""))
 print(conf_m_fromrfe_l2)
 sink()
 
-conf_m_fromrfe_l3=confusionMatrix(rfe_l3[["fit"]][["predicted"]], rfe_l3[["fit"]][["y"]],mode = "everything")
+# level 3
+control <- rfeControl(functions=rfFuncs, method="cv", number=50,returnResamp = "all")
+set.seed(50)
+rfe_l3_facc <- rfe(featuretable_l3[,rfe_l3$optVariables[1:10]],factor(featuretable_l3$layer), rfeControl=control,sizes=c(1,10),ntree=100,maximize = TRUE)
+
+conf_m_fromrfe_l3=confusionMatrix(rfe_l3_facc[["fit"]][["predicted"]], rfe_l3_facc[["fit"]][["y"]],mode = "everything")
 
 sink(paste("acc_l3_rfe.txt",sep=""))
 print(conf_m_fromrfe_l3)
 sink()
-
-prediction_l1 <- predict(rfe_l1$fit,featuretable_l1[ ,rfe_l1$optVariables])
 
 # level 1
 
