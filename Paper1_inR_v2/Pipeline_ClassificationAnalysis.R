@@ -5,6 +5,7 @@ Aim: Analyse the results of the classification - feature importance and response
 
 library(randomForest)
 library(caret)
+library(rfUtilities)
 
 library(ggplot2)
 library(gridExtra)
