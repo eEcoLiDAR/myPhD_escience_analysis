@@ -192,7 +192,7 @@ names(featuretable_l1_a) <- c("C_puls_g","C_can_g","3S_curv_g","3S_lin_g","S_pla
 names(featuretable_l1_b) <- c("C_puls_v","C_can_v","3S_curv_v","3S_lin_v","S_plan_v","3S_sph_v","3S_ani_v","VV_sd_v","VV_var_v","VV_skew_v","VV_kurt_v","VV_cr_v","VV_vdr_v","VV_simp_v","VV_shan_v","HV_rough_v","HV_tpi_v","HV_tri_v",
                               "HV_sd_v","HV_var_v","H_max_v","H_mean_v","H_med_v","H_25p_v","H_75p_v","H_90p_v")
 
-corr_gr_wgr = round(cor(featuretable_l1_a,featuretable_l1_b), 2)
+corr_gr_wgr = round(cor(featuretable_l1_a,featuretable_l1_b,method="spearman"), 2)
 
 diag_gr_wgr=data.frame("variables"=c("C_puls","C_can","3S_curv","3S_lin","S_plan","3S_sph","3S_ani","VV_sd","VV_var",
                                      "VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi",
@@ -202,8 +202,20 @@ diag_gr_wgr=data.frame("variables"=c("C_puls","C_can","3S_curv","3S_lin","S_plan
 diag_gr_wgr=diag_gr_wgr[order(-diag_gr_wgr$correlation),]
 tab_df(diag_gr_wgr,file="ex.doc")
 
+correlationMatrix_grwgr <- cor(featuretable_l1_a,featuretable_l1_b,method="spearman")
+
+col <- colorRampPalette(c("#77AADD", "#4477AA", "#FFFFFF", "#EE9988","#BB4444"))
+
+corrplot(correlationMatrix_grwgr, method="color", col=col(200),  
+         type="upper", 
+         addCoef.col = "black", # Add coefficient of correlation
+         tl.col="black", tl.srt=45, font=30, #Text label color and rotation
+         # Combine with significance
+         # hide correlation coefficient on the principal diagonal
+         diag=TRUE)
+
 # Corr. features
-correlationMatrix <- cor(featuretable_l1[,1:26])
+correlationMatrix <- cor(featuretable_l1[,1:26],method="spearman")
 p.mat <- cor.mtest(featuretable_l1[,1:26])
 
 col <- colorRampPalette(c("#77AADD", "#4477AA", "#FFFFFF", "#EE9988","#BB4444"))
@@ -213,7 +225,7 @@ featuretable_l1_ncorr=featuretable_l1[,sort(highlyCorrelated)]
 names(featuretable_l1_ncorr)
 
 #l2
-correlationMatrix_l2 <- cor(featuretable_l2[,1:26])
+correlationMatrix_l2 <- cor(featuretable_l2[,1:26],method="spearman")
 p.mat_l2 <- cor.mtest(featuretable_l2[,1:26])
 
 col <- colorRampPalette(c("#77AADD", "#4477AA", "#FFFFFF", "#EE9988","#BB4444"))
@@ -223,7 +235,7 @@ featuretable_l2_ncorr=featuretable_l2[,sort(highlyCorrelated_l2)]
 names(featuretable_l2_ncorr)
 
 #l3
-correlationMatrix_l3 <- cor(featuretable_l3[,1:26])
+correlationMatrix_l3 <- cor(featuretable_l3[,1:26],method="spearman")
 p.mat_l3 <- cor.mtest(featuretable_l3[,1:26])
 
 col <- colorRampPalette(c("#77AADD", "#4477AA", "#FFFFFF", "#EE9988","#BB4444"))
