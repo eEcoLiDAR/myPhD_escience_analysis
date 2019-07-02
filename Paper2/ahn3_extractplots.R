@@ -16,11 +16,17 @@ setwd(workingdirectory)
 birdfile="greatwarbler.shp"
 birds=readOGR(dsn=birdfile)
 
+nl_file="Boundary_NL_RDNew.shp"
+nl=readOGR(dsn=nl_file)
+
 birds@data$id <- seq(1,length(birds$X),1)
+
+writeOGR(birds,".","greatwarbler_wid", driver="ESRI Shapefile")
 
 ctg = catalog(workingdirectory)
 
 # Extract pcloud around the bird observation
+#length(birds$id)
 
 for (i in seq(1,length(birds$id),1)){ 
   print(birds@data$id[i]) 
@@ -81,17 +87,20 @@ for (i in seq(1,length(birds$id),1)){
     
     par(mfrow=c(2,1)) 
     
-    plot(x = las_cross_hor@data$Y_cross, y = las_cross_hor@data$Z, col = c("green", "orange", "blue","blue","blue","blue","blue","blue","blue","blue")[las_cross_hor@data$Classification], frame = FALSE, xlab = "Disctance[m]", ylab = "Height[m]",pch=19,ylim=c(-5,20),main="Observation point [vertical crossplot]")
+    plot(x = las_cross_hor@data$Y_cross, y = las_cross_hor@data$Z, col = c("green", "orange", "blue","blue","blue","red","blue","blue","blue","blue")[las_cross_hor@data$Classification], frame = FALSE, xlab = "Disctance[m]", ylab = "Height[m]",pch=19,ylim=c(min(las_cross_hor@data$Z),min(las_cross_hor@data$Z)+30),main="Observation point [vertical crossplot]")
     abline(v=100,lty=3)
-    legend("topright",legend=c("Vegetation","Ground","Water"),xpd=TRUE,pch=19,col = c("orange", "green","blue"))
+    legend("topright",legend=c("Vegetation","Ground","Water","Building"),xpd=TRUE,pch=19,col = c("orange", "green","blue","red"))
     
-    plot(x = las_cross_ver@data$X_cross, y = las_cross_ver@data$Z, col = c("green", "orange", "blue","blue","blue","blue","blue","blue","blue","blue")[las_cross_ver@data$Classification], frame = FALSE, xlab = "Distance[m]", ylab = "Height[m]",pch=19,ylim=c(-5,20),main="Observation point [horizontal crossplot]")
+    plot(x = las_cross_ver@data$X_cross, y = las_cross_ver@data$Z, col = c("green", "orange", "blue","blue","blue","red","blue","blue","blue","blue")[las_cross_ver@data$Classification], frame = FALSE, xlab = "Distance[m]", ylab = "Height[m]",pch=19,ylim=c(min(las_cross_ver@data$Z),min(las_cross_ver@data$Z)+30),main="Observation point [horizontal crossplot]")
     abline(v=100,lty=3)
-    legend("topright",legend=c("Vegetation","Ground","Water"),xpd=TRUE,pch=19,col = c("orange", "green","blue"))
+    legend("topright",legend=c("Vegetation","Ground","Water","Building"),xpd=TRUE,pch=19,col = c("orange", "green","blue","red"))
     
     dev.off()
     
-    
-    writeLAS(subset,paste(birds@data$species[i],"_",birds@data$id[i],"_",birds@data$kmsquare[i],".laz",sep=""))
+    dev.copy(png,paste(birds@data$species[i],"_",birds@data$id[i],"_",birds@data$kmsquare[i],"map.png",sep=""),width = 1080,height = 1080)
+    plot(nl,main="The location of the selected point within NL")
+    plot(line_cr, lwd=8,add=TRUE)
+    plot(line_cr2, lwd=8,add=TRUE)
+    dev.off()
   }
 }
