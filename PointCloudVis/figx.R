@@ -49,15 +49,15 @@ z0 <- c(mean(las@data$Z), mean(las@data$Z), mean(las@data$Z), mean(las@data$Z))
 
 scatter3D(las@data$X, las@data$Y, las@data$Z, pch = 16,  theta = -35, phi = 10, bty="u",
           cex = 0.4,expand =0.35,colkey = FALSE,col.panel ="white",col.grid = "black", colvar=las@data$Classification,col=ramp.col(c("darkgreen","orange","blue","blue","blue","blue","blue","blue","blue")))
-segments3D(x0, y0, z0, x1, y1, z1 = z0, col = "red", lwd = 2,pch = 16,  theta = -35, phi = 10, bty="u", cex = 0.4,expand =0.35,add=TRUE)
+segments3D(x0, y0, z0, x1, y1, z1 = z0, col = "red", lwd = 6,pch = 16,  theta = -35, phi = 10, bty="u", cex = 0.4,expand =0.35,add=TRUE)
 
 
 las_big=readLAS("D:/Sync/_Amsterdam/07_Paper_escience_software/Transect_785.laz")
 
-meanz=grid_metrics(las_big,mean(Z),res = 50)
+meanz=grid_metrics(las_big,mean(Z),res = 100)
 plot(meanz)
 
-writeRaster(meanz,"D:/Sync/_Amsterdam/07_Paper_escience_software/meanz.tif",overwrite=TRUE)
+writeRaster(meanz,"D:/Sync/_Amsterdam/07_Paper_escience_software/meanz_100small.tif",overwrite=TRUE)
 
 las_dsm=grid_metrics(las_big,max(Z),res=1)
 
