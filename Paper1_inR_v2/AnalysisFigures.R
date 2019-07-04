@@ -48,10 +48,10 @@ featuretable_l1_foranal=featuretable_l1_foranal[featuretable_l1_foranal$layer==2
 featuretable_l1_a=featuretable_l1_foranal[ ,c(1:26)]
 featuretable_l1_b=featuretable_l1_foranal[ ,c(27:52)]
 
-names(featuretable_l1_a) <- c("C_puls","C_can","S_curv","3S_lin","S_plan","S_sph","S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
+names(featuretable_l1_a) <- c("C_puls","C_can","S_curv","S_lin","S_plan","S_sph","S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
                               "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p")
 
-names(featuretable_l1_b) <- c("C_puls","C_can","S_curv","3S_lin","S_plan","S_sph","S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
+names(featuretable_l1_b) <- c("C_puls","C_can","S_curv","S_lin","S_plan","S_sph","S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
                               "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p")
 
 #RFE
@@ -186,15 +186,15 @@ grid.arrange(
 )
 
 # Correlations
-names(featuretable_l1_a) <- c("C_puls_g","C_can_g","3S_curv_g","3S_lin_g","S_plan_g","3S_sph_g","3S_ani_g","VV_sd_g","VV_var_g","VV_skew_g","VV_kurt_g","VV_cr_g","VV_vdr_g","VV_simp_g","VV_shan_g","HV_rough_g","HV_tpi_g","HV_tri_g",
+names(featuretable_l1_a) <- c("C_puls_g","C_can_g","S_curv_g","S_lin_g","S_plan_g","S_sph_g","S_ani_g","VV_sd_g","VV_var_g","VV_skew_g","VV_kurt_g","VV_cr_g","VV_vdr_g","VV_simp_g","VV_shan_g","HV_rough_g","HV_tpi_g","HV_tri_g",
                               "HV_sd_g","HV_var_g","H_max_g","H_mean_g","H_med_g","H_25p_g","H_75p_g","H_90p_g")
 
-names(featuretable_l1_b) <- c("C_puls_v","C_can_v","3S_curv_v","3S_lin_v","S_plan_v","3S_sph_v","3S_ani_v","VV_sd_v","VV_var_v","VV_skew_v","VV_kurt_v","VV_cr_v","VV_vdr_v","VV_simp_v","VV_shan_v","HV_rough_v","HV_tpi_v","HV_tri_v",
+names(featuretable_l1_b) <- c("C_puls_v","C_can_v","S_curv_v","S_lin_v","S_plan_v","S_sph_v","S_ani_v","VV_sd_v","VV_var_v","VV_skew_v","VV_kurt_v","VV_cr_v","VV_vdr_v","VV_simp_v","VV_shan_v","HV_rough_v","HV_tpi_v","HV_tri_v",
                               "HV_sd_v","HV_var_v","H_max_v","H_mean_v","H_med_v","H_25p_v","H_75p_v","H_90p_v")
 
 corr_gr_wgr = round(cor(featuretable_l1_a,featuretable_l1_b,method="spearman"), 2)
 
-diag_gr_wgr=data.frame("variables"=c("C_puls","C_can","3S_curv","3S_lin","S_plan","3S_sph","3S_ani","VV_sd","VV_var",
+diag_gr_wgr=data.frame("variables"=c("C_puls","C_can","S_curv","S_lin","S_plan","S_sph","S_ani","VV_sd","VV_var",
                                      "VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi",
                                      "HV_tri","HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p"),
                        "correlation"=diag(corr_gr_wgr))
