@@ -24,20 +24,42 @@ ahn3_poly = readOGR(dsn=ahn3)
 # Select only one species
 species=unique(birds$species)
 
-GreedW=birds[birds$species=="Grote Karekiet" & birds_1$year>"2013",]
+GreedW=birds[birds$species=="Grote Karekiet" & birds$year>"2013",]
+ReedW=birds[birds$species=="Kleine Karekiet" & birds$year>"2013",]
+BReed=birds[birds$species=="Baardman" & birds$year>"2013",]
+SaviW=birds[birds$species=="Snor" & birds$year>"2013",]
 
 # Create shp
 GreedW_shp=CreateShape(GreedW)
+raster::shapefile(GreedW_shp, "GreedW_avi.shp",overwrite=TRUE)
 
-# Intersect with AHN3
+ReedW_shp=CreateShape(ReedW)
+raster::shapefile(ReedW_shp, "ReedW_avi.shp",overwrite=TRUE)
 
-# Intersection observation points with AHN3 extent
-intersected_1=intersect(GreedW_shp,ahn3_poly)
-intersected_1_df=intersected_1@data
+BReed_shp=CreateShape(BReed)
+raster::shapefile(BReed_shp, "BReed_avi.shp",overwrite=TRUE)
 
-# Create req AHN3 list 
-ahn3list=Create_reqahn3(ahn3_poly,GreedW_shp)
+SaviW_shp=CreateShape(SaviW)
+raster::shapefile(SaviW_shp, "SaviW_avi.shp",overwrite=TRUE)
 
-write.table(ahn3list$list, file = "greatwarbler_ahn3list.txt", append = FALSE, quote = FALSE, sep = "", 
+# Intersect with AHN3 - create req AHN3 list 
+
+GreedW_ahn3list=Create_reqahn3(ahn3_poly,GreedW_shp)
+write.table(GreedW_ahn3list$list, file = "GreedW_ahn3list.txt", append = FALSE, quote = FALSE, sep = "", 
+            eol = "\n", na = "NA", dec = ".", row.names = FALSE, 
+            col.names = FALSE, qmethod = c("escape", "double")) 
+
+ReedW_ahn3list=Create_reqahn3(ahn3_poly,ReedW_shp)
+write.table(ReedW_ahn3list$list, file = "ReedW_ahn3list.txt", append = FALSE, quote = FALSE, sep = "", 
+            eol = "\n", na = "NA", dec = ".", row.names = FALSE, 
+            col.names = FALSE, qmethod = c("escape", "double")) 
+
+BReed_ahn3list=Create_reqahn3(ahn3_poly,BReed_shp)
+write.table(BReed_ahn3list$list, file = "BReed_ahn3list.txt", append = FALSE, quote = FALSE, sep = "", 
+            eol = "\n", na = "NA", dec = ".", row.names = FALSE, 
+            col.names = FALSE, qmethod = c("escape", "double")) 
+
+SaviW_ahn3list=Create_reqahn3(ahn3_poly,SaviW_shp)
+write.table(SaviW_ahn3list$list, file = "SaviW_ahn3list.txt", append = FALSE, quote = FALSE, sep = "", 
             eol = "\n", na = "NA", dec = ".", row.names = FALSE, 
             col.names = FALSE, qmethod = c("escape", "double")) 
