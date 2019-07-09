@@ -36,3 +36,20 @@ Create_reqahn3 = function(ahn3,data) {
   return(req_ahn3)
   
 }
+
+ConvertPolytoDf = function(kmsquares_poly) {
+  
+  library(plyr)
+  library(dplyr)
+  library(ggplot2)
+  
+  kmsquares_poly@data$id = rownames(kmsquares_poly@data)
+  kmsquares_poly.points = fortify(kmsquares_poly, region="id")
+  kmsquares_poly.df = join(kmsquares_poly.points, kmsquares_poly@data, by="id")
+  
+  as.numeric(kmsquares_poly.df$KMHOK)
+  colnames(kmsquares_poly.df)[colnames(kmsquares_poly.df)=="KMHOK"] <- "kmsquare"
+  kmsquares_poly.df=ddply(kmsquares_poly.df,~kmsquare+X+Y,summarise,sum=length(kmsquare))
+  
+  return(kmsquares_poly.df)
+}

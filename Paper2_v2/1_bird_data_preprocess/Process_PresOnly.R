@@ -102,3 +102,10 @@ SaviW_ahn3ac_df$acq_sync <- SaviW_ahn3ac_df$year == SaviW_ahn3ac_df$Jaar
 
 SaviW_withac_shp=CreateShape(SaviW_ahn3ac_df)
 raster::shapefile(SaviW_withac_shp, "SaviW_avi_wacq.shp",overwrite=TRUE)
+
+# Stat. report about nof presence
+
+counts_wfilters <- data.frame("time acq filter" = c(length(GreedW_ahn3ac_df$acq_sync[GreedW_ahn3ac_df$acq_sync==TRUE]),
+                                                    length(ReedW_ahn3ac_df$acq_sync[ReedW_ahn3ac_df$acq_sync==TRUE]),
+                                                    length(SaviW_ahn3ac_df$acq_sync[SaviW_ahn3ac_df$acq_sync==TRUE]),
+                                                    length(BReed_ahn3ac_df$acq_sync[BReed_ahn3ac_df$acq_sync==TRUE])))
