@@ -16,10 +16,13 @@ birdfile="avimap_observations_reedland_birds.csv" # using the one which contains
 
 ahn3="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/lidar/ahn3.shp"
 
+ahn3_actimefile="ahn3_measuretime.shp"
+
 #Import
 birds=read.csv(birdfile,sep=";")
 
 ahn3_poly = readOGR(dsn=ahn3)
+ahn3_actime = readOGR(dsn=ahn3_actimefile)
 
 # Select only one species
 species=unique(birds$species)
@@ -65,3 +68,37 @@ SaviW_ahn3list=Create_reqahn3(ahn3_poly,SaviW_shp)
 write.table(SaviW_ahn3list$list, file = "SaviW_ahn3list.txt", append = FALSE, quote = FALSE, sep = "", 
             eol = "\n", na = "NA", dec = ".", row.names = FALSE, 
             col.names = FALSE, qmethod = c("escape", "double")) 
+
+# Intersect with year of acquision
+
+GreedW_ahn3ac=raster::intersect(GreedW_shp,ahn3_actime)
+GreedW_ahn3ac_df=GreedW_ahn3ac@data
+
+GreedW_ahn3ac_df$acq_sync <- GreedW_ahn3ac_df$year == GreedW_ahn3ac_df$Jaar
+
+GreedW_withac_shp=CreateShape(GreedW_ahn3ac_df)
+raster::shapefile(GreedW_withac_shp, "GreedW_avi_wacq.shp",overwrite=TRUE)
+
+ReedW_ahn3ac=raster::intersect(ReedW_shp,ahn3_actime)
+ReedW_ahn3ac_df=ReedW_ahn3ac@data
+
+ReedW_ahn3ac_df$acq_sync <- ReedW_ahn3ac_df$year == ReedW_ahn3ac_df$Jaar
+
+ReedW_withac_shp=CreateShape(ReedW_ahn3ac_df)
+raster::shapefile(ReedW_withac_shp, "ReedW_avi_wacq.shp",overwrite=TRUE)
+
+BReed_ahn3ac=raster::intersect(BReed_shp,ahn3_actime)
+BReed_ahn3ac_df=BReed_ahn3ac@data
+
+BReed_ahn3ac_df$acq_sync <- BReed_ahn3ac_df$year == BReed_ahn3ac_df$Jaar
+
+BReed_withac_shp=CreateShape(BReed_ahn3ac_df)
+raster::shapefile(BReed_withac_shp, "BReed_avi_wacq.shp",overwrite=TRUE)
+
+SaviW_ahn3ac=raster::intersect(SaviW_shp,ahn3_actime)
+SaviW_ahn3ac_df=SaviW_ahn3ac@data
+
+SaviW_ahn3ac_df$acq_sync <- SaviW_ahn3ac_df$year == SaviW_ahn3ac_df$Jaar
+
+SaviW_withac_shp=CreateShape(SaviW_ahn3ac_df)
+raster::shapefile(SaviW_withac_shp, "SaviW_avi_wacq.shp",overwrite=TRUE)
