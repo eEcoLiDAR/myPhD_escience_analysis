@@ -8,16 +8,19 @@ library("sp")
 
 # Set working dirctory
 #workingdirectory="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/DataProcess_Paper2_1/"
-workingdirectory="D:/Koma/SelectedWetlands/greatwarbler/"
+workingdirectory="D:/Koma/GReedW_presonly/"
 setwd(workingdirectory)
 
 #Import 
 
-birdfile="greatwarbler.shp"
+birdfile="GReedW_sovon_sync.shp"
 birds=readOGR(dsn=birdfile)
 
 nl_file="Boundary_NL_RDNew.shp"
 nl=readOGR(dsn=nl_file)
+
+names(birds)[6]<- "X"
+names(birds)[7]<- "Y"
 
 birds@data$id <- seq(1,length(birds$X),1)
 
