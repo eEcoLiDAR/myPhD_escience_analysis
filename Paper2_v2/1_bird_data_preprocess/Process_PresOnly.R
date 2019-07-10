@@ -47,7 +47,21 @@ raster::shapefile(BReed_shp, "BReed_avi.shp",overwrite=TRUE)
 SaviW_shp=CreateShape(SaviW)
 raster::shapefile(SaviW_shp, "SaviW_avi.shp",overwrite=TRUE)
 
-# Intersect with AHN3 - create req AHN3 list 
+# Intersect with AHN3 
+
+GreedW_ahn3=raster::intersect(GreedW_shp,ahn3_poly)
+GreedW_ahn3_df=GreedW_ahn3@data
+
+ReedW_ahn3=raster::intersect(ReedW_shp,ahn3_poly)
+ReedW_ahn3_df=ReedW_ahn3@data
+
+BReed_ahn3=raster::intersect(BReed_shp,ahn3_poly)
+BReed_ahn3_df=BReed_ahn3@data
+
+SaviW_ahn3=raster::intersect(SaviW_shp,ahn3_poly)
+SaviW_ahn3_df=SaviW_ahn3@data
+
+# Create req AHN3 list
 
 GreedW_ahn3list=Create_reqahn3(ahn3_poly,GreedW_shp)
 write.table(GreedW_ahn3list$list, file = "GreedW_ahn3list.txt", append = FALSE, quote = FALSE, sep = "", 
