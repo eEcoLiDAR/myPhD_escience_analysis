@@ -24,8 +24,8 @@ req_ahn3tiles_escience_acqtime <- req_ahn3tiles_escience_acqtime[,-(10:11)]
 
 raster::shapefile(req_ahn3tiles_escience_acqtime, "req_ahn3tiles_escience_acqtime.shp",overwrite=TRUE)
 
-req_ahn3tiles_escience_acqtime$listname=paste(req_ahn3tiles_escience_acqtime$name,".tif",sep="")
-sel_2014tifs=req_ahn3tiles_escience_acqtime[req_ahn3tiles_escience_acqtime$Jaar==2014,]
+#Merging
+f <- list.files(path = "D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/Dataprocess_Paper2_2/tifs/", pattern = ".tif$", full.names = TRUE)
+rl <- lapply(f, raster)
 
-sel_2014tifslist=sel_2014tifs@data %>% mutate(listname = sapply(listname, toString))
-sel_2014tifslist=list(sel_2014tifslist$listname)
+mergedtif=do.call(merge, c(rl, tolerance = 1))
