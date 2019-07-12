@@ -42,7 +42,7 @@ birds<-birds[!(birds$species=="Roerdomp"),]
 birds_wfilt_presatl=birds[birds$year>"2013",]
 
 birds_wfilt_presatl_shp=CreateShape(birds_wfilt_presatl)
-raster::shapefile(birds_wfilt_presatl_shp, "birds_wfilt_presatl.shp",overwrite=TRUE)
+raster::shapefile(birds_wfilt_presatl_shp, "birds_whfilt_presatl.shp",overwrite=TRUE)
 
 # report counts
 
