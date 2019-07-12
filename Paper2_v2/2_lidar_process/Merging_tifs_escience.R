@@ -8,7 +8,7 @@ library(raster)
 library(dplyr)
 
 # Set working dirctory
-workingdirectory="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/Dataprocess_Paper2_2/tifs/"
+workingdirectory="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/Dataprocess_Paper2_2/"
 setwd(workingdirectory)
 
 req_ahn3tiles_esciencefile="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/Dataprocess_Paper2_2/req_ahn3tiles_escience.shp"
@@ -18,36 +18,46 @@ ahn3_actimefile="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/_Input_Datasets/lid
 req_ahn3tiles_escience=readOGR(dsn=req_ahn3tiles_esciencefile)
 ahn3_actime = readOGR(dsn=ahn3_actimefile)
 
-# group it by lidar acqusion time
+# Group it by lidar acqusion time - required tif file list per acqusion date
 req_ahn3tiles_escience_acqtime=raster::intersect(req_ahn3tiles_escience,ahn3_actime)
 req_ahn3tiles_escience_acqtime <- req_ahn3tiles_escience_acqtime[,-(10:11)]
 
 raster::shapefile(req_ahn3tiles_escience_acqtime, "req_ahn3tiles_escience_acqtime.shp",overwrite=TRUE)
 
-req_ahn3tiles_escience_acqtime$listname=paste(req_ahn3tiles_escience_acqtime$name,".tif",sep="")
-sel_2014tifs=req_ahn3tiles_escience_acqtime[req_ahn3tiles_escience_acqtime$Jaar==2014,]
+req_ahn3tiles_escience_acqtime$listname=paste("https://webdav.grid.surfsara.nl:2880/pnfs/grid.sara.nl/data/projects.nl/eecolidar/02_UvA/_escience_results/Netherlands/AHN/AHN3/ahn3_2019_01_08_tile_geotiffs/ahn3_2019_01_08_1x1m_features_10m_tile_geotiffs/",req_ahn3tiles_escience_acqtime$name,".tif",sep="")
 
-write.table(sel_2014tifs$listname, file = "for2014_mosaic.txt", append = FALSE, quote = FALSE, sep = "", 
-            eol = "\n", na = "NA", dec = ".", row.names = FALSE, 
-            col.names = FALSE, qmethod = c("escape", "double"))
+for (i in 1:length(ahn3_actime@data$OBJECTID)) {
+  
+  sel_tifs=req_ahn3tiles_escience_acqtime[req_ahn3tiles_escience_acqtime$OBJECTID==i,]
+  
+  write.table(sel_tifs$listname, file = paste(sel_tifs$Jaar[1],"_",sel_tifs$OBJECTID[1],"_for_mosaic.txt",sep=""), append = FALSE, quote = FALSE, sep = "", 
+              eol = "\n", na = "NA", dec = ".", row.names = FALSE, 
+              col.names = FALSE, qmethod = c("escape", "double"))
+  
+}
 
-sel_2015tifs=req_ahn3tiles_escience_acqtime[req_ahn3tiles_escience_acqtime$Jaar==2015,]
+# download required files using data acquision as groupig scheme
+# while read p; do curl --insecure --fail --location --user xxx -o ${p:206:218} "${p%?}";done < xxx.txt
+# for j in *.tif_; do mv -- "$j" "${j%.tif_}.tif"; done
+# for j in *.tif; do mv "$j"  D:/Koma/Paper2_tifs/lidar_xxxx_xx/;done
 
-write.table(sel_2015tifs$listname, file = "for2015_mosaic.txt", append = FALSE, quote = FALSE, sep = "", 
-            eol = "\n", na = "NA", dec = ".", row.names = FALSE, 
-            col.names = FALSE, qmethod = c("escape", "double"))
+#Flipping and cleaning (export only required layers)
 
-#Flipping
-workingdirectory="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/Dataprocess_Paper2_2/tifs/lidar_2015/"
-setwd(workingdirectory)
-
-tif_file.names <- dir("D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/Dataprocess_Paper2_2/tifs/lidar_2015/", pattern =".tif")
+tif_file.names <- dir("D:/Koma/Paper2_tifs/lidar_2015_10/", pattern =".tif")
 
 for (i in 1:length(tif_file.names)) {
   
-  lidar_data=stack(tif_file.names[i])
-  lidar_data=flip(lidar_data,direction = 'y')
+  tif=stack(paste("D:/Koma/Paper2_tifs/lidar_2015_10/",tif_file.names[i],sep=""))
+  seltif <- subset(tif, c(24,31,28,3,15,11,21,2), drop=FALSE)
+  names(seltif) <- c("H_90perc","VV_sd","VV_skew","VV_shan","VV_20perc","VV_med","VV_80perc","C_amean")
+  seltif=flip(seltif,direction = 'y')
   
-  writeRaster(lidar_data,paste(tif_file.names[i],"_flip.tif",sep=""))
+  proj4string(seltif)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
+  writeRaster(seltif,paste("D:/Koma/Paper2_tifs/lidar_2015_10/flip/",tif_file.names[i],"_flip.grd",sep=""),overwrite=TRUE)
   
 }
+
+grd_file.names <- dir("D:/Koma/Paper2_tifs/lidar_2015_10/flip/", pattern =".grd")
+
+# Mosaicing the files together in OSGeo cmd environment
+
