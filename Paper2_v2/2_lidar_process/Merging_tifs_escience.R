@@ -53,11 +53,18 @@ for (i in 1:length(tif_file.names)) {
   seltif=flip(seltif,direction = 'y')
   
   proj4string(seltif)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
-  writeRaster(seltif,paste("D:/Koma/Paper2_tifs/lidar_2015_10/flip/",tif_file.names[i],"_flip.grd",sep=""),overwrite=TRUE)
+  writeRaster(seltif,paste("D:/Koma/Paper2_tifs/lidar_2015_10/flip/",tif_file.names[i],"_flip.tif",sep=""),overwrite=TRUE)
   
 }
 
-grd_file.names <- dir("D:/Koma/Paper2_tifs/lidar_2015_10/flip/", pattern =".grd")
+# Mosaicing the files
 
-# Mosaicing the files together in OSGeo cmd environment
+fliptif_file.names <- dir("D:/Koma/Paper2_tifs/lidar_2015_10/flip/", pattern =".tif")
+output.vrt <- "lidar_2015_10.vrt"
+gdalbuildvrt(gdalfile=paste("D:/Koma/Paper2_tifs/lidar_2015_10/flip/",fliptif_file.names,sep=""),output.vrt=output.vrt)
+
+gdal_translate(src_dataset = "lidar_2015_10.vrt", 
+               dst_dataset = "lidar_2015_10.tif", 
+               output_Raster = TRUE,
+               options = c("BIGTIFF=YES", "COMPRESSION=LZW"))
 
