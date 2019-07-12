@@ -144,8 +144,8 @@ birds_lgn7_abs_acqsync=birds_ahn3ac_abs_shp@data[(birds_ahn3ac_abs_shp@data$land
                                    | birds_ahn3ac_abs_shp@data$landcover_lgn7==45),]
 
 # error here
-#birds_lgn7_abs_shp=CreateShape(birds_lgn7_abs)
-#raster::shapefile(birds_lgn7_abs_shp, "birds_lgn7_appl_absatl.shp",overwrite=TRUE)
+birds_lgn7_abs_acqsync_shp=CreateShape(birds_lgn7_abs_acqsync)
+raster::shapefile(birds_lgn7_abs_acqsync_shp, "birds_lgn7_acqsync_appl_absatl.shp",overwrite=TRUE)
 
 # report counts
 
