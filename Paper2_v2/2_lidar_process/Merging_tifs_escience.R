@@ -9,7 +9,8 @@ library(dplyr)
 
 # Set working dirctory
 #workingdirectory="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/Dataprocess_Paper2_2/"
-workingdirectory="C:/Koma/Paper2/Paper2_PreProcess/"
+#workingdirectory="C:/Koma/Paper2/Paper2_PreProcess/"
+workingdirectory="D:/Koma/Paper2/ahn3_2019_01_08_1x1m_features_10m_geotiffs/flip/"
 setwd(workingdirectory)
 
 #req_ahn3tiles_esciencefile="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/Dataprocess_Paper2_2/req_ahn3tiles_escience.shp"
@@ -67,17 +68,17 @@ for (d in directories){
   
 }
 
-tif_file.names <- dir("C:/Koma/Paper2/Paper2_PreProcess/lidar_2014_1/", pattern =".tif")
+tif_file.names <- dir("D:/Koma/Paper2/ahn3_2019_01_08_1x1m_features_10m_geotiffs/", pattern =".tif")
 
 for (i in 1:length(tif_file.names)) {
   
-  tif=stack(paste("C:/Koma/Paper2/Paper2_PreProcess/lidar_2014_1/",tif_file.names[i],sep=""))
-  seltif <- subset(tif, c(24,31,28,3,15,11,21,2), drop=FALSE)
+  tif=stack(paste("D:/Koma/Paper2/ahn3_2019_01_08_1x1m_features_10m_geotiffs/",tif_file.names[i],sep=""))
+  seltif <- subset(tif, c(23,31,28,3,15,11,21,2), drop=FALSE)
   names(seltif) <- c("H_90perc","VV_sd","VV_skew","VV_shan","VV_20perc","VV_med","VV_80perc","C_amean")
   seltif=flip(seltif,direction = 'y')
   
   proj4string(seltif)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
-  writeRaster(seltif,paste("C:/Koma/Paper2/Paper2_PreProcess/lidar_2014_1/flip/",tif_file.names[i],"_flip.tif",sep=""),overwrite=TRUE)
+  writeRaster(seltif,paste("D:/Koma/Paper2/ahn3_2019_01_08_1x1m_features_10m_geotiffs/flip/",tif_file.names[i],"_flip.tif",sep=""),overwrite=TRUE)
   
 }
 
