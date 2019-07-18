@@ -25,10 +25,11 @@ butterflysp_df_gr <- butterflysp_df %>%
 
 # Direct point cloud based metrics
 Transect=c(123,362)
-dpcloudfea_exp_df <- data.frame(matrix(ncol = 23, nrow = 0))
+dpcloudfea_exp_df <- data.frame(matrix(ncol = 32, nrow = 0))
 x <- c("Transect", "Transect_ID", "nofret_pheightlay_b02","nofret_pheightlay_02_05","nofret_pheightlay_05_1","nofret_pheightlay_1_2","nofret_pheightlay_2_5",
        "nofret_pheightlay_5_10","nofret_pheightlay_10_20","nofret_pheightlay_a20","zmean","z090quantile","zmean_undst","echovar","int_mean","int_sd","pulsepen",
-       "zkurto","zsd","z025quantile","z050quantile","z075quantile","shannon")
+       "zkurto","zsd","z025quantile","z050quantile","z075quantile","shannon","v_prof_2o5","v_prof_5","v_prof_7o5","v_prof_10","v_prof_12o5","v_prof_15",
+       "v_prof_17o5","v_prof_20","v_prof_a20")
 colnames(dpcloudfea_exp_df) <- x
 
 for (i in Transect) {
@@ -70,9 +71,21 @@ for (i in Transect) {
     z050quantile = quantile(las_norm_veg@data$Z, 0.50)
     z075quantile = quantile(las_norm_veg@data$Z, 0.75)
     
-    p=c(nofret_pheightlay_b02,nofret_pheightlay_02_05,nofret_pheightlay_05_1,nofret_pheightlay_1_2,nofret_pheightlay_2_5,nofret_pheightlay_5_10,nofret_pheightlay_10_20,nofret_pheightlay_a20)
-    p_whnull=p[p>0]
-    shannon = -sum(p_whnull*log(p_whnull))
+    p1=(nrow(las_norm_veg@data[(las_norm_veg@data$Z>0 & las_norm_veg@data$Z<2.5)])/length(las_norm_veg@data$Z))*100
+    p2=(nrow(las_norm_veg@data[(las_norm_veg@data$Z>2.5 & las_norm_veg@data$Z<5)])/length(las_norm_veg@data$Z))*100
+    p3=(nrow(las_norm_veg@data[(las_norm_veg@data$Z>5 & las_norm_veg@data$Z<7.5)])/length(las_norm_veg@data$Z))*100
+    p4=(nrow(las_norm_veg@data[(las_norm_veg@data$Z>7.5 & las_norm_veg@data$Z<10)])/length(las_norm_veg@data$Z))*100
+    p5=(nrow(las_norm_veg@data[(las_norm_veg@data$Z>10 & las_norm_veg@data$Z<12.5)])/length(las_norm_veg@data$Z))*100
+    p6=(nrow(las_norm_veg@data[(las_norm_veg@data$Z>12.5 & las_norm_veg@data$Z<15)])/length(las_norm_veg@data$Z))*100
+    p7=(nrow(las_norm_veg@data[(las_norm_veg@data$Z>15 & las_norm_veg@data$Z<17.5)])/length(las_norm_veg@data$Z))*100
+    p8=(nrow(las_norm_veg@data[(las_norm_veg@data$Z>17.5 & las_norm_veg@data$Z<20)])/length(las_norm_veg@data$Z))*100
+    p9=(nrow(las_norm_veg@data[(las_norm_veg@data$Z>20)])/length(las_norm_veg@data$Z))*100
+    
+   v=c(p1,p2,p3,p4,p5,p6,p7,p8,p9)
+    
+    p <- table(v)
+    p <- p/sum(p)
+    shannon=sum(-p*log(p))
     
     newline <- data.frame(t(c(Transect=i,Transect_ID=paste(butterflysp_df_sel$Tr_sec[j],sep=""),
                               nofret_pheightlay_b02=nofret_pheightlay_b02,
@@ -95,7 +108,16 @@ for (i in Transect) {
                               z025quantile=z025quantile,
                               z050quantile=z050quantile,
                               z075quantile=z075quantile,
-                              shannon=shannon)))
+                              shannon=shannon,
+                              v_prof_2o5=p1,
+                              v_prof_5=p2,
+                              v_prof_7o5=p3,
+                              v_prof_10=p4,
+                              v_prof_12o5=p5,
+                              v_prof_15=p6,
+                              v_prof_17o5=p7,
+                              v_prof_20=p8,
+                              v_prof_a20=p9)))
     
     dpcloudfea_exp_df <- rbind(dpcloudfea_exp_df, newline)
     
