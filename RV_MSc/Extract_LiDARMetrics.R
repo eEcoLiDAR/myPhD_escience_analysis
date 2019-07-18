@@ -24,7 +24,9 @@ butterflysp_df_gr <- butterflysp_df %>%
   summarise(nofobs = length(Transect))
 
 # Direct point cloud based metrics
-Transect=c(123,362)
+Transect <- as.vector(butterflysp_df_gr$Transect,mode="numeric")
+#Transect=c(123,362)
+
 dpcloudfea_exp_df <- data.frame(matrix(ncol = 32, nrow = 0))
 x <- c("Transect", "Transect_ID", "nofret_pheightlay_b02","nofret_pheightlay_02_05","nofret_pheightlay_05_1","nofret_pheightlay_1_2","nofret_pheightlay_2_5",
        "nofret_pheightlay_5_10","nofret_pheightlay_10_20","nofret_pheightlay_a20","zmean","z090quantile","zmean_undst","echovar","int_mean","int_sd","pulsepen",
