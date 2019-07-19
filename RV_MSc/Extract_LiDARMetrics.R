@@ -28,7 +28,7 @@ butterflysp_df_gr <- butterflysp_df %>%
 # Direct point cloud based metrics
 Transect <- as.vector(butterflysp_df_gr$Transect)
 Transect= as.numeric(Transect)
-#Transect=c(123,362)
+#Transect=c(1437)
 
 dpcloudfea_exp_df <- data.frame(matrix(ncol = 38, nrow = 0))
 x <- c("Transect", "Transect_ID", "nofret_pheightlay_b02","nofret_pheightlay_02_05","nofret_pheightlay_05_1","nofret_pheightlay_1_2","nofret_pheightlay_2_5",
@@ -46,7 +46,7 @@ for (i in Transect) {
   
   for (j in seq(from=1,to=length(butterflysp_df_sel$x))) {
     
-    las_clip=lasclipCircle(las,butterflysp_df_sel$x[j],butterflysp_df_sel$y[j],12.5)
+    las_clip=lasclipCircle(las,butterflysp_df_sel$x[j],butterflysp_df_sel$y[j],25)
     writeLAS(las_clip,paste("Transect",i,"Tr_sec",butterflysp_df_sel$Tr_sec[j],"_clip_25.laz",sep=""))
     
     las_norm=lasnormalize(las_clip, knnidw(k=10,p=2))
@@ -92,8 +92,7 @@ for (i in Transect) {
     
    v=c(p1,p2,p3,p4,p5,p6,p7,p8,p9)
     
-    p <- table(v)
-    p <- p/sum(p)
+    p <- v/sum(v)
     shannon=sum(-p*log(p))
     
     # Extract horizontal variability and proportion related metrics
