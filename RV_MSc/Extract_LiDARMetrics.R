@@ -32,7 +32,7 @@ Transect= as.numeric(Transect)
 
 dpcloudfea_exp_df <- data.frame(matrix(ncol = 38, nrow = 0))
 x <- c("Transect", "Transect_ID", "nofret_pheightlay_b02","nofret_pheightlay_02_05","nofret_pheightlay_05_1","nofret_pheightlay_1_2","nofret_pheightlay_2_5",
-       "nofret_pheightlay_5_10","nofret_pheightlay_10_20","nofret_pheightlay_a20","zmean","z090quantile","zmean_undst","echovar","int_mean","int_sd","pulsepen",
+       "nofret_pheightlay_5_10","nofret_pheightlay_10_20","nofret_pheightlay_a20","zmean","z090quantile","zdens_undst","echovar","int_mean","int_sd","pulsepen",
        "zkurto","zsd","z025quantile","z050quantile","z075quantile","shannon","dsm_rough","dsm_var","dtm_slope","dtm_aspect","propofhighveg","propofbareground","v_prof_2o5","v_prof_5",
        "v_prof_7o5","v_prof_10","v_prof_12o5","v_prof_15","v_prof_17o5","v_prof_20","v_prof_a20")
 colnames(dpcloudfea_exp_df) <- x
@@ -90,7 +90,7 @@ for (i in Transect) {
     p8=(nrow(las_norm_veg@data[(las_norm_veg@data$Z>17.5 & las_norm_veg@data$Z<20)])/length(las_norm_veg@data$Z))*100
     p9=(nrow(las_norm_veg@data[(las_norm_veg@data$Z>20)])/length(las_norm_veg@data$Z))*100
     
-   v=c(p1,p2,p3,p4,p5,p6,p7,p8,p9)
+    v=c(p1,p2,p3,p4,p5,p6,p7,p8,p9)
     
     p <- v/sum(v)
     shannon=sum(-p*log(p))
@@ -147,7 +147,7 @@ for (i in Transect) {
                               nofret_pheightlay_a20=nofret_pheightlay_a20,
                               zmean=zmean,
                               z090quantile=z090quantile,
-                              zmean_undst=zmean_undst,
+                              zdens_undst=zmean_undst,
                               echovar=echovar,
                               int_mean=int_mean,
                               int_sd=int_sd,
