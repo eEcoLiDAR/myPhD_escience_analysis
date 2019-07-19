@@ -11,8 +11,8 @@ library(sp)
 library(e1071)
 
 # Set working dirctory
-workingdirectory="D:/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/lidarmetrics_calc/"
-#workingdirectory="D:/Reinier/Reinier_output/"
+#workingdirectory="D:/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/lidarmetrics_calc/"
+workingdirectory="D:/Reinier/Reinier_output/"
 setwd(workingdirectory)
 
 butterflyspfile="Melitaea_AnalysisData.shp"
@@ -28,7 +28,7 @@ butterflysp_df_gr <- butterflysp_df %>%
 # Direct point cloud based metrics
 Transect <- as.vector(butterflysp_df_gr$Transect)
 Transect= as.numeric(Transect)
-Transect=c(123,362)
+#Transect=c(123,362)
 
 dpcloudfea_exp_df <- data.frame(matrix(ncol = 38, nrow = 0))
 x <- c("Transect", "Transect_ID", "nofret_pheightlay_b02","nofret_pheightlay_02_05","nofret_pheightlay_05_1","nofret_pheightlay_1_2","nofret_pheightlay_2_5",
