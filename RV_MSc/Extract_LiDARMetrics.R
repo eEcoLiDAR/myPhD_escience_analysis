@@ -49,6 +49,9 @@ for (i in Transect) {
   for (j in seq(from=1,to=length(butterflysp_df_sel$x))) {
     
     las_clip=lasclipCircle(las,butterflysp_df_sel$x[j],butterflysp_df_sel$y[j],25)
+    
+    if (nrow(las_clip@data[las_clip@data$Classification==1L])>0) {
+    
     writeLAS(las_clip,paste("Transect",i,"Tr_sec",butterflysp_df_sel$Tr_sec[j],"_clip_25.laz",sep=""))
     
     las_norm=lasnormalize(las_clip, knnidw(k=10,p=2))
@@ -178,10 +181,9 @@ for (i in Transect) {
     
     dpcloudfea_exp_df <- rbind(dpcloudfea_exp_df, newline)
     
+    }
   }
-    
   }
-  
 }
 
 write.csv(dpcloudfea_exp_df,"Butterfly_lidarmetrics.csv")
