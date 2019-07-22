@@ -35,6 +35,7 @@ response_rf=getResponseCurve(model1,id=7)
 response_gam=getResponseCurve(model1,id=3)
 response_glm=getResponseCurve(model1,id=1)
 response_maxent=getResponseCurve(model1,id=11)
+response_bioclim=getResponseCurve(model1,id=13)
 
 # Response plots
 p1=ggplot()+ geom_point(data=model1@data@features, aes(x=VV_sd, y=occ_extra, color=factor(occ_extra)),show.legend = FALSE) + geom_line(data=response_rf@response$VV_sd, aes(x=VV_sd, y=`rf_ID-7`),size=1.5,show.legend = FALSE)+
