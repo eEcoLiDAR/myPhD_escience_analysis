@@ -11,11 +11,11 @@ library(sp)
 library(e1071)
 
 # Set working dirctory
-#workingdirectory="D:/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/lidarmetrics_calc/"
-workingdirectory="D:/Reinier/Reinier_output/"
+workingdirectory="D:/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/lidarmetrics_calc/"
+#workingdirectory="D:/Reinier/Reinier_output/"
 setwd(workingdirectory)
 
-butterflyspfile="Melitaea_AnalysisData.shp"
+butterflyspfile="transects.shp"
 
 #Import
 butterflysp = readOGR(dsn=butterflyspfile)
@@ -31,7 +31,7 @@ Transect= as.numeric(Transect)
 #Transect=c(1437)
 
 dpcloudfea_exp_df <- data.frame(matrix(ncol = 38, nrow = 0))
-x <- c("Transect", "Transect_ID", "nofret_pheightlay_b02","nofret_pheightlay_02_05","nofret_pheightlay_05_1","nofret_pheightlay_1_2","nofret_pheightlay_2_5",
+x <- c("Transect", "Transect_sec", "nofret_pheightlay_b02","nofret_pheightlay_02_05","nofret_pheightlay_05_1","nofret_pheightlay_1_2","nofret_pheightlay_2_5",
        "nofret_pheightlay_5_10","nofret_pheightlay_10_20","nofret_pheightlay_a20","zmean","z090quantile","zdens_undst","echovar","int_mean","int_sd","pulsepen",
        "zkurto","zsd","z025quantile","z050quantile","z075quantile","shannon","dsm_rough","dsm_var","dtm_slope","dtm_aspect","propofhighveg","propofbareground","v_prof_2o5","v_prof_5",
        "v_prof_7o5","v_prof_10","v_prof_12o5","v_prof_15","v_prof_17o5","v_prof_20","v_prof_a20")
@@ -39,6 +39,8 @@ colnames(dpcloudfea_exp_df) <- x
 
 for (i in Transect) {
   print(i)
+  
+  if (file.exists(paste("Transect_",i,".laz",sep=""))) {
   
   las=readLAS(paste("Transect_",i,".laz",sep=""))
   
@@ -67,8 +69,8 @@ for (i in Transect) {
     z090quantile = quantile(las_norm_veg@data$Z, 0.90)
     zmean_undst=(length(las_norm_veg@data$Z[las_norm_veg@data$Z<5])/length(las_norm@data$Z))*100
     echovar=var(las_norm_veg@data$ReturnNumber)
-    int_mean=mean(las_norm_veg@data$Intensity)
-    int_sd=sd(las_norm_veg@data$Intensity)
+    int_mean=mean(las_norm@data$Intensity)
+    int_sd=sd(las_norm@data$Intensity)
     
     pulsepen = (nrow(las_norm@data[las_norm@data$Classification==2L])/length(las_norm@data$Z))*100
     
@@ -136,7 +138,7 @@ for (i in Transect) {
     
     # Export
     
-    newline <- data.frame(t(c(Transect=i,Transect_ID=paste(butterflysp_df_sel$Tr_sec[j],sep=""),
+    newline <- data.frame(t(c(Transect=i,Transect_sec=paste(butterflysp_df_sel$Tr_sec[j],sep=""),
                               nofret_pheightlay_b02=nofret_pheightlay_b02,
                               nofret_pheightlay_02_05 = nofret_pheightlay_02_05,
                               nofret_pheightlay_05_1 = nofret_pheightlay_05_1,
@@ -177,7 +179,9 @@ for (i in Transect) {
     dpcloudfea_exp_df <- rbind(dpcloudfea_exp_df, newline)
     
   }
+    
+  }
   
 }
 
-write.csv(dpcloudfea_exp_df,"dpcloudfea_exp_df.csv")
+write.csv(dpcloudfea_exp_df,"Butterfly_lidarmetrics.csv")
