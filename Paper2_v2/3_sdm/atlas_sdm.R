@@ -11,12 +11,14 @@ library(sdm)
 library(ggplot2)
 
 # Set working dirctory
-workingdirectory="D:/Koma/Paper2/forSDM/"
-#workingdirectory="C:/Koma/Paper2/Paper2_PreProcess/"
+#workingdirectory="D:/Koma/Paper2/forSDM/"
+workingdirectory="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/Dataprocess_Paper2_3/"
 setwd(workingdirectory)
 
-lidar=stack("lidar_all.tif")
-names(lidar) <- c("H_90perc","VV_sd","VV_skew","VV_shan","VV_20perc","VV_med","VV_80perc","C_amean")
+rlist=list.files(path="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/_Input_Datasets/lidar/escience_metrics/", pattern="*_masked.tif$", full.names=TRUE)
+
+lidar=stack(rlist)
+names(lidar) <- c("C_amean","H_90perc","VV_20perc","VV_80perc","VV_med","VV_sd","VV_shan","VV_skew")
 
 BReed=readOGR(dsn="BReed_presabs.shp")
 
@@ -24,7 +26,7 @@ BReed=readOGR(dsn="BReed_presabs.shp")
 data_forsdm_BReed <- sdmData(formula=occurrence~H_90perc+VV_sd+VV_skew+VV_shan+VV_20perc+VV_med+VV_80perc+C_amean, train=BReed, predictors=lidar)
 data_forsdm_BReed
 
-model1 <- sdm(occurrence~.,data=data_forsdm_BReed,methods=c('glm','gam','brt','rf','svm','maxent'),replication=c('boot'),n=2,test.percent=30)
+model1 <- sdm(occurrence~.,data=data_forsdm_BReed,methods=c('glm','gam','brt','rf','svm','maxent','bioclim'),replication=c('boot'),n=2,test.percent=30)
 model1
 
 # Visualize 1D
@@ -38,6 +40,31 @@ response_maxent=getResponseCurve(model1,id=11)
 response_bioclim=getResponseCurve(model1,id=13)
 
 # Response plots
+p1=ggplot()+ geom_point(data=model1@data@features, aes(x=H_90perc, y=occ_extra, color=factor(occ_extra)),show.legend = FALSE) + geom_line(data=response_rf@response$H_90perc, aes(x=H_90perc, y=`rf_ID-7`),size=1.5,show.legend = FALSE)+
+  geom_density(data=model1@data@features,aes(x=H_90perc,y=..scaled..,group=factor(occ_extra),color=factor(occ_extra)),size=0.5,show.legend = FALSE,linetype="dashed")+
+  theme_bw(base_size = 20) + xlab("H_90perc [m]") + ylab("Occurrence")
+p2=ggplot()+ geom_point(data=model1@data@features, aes(x=H_90perc, y=occ_extra, color=factor(occ_extra)),show.legend = FALSE) + geom_line(data=response_gam@response$H_90perc, aes(x=H_90perc, y=`gam_ID-3`),size=1.5,show.legend = FALSE)+
+  geom_density(data=model1@data@features,aes(x=H_90perc,y=..scaled..,group=factor(occ_extra),color=factor(occ_extra)),size=0.5,show.legend = FALSE,linetype="dashed")+
+  theme_bw(base_size = 20) + xlab("H_90perc [m]") + ylab("Occurrence")
+p3=ggplot()+ geom_point(data=model1@data@features, aes(x=H_90perc, y=occ_extra, color=factor(occ_extra)),show.legend = FALSE) + geom_line(data=response_glm@response$H_90perc, aes(x=H_90perc, y=`glm_ID-1`),size=1.5,show.legend = FALSE)+
+  geom_density(data=model1@data@features,aes(x=H_90perc,y=..scaled..,group=factor(occ_extra),color=factor(occ_extra)),size=0.5,show.legend = FALSE,linetype="dashed")+
+  theme_bw(base_size = 20) + xlab("H_90perc [m]") + ylab("Occurrence")
+p4=ggplot()+ geom_point(data=model1@data@features, aes(x=H_90perc, y=occ_extra, color=factor(occ_extra)),show.legend = FALSE) + geom_line(data=response_maxent@response$H_90perc, aes(x=H_90perc, y=`maxent_ID-11`),size=1.5,show.legend = FALSE)+
+  geom_density(data=model1@data@features,aes(x=H_90perc,y=..scaled..,group=factor(occ_extra),color=factor(occ_extra)),size=0.5,show.legend = FALSE,linetype="dashed")+
+  theme_bw(base_size = 20) + xlab("H_90perc [m]") + ylab("Occurrence")
+p5=ggplot()+ geom_point(data=model1@data@features, aes(x=H_90perc, y=occ_extra, color=factor(occ_extra)),show.legend = FALSE) + geom_line(data=response_bioclim@response$H_90perc, aes(x=H_90perc, y=`bioclim_ID-13`),size=1.5,show.legend = FALSE)+
+  geom_density(data=model1@data@features,aes(x=H_90perc,y=..scaled..,group=factor(occ_extra),color=factor(occ_extra)),size=0.5,show.legend = FALSE,linetype="dashed")+
+  theme_bw(base_size = 20) + xlab("H_90perc [m]") + ylab("Occurrence")
+
+grid.arrange(
+  p1,
+  p2,
+  p3,
+  p4,
+  p5,
+  nrow = 1
+)
+
 p1=ggplot()+ geom_point(data=model1@data@features, aes(x=VV_sd, y=occ_extra, color=factor(occ_extra)),show.legend = FALSE) + geom_line(data=response_rf@response$VV_sd, aes(x=VV_sd, y=`rf_ID-7`),size=1.5,show.legend = FALSE)+
   geom_density(data=model1@data@features,aes(x=VV_sd,y=..scaled..,group=factor(occ_extra),color=factor(occ_extra)),size=0.5,show.legend = FALSE,linetype="dashed")+
   theme_bw(base_size = 20) + xlab("VV_sd [m]") + ylab("Occurrence")
@@ -214,6 +241,7 @@ grid.arrange(
 )
 
 #Boxplot pres-abs
+p0=ggplot()+geom_boxplot(data=model1@data@features, aes(x=occ_extra, y=H_90perc, color=factor(occ_extra)),show.legend = FALSE)+theme_bw(base_size = 20) + ylab("H_90perc [m]") + xlab("Occurrence")
 p1=ggplot()+geom_boxplot(data=model1@data@features, aes(x=occ_extra, y=VV_sd, color=factor(occ_extra)),show.legend = FALSE)+theme_bw(base_size = 20) + ylab("VV_sd [m]") + xlab("Occurrence")
 p2=ggplot()+geom_boxplot(data=model1@data@features, aes(x=occ_extra, y=VV_skew, color=factor(occ_extra)),show.legend = FALSE)+theme_bw(base_size = 20) + ylab("VV_skew [m]") + xlab("Occurrence")
 p3=ggplot()+geom_boxplot(data=model1@data@features, aes(x=occ_extra, y=VV_shan, color=factor(occ_extra)),show.legend = FALSE)+theme_bw(base_size = 20) + ylab("VV_shan [m]") + xlab("Occurrence")
@@ -223,6 +251,7 @@ p6=ggplot()+geom_boxplot(data=model1@data@features, aes(x=occ_extra, y=VV_80perc
 p7=ggplot()+geom_boxplot(data=model1@data@features, aes(x=occ_extra, y=C_amean, color=factor(occ_extra)),show.legend = FALSE)+theme_bw(base_size = 20) + ylab("C_amean [m]") + xlab("Occurrence")
 
 grid.arrange(
+  p0,
   p1,
   p2,
   p3,
@@ -232,5 +261,5 @@ grid.arrange(
   p7,
   ncol=4,
   nrow=2,
-  layout_matrix=rbind(c(1,2,3,4),c(5,6,7,NA))
+  layout_matrix=rbind(c(1,2,3,4),c(5,6,7,8))
 )
