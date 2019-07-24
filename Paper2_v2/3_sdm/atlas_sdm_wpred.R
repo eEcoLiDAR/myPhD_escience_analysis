@@ -10,6 +10,8 @@ library(dplyr)
 library(sdm)
 library(ggplot2)
 
+library(ENMTools)
+
 # Set working dirctory
 workingdirectory="D:/Sync/_Amsterdam/03_Paper2_bird_lidar_sdm/Dataprocess_Paper2_3/"
 setwd(workingdirectory)
@@ -173,3 +175,6 @@ grid.arrange(
   nrow=2,
   layout_matrix=rbind(c(1,2,3),c(4,5,NA))
 )
+
+# Overlap
+env.overlap(SaviW_rf, BReed_rf, lidar_sel, tolerance = .001)
