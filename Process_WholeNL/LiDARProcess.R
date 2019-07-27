@@ -4,7 +4,7 @@ library(mapview)
 
 #Global settings
 #workdir="D:/Sync/_Amsterdam/10_ProcessWholeNL/Test/"
-workdir="D:/Koma/ProcessWholeNL/TileGroup_9/"
+workdir="D:/Koma/ProcessWholeNL/TileGroup_10/"
 setwd(workdir)
 
 chunksize=2500
