@@ -3,8 +3,8 @@ library(future)
 library(e1071)
 
 #Global settings
-workdir="D:/Sync/_Amsterdam/10_ProcessWholeNL/Test/normalized_neibased/"
-#workdir="D:/Koma/ProcessWholeNL/TileGroup_10/"
+#workdir="D:/Sync/_Amsterdam/10_ProcessWholeNL/Test/normalized_neibased/"
+workdir="D:/Koma/ProcessWholeNL/TileGroup_10/norm/"
 setwd(workdir)
 
 chunksize=2500
@@ -15,8 +15,8 @@ groupid=10
 rasterOptions(maxmemory = 200000000000)
 
 # Set up cataloge
-plan(multisession, workers = 2L)
-set_lidr_threads(2L)
+plan(multisession, workers = 5L)
+set_lidr_threads(5L)
 
 ctg <- catalog(workdir)
 
