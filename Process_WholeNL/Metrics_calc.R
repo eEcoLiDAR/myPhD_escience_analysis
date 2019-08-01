@@ -15,8 +15,8 @@ groupid=10
 rasterOptions(maxmemory = 200000000000)
 
 # Set up cataloge
-plan(multisession, workers = 5L)
-set_lidr_threads(5L)
+plan(multisession, workers = 12L)
+set_lidr_threads(12L)
 
 ctg <- catalog(workdir)
 
