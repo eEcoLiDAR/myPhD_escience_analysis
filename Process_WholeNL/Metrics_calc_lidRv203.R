@@ -21,10 +21,39 @@ ctg <- catalog(workdir)
 opt_chunk_size(ctg) <- chunksize
 opt_cores(ctg) <- cores
 opt_output_files(ctg) <- ""
-opt_filter(ctg) <- "-keep_class 1"
-opt_select(ctg) <- "xyz"
 
-# Execute
+# Calc metrics related to both ground and vegetation points
+
+opt_filter(ctg) <- "-keep_class 1 2"
+
+myMetrics = function(Z,I,R,Classification) 
+{
+  metrics = list(
+    isd=sd(I),
+    echomean=mean(R),
+    lb1dense=(length(Z[Classification==1 & Z<1])/length(Z))*100,
+    l12dense=(length(Z[Classification==1 & Z>1 & Z<2])/length(Z))*100,
+    l23dense=(length(Z[Classification==1 & Z>1 & Z<2])/length(Z))*100,
+    l34dense=(length(Z[Classification==1 & Z>3 & Z<4])/length(Z))*100,
+    l45dense=(length(Z[Classification==1 & Z>4 & Z<5])/length(Z))*100,
+    l510dense=(length(Z[Classification==1 & Z>5 & Z<10])/length(Z))*100,
+    l1015dense=(length(Z[Classification==1 & Z>10 & Z<15])/length(Z))*100,
+    l1520dense=(length(Z[Classification==1 & Z>15 & Z<20])/length(Z))*100,
+    la20dense=(length(Z[Classification==1 & Z>20])/length(Z))*100,
+    pulsepen=(length(Z[Classification==2])/length(Z))*100
+    
+  )  
+  
+  return(metrics)
+}
+
+Metrics = grid_metrics(ctg, myMetrics(Z,Intensity,ReturnNumber,Classification), res=10)
+proj4string(Metrics ) <- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
+writeRaster(Metrics ,paste("Metrics_",groupid,".tif",sep=""),overwrite=TRUE)
+
+# Calc vegetation related metrics
+
+opt_filter(ctg) <- "-keep_class 1"
 
 myVegMetrics = function(Z) 
 {
