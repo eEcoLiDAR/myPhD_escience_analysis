@@ -3,28 +3,28 @@ library(future)
 library(e1071)
 
 #Global settings
-#workdir="D:/Sync/_Amsterdam/10_ProcessWholeNL/Test/normalized_neibased/"
-workdir="D:/Koma/ProcessWholeNL/TileGroup_10/norm/"
+workdir="D:/Sync/_Amsterdam/10_ProcessWholeNL/Test/normalized_neibased/"
+#workdir="D:/Koma/ProcessWholeNL/TileGroup_10/norm/"
 setwd(workdir)
 
-chunksize=2500
-buffer=10
+chunksize=1000
 resolution=10
 groupid=10
 
 rasterOptions(maxmemory = 200000000000)
 
 # Set up cataloge
-plan(multisession, workers = 12L)
-set_lidr_threads(12L)
+plan(multisession, workers = 2L)
 
+# Execute
 ctg <- catalog(workdir)
 
-opt_chunk_buffer(ctg) <- buffer
 opt_chunk_size(ctg) <- chunksize
 opt_output_files(ctg) <- ""
 
-h95p = grid_metrics(ctg, ~quantile(Z, 0.95),res=resolution, filter = ~Classification == 1L)
+# One by one
+
+h95p = grid_metrics(ctg, ~quantile(Z, 0.95),res=resolution,filter = ~Classification == 1L)
 proj4string(h95p) <- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 writeRaster(h95p,paste("h95p_",groupid,".tif",sep=""),overwrite=TRUE)
 
