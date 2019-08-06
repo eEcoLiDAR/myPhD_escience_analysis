@@ -4,12 +4,12 @@ library(e1071)
 
 #Global settings
 #workdir="D:/Sync/_Amsterdam/10_ProcessWholeNL/Test/normalized_neibased/"
-workdir="D:/Koma/ProcessWholeNL/TileGroup_10/norm/"
+workdir="D:/Koma/ProcessWholeNL/TileGroup_9/norm/"
 setwd(workdir)
 
 chunksize=2500
 resolution=10
-groupid=10
+groupid=9
 
 rasterOptions(maxmemory = 200000000000)
 
