@@ -39,3 +39,5 @@ plot(x6$mean)
 
 mean_l = function(x) (mean(x))
 mean_landsat = st_apply(x, c("x", "y"), mean_l)
+
+install.packages("starsdata", repos = "http://gis-bigdata.uni-muenster.de/pebesma" , type = "source")
