@@ -12,8 +12,8 @@ library(e1071)
 
 # Set working dirctory
 #workingdirectory="D:/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/lidarmetrics_calc/"
-#workingdirectory="D:/Reinier/Reinier_output/"
-workingdirectory="C:/Koma/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/lidarmetrics_calc/"
+workingdirectory="D:/Reinier/Reinier_output/"
+#workingdirectory="C:/Koma/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/lidarmetrics_calc/"
 setwd(workingdirectory)
 
 butterflyspfile="transects.shp"

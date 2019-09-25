@@ -12,8 +12,8 @@ library(e1071)
 
 # Set working dirctory
 #workingdirectory="D:/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/lidarmetrics_calc/"
-#workingdirectory="D:/Reinier/Reinier_output/"
-workingdirectory="C:/Koma/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/lidarmetrics_calc/"
+workingdirectory="D:/Reinier/Reinier_output/"
+#workingdirectory="C:/Koma/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/lidarmetrics_calc/"
 setwd(workingdirectory)
 
 butterflyspfile="transects.shp"
@@ -53,7 +53,7 @@ for (i in Transect) {
       
       if ((nrow(las_clip@data[las_clip@data$Classification==1L])>0) & (nrow(las_clip@data[las_clip@data$Classification==2L])>0)) {
         
-        writeLAS(las_clip,paste("Transect",i,"Tr_sec",butterflysp_df_sel$Tr_sec[j],"_clip_25.laz",sep=""))
+        #writeLAS(las_clip,paste("Transect",i,"Tr_sec",butterflysp_df_sel$Tr_sec[j],"_clip_25.laz",sep=""))
         
         las_norm=lasnormalize(las_clip, knnidw(k=10,p=2))
         las_norm_veg=lasfilter(las_norm,Classification==1L)
@@ -216,4 +216,4 @@ for (i in Transect) {
   }
 }
 
-write.csv(dpcloudfea_exp_df,"Butterfly_lidarmetrics.csv")
+write.csv(dpcloudfea_exp_df,"Butterfly_lidarmetrics_25m.csv")
