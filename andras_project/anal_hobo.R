@@ -51,3 +51,4 @@ ggplot(allcsv_df, aes(x=as.POSIXct(date), y=temp,color=point_name)) + geom_line(
   theme(axis.text.x = element_text(angle=45))+
   xlab("Date")+ylab("Temperature [°C]")
 
+ggsave("1_sensors_tisza_field_2016.png",width = 20, height = 10)
