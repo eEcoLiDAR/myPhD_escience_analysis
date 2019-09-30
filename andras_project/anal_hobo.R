@@ -27,13 +27,6 @@ for (i in seq(1,length(data$hobo))) {
   
   write.csv(df,paste(workingdir,"/1_sensors_tisza_field_2016/",data$water_temp[i],"_",data$class[i],".csv",sep=""))
   
-  ggplot(df, aes(x=as.POSIXct(date), y=temp)) + geom_point() + theme_minimal() +
-    scale_x_datetime(labels = date_format("%d/%H:%M"),date_breaks = "2 hours") +
-    theme(axis.text.x = element_text(angle=45))+
-    xlab("Date")+ylab("Temperature [°C]")
-  
-  ggsave(paste0(i,"hobo.png"))
-  
 }
 
 setwd(paste(workingdir,"/1_sensors_tisza_field_2016/",sep=""))
