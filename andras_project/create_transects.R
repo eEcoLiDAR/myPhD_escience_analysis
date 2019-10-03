@@ -5,8 +5,8 @@ library(rgdal)
 workingdir="C:/Koma/Sync/_Amsterdam/11_AndrasProject/FieldData/"
 setwd(workingdir)
 
-#filename="tisza"
-filename="balaton"
+filename="tisza"
+#filename="balaton"
 #filename="ferto"
 
 # Separate shapefile
@@ -35,7 +35,7 @@ allcsv <- lapply(files,function(i){
 allcsv_df <- do.call(rbind.data.frame, allcsv)
 
 coordinates(allcsv_df)=~coords.x1+coords.x2
-proj4string(allcsv_df)<- CRS("+proj=utm +zone=33 +datum=WGS84 +units=m +no_defs")
+proj4string(allcsv_df)<- CRS("+proj=utm +zone=34 +datum=WGS84 +units=m +no_defs")
 
 # Export shapefile
 rgdal::writeOGR(allcsv_df, '.', paste(filename,"_grouped",sep=""), 'ESRI Shapefile',overwrite_layer = TRUE)
