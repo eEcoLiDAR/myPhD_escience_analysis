@@ -11,8 +11,8 @@ library(sp)
 library(e1071)
 
 # Set working dirctory
-workingdirectory="D:/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/lidarmetrics_calc/"
-#workingdirectory="D:/Reinier/Reinier_output/"
+#workingdirectory="D:/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/lidarmetrics_calc/"
+workingdirectory="D:/Reinier/Reinier_output/"
 
 setwd(workingdirectory)
 
@@ -172,4 +172,4 @@ for (i in Transect) {
   }
 }
 
-write.csv(dpcloudfea_exp_df,"Butterfly_lidarmetrics_100m.csv")
+write.csv(dpcloudfea_exp_df,"Butterfly_lidarmetrics_100m_v3.csv")
