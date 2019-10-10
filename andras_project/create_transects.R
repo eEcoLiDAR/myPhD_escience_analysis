@@ -1,14 +1,18 @@
+"
+@author: Zsofia Koma, UvA
+Aim: process wetland OTKA project data step 1.: convert shp to csv and indicate the sensorid-s for match. Before run this step the shape files should be separated per measuremnt location (manually in QGIS). 
+"
+
 library(readxl)
 library(data.table)
 library(rgdal)
 
-workingdir="C:/Koma/Sync/_Amsterdam/11_AndrasProject/balaton/"
+#workingdir="C:/Koma/Sync/_Amsterdam/11_AndrasProject/balaton/"
+workingdir="D:/Sync/_Amsterdam/11_AndrasProject/balaton/"
 locations=c("fuzfo","mariafurdo","sajkod","szantod","szigliget")
 
 for (filename in locations) {
   print(filename)
-  
-  maxdist=1000
   
   setwd(paste(workingdir,"/",filename,"/",sep=""))
   
@@ -22,14 +26,13 @@ for (filename in locations) {
     print(g)
     
     shp.df$distcont <- sqrt((shp.df$coords.x1[controlid[g]]-shp.df$coords.x1)^2+(shp.df$coords.x2[controlid[g]]-shp.df$coords.x2)^2)
-    control=shp.df[which(shp.df$distcont<maxdist),]
     
-    control$groupid <- g
+    shp.df$groupid <- g
     
-    write.csv(control,paste(g,"_",filename,'_',paste(as.character(control$water_temp),collapse="_"),"formaster.csv",sep=""))
+    write.csv(shp.df,paste(g,"_",filename,'_',paste(as.character(shp.df$water_temp),collapse="_"),"formaster.csv",sep=""))
     
     print(g)
-    print(paste(as.character(control$water_temp),collapse="_") )
+    print(paste(as.character(shp.df$water_temp),collapse="_") )
   }
 }
 

@@ -1,43 +1,85 @@
+"
+@author: Zsofia Koma, UvA
+Aim: process wetland OTKA project data step 2.: organize a master file which will controll the analysis of the concrete sensor data 
+"
+
 library(readxl)
 library(data.table)
 library(rgdal)
 
-workingdir="D:/Sync/_Amsterdam/11_AndrasProject/tisza/2017_poroszlo/"
-setwd(workingdir)
+workingdir="D:/Sync/_Amsterdam/11_AndrasProject/balaton/"
+locations=c("fuzfo","mariafurdo","sajkod","szantod","szigliget")
 
-# Organize hobo data
-filelist=list.files(pattern="xls$")
-coord=read.csv(list.files(pattern="*formaster.csv"))
+# Organize water tempreture data
 
-sensorid=sub("_.*", "", filelist)
-
-headerdata <- data.frame(matrix(unlist(filelist), nrow=length(filelist), byrow=T),stringsAsFactors=FALSE)
-names(headerdata)<- c("hobo")
-
-headerdata$dir<-workingdir
-headerdata$transectid<-"2017_poroszlo"
-headerdata$water_temp <- as.numeric(sensorid)
-
-for (i in seq(1,length(filelist))) {
-  print(i)
+for (filename in locations) {
+  print(filename)
   
-  data <- read_excel(paste(workingdir,headerdata[i,1],sep=""),sheet = 1,skip=1)
-  names(data)<-c('nofmes','date','temp','none')
-  df <- subset(data, select = c('nofmes','date','temp'))
+  setwd(paste(workingdir,"/",filename,"/",sep=""))
   
-  x = format(as.Date(df$date, "%m/%d/%y"), "%Y%m%d")
-  x2 = format(as.POSIXct(df$date,format="%m/%d/%y %H:%M:%S",tz=Sys.timezone()), "%Y-%m-%d %H:%M:%S")
+  filelist=list.files(pattern="xls$")
+  filelistcoord=list.files(pattern="*formaster.csv")
   
-  headerdata$date[[i]] <- x[1]
+  date=read.csv(paste(filename,".dat",sep=""),sep = ",",header = FALSE)
   
-  headerdata$startdate[[i]] <- x2[1]
-  headerdata$enddate[[i]] <- x2[length(x2)]
-  
+  for (j in filelistcoord) {
+    coord=read.csv(j)
+    
+    sensorid=sub("_.*", "", filelist)
+    
+    headerdata <- data.frame(matrix(unlist(filelist), nrow=length(filelist), byrow=T),stringsAsFactors=FALSE)
+    names(headerdata)<- c("hobo")
+    
+    headerdata$dir<-workingdir
+    headerdata$transectid<-filename
+    headerdata$water_temp <- as.numeric(sensorid)
+    
+    headerdata$startdate <- as.POSIXct(as.character(date$V1),format="%Y-%m-%d %H:%M",tz=Sys.timezone())
+    headerdata$enddate <- as.POSIXct(as.character(date$V2),format="%Y-%m-%d %H:%M",tz=Sys.timezone())
+    
+    headerdata_wcoord=merge(x = headerdata, y = coord, by = c("water_temp"), all.x = TRUE)
+    
+    id=sub("_.*", "", j)
+    
+    write.csv(headerdata_wcoord,paste(id,"_",headerdata$transectid[1],"_masterfile_watertemp.csv",sep=""))
+    
+  }
+    
 }
 
-headerdata_wcoord=merge(x = headerdata, y = coord, by = c("water_temp"), all.x = TRUE)
+# Organize Humidity and tempreture 
 
-headerdata_wcoord$startdate <- as.POSIXct("2017-06-28 17:38:00",format="%Y-%m-%d %H:%M:%S",tz=Sys.timezone())
-headerdata_wcoord$enddate <- as.POSIXct("2017-06-29 12:17:00",format="%Y-%m-%d %H:%M:%S",tz=Sys.timezone())
-
-write.csv(headerdata_wcoord,paste(headerdata$transectid[1],"_masterfile.csv",sep=""))
+for (filename in locations) {
+  print(filename)
+  
+  setwd(paste(workingdir,"/",filename,"/",sep=""))
+  
+  filelist=list.files(pattern="txt$")
+  filelistcoord=list.files(pattern="*formaster.csv")
+  
+  date=read.csv(paste(filename,".dat",sep=""),sep = ",",header = FALSE)
+  
+  for (j in filelistcoord) {
+    coord=read.csv(j)
+    
+    sensorid=sub("_.*", "", filelist)
+    
+    headerdata <- data.frame(matrix(unlist(filelist), nrow=length(filelist), byrow=T),stringsAsFactors=FALSE)
+    names(headerdata)<- c("easylog")
+    
+    headerdata$dir<-workingdir
+    headerdata$transectid<-filename
+    headerdata$humidity_s <- as.numeric(sensorid)
+    
+    headerdata$startdate <- as.POSIXct(as.character(date$V1),format="%Y-%m-%d %H:%M",tz=Sys.timezone())
+    headerdata$enddate <- as.POSIXct(as.character(date$V2),format="%Y-%m-%d %H:%M",tz=Sys.timezone())
+    
+    headerdata_wcoord=merge(x = headerdata, y = coord, by = c("humidity_s"), all.x = TRUE)
+    
+    id=sub("_.*", "", j)
+    
+    write.csv(headerdata_wcoord,paste(id,"_",headerdata$transectid[1],"_masterfile_humid.csv",sep=""))
+    
+  }
+  
+}
