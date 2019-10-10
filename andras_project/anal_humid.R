@@ -75,6 +75,12 @@ for (filename in locations) {
     
     write.csv(data,paste(data$transectid[1],"_humid_final_",id,".csv",sep=""))
     
+    subdata <- subset(data, select = c("OBJNAME","transectid","point_name","class","distcont","min_airtemp","max_airtemp","range_airtemp","mean_airtemp","min_airhum","max_airhum","range_airhum",
+                                       "mean_airhum","diff_min_airtemp","diff_max_airtemp","diff_range_airtemp","diff_mean_airtemp","diff_min_airhum","diff_max_airhum","diff_range_airhum","diff_mean_airhum"))
+    subdata$control <- data$point_name[controlid[as.numeric(id)]]
+    
+    write.csv(subdata,paste(workingdir,data$transectid[1],"_",id,"_humid_final_cleaned",".csv",sep=""))
+    
     # Visualize
     files <- list.files(pattern = paste("humid_cleaned",".csv",sep=""))
     
